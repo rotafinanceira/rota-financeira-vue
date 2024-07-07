@@ -5,16 +5,7 @@
         <q-img :src="logo" class="logo" />
       </div>
       <div class="title">Olá, faça o seu login em nosso App.</div>
-      <q-dialog v-model="isOpen">
-        <q-card>
-          <q-card-section class="q-pt-none">
-            <div class="text-h6">{{ modalContent }}</div>
-          </q-card-section>
-          <q-card-actions align="right">
-            <q-btn flat label="OK" v-close-popup />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
+      <ModalGenerico :content="modalContent" />
       <div class="form">
         <div class="input-wrapper">
           <label class="input-label" for="email">E-mail</label>
@@ -69,7 +60,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import logo from './../assets/logolight.svg'
+import logo from './../assets/logolight.svg';
+import ModalGenerico from './../components/ModalGenerico.vue';
 
 const email = ref('');
 const password = ref('');
