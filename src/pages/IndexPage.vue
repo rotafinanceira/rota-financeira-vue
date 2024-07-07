@@ -38,13 +38,11 @@
           :loading="isLoading"
           :disable="isLoading || !isValid"
           @click="handleSubmit"
-          color="primary"
-          push
-          unelevated
+          class="styled-button"
         />
         <div class="sign-up-view">
           <span>Não possui cadastro?</span>
-          <q-btn flat @click="navigateToRegister">Cadastrar</q-btn>
+          <q-btn flat @click="navigateToRegister" class="sign-up-button">Cadastrar</q-btn>
         </div>
       </div>
     </div>
@@ -146,7 +144,7 @@ const navigateToRegister = () => {
 }
 
 .logo {
-  width: 100px; 
+  width: 200px;
   height: auto;
 }
 
@@ -159,5 +157,26 @@ const navigateToRegister = () => {
   color: #737578;
   justify-content: center;
   margin-bottom: 20px;
+}
+
+.styled-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 24px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #8ce95f;
+  color: rgba(49, 75, 57, 1);
+}
+
+.styled-button[disabled] {
+  background-color: rgba(224, 229, 231, 1);
+  color: rgba(118, 130, 139, 1);
+}
+
+.sign-up-button {
+  color: #8ce95f;
 }
 </style>
