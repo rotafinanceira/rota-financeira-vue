@@ -16,23 +16,40 @@
         </q-card>
       </q-dialog>
       <div class="form">
-        <q-input
-          v-model="email"
-          label="E-mail"
-          placeholder="exemplo@email.com"
-          :error="!!errors.email"
-          :error-message="errors.email"
-          clearable
-        />
-        <q-input
-          v-model="password"
-          label="Senha"
-          placeholder="********"
-          :type="'password'"
-          :error="!!errors.password"
-          :error-message="errors.password"
-          clearable
-        />
+        <div class="input-wrapper">
+          <label class="input-label" for="email">E-mail</label>
+          <q-input
+            v-model="email"
+            id="email"
+            placeholder="exemplo@email.com"
+            :error="!!errors.email"
+            :error-message="errors.email"
+            clearable
+            dense
+            class="styled-input"
+            no-border
+          />
+        </div>
+        <div class="input-wrapper">
+          <label class="input-label" for="password">Senha</label>
+          <q-input
+            v-model="password"
+            id="password"
+            placeholder="********"
+            :type="'password'"
+            :error="!!errors.password"
+            :error-message="errors.password"
+            clearable
+            dense
+            class="styled-input"
+            no-border
+          />
+          <q-icon
+            name="visibility"
+            class="toggle-visibility"
+            @click="togglePasswordVisibility"
+          />
+        </div>
         <q-btn
           :label="'Entrar'"
           :loading="isLoading"
@@ -112,20 +129,27 @@ const handleSubmit = async () => {
 const navigateToRegister = () => {
   router.push({ name: 'Register' });
 };
+
+const togglePasswordVisibility = () => {
+  passwordVisible.value = !passwordVisible.value;
+};
 </script>
 
 <style scoped>
 .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 80px;
-  justify-content: space-around;
   padding: 0 20px;
   margin-top: 25px;
 }
 
 .logo-container {
-  margin-top: 40px;
   display: flex;
+  justify-content: center;
   align-items: center;
+  margin-top: 40px;
 }
 
 .title {
@@ -141,6 +165,7 @@ const navigateToRegister = () => {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
 }
 
 .logo {
@@ -148,15 +173,29 @@ const navigateToRegister = () => {
   height: auto;
 }
 
-.sign-up-view {
-  text-align: center;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-label {
   font-size: 16px;
-  color: #737578;
-  justify-content: center;
-  margin-bottom: 20px;
+  font-weight: 600;
+  color: rgba(91, 104, 113, 1);
+  margin-bottom: 5px;
+}
+
+.styled-input {
+  flex: 1;
+  border: 1px solid gray;
+  padding: 10px 40px 10px 20px;
+  margin-top: 5px;
+  border-radius: 4px;
+}
+
+.styled-input input {
+  border: none !important;
+  outline: none !important;
 }
 
 .styled-button {
@@ -176,7 +215,26 @@ const navigateToRegister = () => {
   color: rgba(118, 130, 139, 1);
 }
 
+.sign-up-view {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 16px;
+  color: #737578;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
 .sign-up-button {
   color: #8ce95f;
+}
+
+.toggle-visibility {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 </style>
