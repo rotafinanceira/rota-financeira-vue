@@ -16,7 +16,7 @@
             :error="!!errors.email"
             :error-message="errors.email"
             clearable
-            dense
+            outlined
             class="styled-input"
             no-border
           />
@@ -27,12 +27,12 @@
             v-model="password"
             id="password"
             placeholder="********"
-            :type="'password'"
+            :type="showPassword ? 'text' : 'password'"
             :error="!!errors.password"
             :error-message="errors.password"
-            clearable
-            dense
             class="styled-input"
+            clearable
+            outlined
             no-border
           />
           <q-icon
@@ -61,7 +61,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import logo from './../assets/logolight.svg';
-import ModalGenerico from './../components/ModalGenerico.vue';
+// import ModalGenerico from './../components/ModalGenerico.vue';
 
 const email = ref('');
 const password = ref('');
@@ -70,6 +70,7 @@ const modalContent = ref('');
 const isOpen = ref(false);
 const errors = ref({});
 const isValid = ref(true);
+const showPassword = ref(false); // Variável para controlar a visibilidade da senha
 
 const router = useRouter();
 
@@ -123,7 +124,7 @@ const navigateToRegister = () => {
 };
 
 const togglePasswordVisibility = () => {
-  passwordVisible.value = !passwordVisible.value;
+  showPassword.value = !showPassword.value;
 };
 </script>
 
@@ -177,18 +178,18 @@ const togglePasswordVisibility = () => {
   margin-bottom: 5px;
 }
 
-.styled-input {
+/* .styled-input {
   flex: 1;
   border: 1px solid gray;
   padding: 10px 40px 10px 20px;
   margin-top: 5px;
   border-radius: 4px;
-}
+} */
 
-.styled-input input {
+/* .styled-input input {
   border: none !important;
   outline: none !important;
-}
+} */
 
 .styled-button {
   display: flex;
@@ -202,10 +203,10 @@ const togglePasswordVisibility = () => {
   color: rgba(49, 75, 57, 1);
 }
 
-.styled-button[disabled] {
+/* .styled-button[disabled] {
   background-color: rgba(224, 229, 231, 1);
   color: rgba(118, 130, 139, 1);
-}
+} */
 
 .sign-up-view {
   text-align: center;
