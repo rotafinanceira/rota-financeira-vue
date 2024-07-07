@@ -5,7 +5,7 @@
         <q-img :src="logo" class="logo" />
       </div>
       <div class="title">Olá, faça o seu login em nosso App.</div>
-      <ModalGenerico :content="modalContent" />
+      <!-- ModalGenerico :content="modalContent" /-->
       <div class="form">
         <div class="input-wrapper">
           <label class="input-label" for="email">E-mail</label>
@@ -19,6 +19,7 @@
             outlined
             class="styled-input"
             no-border
+            hide-clear-button
           />
         </div>
         <div class="input-wrapper">
@@ -34,12 +35,16 @@
             clearable
             outlined
             no-border
-          />
-          <q-icon
-            name="visibility"
-            class="toggle-visibility"
-            @click="togglePasswordVisibility"
-          />
+            hide-clear-button
+          >
+            <template v-slot:append>
+              <q-icon
+                :name="showPassword ? 'visibility_off' : 'visibility'"
+                class="toggle-visibility cursor-pointer"
+                @click="togglePasswordVisibility"
+              />
+            </template>
+          </q-input>
         </div>
         <q-btn
           :label="'Entrar'"
@@ -61,7 +66,6 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import logo from './../assets/logolight.svg';
-// import ModalGenerico from './../components/ModalGenerico.vue';
 
 const email = ref('');
 const password = ref('');
@@ -70,7 +74,7 @@ const modalContent = ref('');
 const isOpen = ref(false);
 const errors = ref({});
 const isValid = ref(true);
-const showPassword = ref(false); // Variável para controlar a visibilidade da senha
+const showPassword = ref(false);
 
 const router = useRouter();
 
@@ -102,8 +106,7 @@ const handleSubmit = async () => {
 
   try {
     isLoading.value = true;
-    // Supondo que loginStore.handleLogin seja uma função que realiza a autenticação
-    await loginStore.handleLogin({ email: email.value, password: password.value });
+    // await loginStore.handleLogin({ email: email.value, password: password.value });
     router.push({ name: 'Success' });
   } catch (error) {
     const statusCode = error.response?.status;
@@ -178,18 +181,9 @@ const togglePasswordVisibility = () => {
   margin-bottom: 5px;
 }
 
-/* .styled-input {
-  flex: 1;
-  border: 1px solid gray;
-  padding: 10px 40px 10px 20px;
-  margin-top: 5px;
-  border-radius: 4px;
-} */
-
-/* .styled-input input {
-  border: none !important;
-  outline: none !important;
-} */
+.styled-input {
+  /* Estilo padrão do Quasar para inputs */
+}
 
 .styled-button {
   display: flex;
@@ -223,11 +217,11 @@ const togglePasswordVisibility = () => {
   color: #8ce95f;
 }
 
-.toggle-visibility {
+/* .toggle-visibility {
   position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-}
+} */
 </style>
