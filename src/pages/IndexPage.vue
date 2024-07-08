@@ -15,7 +15,6 @@
             placeholder="exemplo@email.com"
             :error="!!errors.email"
             :error-message="errors.email"
-            clearable
             outlined
             class="styled-input"
             no-border
@@ -32,7 +31,6 @@
             :error="!!errors.password"
             :error-message="errors.password"
             class="styled-input"
-            clearable
             outlined
             no-border
             hide-clear-button
