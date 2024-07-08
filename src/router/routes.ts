@@ -4,11 +4,13 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    children: [
+      { path: '', component: () => import('pages/IndexPage.vue') }, // Página inicial
+      { path: 'register', component: () => import('pages/RegisterScreen.vue') }, // Rota para a tela de cadastro
+    ],
   },
 
-  // Always leave this as last one,
-  // but you can also remove it
+  // Rota para página não encontrada
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),

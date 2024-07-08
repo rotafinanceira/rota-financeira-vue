@@ -85,8 +85,9 @@ const handleSubmit = async () => {
 
   try {
     isLoading.value = true;
+    // Simulação de autenticação (substitua por sua lógica real)
     // await loginStore.handleLogin({ email: email.value, password: password.value });
-    router.push({ name: 'Success' });
+    router.push({ name: 'Success' }); // Redirecionamento após login bem-sucedido
   } catch (error) {
     const statusCode = error.response?.status;
     if (statusCode === 403) {
@@ -102,7 +103,7 @@ const handleSubmit = async () => {
 };
 
 const navigateToRegister = () => {
-  router.push({ name: 'Register' });
+  router.push({ name: 'Register' }); // Redirecionamento para a tela de cadastro
 };
 </script>
 
@@ -158,6 +159,24 @@ const navigateToRegister = () => {
   position: relative;
   width: 100%;
   color: #76828B;
+}
+
+.password-labels-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #76828B;
+}
+
+.forgot-password {
+  color: #9BA7AD;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
 }
 
 .styled-input {
