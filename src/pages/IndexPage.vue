@@ -23,32 +23,7 @@
                 no-border
               />
             </div>
-            <div class="input-wrapper">
-              <div class="password-labels-wrapper">
-                <label class="input-label" for="password">Senha</label>
-                <span class="forgot-password">Esqueceu a senha?</span>
-              </div>
-
-              <q-input
-                v-model="password"
-                id="password"
-                placeholder="********"
-                :type="showPassword ? 'password' : 'text'"
-                :error="!!errors.password"
-                :error-message="errors.password"
-                class="styled-input"
-                outlined
-                no-border
-              >
-                <template v-slot:append>
-                  <q-icon
-                    :name="showPassword ? 'visibility_off' : 'visibility'"
-                    class="toggle-visibility cursor-pointer"
-                    @click="togglePasswordVisibility"
-                  />
-                </template>
-              </q-input>
-            </div>
+            <InputPassword />
           </div>
           <q-btn
             :label="'Entrar'"
@@ -70,16 +45,15 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import InputPassword from '../components/InputPassword.vue';
 import logo from './../assets/logolight.svg';
 
 const email = ref('');
-const password = ref('');
 const isLoading = ref(false);
 const modalContent = ref('');
 const isOpen = ref(false);
 const errors = ref({});
 const isValid = ref(true);
-const showPassword = ref(false);
 
 const router = useRouter();
 
@@ -129,10 +103,6 @@ const handleSubmit = async () => {
 
 const navigateToRegister = () => {
   router.push({ name: 'Register' });
-};
-
-const togglePasswordVisibility = () => {
-  showPassword.value = !showPassword.value;
 };
 </script>
 
@@ -190,24 +160,7 @@ const togglePasswordVisibility = () => {
   color: #76828B;
 }
 
-.password-labels-wrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
-.input-label {
-  font-size: 16px;
-  font-weight: 600;
-  color: #76828B;
-}
-
-.forgot-password {
-  color: #9BA7AD;
-}
-
 .styled-input {
-  /* Estilo padrão do Quasar para inputs */
-
   margin-top: 8px;
 }
 
@@ -224,11 +177,6 @@ const togglePasswordVisibility = () => {
   text-transform: capitalize;
   font-size: 16px;
 }
-
-/* .styled-button[disabled] {
-  background-color: rgba(224, 229, 231, 1);
-  color: rgba(118, 130, 139, 1);
-} */
 
 .sign-up-view {
   text-align: center;
@@ -251,12 +199,4 @@ const togglePasswordVisibility = () => {
   font-weight: 700;
   padding-left: 4px;
 }
-
-/* .toggle-visibility {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-} */
 </style>
