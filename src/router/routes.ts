@@ -5,8 +5,8 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') }, // Página inicial
-      { path: 'register', component: () => import('pages/RegisterScreen.vue') }, // Rota para a tela de cadastro
+      { path: '', component: () => import('pages/IndexPage.vue'), name: 'index' }, // Nomeie a rota inicial se necessário
+      { path: '/register', component: () => import('pages/RegisterScreen.vue'), name: 'register' }, // Verifique o nome da rota aqui
     ],
   },
 
