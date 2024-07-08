@@ -33,7 +33,7 @@
                 v-model="password"
                 id="password"
                 placeholder="********"
-                :type="showPassword ? 'password' : 'text'"
+                :type="showPassword ? 'text' : 'password'"
                 :error="!!errors.password"
                 :error-message="errors.password"
                 class="styled-input"
@@ -42,7 +42,7 @@
               >
                 <template v-slot:append>
                   <q-icon
-                    :name="showPassword ? 'visibility_off' : 'visibility'"
+                    :name="showPassword ? 'visibility' : 'visibility_off'"
                     class="toggle-visibility cursor-pointer"
                     @click="togglePasswordVisibility"
                   />
@@ -203,6 +203,9 @@ const togglePasswordVisibility = () => {
 
 .forgot-password {
   color: #9BA7AD;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
 }
 
 .styled-input {
