@@ -129,7 +129,7 @@ const handleSubmit = async () => {
 };
 
 const navigateToRegister = () => {
-  router.push({ name: 'Register' }); // Redirecionamento para a tela de cadastro
+  router.push({ name: 'register' }); // Redirecionamento para a tela de cadastro
 };
 
 const togglePasswordVisibility = () => {
