@@ -24,10 +24,10 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useRegisterStore } from '../store/registerStore';
-// import Logo from '@/assets/logolight.svg';
-import EmailStep from '@/components/EmailStep.vue';
-import PersonalInformationStep from '@/components/PersonalInformationStep.vue';
-import PasswordStep from '@/components/PasswordStep.vue';
+// import Logo from '../assets/logolight.svg';
+import EmailStep from '../components/EmailStep.vue';
+import PersonalInformationStep from '../components/PersonalInformationStep.vue';
+import PasswordStep from '../components/PasswordStep.vue';
 
 export default defineComponent({
   name: 'RegisterScreen',

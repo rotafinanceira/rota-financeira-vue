@@ -14,7 +14,7 @@
 
 <script setup>
 import { ref } from 'vue';
-// import { useModalStore } from '@/store/modalStore';
+// import { useModalStore } from '../store/modalStore';
 
 const isOpen = ref(false);
 const { setIsOpen } = useModalStore();
