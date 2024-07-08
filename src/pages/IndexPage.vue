@@ -65,7 +65,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import logo from './../assets/logolight.svg';
+import logo from '../assets/logolight.svg';
 
 const email = ref('');
 const password = ref('');
@@ -106,8 +106,9 @@ const handleSubmit = async () => {
 
   try {
     isLoading.value = true;
+    // Simulação de autenticação (substitua por sua lógica real)
     // await loginStore.handleLogin({ email: email.value, password: password.value });
-    router.push({ name: 'Success' });
+    router.push({ name: 'Success' }); // Redirecionamento após login bem-sucedido
   } catch (error) {
     const statusCode = error.response?.status;
     if (statusCode === 403) {
@@ -123,7 +124,7 @@ const handleSubmit = async () => {
 };
 
 const navigateToRegister = () => {
-  router.push({ name: 'Register' });
+  router.push({ name: 'Register' }); // Redirecionamento para a tela de cadastro
 };
 
 const togglePasswordVisibility = () => {
@@ -197,11 +198,6 @@ const togglePasswordVisibility = () => {
   color: rgba(49, 75, 57, 1);
 }
 
-/* .styled-button[disabled] {
-  background-color: rgba(224, 229, 231, 1);
-  color: rgba(118, 130, 139, 1);
-} */
-
 .sign-up-view {
   text-align: center;
   display: flex;
@@ -216,12 +212,4 @@ const togglePasswordVisibility = () => {
 .sign-up-button {
   color: #8ce95f;
 }
-
-/* .toggle-visibility {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-} */
 </style>

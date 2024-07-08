@@ -2,7 +2,7 @@
   <q-dialog v-model="isOpen" persistent>
     <q-card>
       <q-card-section class="modal-content">
-        <q-img src="@/assets/errorIcon.png" class="error-icon" />
+        <q-img src="../assets/errorIcon.png" class="error-icon" />
         <div class="modal-text">{{ content }}</div>
       </q-card-section>
       <q-card-actions align="center">
