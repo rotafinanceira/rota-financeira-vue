@@ -4,58 +4,63 @@
       <div class="logo-container">
         <q-img :src="logo" class="logo" />
       </div>
-      <div class="title">Olá, faça o seu login em nosso App.</div>
-      <!-- ModalGenerico :content="modalContent" /-->
-      <div class="form">
-        <div class="input-wrapper">
-          <label class="input-label" for="email">E-mail</label>
-          <q-input
-            v-model="email"
-            id="email"
-            placeholder="exemplo@email.com"
-            :error="!!errors.email"
-            :error-message="errors.email"
-            clearable
-            outlined
-            class="styled-input"
-            no-border
-            hide-clear-button
-          />
-        </div>
-        <div class="input-wrapper">
-          <label class="input-label" for="password">Senha</label>
-          <q-input
-            v-model="password"
-            id="password"
-            placeholder="********"
-            :type="showPassword ? 'text' : 'password'"
-            :error="!!errors.password"
-            :error-message="errors.password"
-            class="styled-input"
-            clearable
-            outlined
-            no-border
-            hide-clear-button
-          >
-            <template v-slot:append>
-              <q-icon
-                :name="showPassword ? 'visibility_off' : 'visibility'"
-                class="toggle-visibility cursor-pointer"
-                @click="togglePasswordVisibility"
+
+      <div class="container-content">
+        <div class="title">Olá, entre com e-mail e senha</div>
+        <!-- ModalGenerico :content="modalContent" /-->
+        <div class="form">
+          <div class="inputs-wrapper">
+            <div class="input-wrapper">
+              <label class="input-label" for="email">E-mail</label>
+              <q-input
+                v-model="email"
+                id="email"
+                placeholder="exemplo@email.com"
+                :error="!!errors.email"
+                :error-message="errors.email"
+                outlined
+                class="styled-input"
+                no-border
               />
-            </template>
-          </q-input>
-        </div>
-        <q-btn
-          :label="'Entrar'"
-          :loading="isLoading"
-          :disable="isLoading || !isValid"
-          @click="handleSubmit"
-          class="styled-button"
-        />
-        <div class="sign-up-view">
-          <span>Não possui cadastro?</span>
-          <q-btn flat @click="navigateToRegister" class="sign-up-button">Cadastrar</q-btn>
+            </div>
+            <div class="input-wrapper">
+              <div class="password-labels-wrapper">
+                <label class="input-label" for="password">Senha</label>
+                <span class="forgot-password">Esqueceu a senha?</span>
+              </div>
+
+              <q-input
+                v-model="password"
+                id="password"
+                placeholder="********"
+                :type="showPassword ? 'text' : 'password'"
+                :error="!!errors.password"
+                :error-message="errors.password"
+                class="styled-input"
+                outlined
+                no-border
+              >
+                <template v-slot:append>
+                  <q-icon
+                    :name="showPassword ? 'visibility' : 'visibility_off'"
+                    class="toggle-visibility cursor-pointer"
+                    @click="togglePasswordVisibility"
+                  />
+                </template>
+              </q-input>
+            </div>
+          </div>
+          <q-btn
+            :label="'Entrar'"
+            :loading="isLoading"
+            :disable="isLoading || !isValid"
+            @click="handleSubmit"
+            class="styled-button"
+          />
+          <div class="sign-up-view">
+            <span>Não possui cadastro?</span>
+            <q-btn flat @click="navigateToRegister" class="sign-up-button">Cadastrar</q-btn>
+          </div>
         </div>
       </div>
     </div>
@@ -137,22 +142,31 @@ const togglePasswordVisibility = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 80px;
+  gap: 96px;
   padding: 0 20px;
-  margin-top: 25px;
+  margin-top: 24px;
 }
 
 .logo-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
+}
+
+.logo {
+  width: 230px;
+}
+
+.container-content {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
 }
 
 .title {
   font-weight: 700;
   font-size: 32px;
-  font-family: Inter;
+  line-height: 40px;
   text-align: center;
   padding: 0px 10px;
   color: #314b39;
@@ -161,29 +175,44 @@ const togglePasswordVisibility = () => {
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
   width: 100%;
 }
 
-.logo {
-  width: 200px;
-  height: auto;
+.inputs-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
 .input-wrapper {
   position: relative;
   width: 100%;
+  color: #76828B;
+}
+
+.password-labels-wrapper {
+  display: flex;
+  justify-content: space-between;
 }
 
 .input-label {
   font-size: 16px;
   font-weight: 600;
-  color: rgba(91, 104, 113, 1);
-  margin-bottom: 5px;
+  color: #76828B;
+}
+
+.forgot-password {
+  color: #9BA7AD;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
 }
 
 .styled-input {
   /* Estilo padrão do Quasar para inputs */
+
+  margin-top: 8px;
 }
 
 .styled-button {
@@ -192,10 +221,12 @@ const togglePasswordVisibility = () => {
   align-items: center;
   padding: 16px 24px;
   border-radius: 4px;
-  margin-top: 20px;
-  margin-bottom: 20px;
   background-color: #8ce95f;
-  color: rgba(49, 75, 57, 1);
+  color: #314B39;
+  font-weight: 700;
+  font-family: 'Inter';
+  text-transform: capitalize;
+  font-size: 16px;
 }
 
 .sign-up-view {
@@ -206,10 +237,17 @@ const togglePasswordVisibility = () => {
   font-size: 16px;
   color: #737578;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-top: 16px;
 }
 
 .sign-up-button {
   color: #8ce95f;
+  text-transform: capitalize;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #3B9B15;
+  font-weight: 700;
+  padding-left: 4px;
 }
 </style>
