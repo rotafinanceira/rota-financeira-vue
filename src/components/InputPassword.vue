@@ -1,11 +1,11 @@
 <template>
   <div class="input-wrapper">
     <div class="password-labels-wrapper">
-      <label class="input-label" for="password">Senha</label>
+      <label :class="['input-label', { 'input-label-error': !!errors.password }]" for="password">Senha</label>
       <span class="forgot-password">Esqueceu a senha?</span>
     </div>
     <q-input
-      v-model="password"
+      v-model="internalPassword"
       id="password"
       placeholder="********"
       :type="showPassword ? 'text' : 'password'"
@@ -27,15 +27,24 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
-const password = ref('');
+const props = defineProps({
+  modelValue: String,
+  errors: Object
+});
+
+const emits = defineEmits(['update:modelValue']);
+const internalPassword = ref(props.modelValue);
 const showPassword = ref(false);
-const errors = ref({});
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
 };
+
+watch(internalPassword, (newValue) => {
+  emits('update:modelValue', newValue);
+});
 </script>
 
 <style scoped>
@@ -54,6 +63,10 @@ const togglePasswordVisibility = () => {
   font-size: 16px;
   font-weight: 600;
   color: #76828B;
+}
+
+.input-label-error {
+  color: red;
 }
 
 .forgot-password {

@@ -4,26 +4,13 @@
       <div class="logo-container">
         <q-img :src="logo" class="logo" />
       </div>
-
       <div class="container-content">
         <div class="title">Olá, entre com e-mail e senha</div>
         <!-- ModalGenerico :content="modalContent" /-->
         <div class="form">
           <div class="inputs-wrapper">
-            <div class="input-wrapper">
-              <label class="input-label" for="email">E-mail</label>
-              <q-input
-                v-model="email"
-                id="email"
-                placeholder="exemplo@email.com"
-                :error="!!errors.email"
-                :error-message="errors.email"
-                outlined
-                class="styled-input"
-                no-border
-              />
-            </div>
-            <InputPassword />
+            <InputEmail v-model="email" :errors="errors" />
+            <InputPassword v-model="password" :errors="errors" />
           </div>
           <q-btn
             :label="'Entrar'"
@@ -43,17 +30,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import InputPassword from '../components/InputPassword.vue';
+import InputEmail from '../components/InputEmail.vue';
 import logo from './../assets/logolight.svg';
 
-const email = ref('');
 const isLoading = ref(false);
 const modalContent = ref('');
 const isOpen = ref(false);
-const errors = ref({});
 const isValid = ref(true);
+
+const email = ref('');
+const password = ref('');
+const errors = ref({});
 
 const router = useRouter();
 
@@ -79,13 +69,15 @@ const validateForm = () => {
 };
 
 const handleSubmit = async () => {
-  validateForm();
+  // Watchers para validar o formulário quando os campos são alterados
+  watch([email, password], () => {
+    validateForm();
+  });
 
   if (!isValid.value) return;
 
   try {
     isLoading.value = true;
-    // Simulação de autenticação (substitua por sua lógica real)
     // await loginStore.handleLogin({ email: email.value, password: password.value });
     router.push({ name: 'Success' }); // Redirecionamento após login bem-sucedido
   } catch (error) {
@@ -101,12 +93,10 @@ const handleSubmit = async () => {
     isLoading.value = false;
   }
 };
-
 const navigateToRegister = () => {
   router.push({ name: 'register' }); // Redirecionamento para a tela de cadastro
 };
 </script>
-
 <style scoped>
 .container {
   display: flex;
@@ -153,34 +143,6 @@ const navigateToRegister = () => {
   flex-direction: column;
   gap: 16px;
   margin-bottom: 32px;
-}
-
-.input-wrapper {
-  position: relative;
-  width: 100%;
-  color: #76828B;
-}
-
-.password-labels-wrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
-.input-label {
-  font-size: 16px;
-  font-weight: 600;
-  color: #76828B;
-}
-
-.forgot-password {
-  color: #9BA7AD;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 19.2px;
-}
-
-.styled-input {
-  margin-top: 8px;
 }
 
 .styled-button {
