@@ -1,7 +1,11 @@
 <template>
   <div class="input-wrapper">
     <div class="password-labels-wrapper">
-      <label :class="['input-label', { 'input-label-error': !!errors.password }]" for="password">Senha</label>
+      <label
+        :class="['input-label', { 'input-label-error': !!errors.password }]"
+        for="password"
+        >Senha</label
+      >
       <span class="forgot-password">Esqueceu a senha?</span>
     </div>
     <q-input
@@ -31,7 +35,7 @@ import { ref, watch } from 'vue';
 
 const props = defineProps({
   modelValue: String,
-  errors: Object
+  errors: Object,
 });
 
 const emits = defineEmits(['update:modelValue']);
@@ -51,7 +55,7 @@ watch(internalPassword, (newValue) => {
 .input-wrapper {
   position: relative;
   width: 100%;
-  color: #76828B;
+  color: #76828b;
 }
 
 .password-labels-wrapper {
@@ -62,7 +66,7 @@ watch(internalPassword, (newValue) => {
 .input-label {
   font-size: 16px;
   font-weight: 600;
-  color: #76828B;
+  color: #76828b;
 }
 
 .input-label-error {
@@ -70,7 +74,7 @@ watch(internalPassword, (newValue) => {
 }
 
 .forgot-password {
-  color: #9BA7AD;
+  color: #9ba7ad;
 }
 
 .styled-input {

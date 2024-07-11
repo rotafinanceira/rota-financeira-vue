@@ -21,7 +21,9 @@
           />
           <div class="sign-up-view">
             <span>Não possui cadastro?</span>
-            <q-btn flat @click="navigateToRegister" class="sign-up-button">Cadastrar</q-btn>
+            <q-btn flat @click="navigateToRegister" class="sign-up-button"
+              >Cadastrar</q-btn
+            >
           </div>
         </div>
       </div>
@@ -54,7 +56,11 @@ const validateForm = () => {
   if (!email.value) {
     errors.value.email = 'Campo obrigatório';
     isValid.value = false;
-  } else if (email.value.length < 3 || email.value.length > 50 || !/\S+@\S+\.\S+/.test(email.value)) {
+  } else if (
+    email.value.length < 3 ||
+    email.value.length > 50 ||
+    !/\S+@\S+\.\S+/.test(email.value)
+  ) {
     errors.value.email = 'E-mail inválido';
     isValid.value = false;
   }
@@ -84,7 +90,8 @@ const handleSubmit = async () => {
     const statusCode = error.response?.status;
     if (statusCode === 403) {
       isOpen.value = true;
-      modalContent.value = 'E-mail e/ou senha incorretos, verifique os dados informados.';
+      modalContent.value =
+        'E-mail e/ou senha incorretos, verifique os dados informados.';
     } else if (statusCode === 404) {
       isOpen.value = true;
       modalContent.value = 'E-mail não cadastrado.\nFaça o cadastro no app.';
@@ -93,8 +100,9 @@ const handleSubmit = async () => {
     isLoading.value = false;
   }
 };
+
 const navigateToRegister = () => {
-  router.push({ name: 'register' }); // Redirecionamento para a tela de cadastro
+  router.push('register/'); // Redirecionamento para a tela de cadastro
 };
 </script>
 <style scoped>
@@ -152,7 +160,7 @@ const navigateToRegister = () => {
   padding: 16px 24px;
   border-radius: 4px;
   background-color: #8ce95f;
-  color: #314B39;
+  color: #314b39;
   font-weight: 700;
   font-family: 'Inter';
   text-transform: capitalize;
@@ -176,7 +184,7 @@ const navigateToRegister = () => {
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
-  color: #3B9B15;
+  color: #3b9b15;
   font-weight: 700;
   padding-left: 4px;
 }

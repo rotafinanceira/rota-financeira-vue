@@ -1,10 +1,14 @@
 <template>
   <div class="input-wrapper">
-    <label :class="['input-label', { 'input-label-error': !!errors.email}]" for="email">E-mail</label>
+    <label
+      :class="['input-label', { 'input-label-error': !!errors.email }]"
+      for="email"
+      >{{ label }}</label
+    >
     <q-input
       v-model="internalEmail"
       id="email"
-      placeholder="exemplo@email.com"
+      placeholder="exemplo@gmail.com"
       :error="!!errors.email"
       :error-message="errors.email"
       outlined
@@ -19,7 +23,8 @@ import { ref, watch } from 'vue';
 
 const props = defineProps({
   modelValue: String,
-  errors: Object
+  errors: Object,
+  label: String,
 });
 
 const emits = defineEmits(['update:modelValue']);
@@ -34,13 +39,13 @@ watch(internalEmail, (newValue) => {
 .input-wrapper {
   position: relative;
   width: 100%;
-  color: #76828B;
+  color: #76828b;
 }
 
 .input-label {
   font-size: 16px;
   font-weight: 600;
-  color: #76828B;
+  color: #76828b;
 }
 
 .input-label-error {
