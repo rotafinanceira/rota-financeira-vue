@@ -9,7 +9,7 @@
         <!-- ModalGenerico :content="modalContent" /-->
         <div class="form">
           <div class="inputs-wrapper">
-            <InputEmail v-model="email" :errors="errors" />
+            <InputEmail v-model="email" :errors="errors" label="E-mail*" />
             <InputPassword v-model="password" :errors="errors" />
           </div>
           <q-btn
@@ -21,7 +21,7 @@
           />
           <div class="sign-up-view">
             <span>Não possui cadastro?</span>
-            <q-btn flat @click="navigateToRegister" class="sign-up-button"
+            <q-btn flat @click="navigateToSignUp" class="sign-up-button"
               >Cadastrar</q-btn
             >
           </div>
@@ -101,8 +101,8 @@ const handleSubmit = async () => {
   }
 };
 
-const navigateToRegister = () => {
-  router.push('register/'); // Redirecionamento para a tela de cadastro
+const navigateToSignUp = () => {
+  router.push({ path: '/register' });
 };
 </script>
 <style scoped>
@@ -149,22 +149,22 @@ const navigateToRegister = () => {
 .inputs-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: 0px; /* Alteração de acordo com o novo preview */
+  margin-bottom: 16px; /* Alteração de acordo com o novo preview */
 }
 
 .styled-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 16px 24px;
+  padding: 12px 24px;
   border-radius: 4px;
   background-color: #8ce95f;
   color: #314b39;
   font-weight: 700;
   font-family: 'Inter';
   text-transform: capitalize;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .sign-up-view {
@@ -175,16 +175,15 @@ const navigateToRegister = () => {
   font-size: 16px;
   color: #737578;
   justify-content: center;
-  margin-top: 16px;
+  margin-top: 8px; /* Alterado para novo preview */
 }
 
 .sign-up-button {
-  color: #8ce95f;
   text-transform: capitalize;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
-  color: #3b9b15;
+  color: #4140c2;
   font-weight: 700;
   padding-left: 4px;
 }

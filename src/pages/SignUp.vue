@@ -6,19 +6,28 @@
       </div>
       <div class="container-content">
         <p class="signup-title">Criar conta</p>
-        <InputEmail v-model="email" :errors="errors" label="E-mail*" />
-        <InputEmail
-          v-model="confirmEmail"
-          :errors="errors"
-          label="Confirmar e-mail*"
-        />
-        <div class="btns-wrapper">
-          <q-btn flat @click="() => {}" class="back-btn">Voltar</q-btn>
-          <q-btn disabled @click="handleSubmit" class="next-btn">Avançar</q-btn>
-        </div>
-        <div class="signin">
-          <p>Já possui conta?</p>
-          <span>Entrar</span>
+        <div class="form">
+          <div class="inputs-wrapper">
+            <InputEmail v-model="email" :errors="errors" label="E-mail*" />
+            <InputEmail
+              v-model="confirmEmail"
+              :errors="errors"
+              label="Confirmar e-mail*"
+            />
+          </div>
+          <q-btn
+            :label="'Avançar'"
+            :loading="isLoading"
+            :disable="isLoading || !isValid"
+            @click="handleSubmit"
+            class="styled-button"
+          />
+          <div class="sign-in-view">
+            <span>Já possui conta?</span>
+            <q-btn flat @click="navigateToSignIn" class="sign-in-button"
+              >Entrar</q-btn
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -29,6 +38,7 @@
 import logo from './../assets/logolight.svg';
 import InputEmail from '../components/InputEmail.vue';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const email = ref('');
 // const confirmEmail = ref('');
@@ -85,6 +95,12 @@ const handleSubmit = async () => {
     isLoading.value = false;
   }
 };
+
+const router = useRouter();
+
+const navigateToSignIn = () => {
+  router.push('/'); // Redirecionamento para a tela de cadastro
+};
 </script>
 
 <style scoped>
@@ -101,7 +117,7 @@ const handleSubmit = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* margin-bottom: 100px; */
+  margin-bottom: 100px;
 }
 
 .logo {
@@ -116,57 +132,56 @@ const handleSubmit = async () => {
   margin-bottom: 24px;
 }
 
-.btns-wrapper {
+.container-content {
   display: flex;
+  flex-direction: column;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
 
-.back-btn {
-  width: 30%;
-  padding: 16px 0;
-  margin-right: 16px;
-  text-transform: capitalize;
-  size: 16px;
-  font-weight: 700px;
-  line-height: 19px;
+.inputs-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0px; /* Alteração de acordo com o novo preview */
+  margin-bottom: 16px; /* Alteração de acordo com o novo preview */
 }
 
-.next-btn {
-  width: calc(70% - 16px);
-  padding: 16px 0;
-  text-transform: capitalize;
-  size: 16px;
-  font-weight: 700px;
-  line-height: 19px;
-  background-color: #8ce95f;
-}
-
-.next-btn:disabled {
-  background-color: #e0e5e7;
-  color: #76828b;
-}
-
-.signin {
+.styled-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 16px;
-}
-
-.singin p,
-.signin span {
-  font-size: 16px;
+  padding: 12px 24px;
+  border-radius: 4px;
+  background-color: #8ce95f;
+  color: #314b39;
   font-weight: 700;
-  line-height: 24px;
+  font-family: 'Inter';
+  text-transform: capitalize;
+  font-size: 18px;
 }
 
-.signin p {
-  margin: 0;
-  margin-right: 4px;
+.sign-in-view {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 16px;
   color: #737578;
+  justify-content: center;
+  margin-top: 8px; /* Alterado para novo preview */
 }
 
-.signin span {
-  color: #3b9b15;
+.sign-in-button {
+  text-transform: capitalize;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #4140c2;
+  font-weight: 700;
+  padding-left: 4px;
 }
 </style>

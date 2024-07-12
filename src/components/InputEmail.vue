@@ -43,7 +43,7 @@ watch(internalEmail, (newValue) => {
 }
 
 .input-label {
-  font-size: 16px;
+  font-size: px;
   font-weight: 600;
   color: #76828b;
 }
@@ -53,6 +53,7 @@ watch(internalEmail, (newValue) => {
 }
 
 .styled-input {
-  margin-top: 8px;
+  margin-top: 0px; /*Alterado aqui de acordo com novo preview */
+  padding: 20;
 }
 </style>

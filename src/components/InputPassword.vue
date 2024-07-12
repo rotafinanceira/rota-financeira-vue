@@ -11,7 +11,7 @@
     <q-input
       v-model="internalPassword"
       id="password"
-      placeholder="********"
+      placeholder="**************"
       :type="showPassword ? 'text' : 'password'"
       :error="!!errors.password"
       :error-message="errors.password"
@@ -74,11 +74,11 @@ watch(internalPassword, (newValue) => {
 }
 
 .forgot-password {
-  color: #9ba7ad;
+  color: #4140c2;
 }
 
 .styled-input {
-  margin-top: 8px;
+  margin-top: 0px; /*Alterado aqui de acordo com novo preview */
 }
 
 .toggle-visibility {
