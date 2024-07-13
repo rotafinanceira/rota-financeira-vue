@@ -1,30 +1,52 @@
-// src/store/registerStore.ts
-
 import { defineStore } from 'pinia';
 
-interface RegisterStoreState {
-  currentStep: number;
-  email: string;
-  confirmEmail: string;
-  password: string;
-  confirmPassword: string;
-  personalInfo: { /* Defina aqui os tipos para personalInfo */ };
-}
-
 export const useRegisterStore = defineStore('register', {
-  state: (): RegisterStoreState => ({
-    currentStep: 1,
+  state: () => ({
+    name: '',
+    surname: '',
+    day: '',
+    month: '',
+    year: '',
+    currentStep: 0,
+    hasInteracted: false,
     email: '',
     confirmEmail: '',
     password: '',
     confirmPassword: '',
-    personalInfo: { /* Inicialize conforme necessário */ },
   }),
-
   actions: {
+    setName(name: string) {
+      this.name = name;
+    },
+    setSurname(surname: string) {
+      this.surname = surname;
+    },
+    setDay(day: string) {
+      this.day = day;
+    },
+    setMonth(month: string) {
+      this.month = month;
+    },
+    setYear(year: string) {
+      this.year = year;
+    },
     setCurrentStep(step: number) {
       this.currentStep = step;
     },
-    // Outras ações necessárias
+    setHasInteracted(interacted: boolean) {
+      this.hasInteracted = interacted;
+    },
+    setEmail(email: string) {
+      this.email = email;
+    },
+    setConfirmEmail(confirmEmail: string) {
+      this.confirmEmail = confirmEmail;
+    },
+    setPassword(password: string) {
+      this.password = password;
+    },
+    setConfirmPassword(confirmPassword: string) {
+      this.confirmPassword = confirmPassword;
+    },
   },
 });
