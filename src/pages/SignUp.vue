@@ -43,6 +43,7 @@ import { useRouter } from 'vue-router';
 const email = ref('');
 // const confirmEmail = ref('');
 const errors = ref({});
+const router = useRouter();
 
 const validateForm = () => {
   errors.value = {};
@@ -95,8 +96,6 @@ const handleSubmit = async () => {
     isLoading.value = false;
   }
 };
-
-const router = useRouter();
 
 const navigateToSignIn = () => {
   router.push('/'); // Redirecionamento para a tela de cadastro

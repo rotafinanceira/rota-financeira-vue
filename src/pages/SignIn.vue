@@ -6,7 +6,7 @@
       </div>
       <div class="container-content">
         <div class="title">Olá, entre com e-mail e senha</div>
-        <!-- ModalGenerico :content="modalContent" /-->
+        <ModalGenerico :content="modalContent" :open="isOpen" />
         <div class="form">
           <div class="inputs-wrapper">
             <InputEmail v-model="email" :errors="errors" label="E-mail" />
@@ -15,7 +15,7 @@
           <q-btn
             :label="'Entrar'"
             :loading="isLoading"
-            :disable="isLoading || !isValid"
+            :disable="isLoading"
             @click="handleSubmit"
             class="styled-button"
           />
@@ -38,6 +38,7 @@ import InputPassword from '../components/InputPassword.vue';
 import InputEmail from '../components/InputEmail.vue';
 import logo from './../assets/logolight.svg';
 import { httpClient } from '../infra/http/httpClient';
+import ModalGenerico from 'src/components/ModalGenerico.vue';
 
 const isLoading = ref(false);
 const modalContent = ref('');
@@ -173,7 +174,6 @@ const navigateToSignUp = () => {
   background-color: #8ce95f;
   color: #314b39;
   font-weight: 700;
-  font-family: 'Inter';
   text-transform: capitalize;
   font-size: 18px;
 }
