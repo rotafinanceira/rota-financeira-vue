@@ -4,9 +4,9 @@
       <label
         :class="['input-label', { 'input-label-error': !!errors.password }]"
         for="password"
-        >Senha</label
       >
-      <span class="forgot-password">Esqueceu a senha?</span>
+        Senha
+      </label>
     </div>
     <q-input
       v-model="internalPassword"
@@ -27,6 +27,7 @@
         />
       </template>
     </q-input>
+    <span class="forgot-password">Esqueceu a senha?</span>
   </div>
 </template>
 
@@ -56,6 +57,7 @@ watch(internalPassword, (newValue) => {
   position: relative;
   width: 100%;
   color: #76828b;
+  text-align: end;
 }
 
 .password-labels-wrapper {
@@ -65,8 +67,8 @@ watch(internalPassword, (newValue) => {
 
 .input-label {
   font-size: 16px;
-  font-weight: 600;
-  color: #76828b;
+  font-weight: 500;
+  color: #33373c;
 }
 
 .input-label-error {
@@ -78,7 +80,15 @@ watch(internalPassword, (newValue) => {
 }
 
 .styled-input {
-  margin-top: 0px; /*Alterado aqui de acordo com novo preview */
+  margin: 0;
+  padding: 0 0 4px 0;
+}
+
+.styled-input ::v-deep .q-field__native {
+  padding-left: 10px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .toggle-visibility {

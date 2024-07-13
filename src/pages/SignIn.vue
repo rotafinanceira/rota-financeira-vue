@@ -9,7 +9,7 @@
         <!-- ModalGenerico :content="modalContent" /-->
         <div class="form">
           <div class="inputs-wrapper">
-            <InputEmail v-model="email" :errors="errors" label="E-mail*" />
+            <InputEmail v-model="email" :errors="errors" label="E-mail" />
             <InputPassword v-model="password" :errors="errors" />
           </div>
           <q-btn
@@ -103,7 +103,8 @@ const handleSubmit = async () => {
       modalContent.value = 'E-mail não cadastrado.\nFaça o cadastro no app.';
     } else {
       isOpen.value = true;
-      modalContent.value = 'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.';
+      modalContent.value =
+        'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.';
     }
   } finally {
     isLoading.value = false;
