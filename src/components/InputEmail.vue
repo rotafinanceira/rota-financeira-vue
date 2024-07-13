@@ -52,10 +52,9 @@ watch(internalEmail, (newValue) => {
   color: red;
 }
 
-.styled-input ::v-deep .q-field__native {
+.styled-input :deep(.q-field__native) {
   padding-left: 10px;
   font-weight: 400;
   font-size: 16px;
-  line-height: 24px;
 }
 </style>

@@ -77,6 +77,8 @@ watch(internalPassword, (newValue) => {
 
 .forgot-password {
   color: #4140c2;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .styled-input {
@@ -84,7 +86,7 @@ watch(internalPassword, (newValue) => {
   padding: 0 0 4px 0;
 }
 
-.styled-input ::v-deep .q-field__native {
+.styled-input :deep(.q-field__native) {
   padding-left: 10px;
   font-weight: 400;
   font-size: 16px;

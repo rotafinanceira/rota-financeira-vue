@@ -2,7 +2,6 @@
   <q-dialog v-model="isOpen" persistent>
     <q-card>
       <q-card-section class="modal-content">
-        <q-img src="../assets/errorIcon.png" class="error-icon" />
         <div class="modal-text">{{ content }}</div>
       </q-card-section>
       <q-card-actions align="center">
@@ -13,23 +12,33 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-// import { useModalStore } from '../store/modalStore';
+import { ref, watch } from 'vue';
 
-const isOpen = ref(false);
-const { setIsOpen } = useModalStore();
+const props = defineProps({
+  content: String,
+  open: Boolean,
+});
 
-const content = ref('');
+const isOpen = ref(props.open);
+const content = ref(props.content);
+
+watch(
+  () => props.open,
+  (newVal) => {
+    isOpen.value = newVal;
+  }
+);
+
+watch(
+  () => props.content,
+  (newVal) => {
+    content.value = newVal;
+  }
+);
 
 const closeModal = () => {
-  setIsOpen(false);
+  isOpen.value = false;
 };
-
-// Watch for changes in modal state
-watchEffect(() => {
-  isOpen.value = !!useModalStore().isOpen;
-  content.value = useModalStore().content;
-});
 </script>
 
 <style scoped>
@@ -37,12 +46,6 @@ watchEffect(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.error-icon {
-  width: 80px;
-  height: auto;
-  margin-bottom: 20px;
 }
 
 .modal-text {

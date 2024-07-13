@@ -40,12 +40,58 @@ import { useRouter } from 'vue-router';
 const email = ref('');
 const confirmEmail = ref('');
 const errors = ref({});
-const isLoading = ref(false);
-
 const router = useRouter();
 
+const validateForm = () => {
+  errors.value = {};
+  isValid.value = true;
+
+  if (!email.value) {
+    errors.value.email = 'Campo obrigatório';
+    isValid.value = false;
+  } else if (
+    email.value.length < 3 ||
+    email.value.length > 50 ||
+    !/\S+@\S+\.\S+/.test(email.value)
+  ) {
+    errors.value.email = 'E-mail inválido';
+    isValid.value = false;
+  }
+
+  if (!password.value) {
+    errors.value.password = 'Campo obrigatório';
+    isValid.value = false;
+  } else if (password.value.length < 3 || password.value.length > 15) {
+    errors.value.password = 'Senha inválida';
+    isValid.value = false;
+  }
+};
+
 const handleSubmit = async () => {
-  router.push('/personal-info');
+  // Watchers para validar o formulário quando os campos são alterados
+  watch([email, password], () => {
+    validateForm();
+  });
+  validateForm();
+  if (!isValid.value) return;
+
+  try {
+    isLoading.value = true;
+    // await loginStore.handleLogin({ email: email.value, password: password.value });
+    router.push({ name: 'Success' }); // Redirecionamento após login bem-sucedido
+  } catch (error) {
+    const statusCode = error.response?.status;
+    if (statusCode === 403) {
+      isOpen.value = true;
+      modalContent.value =
+        'E-mail e/ou senha incorretos, verifique os dados informados.';
+    } else if (statusCode === 404) {
+      isOpen.value = true;
+      modalContent.value = 'E-mail não cadastrado.\nFaça o cadastro no app.';
+    }
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 const navigateToSignIn = () => {
