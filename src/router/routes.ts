@@ -7,6 +7,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       { path: '', component: () => import('src/pages/SignIn.vue') }, // Página inicial
       { path: 'register', component: () => import('src/pages/SignUp.vue') }, // Rota para a tela de cadastro
+      { path: 'success', component: () => import('src/pages/LoginSuccess.vue') }, // Rota para a tela de sucesso
     ],
   },
 

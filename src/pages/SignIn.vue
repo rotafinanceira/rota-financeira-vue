@@ -37,6 +37,7 @@ import { useRouter } from 'vue-router';
 import InputPassword from '../components/InputPassword.vue';
 import InputEmail from '../components/InputEmail.vue';
 import logo from './../assets/logolight.svg';
+import { httpClient } from '../infra/http/httpClient';
 
 const isLoading = ref(false);
 const modalContent = ref('');
@@ -84,8 +85,13 @@ const handleSubmit = async () => {
 
   try {
     isLoading.value = true;
-    // await loginStore.handleLogin({ email: email.value, password: password.value });
-    router.push({ name: 'Success' }); // Redirecionamento após login bem-sucedido
+    const response = await httpClient.post('/login', {
+      email: email.value,
+      password: password.value,
+    });
+    if (response.status === 200) {
+      router.push({ path: '/success' }); // Redirecionamento após login bem-sucedido
+    }
   } catch (error) {
     const statusCode = error.response?.status;
     if (statusCode === 403) {
@@ -95,6 +101,9 @@ const handleSubmit = async () => {
     } else if (statusCode === 404) {
       isOpen.value = true;
       modalContent.value = 'E-mail não cadastrado.\nFaça o cadastro no app.';
+    } else {
+      isOpen.value = true;
+      modalContent.value = 'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.';
     }
   } finally {
     isLoading.value = false;
@@ -105,6 +114,7 @@ const navigateToSignUp = () => {
   router.push({ path: '/register' });
 };
 </script>
+
 <style scoped>
 .container {
   display: flex;
