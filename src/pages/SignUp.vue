@@ -44,20 +44,8 @@ const isLoading = ref(false);
 
 const router = useRouter();
 
-const handleSubmit = async () => {
-  isLoading.value = true;
-
-  try {
-    // Simulando um tempo de carregamento
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Navega para a rota de teste
-    router.push({ name: 'personal-info' }); 
-  } catch (error) {
-    console.error(error);
-  } finally {
-    isLoading.value = false;
-  }
+const handleSubmit = () => {
+  router.push('/password-step');
 };
 
 const navigateToSignIn = () => {
