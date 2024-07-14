@@ -49,7 +49,7 @@ const handleSubmit = () => {
 };
 
 const navigateToSignIn = () => {
-  router.push('/'); // Redirecionamento para a tela de login ao clicar em "Entrar"
+  router.push('/'); 
 };
 </script>
 
