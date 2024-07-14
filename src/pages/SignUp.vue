@@ -45,7 +45,7 @@ const isLoading = ref(false);
 const router = useRouter();
 
 const handleSubmit = () => {
-  router.push('/password-step');
+  router.push('/personal-info');
 };
 
 const navigateToSignIn = () => {
