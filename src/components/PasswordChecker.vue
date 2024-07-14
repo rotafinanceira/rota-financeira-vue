@@ -1,44 +1,29 @@
 <template>
   <div class="password-checker">
     <p>A senha deve ter:</p>
-    <div v-if="hasLowerCase">
-      <span>✓</span>
+    <div>
+      <img :src="checkIcon" v-if="hasLowerCase" class="icon" />
+      <img :src="errorIcon" v-else class="icon" />
       Mínimo de 1 letra minúscula
     </div>
-    <div v-else>
-      <span>✕</span>
-      Mínimo de 1 letra minúscula
-    </div>
-    <div v-if="hasUpperCase">
-      <span>✓</span>
+    <div>
+      <img :src="checkIcon" v-if="hasUpperCase" class="icon" />
+      <img :src="errorIcon" v-else class="icon" />
       Mínimo de 1 letra maiúscula
     </div>
-    <div v-else>
-      <span>✕</span>
-      Mínimo de 1 letra maiúscula
-    </div>
-    <div v-if="hasSymbol">
-      <span>✓</span>
+    <div>
+      <img :src="checkIcon" v-if="hasSymbol" class="icon" />
+      <img :src="errorIcon" v-else class="icon" />
       Mínimo de 1 caractere especial
     </div>
-    <div v-else>
-      <span>✕</span>
-      Mínimo de 1 caractere especial
-    </div>
-    <div v-if="hasNumber">
-      <span>✓</span>
+    <div>
+      <img :src="checkIcon" v-if="hasNumber" class="icon" />
+      <img :src="errorIcon" v-else class="icon" />
       Mínimo de 1 número
     </div>
-    <div v-else>
-      <span>✕</span>
-      Mínimo de 1 número
-    </div>
-    <div v-if="hasMinLength">
-      <span>✓</span>
-      Mínimo 8 caracteres
-    </div>
-    <div v-else>
-      <span>✕</span>
+    <div>
+      <img :src="checkIcon" v-if="hasMinLength" class="icon" />
+      <img :src="errorIcon" v-else class="icon" />
       Mínimo 8 caracteres
     </div>
   </div>
@@ -46,7 +31,8 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue';
-
+import checkIcon from '../assets/check.svg';
+import errorIcon from '../assets/x.svg';
 const password = ref('');
 
 const hasLowerCase = computed(() => /[a-z]/.test(password.value));
@@ -57,7 +43,6 @@ const hasMinLength = computed(() => password.value.length >= 8);
 
 watch(password, () => {
   // Força a atualização do componente quando a senha muda
-  // Útil para alternar entre ícones de verificação e erro
 });
 </script>
 
@@ -76,7 +61,9 @@ watch(password, () => {
   margin-top: 8px;
 }
 
-.password-checker span {
+.icon {
+  width: 24px;
+  height: 24px;
   margin-right: 8px;
 }
 </style>
