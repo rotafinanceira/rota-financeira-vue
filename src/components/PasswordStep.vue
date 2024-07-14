@@ -4,7 +4,7 @@
       <q-img :src="logo" class="logo" />
     </div>
     <div class="container-content">
-      <div class="title">Defina sua senhaa</div>
+      <div class="title">Defina sua senha</div>
       <form class="form">
         <div class="inputs-wrapper">
           <q-input
@@ -46,7 +46,7 @@
 <script setup>
 import { ref } from 'vue';
 import PasswordChecker from './PasswordChecker.vue';
-
+import logo from '../assets/logolight.svg';
 const password = ref('');
 const confirmPassword = ref('');
 const acceptTerms = ref(false);
@@ -61,7 +61,7 @@ const validateStep = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 96px;
+  gap: 10px;
   padding: 0 20px;
   margin-top: 24px;
 }
@@ -70,16 +70,17 @@ const validateStep = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 }
 
 .logo {
-  width: 230px;
+  width: 260px;
 }
 
 .container-content {
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 10px;
 }
 
 .title {
