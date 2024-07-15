@@ -36,7 +36,7 @@
         />
       </form>
     </div>
-    <div class="sign-up-view">
+    <div class="view">
       Já possui uma conta?
       <span class="sign-up-button">Faça login</span>
     </div>
@@ -45,8 +45,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import PasswordChecker from './PasswordChecker.vue';
-import logo from '../assets/logolight.svg';
+import PasswordChecker from '../../components/PasswordChecker.vue';
+import logo from '../../assets/logolight.svg';
 const password = ref('');
 const confirmPassword = ref('');
 const acceptTerms = ref(false);
@@ -119,7 +119,7 @@ const validateStep = () => {
   font-size: 18px;
 }
 
-.sign-up-view {
+.view {
   text-align: center;
   display: flex;
   flex-direction: row;

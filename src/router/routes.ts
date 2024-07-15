@@ -6,10 +6,22 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('src/pages/SignIn.vue') }, // Página inicial
-      { path: 'register', component: () => import('src/pages/SignUp.vue') }, // Rota para a tela de cadastro
-      { path: 'success', component: () => import('src/pages/LoginSuccess.vue') }, // Rota para a tela de sucesso
-      { path: 'personal-info', component: () => import('src/components/PersonalInformationStep.vue') }, // Rota para a tela de informações pessoais
-      { path: 'password-step', component: () => import('src/components/PasswordStep.vue') }, // Rota para a tela de senha
+      {
+        path: 'success',
+        component: () => import('src/pages/LoginSuccess.vue'),
+      }, // Rota para a tela de sucesso
+      {
+        path: 'register-1',
+        component: () => import('src/pages/SignUp/SignUpStep1.vue'),
+      }, // Rota para a tela de cadastro
+      {
+        path: 'register-2',
+        component: () => import('src/pages/SignUp/SignUpStep2.vue'),
+      }, // Rota para a tela de informações pessoais
+      {
+        path: 'register-3',
+        component: () => import('src/pages/SignUp/SignUpStep3.vue'),
+      }, // Rota para a tela de senha
       { path: 'test', component: () => import('src/pages/TestPage.vue') }, // Rota de teste
     ],
   },

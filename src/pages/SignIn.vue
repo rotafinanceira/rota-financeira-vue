@@ -12,19 +12,16 @@
             <InputEmail v-model="email" :errors="errors" label="E-mail" />
             <InputPassword v-model="password" :errors="errors" />
           </div>
-          <q-btn
-            :label="'Entrar'"
-            :loading="isLoading"
-            :disable="isLoading"
-            @click="handleSubmit"
-            class="styled-button"
+          <ButtonComponent
+            label="Entrar"
+            :isLoading="isLoading"
+            @click="onClick"
           />
-          <div class="sign-up-view">
-            <span>Não possui cadastro?</span>
-            <q-btn flat @click="navigateToSignUp" class="sign-up-button"
-              >Cadastrar</q-btn
-            >
-          </div>
+          <SignInUpFooter
+            message="Não possui cadastro?"
+            buttonText="Cadastrar"
+            @click="navigateToSignUpStep1"
+          />
         </div>
       </div>
     </div>
@@ -32,13 +29,15 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import InputPassword from '../components/InputPassword.vue';
 import InputEmail from '../components/InputEmail.vue';
+import ButtonComponent from '../components/ButtonComponent.vue';
+import ModalGenerico from 'src/components/ModalGenerico.vue';
+import SignInUpFooter from 'src/components/SignInUpFooter.vue';
 import logo from './../assets/logolight.svg';
 import { httpClient } from '../infra/http/httpClient';
-import ModalGenerico from 'src/components/ModalGenerico.vue';
 
 const isLoading = ref(false);
 const modalContent = ref('');
@@ -76,11 +75,8 @@ const validateForm = () => {
   }
 };
 
-const handleSubmit = async () => {
-  // Watchers para validar o formulário quando os campos são alterados
-  watch([email, password], () => {
-    validateForm();
-  });
+const onClick = async () => {
+  validateForm();
 
   if (!isValid.value) return;
 
@@ -112,8 +108,8 @@ const handleSubmit = async () => {
   }
 };
 
-const navigateToSignUp = () => {
-  router.push({ path: '/register' });
+const navigateToSignUpStep1 = () => {
+  router.push({ path: '/register-1' });
 };
 </script>
 
@@ -163,39 +159,5 @@ const navigateToSignUp = () => {
   flex-direction: column;
   gap: 0px; /* Alteração de acordo com o novo preview */
   margin-bottom: 16px; /* Alteração de acordo com o novo preview */
-}
-
-.styled-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 24px;
-  border-radius: 4px;
-  background-color: #8ce95f;
-  color: #314b39;
-  font-weight: 700;
-  text-transform: capitalize;
-  font-size: 18px;
-}
-
-.sign-up-view {
-  text-align: center;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-size: 16px;
-  color: #737578;
-  justify-content: center;
-  margin-top: 8px; /* Alterado para novo preview */
-}
-
-.sign-up-button {
-  text-transform: capitalize;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  color: #4140c2;
-  font-weight: 700;
-  padding-left: 4px;
 }
 </style>

@@ -12,17 +12,33 @@
             <q-input v-model="surname" label="Sobrenome*" outlined />
           </div>
           <div class="birth-date-wrapper">
-            <q-input v-model="day" label="Dia*" outlined type="number" maxlength="2" />
+            <q-input
+              v-model="day"
+              label="Dia*"
+              outlined
+              type="number"
+              maxlength="2"
+            />
             <q-select v-model="month" label="Mês*" :options="months" outlined />
-            <q-input v-model="year" label="Ano*" outlined type="number" maxlength="4" />
+            <q-input
+              v-model="year"
+              label="Ano*"
+              outlined
+              type="number"
+              maxlength="4"
+            />
           </div>
           <div class="actions">
             <q-btn class="styled-button" label="Voltar" />
-            <q-btn class="styled-button" label="Avançar" @click="goToPasswordStep" />
+            <q-btn
+              class="styled-button"
+              label="Avançar"
+              @click="goToPasswordStep"
+            />
           </div>
         </div>
       </div>
-      <div class="sign-in-view">
+      <div class="view">
         Já tem uma conta? <a href="/login" class="sign-in-button">Entrar</a>
       </div>
     </div>
@@ -32,7 +48,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import logo from './../assets/logolight.svg';
+import logo from '../../assets/logolight.svg';
 
 const router = useRouter();
 
@@ -49,7 +65,7 @@ const months = [
 ];
 
 const goToPasswordStep = () => {
-  router.push('/password-step');
+  router.push('/register-3');
 };
 </script>
 
@@ -126,7 +142,7 @@ const goToPasswordStep = () => {
   font-size: 18px;
 }
 
-.sign-in-view {
+.view {
   text-align: center;
   display: flex;
   flex-direction: row;
