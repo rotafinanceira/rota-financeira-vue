@@ -6,7 +6,6 @@
       </div>
       <div class="container-content">
         <div class="title">Olá, entre com e-mail e senha</div>
-        <ModalGenerico :content="modalContent" :open="isOpen" />
         <div class="form">
           <div class="inputs-wrapper">
             <InputEmail v-model="email" :errors="errors" label="E-mail" />
@@ -25,6 +24,12 @@
         </div>
       </div>
     </div>
+    <ModalGenerico
+      :title="modalContent"
+      :open="isOpen"
+      :description="modalDescription"
+      :text-button="'Fechar'"
+    />
   </q-page>
 </template>
 
@@ -41,6 +46,7 @@ import { httpClient } from '../infra/http/httpClient';
 
 const isLoading = ref(false);
 const modalContent = ref('');
+const modalDescription = ref('');
 const isOpen = ref(false);
 const isValid = ref(true);
 
@@ -93,15 +99,16 @@ const onClick = async () => {
     const statusCode = error.response?.status;
     if (statusCode === 403) {
       isOpen.value = true;
-      modalContent.value =
-        'E-mail e/ou senha incorretos, verifique os dados informados.';
+      modalContent.value = 'E-mail e/ou senha incorretos';
+      modalDescription.value = 'Verifique os dados informados';
     } else if (statusCode === 404) {
       isOpen.value = true;
-      modalContent.value = 'E-mail não cadastrado.\nFaça o cadastro no app.';
+      modalContent.value = 'E-mail não cadastrado';
+      modalDescription.value = 'Faça o cadastro no App';
     } else {
       isOpen.value = true;
-      modalContent.value =
-        'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.';
+      modalContent.value = 'Ocorreu um erro ao tentar fazer login';
+      modalDescription.value = 'Tente novamente mais tarde';
     }
   } finally {
     isLoading.value = false;

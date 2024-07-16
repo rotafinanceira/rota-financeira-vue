@@ -5,9 +5,14 @@
         <div class="modal-image">
           <q-img :src="errorIcon" />
         </div>
-        <div class="modal-text">{{ content }}</div>
+        <div class="modal-content">
+          <div class="modal-title">
+            {{ title }}
+          </div>
+          <div class="modal-description">{{ description }}</div>
+        </div>
         <q-btn class="modal-button" @click="closeModal">
-          <span class="modal-button-text">Fechar</span>
+          <span>{{ textButton }}</span>
         </q-btn>
       </div>
     </div>
@@ -16,15 +21,19 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import errorIcon from '../assets/Frame 2608660.png';
+import errorIcon from '../assets/warning-error.svg';
 
 const props = defineProps({
-  content: String,
+  title: String,
   open: Boolean,
+  description: String,
+  textButton: String,
 });
 
 const isOpen = ref(props.open);
-const content = ref(props.content);
+const title = ref(props.title);
+const description = ref(props.description);
+const textButton = ref(props.textButton);
 
 watch(
   () => props.open,
@@ -34,9 +43,23 @@ watch(
 );
 
 watch(
-  () => props.content,
+  () => props.title,
   (newVal) => {
-    content.value = newVal;
+    title.value = newVal;
+  }
+);
+
+watch(
+  () => props.description,
+  (newVal) => {
+    description.value = newVal;
+  }
+);
+
+watch(
+  () => props.textButton,
+  (newVal) => {
+    textButton.value = newVal;
   }
 );
 
@@ -50,60 +73,54 @@ const closeModal = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  height: 300px;
+  background-color: white;
   border-radius: 10px;
-}
-
-.modal-container {
-  align-self: center;
-  justify-content: space-between;
-  z-index: 10;
-  border-radius: 10px;
-  background: white;
-  width: 320px;
-  height: 300px;
-  align-items: center;
-  border: 1px solid #9ba7ad;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
   padding: 32px;
 }
 
-.modal-image {
-  margin-top: 32px;
-  padding: 10px;
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.modal-text {
-  color: #5b6871;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  flex-wrap: wrap;
-  align-self: stretch;
+.modal-image {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  width: 44px;
+  height: 44px;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   text-align: center;
-  margin: 0 32px;
+}
+
+.modal-title {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #0c0d0f;
+}
+
+.modal-description {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #485159;
 }
 
 .modal-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px 24px;
   border-radius: 4px;
-  background-color: #b00020;
-  width: 256px;
-  margin-bottom: 32px;
-}
-
-.modal-button-text {
-  font-family: "Inter";
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 16.8px;
-  letter-spacing: 0.28px;
-  color: #fff;
+  background-color: #0c0d0f;
+  color: white;
+  padding: 13px 98px;
+  text-transform: capitalize;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
 }
 </style>
