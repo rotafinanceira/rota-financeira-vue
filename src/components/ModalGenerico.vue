@@ -117,8 +117,9 @@ const closeModal = () => {
   border-radius: 4px;
   background-color: #0c0d0f;
   color: white;
-  padding: 13px 98px;
-  text-transform: capitalize;
+  padding: 13px 0;
+  min-width: 256px;
+  text-transform: none;
   font-weight: 600;
   font-size: 18px;
   line-height: 22px;

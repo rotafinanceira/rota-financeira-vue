@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import InputPassword from '../components/InputPassword.vue';
 import InputEmail from '../components/InputEmail.vue';
@@ -79,6 +79,9 @@ const validateForm = () => {
     errors.value.password = 'Senha inválida';
     isValid.value = false;
   }
+  watch([email, password], () => {
+    validateForm();
+  });
 };
 
 const onClick = async () => {
