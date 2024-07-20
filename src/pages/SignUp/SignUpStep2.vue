@@ -8,8 +8,24 @@
       <div class="container-content">
         <div class="form">
           <div class="inputs-wrapper">
-            <q-input v-model="name" label="Nome*" outlined />
-            <q-input v-model="surname" label="Sobrenome*" outlined />
+            <q-input
+              v-model="name"
+              label="Nome*"
+              outlined
+              :error="nameError !== ''"
+              :error-message="nameError"
+              @input="validateName"
+              class="input-field"
+            />
+            <q-input
+              v-model="surname"
+              label="Sobrenome*"
+              outlined
+              :error="surnameError !== ''"
+              :error-message="surnameError"
+              @input="validateSurname"
+              class="input-field"
+            />
           </div>
           <div class="birth-date-wrapper">
             <q-input
@@ -18,14 +34,31 @@
               outlined
               type="number"
               maxlength="2"
+              :error="dayError !== ''"
+              :error-message="dayError"
+              @input="validateDay"
+              class="input-field"
             />
-            <q-select v-model="month" label="Mês*" :options="months" outlined />
+            <q-select
+              v-model="month"
+              label="Mês*"
+              :options="months"
+              outlined
+              :error="monthError !== ''"
+              :error-message="monthError"
+              @input="validateMonth"
+              class="input-field"
+            />
             <q-input
               v-model="year"
               label="Ano*"
               outlined
               type="number"
               maxlength="4"
+              :error="yearError !== ''"
+              :error-message="yearError"
+              @input="validateYear"
+              class="input-field"
             />
           </div>
           <div class="actions">
@@ -33,6 +66,7 @@
             <q-btn
               class="styled-button"
               label="Avançar"
+              :disable="!formValid"
               @click="goToPasswordStep"
             />
           </div>
@@ -46,7 +80,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import logo from '../../assets/logolight.svg';
 
@@ -55,17 +89,117 @@ const router = useRouter();
 const name = ref('');
 const surname = ref('');
 const day = ref('');
-const month = ref(null); // Ou inicialize com um valor padrão para o mês
+const month = ref(null);
 const year = ref('');
+
+const nameError = ref('');
+const surnameError = ref('');
+const dayError = ref('');
+const monthError = ref('');
+const yearError = ref('');
 
 const months = [
   { label: 'Janeiro', value: 1 },
   { label: 'Fevereiro', value: 2 },
-  // Adicione os outros meses conforme necessário
+  { label: 'Março', value: 3 },
+  { label: 'Abril', value: 4 },
+  { label: 'Maio', value: 5 },
+  { label: 'Junho', value: 6 },
+  { label: 'Julho', value: 7 },
+  { label: 'Agosto', value: 8 },
+  { label: 'Setembro', value: 9 },
+  { label: 'Outubro', value: 10 },
+  { label: 'Novembro', value: 11 },
+  { label: 'Dezembro', value: 12 },
 ];
 
+const validateName = () => {
+  if (!name.value) {
+    nameError.value = 'Nome é obrigatório';
+  } else if (/[^a-zA-Z\s]/.test(name.value)) {
+    nameError.value = 'Nome não pode conter caracteres especiais ou números';
+  } else {
+    nameError.value = '';
+  }
+};
+
+const validateSurname = () => {
+  if (!surname.value) {
+    surnameError.value = 'Sobrenome é obrigatório';
+  } else if (/[^a-zA-Z\s]/.test(surname.value)) {
+    surnameError.value = 'Sobrenome não pode conter caracteres especiais ou números';
+  } else {
+    surnameError.value = '';
+  }
+};
+
+const validateDay = () => {
+  const dayValue = parseInt(day.value, 10);
+  if (!day.value) {
+    dayError.value = 'Dia é obrigatório';
+  } else if (isNaN(dayValue) || dayValue < 1 || dayValue > 31) {
+    dayError.value = 'Dia inválido';
+  } else {
+    dayError.value = '';
+  }
+};
+
+const validateMonth = () => {
+  if (!month.value) {
+    monthError.value = 'Mês é obrigatório';
+  } else {
+    monthError.value = '';
+  }
+};
+
+const validateYear = () => {
+  const yearValue = parseInt(year.value, 10);
+  const currentYear = new Date().getFullYear();
+
+  if (!year.value) {
+    yearError.value = 'Ano é obrigatório';
+  } else if (isNaN(yearValue) || yearValue < 1900 || yearValue > currentYear) {
+    yearError.value = 'Ano inválido';
+  } else {
+    yearError.value = '';
+  }
+};
+
+
+const validateBirthDate = () => {
+  validateDay();
+  validateMonth();
+  validateYear();
+
+  if (!dayError.value && !monthError.value && !yearError.value) {
+    const dayValue = parseInt(day.value, 10);
+    const monthValue = parseInt(month.value, 10);
+    const yearValue = parseInt(year.value, 10);
+
+    // Verifica se o dia é válido para o mês e ano
+    const date = new Date(yearValue, monthValue - 1, dayValue);
+    if (
+      date.getFullYear() !== yearValue ||
+      date.getMonth() !== monthValue - 1 ||
+      date.getDate() !== dayValue
+    ) {
+      dayError.value = monthError.value = yearError.value = 'Data de nascimento inválida';
+    }
+  }
+};
+
+
+const formValid = computed(() => {
+  validateName();
+  validateSurname();
+  validateBirthDate();
+  return !nameError.value && !surnameError.value && !dayError.value && !monthError.value && !yearError.value;
+});
+
 const goToPasswordStep = () => {
-  router.push('/register-3');
+  if (formValid.value) {
+    router.push('/register-3');
+  }
 };
 </script>
 
@@ -161,5 +295,13 @@ const goToPasswordStep = () => {
   color: #4140c2;
   font-weight: 700;
   padding-left: 4px;
+}
+
+.input-field {
+  border: 1px solid #ccc;
+}
+
+.input-field.q-input--error {
+  border-color: red;
 }
 </style>
