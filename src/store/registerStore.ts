@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 export const useRegisterStore = defineStore('register', {
   state: () => ({
     name: '',
-    surname: '',
+    lastName: '',
     day: '',
     month: '',
     year: '',
@@ -18,8 +18,8 @@ export const useRegisterStore = defineStore('register', {
     setName(name: string) {
       this.name = name;
     },
-    setSurname(surname: string) {
-      this.surname = surname;
+    setlastName(lastName: string) {
+      this.lastName = lastName;
     },
     setDay(day: string) {
       this.day = day;

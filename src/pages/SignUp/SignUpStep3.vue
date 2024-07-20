@@ -5,7 +5,7 @@
     </div>
     <div class="container-content">
       <div class="title">Defina sua senha</div>
-      <form class="form">
+      <form class="form" @submit.prevent="validateStep">
         <div class="inputs-wrapper">
           <q-input
             filled
@@ -63,33 +63,38 @@
         <q-btn
           class="styled-button"
           label="Cadastrar"
-          @click.prevent="validateStep"
+          type="submit"
           :disabled="!acceptTerms || !isPasswordValid || !passwordsMatch"
         />
       </form>
     </div>
     <div class="view">
       Já possui uma conta?
-      <span class="sign-up-button">Faça login</span>
+      <span class="sign-up-button" @click="goToLogin">Faça login</span>
     </div>
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref, computed } from 'vue';
 import logo from '../../assets/logolight.svg';
 import checkIcon from '../../assets/check.svg';
 import errorIcon from '../../assets/x.svg';
 import { useRouter } from 'vue-router';
-import { useRegisterStore } from '../../store/registerStore'; // Importar o store
+import { useRegisterStore } from '../../store/registerStore';
+import { httpClient } from '../../infra/http/httpClient';
+import { AxiosError } from 'axios';
 
-const store = useRegisterStore(); // Usar o store
+// Store e Router
+const store = useRegisterStore();
 const router = useRouter();
 
-const password = ref(store.password); // Inicializar com o valor do store
-const confirmPassword = ref(store.confirmPassword); // Inicializar com o valor do store
+// Refs para senha e confirmação de senha
+const password = ref(store.password);
+const confirmPassword = ref(store.confirmPassword);
 const acceptTerms = ref(false);
 
+// Computed properties para validação da senha
 const hasLowerCase = computed(() => /[a-z]/.test(password.value));
 const hasUpperCase = computed(() => /[A-Z]/.test(password.value));
 const hasNumber = computed(() => /[0-9]/.test(password.value));
@@ -97,12 +102,27 @@ const hasSymbol = computed(() => /[!@#$%^&*()]/.test(password.value));
 const hasMinLength = computed(() => password.value.length >= 8);
 
 const isPasswordValid = computed(() => {
-  return hasLowerCase.value && hasUpperCase.value && hasNumber.value && hasSymbol.value && hasMinLength.value;
+  return (
+    hasLowerCase.value &&
+    hasUpperCase.value &&
+    hasNumber.value &&
+    hasSymbol.value &&
+    hasMinLength.value
+  );
 });
 
 const passwordsMatch = computed(() => password.value === confirmPassword.value);
 
-const validateStep = () => {
+// Função para formatar a data
+const formatDate = (day: number, month: number, year: number) => {
+  const dayStr = isNaN(day) || day < 1 || day > 31 ? '01' : String(day).padStart(2, '0');
+  const monthStr = isNaN(month) || month < 1 || month > 12 ? '01' : String(month).padStart(2, '0');
+  const yearStr = isNaN(year) || year < 1900 || year > 2100 ? '1900' : String(year).padStart(4, '0');
+  return `${dayStr}/${monthStr}/${yearStr}`;
+};
+
+// Função de validação do formulário
+const validateStep = async () => {
   if (!isPasswordValid.value) {
     alert('A senha não atende a todos os critérios.');
     return;
@@ -111,13 +131,56 @@ const validateStep = () => {
     alert('As senhas não correspondem!');
     return;
   }
-  store.setPassword(password.value); // Atualizar o store
-  store.setConfirmPassword(confirmPassword.value); // Atualizar o store
-  alert('Senha validada com sucesso!');
-  router.push('/');
+
+  store.setPassword(password.value);
+  store.setConfirmPassword(confirmPassword.value);
+
+  const day = Number(store.day);
+  const month = Number(store.month);
+  const year = Number(store.year);
+
+  const formattedDate = formatDate(day, month, year);
+
+  const payload = {
+    name: store.name,
+    lastName: store.lastName,
+    email: store.email,
+    password: store.password,
+    birthday: formattedDate,
+  };
+
+  try {
+    const response = await httpClient.post('/register', payload);
+
+    if (response.status === 201) {
+      alert('Cadastro realizado com sucesso!');
+      router.push('/login');
+    } else {
+      console.error('Erro ao realizar cadastro:', response.data);
+      alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');
+    }
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      // Verificar se o erro é uma instância de AxiosError
+      console.error('Erro na requisição:', error.response?.data);
+      alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');
+    } else if (error instanceof Error) {
+      // Verificar se o erro é uma instância de Error
+      console.error('Erro na requisição:', error.message);
+      alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');
+    } else {
+      console.error('Erro desconhecido:', error);
+      alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');
+    }
+  }
+};
+
+
+// Navegar para a página de login
+const goToLogin = () => {
+  router.push('/login');
 };
 </script>
-
 
 <style scoped>
 .container {
@@ -221,5 +284,6 @@ const validateStep = () => {
   color: #4140c2;
   font-weight: 700;
   padding-left: 4px;
+  cursor: pointer;
 }
 </style>

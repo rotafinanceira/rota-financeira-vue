@@ -18,12 +18,12 @@
               class="input-field"
             />
             <q-input
-              v-model="surname"
+              v-model="lastName"
               label="Sobrenome*"
               outlined
-              :error="surnameError !== ''"
-              :error-message="surnameError"
-              @input="validateSurname"
+              :error="lastNameError !== ''"
+              :error-message="lastNameError"
+              @input="validatelastName"
               class="input-field"
             />
           </div>
@@ -88,13 +88,13 @@ import { useRouter } from 'vue-router';
 const store = useRegisterStore(); // Usar o store
 const router = useRouter();
 const name = ref(store.name); // Inicializar com o valor do store
-const surname = ref(store.surname); // Inicializar com o valor do store
+const lastName = ref(store.lastName); // Inicializar com o valor do store
 const day = ref(store.day); // Inicializar com o valor do store
 const month = ref(store.month); // Inicializar com o valor do store
 const year = ref(store.year); // Inicializar com o valor do store
 
 const nameError = ref('');
-const surnameError = ref('');
+const lastNameError = ref('');
 const dayError = ref('');
 const monthError = ref('');
 const yearError = ref('');
@@ -124,13 +124,14 @@ const validateName = () => {
   }
 };
 
-const validateSurname = () => {
-  if (!surname.value) {
-    surnameError.value = 'Sobrenome é obrigatório';
-  } else if (/[^a-zA-Z\s]/.test(surname.value)) {
-    surnameError.value = 'Sobrenome não pode conter caracteres especiais ou números';
+const validatelastName = () => {
+  if (!lastName.value) {
+    lastNameError.value = 'Sobrenome é obrigatório';
+  } else if (/[^a-zA-Z\s]/.test(lastName.value)) {
+    lastNameError.value =
+      'Sobrenome não pode conter caracteres especiais ou números';
   } else {
-    surnameError.value = '';
+    lastNameError.value = '';
   }
 };
 
@@ -172,15 +173,21 @@ const validateBirthDate = () => {
 
 const formValid = computed(() => {
   validateName();
-  validateSurname();
+  validatelastName();
   validateBirthDate();
-  return !nameError.value && !surnameError.value && !dayError.value && !monthError.value && !yearError.value;
+  return (
+    !nameError.value &&
+    !lastNameError.value &&
+    !dayError.value &&
+    !monthError.value &&
+    !yearError.value
+  );
 });
 
 const goToPasswordStep = () => {
   if (formValid.value) {
     store.setName(name.value); // Atualizar o store
-    store.setSurname(surname.value); // Atualizar o store
+    store.setlastName(lastName.value); // Atualizar o store
     store.setDay(day.value); // Atualizar o store
     store.setMonth(month.value); // Atualizar o store
     store.setYear(year.value); // Atualizar o store
