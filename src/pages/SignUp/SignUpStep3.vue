@@ -22,7 +22,34 @@
             outlined
           />
         </div>
-        <PasswordChecker :password="password" />
+        <div class="password-checker">
+          <p>A senha deve ter:</p>
+          <div>
+            <img :src="checkIcon" v-if="hasLowerCase" class="icon" />
+            <img :src="errorIcon" v-else class="icon" />
+            Mínimo de 1 letra minúscula
+          </div>
+          <div>
+            <img :src="checkIcon" v-if="hasUpperCase" class="icon" />
+            <img :src="errorIcon" v-else class="icon" />
+            Mínimo de 1 letra maiúscula
+          </div>
+          <div>
+            <img :src="checkIcon" v-if="hasSymbol" class="icon" />
+            <img :src="errorIcon" v-else class="icon" />
+            Mínimo de 1 caractere especial
+          </div>
+          <div>
+            <img :src="checkIcon" v-if="hasNumber" class="icon" />
+            <img :src="errorIcon" v-else class="icon" />
+            Mínimo de 1 número
+          </div>
+          <div>
+            <img :src="checkIcon" v-if="hasMinLength" class="icon" />
+            <img :src="errorIcon" v-else class="icon" />
+            Mínimo 8 caracteres
+          </div>
+        </div>
         <q-checkbox
           v-model="acceptTerms"
           label="Aceito os termos e condições"
@@ -32,7 +59,7 @@
           class="styled-button"
           label="Cadastrar"
           @click.prevent="validateStep"
-          :disabled="!acceptTerms"
+          :disabled="!acceptTerms || !isPasswordValid"
         />
       </form>
     </div>
@@ -44,15 +71,36 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import PasswordChecker from '../../components/PasswordChecker.vue';
+import { ref, computed } from 'vue';
 import logo from '../../assets/logolight.svg';
+import checkIcon from '../../assets/check.svg';
+import errorIcon from '../../assets/x.svg';
+
 const password = ref('');
 const confirmPassword = ref('');
 const acceptTerms = ref(false);
 
+const hasLowerCase = computed(() => /[a-z]/.test(password.value));
+const hasUpperCase = computed(() => /[A-Z]/.test(password.value));
+const hasNumber = computed(() => /[0-9]/.test(password.value));
+const hasSymbol = computed(() => /[!@#$%^&*()]/.test(password.value));
+const hasMinLength = computed(() => password.value.length >= 8);
+
+const isPasswordValid = computed(() => {
+  return hasLowerCase.value && hasUpperCase.value && hasNumber.value && hasSymbol.value && hasMinLength.value;
+});
+
 const validateStep = () => {
-  // Implementar lógica de validação aqui
+  if (!isPasswordValid.value) {
+    alert('A senha não atende a todos os critérios.');
+    return;
+  }
+  if (password.value !== confirmPassword.value) {
+    alert('As senhas não correspondem!');
+    return;
+  }
+  alert('Senha validada com sucesso!');
+  // Continue com a validação e registro
 };
 </script>
 
@@ -105,6 +153,26 @@ const validateStep = () => {
   margin-bottom: 16px;
 }
 
+.password-checker {
+  margin-top: 16px;
+}
+
+.password-checker p {
+  font-weight: bold;
+}
+
+.password-checker div {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
 .styled-button {
   display: flex;
   justify-content: center;
@@ -138,30 +206,5 @@ const validateStep = () => {
   color: #4140c2;
   font-weight: 700;
   padding-left: 4px;
-}
-
-.password-criteria {
-  margin-top: 16px;
-  border: 1px solid #ccc;
-  padding: 12px;
-  border-radius: 4px;
-}
-
-.password-criteria p {
-  font-weight: bold;
-}
-
-.password-criteria div {
-  margin-top: 8px;
-}
-
-.password-criteria span {
-  display: flex;
-  align-items: center;
-  margin-bottom: 4px;
-}
-
-.q-checkbox {
-  margin-top: 16px;
 }
 </style>

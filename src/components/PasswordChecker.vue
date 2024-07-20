@@ -2,47 +2,54 @@
   <div class="password-checker">
     <p>A senha deve ter:</p>
     <div>
-      <img :src="checkIcon" v-if="hasLowerCase" class="icon" />
-      <img :src="errorIcon" v-else class="icon" />
+      <img :src="hasLowerCase ? checkIcon : errorIcon" class="icon" />
       Mínimo de 1 letra minúscula
     </div>
     <div>
-      <img :src="checkIcon" v-if="hasUpperCase" class="icon" />
-      <img :src="errorIcon" v-else class="icon" />
+      <img :src="hasUpperCase ? checkIcon : errorIcon" class="icon" />
       Mínimo de 1 letra maiúscula
     </div>
     <div>
-      <img :src="checkIcon" v-if="hasSymbol" class="icon" />
-      <img :src="errorIcon" v-else class="icon" />
+      <img :src="hasSymbol ? checkIcon : errorIcon" class="icon" />
       Mínimo de 1 caractere especial
     </div>
     <div>
-      <img :src="checkIcon" v-if="hasNumber" class="icon" />
-      <img :src="errorIcon" v-else class="icon" />
+      <img :src="hasNumber ? checkIcon : errorIcon" class="icon" />
       Mínimo de 1 número
     </div>
     <div>
-      <img :src="checkIcon" v-if="hasMinLength" class="icon" />
-      <img :src="errorIcon" v-else class="icon" />
+      <img :src="hasMinLength ? checkIcon : errorIcon" class="icon" />
       Mínimo 8 caracteres
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { defineProps, computed, watch, defineEmits } from 'vue';
 import checkIcon from '../assets/check.svg';
 import errorIcon from '../assets/x.svg';
-const password = ref('');
 
-const hasLowerCase = computed(() => /[a-z]/.test(password.value));
-const hasUpperCase = computed(() => /[A-Z]/.test(password.value));
-const hasNumber = computed(() => /[0-9]/.test(password.value));
-const hasSymbol = computed(() => /[!@#$%^&*()]/.test(password.value));
-const hasMinLength = computed(() => password.value.length >= 8);
+const props = defineProps({
+  password: String
+});
 
-watch(password, () => {
-  // Força a atualização do componente quando a senha muda
+const emit = defineEmits(['update:password']);
+
+const hasLowerCase = computed(() => /[a-z]/.test(props.password));
+const hasUpperCase = computed(() => /[A-Z]/.test(props.password));
+const hasNumber = computed(() => /[0-9]/.test(props.password));
+const hasSymbol = computed(() => /[!@#$%^&*()]/.test(props.password));
+const hasMinLength = computed(() => props.password.length >= 8);
+
+// Emitir evento com as informações de validação
+watch(() => props.password, (newPassword) => {
+  emit('update:password', {
+    hasLowerCase: /[a-z]/.test(newPassword),
+    hasUpperCase: /[A-Z]/.test(newPassword),
+    hasNumber: /[0-9]/.test(newPassword),
+    hasSymbol: /[!@#$%^&*()]/.test(newPassword),
+    hasMinLength: newPassword.length >= 8
+  });
 });
 </script>
 
