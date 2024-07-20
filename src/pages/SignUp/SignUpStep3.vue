@@ -49,6 +49,11 @@
             <img :src="errorIcon" v-else class="icon" />
             Mínimo 8 caracteres
           </div>
+          <div>
+            <img :src="checkIcon" v-if="passwordsMatch" class="icon" />
+            <img :src="errorIcon" v-else class="icon" />
+            As senhas correspondem
+          </div>
         </div>
         <q-checkbox
           v-model="acceptTerms"
@@ -59,7 +64,7 @@
           class="styled-button"
           label="Cadastrar"
           @click.prevent="validateStep"
-          :disabled="!acceptTerms || !isPasswordValid"
+          :disabled="!acceptTerms || !isPasswordValid || !passwordsMatch"
         />
       </form>
     </div>
@@ -75,6 +80,8 @@ import { ref, computed } from 'vue';
 import logo from '../../assets/logolight.svg';
 import checkIcon from '../../assets/check.svg';
 import errorIcon from '../../assets/x.svg';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 const password = ref('');
 const confirmPassword = ref('');
@@ -90,17 +97,19 @@ const isPasswordValid = computed(() => {
   return hasLowerCase.value && hasUpperCase.value && hasNumber.value && hasSymbol.value && hasMinLength.value;
 });
 
+const passwordsMatch = computed(() => password.value === confirmPassword.value);
+
 const validateStep = () => {
   if (!isPasswordValid.value) {
     alert('A senha não atende a todos os critérios.');
     return;
   }
-  if (password.value !== confirmPassword.value) {
+  if (!passwordsMatch.value) {
     alert('As senhas não correspondem!');
     return;
   }
   alert('Senha validada com sucesso!');
-  // Continue com a validação e registro
+  router.push('/');
 };
 </script>
 
