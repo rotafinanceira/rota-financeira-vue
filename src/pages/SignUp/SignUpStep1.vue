@@ -9,11 +9,13 @@
         <div class="form">
           <div class="inputs-wrapper">
             <InputEmail v-model="email" :errors="errors" label="E-mail*" />
+            <div class="error" v-if="errors.email">{{ errors.email }}</div>
             <InputEmail
               v-model="confirmEmail"
               :errors="errors"
               label="Confirmar e-mail*"
             />
+            <div class="error" v-if="errors.confirmEmail">{{ errors.confirmEmail }}</div>
           </div>
           <ButtonComponent
             label="Avançar"
@@ -81,27 +83,22 @@ const validateForm = () => {
   if (!confirmEmail.value) {
     errors.value.confirmEmail = 'Campo obrigatório';
     isValid.value = false;
+  } else if (email.value !== confirmEmail.value) {
+    errors.value.confirmEmail = 'Os e-mails digitados não são correspondentes';
+    isValid.value = false;
   }
-
-  if (email.value !== confirmEmail.value) {
-    isOpen.value = true;
-    modalContent.value = 'Os e-mails digitados não são correspondentes';
-    modalDescription.value =
-      'Revise o e-mail, a confirmação de e-mail e tente novamente!';
-  }
-
-  watch([email, confirmEmail], () => {
-    validateForm();
-  });
 };
-//https://app.swaggerhub.com/apis/LUKASVEIGA_1/RotaFinanceira/1.0.0#/register/post_register
+
+watch([email, confirmEmail], () => {
+  validateForm();
+});
 
 const onClick = () => {
   validateForm();
 
-  if (!isValid.value) return;
-
-  // router.push('/register-2');
+  if (isValid.value) {
+    router.push('/register-2');
+  }
 };
 </script>
 
@@ -149,5 +146,11 @@ const onClick = () => {
   flex-direction: column;
   gap: 0px;
   margin-bottom: 16px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
 }
 </style>

@@ -10,7 +10,6 @@
       id="email"
       placeholder="exemplo@gmail.com"
       :error="!!errors.email"
-      :error-message="errors.email"
       outlined
       class="styled-input"
       no-border
