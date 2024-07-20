@@ -154,38 +154,21 @@ const validateMonth = () => {
 
 const validateYear = () => {
   const yearValue = parseInt(year.value, 10);
-  const currentYear = new Date().getFullYear();
-
-  if (!year.value) {
-    yearError.value = 'Ano é obrigatório';
-  } else if (isNaN(yearValue) || yearValue < 1900 || yearValue > currentYear) {
+  if (!month.value) {
+  if (isNaN(yearValue)) {
     yearError.value = 'Ano inválido';
   } else {
     yearError.value = '';
   }
+}
 };
+
 
 
 const validateBirthDate = () => {
   validateDay();
   validateMonth();
   validateYear();
-
-  if (!dayError.value && !monthError.value && !yearError.value) {
-    const dayValue = parseInt(day.value, 10);
-    const monthValue = parseInt(month.value, 10);
-    const yearValue = parseInt(year.value, 10);
-
-    // Verifica se o dia é válido para o mês e ano
-    const date = new Date(yearValue, monthValue - 1, dayValue);
-    if (
-      date.getFullYear() !== yearValue ||
-      date.getMonth() !== monthValue - 1 ||
-      date.getDate() !== dayValue
-    ) {
-      dayError.value = monthError.value = yearError.value = 'Data de nascimento inválida';
-    }
-  }
 };
 
 
