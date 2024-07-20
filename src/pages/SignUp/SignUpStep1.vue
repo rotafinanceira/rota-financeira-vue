@@ -47,6 +47,9 @@ import InputEmail from '../../components/InputEmail.vue';
 import ButtonComponent from '../../components/ButtonComponent.vue';
 import SignInUpFooter from '../../components/SignInUpFooter.vue';
 import ModalGenerico from '../../components/ModalGenerico.vue';
+import { useRegisterStore } from '../../store/registerStore'; // Importar o store
+
+const store = useRegisterStore(); // Usar o store
 
 const isLoading = ref(false);
 const modalContent = ref('');
@@ -54,8 +57,8 @@ const modalDescription = ref('');
 const isOpen = ref(false);
 const isValid = ref(true);
 
-const email = ref('');
-const confirmEmail = ref('');
+const email = ref(store.email); // Inicializar com o valor do store
+const confirmEmail = ref(store.confirmEmail); // Inicializar com o valor do store
 const errors = ref({});
 
 const router = useRouter();
@@ -97,10 +100,13 @@ const onClick = () => {
   validateForm();
 
   if (isValid.value) {
+    store.setEmail(email.value); // Atualizar o store
+    store.setConfirmEmail(confirmEmail.value); // Atualizar o store
     router.push('/register-2');
   }
 };
 </script>
+
 
 <style scoped>
 .container {

@@ -81,10 +81,13 @@ import logo from '../../assets/logolight.svg';
 import checkIcon from '../../assets/check.svg';
 import errorIcon from '../../assets/x.svg';
 import { useRouter } from 'vue-router';
+import { useRegisterStore } from '../../store/registerStore'; // Importar o store
+
+const store = useRegisterStore(); // Usar o store
 const router = useRouter();
 
-const password = ref('');
-const confirmPassword = ref('');
+const password = ref(store.password); // Inicializar com o valor do store
+const confirmPassword = ref(store.confirmPassword); // Inicializar com o valor do store
 const acceptTerms = ref(false);
 
 const hasLowerCase = computed(() => /[a-z]/.test(password.value));
@@ -108,10 +111,13 @@ const validateStep = () => {
     alert('As senhas não correspondem!');
     return;
   }
+  store.setPassword(password.value); // Atualizar o store
+  store.setConfirmPassword(confirmPassword.value); // Atualizar o store
   alert('Senha validada com sucesso!');
   router.push('/');
 };
 </script>
+
 
 <style scoped>
 .container {

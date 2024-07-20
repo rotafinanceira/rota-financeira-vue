@@ -81,16 +81,17 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import logo from '../../assets/logolight.svg';
+import { useRegisterStore } from '../../store/registerStore'; // Importar o store
+import { useRouter } from 'vue-router';
 
+const store = useRegisterStore(); // Usar o store
 const router = useRouter();
-
-const name = ref('');
-const surname = ref('');
-const day = ref('');
-const month = ref(null);
-const year = ref('');
+const name = ref(store.name); // Inicializar com o valor do store
+const surname = ref(store.surname); // Inicializar com o valor do store
+const day = ref(store.day); // Inicializar com o valor do store
+const month = ref(store.month); // Inicializar com o valor do store
+const year = ref(store.year); // Inicializar com o valor do store
 
 const nameError = ref('');
 const surnameError = ref('');
@@ -154,23 +155,20 @@ const validateMonth = () => {
 
 const validateYear = () => {
   const yearValue = parseInt(year.value, 10);
-  if (!month.value) {
-  if (isNaN(yearValue)) {
+  if (!year.value) {
+    yearError.value = 'Ano é obrigatório';
+  } else if (isNaN(yearValue)) {
     yearError.value = 'Ano inválido';
   } else {
     yearError.value = '';
   }
-}
 };
-
-
 
 const validateBirthDate = () => {
   validateDay();
   validateMonth();
   validateYear();
 };
-
 
 const formValid = computed(() => {
   validateName();
@@ -181,6 +179,11 @@ const formValid = computed(() => {
 
 const goToPasswordStep = () => {
   if (formValid.value) {
+    store.setName(name.value); // Atualizar o store
+    store.setSurname(surname.value); // Atualizar o store
+    store.setDay(day.value); // Atualizar o store
+    store.setMonth(month.value); // Atualizar o store
+    store.setYear(year.value); // Atualizar o store
     router.push('/register-3');
   }
 };

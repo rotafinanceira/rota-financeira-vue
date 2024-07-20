@@ -48,5 +48,14 @@ export const useRegisterStore = defineStore('register', {
     setConfirmPassword(confirmPassword: string) {
       this.confirmPassword = confirmPassword;
     },
+    validateEmails() {
+      return this.email === this.confirmEmail;
+    },
+    validatePasswords() {
+      return this.password === this.confirmPassword;
+    },
+    resetStore() {
+      this.$reset();
+    },
   },
 });
