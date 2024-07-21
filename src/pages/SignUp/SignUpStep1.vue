@@ -15,7 +15,9 @@
               :errors="errors"
               label="Confirmar e-mail*"
             />
-            <div class="error" v-if="errors.confirmEmail">{{ errors.confirmEmail }}</div>
+            <div class="error" v-if="errors.confirmEmail">
+              {{ errors.confirmEmail }}
+            </div>
           </div>
           <ButtonComponent
             label="Avançar"
@@ -90,11 +92,11 @@ const validateForm = () => {
     errors.value.confirmEmail = 'Os e-mails digitados não são correspondentes';
     isValid.value = false;
   }
-};
 
-watch([email, confirmEmail], () => {
-  validateForm();
-});
+  watch([email, confirmEmail], () => {
+    validateForm();
+  });
+};
 
 const onClick = () => {
   validateForm();
@@ -106,7 +108,6 @@ const onClick = () => {
   }
 };
 </script>
-
 
 <style scoped>
 .container {
