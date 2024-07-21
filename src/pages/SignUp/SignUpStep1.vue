@@ -8,15 +8,19 @@
         <p class="signup-title">Criar conta</p>
         <div class="form">
           <div class="inputs-wrapper">
-            <InputEmail v-model="email" :errors="errors" label="E-mail*" />
-            <div class="error" v-if="errors.email">{{ errors.email }}</div>
-            <InputEmail
-              v-model="confirmEmail"
-              :errors="errors"
-              label="Confirmar e-mail*"
-            />
-            <div class="error" v-if="errors.confirmEmail">
-              {{ errors.confirmEmail }}
+            <div>
+              <InputEmail v-model="email" :errors="errors" label="E-mail*" />
+              <div class="error" v-if="errors.email">{{ errors.email }}</div>
+            </div>
+            <div>
+              <InputEmail
+                v-model="confirmEmail"
+                :errors="errors"
+                label="Confirmar e-mail*"
+              />
+              <div class="error" v-if="errors.confirmEmail">
+                {{ errors.confirmEmail }}
+              </div>
             </div>
           </div>
           <ButtonComponent
@@ -54,6 +58,8 @@ import { useRegisterStore } from '../../store/registerStore'; // Importar o stor
 const store = useRegisterStore(); // Usar o store
 
 const isLoading = ref(false);
+const isValidatingForm = ref(false);
+
 const modalContent = ref('');
 const modalDescription = ref('');
 const isOpen = ref(false);
@@ -70,6 +76,7 @@ const navigateToSignIn = () => {
 };
 
 const validateForm = () => {
+  isValidatingForm.value = true;
   errors.value = {};
   isValid.value = true;
 
@@ -92,11 +99,12 @@ const validateForm = () => {
     errors.value.confirmEmail = 'Os e-mails digitados não são correspondentes';
     isValid.value = false;
   }
-
-  watch([email, confirmEmail], () => {
-    validateForm();
-  });
 };
+
+watch([email, confirmEmail], () => {
+  if (!isValidatingForm.value) return;
+  validateForm();
+});
 
 const onClick = () => {
   validateForm();
@@ -151,7 +159,7 @@ const onClick = () => {
 .inputs-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0px;
+  gap: 20px;
   margin-bottom: 16px;
 }
 

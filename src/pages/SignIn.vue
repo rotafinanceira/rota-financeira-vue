@@ -8,8 +8,17 @@
         <div class="title">Olá, entre com e-mail e senha</div>
         <div class="form">
           <div class="inputs-wrapper">
-            <InputEmail v-model="email" :errors="errors" label="E-mail" />
-            <InputPassword v-model="password" :errors="errors" />
+            <div>
+              <InputEmail v-model="email" :errors="errors" label="E-mail" />
+              <div class="error" v-if="errors.email">{{ errors.email }}</div>
+            </div>
+
+            <div>
+              <InputPassword v-model="password" :errors="errors" />
+              <div class="error" v-if="errors.password">
+                {{ errors.password }}
+              </div>
+            </div>
           </div>
           <ButtonComponent
             label="Entrar"
@@ -45,6 +54,8 @@ import logo from './../assets/logolight.svg';
 import { httpClient } from '../infra/http/httpClient';
 
 const isLoading = ref(false);
+const isValidatingForm = ref(false);
+
 const modalContent = ref('');
 const modalDescription = ref('');
 const isOpen = ref(false);
@@ -57,6 +68,7 @@ const errors = ref({});
 const router = useRouter();
 
 const validateForm = () => {
+  isValidatingForm.value = true;
   errors.value = {};
   isValid.value = true;
 
@@ -79,10 +91,12 @@ const validateForm = () => {
     errors.value.password = 'Senha inválida';
     isValid.value = false;
   }
-  watch([email, password], () => {
-    validateForm();
-  });
 };
+
+watch([email, password], () => {
+  if (!isValidatingForm.value) return;
+  validateForm();
+});
 
 const onClick = async () => {
   validateForm();
@@ -96,7 +110,7 @@ const onClick = async () => {
       password: password.value,
     });
     if (response.status === 200) {
-      router.push({ path: '/success' }); // Redirecionamento após login bem-sucedido
+      router.push({ path: '/success' });
     }
   } catch (error) {
     const statusCode = error.response?.status;
@@ -167,7 +181,14 @@ const navigateToSignUpStep1 = () => {
 .inputs-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0px; /* Alteração de acordo com o novo preview */
-  margin-bottom: 16px; /* Alteração de acordo com o novo preview */
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.error {
+  color: #b00020;
+  font-size: 14px;
+  margin-top: 5px;
+  line-height: 21px;
 }
 </style>
