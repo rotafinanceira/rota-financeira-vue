@@ -12,7 +12,6 @@
               <InputEmail v-model="email" :errors="errors" label="E-mail" />
               <div class="error" v-if="errors.email">{{ errors.email }}</div>
             </div>
-
             <div>
               <InputPassword v-model="password" :errors="errors" />
               <div class="error" v-if="errors.password">
@@ -28,7 +27,7 @@
           <SignInUpFooter
             message="Não possui cadastro?"
             buttonText="Cadastrar"
-            @click="navigateToSignUpStep1"
+            @click="navigateToSignUpStepper"
           />
         </div>
       </div>
@@ -132,8 +131,8 @@ const onClick = async () => {
   }
 };
 
-const navigateToSignUpStep1 = () => {
-  router.push({ path: '/register-1' });
+const navigateToSignUpStepper = () => {
+  router.push({ path: '/register' });
 };
 </script>
 

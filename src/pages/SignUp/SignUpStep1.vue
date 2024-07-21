@@ -1,54 +1,49 @@
 <template>
-  <q-page padding>
-    <div class="container">
-      <div class="logo-container">
-        <q-img :src="logo" class="logo" />
-      </div>
-      <div class="container-content">
-        <p class="signup-title">Criar conta</p>
-        <div class="form">
-          <div class="inputs-wrapper">
-            <div>
-              <InputEmail v-model="email" :errors="errors" label="E-mail*" />
-              <div class="error" v-if="errors.email">{{ errors.email }}</div>
-            </div>
-            <div>
-              <InputEmail
-                v-model="confirmEmail"
-                :errors="errors"
-                label="Confirmar e-mail*"
-              />
-              <div class="error" v-if="errors.confirmEmail">
-                {{ errors.confirmEmail }}
-              </div>
+  <div class="container">
+    <div class="container-content">
+      <p class="signup-title">Criar conta</p>
+      <div class="form">
+        <div class="inputs-wrapper">
+          <div>
+            <InputEmail v-model="email" :errors="errors" label="E-mail*" />
+            <div class="error" v-if="errors.email">{{ errors.email }}</div>
+          </div>
+          <div>
+            <InputEmail
+              v-model="confirmEmail"
+              :errors="errors"
+              label="Confirmar e-mail*"
+            />
+            <div class="error" v-if="errors.confirmEmail">
+              {{ errors.confirmEmail }}
             </div>
           </div>
-          <ButtonComponent
-            label="Avançar"
-            :isLoading="isLoading"
-            @click="onClick"
-          />
-          <SignInUpFooter
-            message="Já possui conta?"
-            buttonText="Entrar"
-            :onClick="navigateToSignIn"
-          />
         </div>
+        <ButtonComponent
+          label="Avançar"
+          :isLoading="isLoading"
+          @click="onClick"
+        />
+        <SignInUpFooter
+          message="Já possui conta?"
+          buttonText="Entrar"
+          @click="navigateToSignIn"
+        />
       </div>
     </div>
     <ModalGenerico
       :title="modalContent"
       :open="isOpen"
       :description="modalDescription"
-      :textButton="'Tentar novamente'"
+      :text-button="'Tentar novamente'"
+      @close="isOpen = false"
     />
-  </q-page>
+  </div>
 </template>
 
 <script setup>
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import logo from '../../assets/logolight.svg';
 import InputEmail from '../../components/InputEmail.vue';
 import ButtonComponent from '../../components/ButtonComponent.vue';
 import SignInUpFooter from '../../components/SignInUpFooter.vue';
@@ -112,7 +107,12 @@ const onClick = () => {
   if (isValid.value) {
     store.setEmail(email.value); // Atualizar o store
     store.setConfirmEmail(confirmEmail.value); // Atualizar o store
-    router.push('/register-2');
+    router.push('/register-2'); // Navegar para o próximo passo
+  } else {
+    // Exibir modal se houver erros
+    modalContent.value = 'Erro de validação';
+    modalDescription.value = 'Por favor, verifique os erros e tente novamente.';
+    isOpen.value = true;
   }
 };
 </script>
