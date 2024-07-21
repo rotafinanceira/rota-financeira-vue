@@ -62,7 +62,7 @@
             />
           </div>
           <div class="actions">
-            <q-btn class="styled-button" label="Voltar" />
+            <q-btn class="back-button" label="Voltar" />
             <q-btn
               class="styled-button"
               label="Avançar"
@@ -267,6 +267,25 @@ const goToPasswordStep = () => {
   font-family: 'Inter';
   text-transform: capitalize;
   font-size: 18px;
+}
+
+.back-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 24px;
+  border-radius: 4px;
+  background-color: #ffffff; /* Fundo branco */
+  border: 2px solid #8ce95f; /* Borda verde */
+  color: #314b39;
+  font-weight: 700;
+  font-family: 'Inter';
+  text-transform: capitalize;
+  font-size: 18px;
+}
+
+.back-button:hover {
+  background-color: #f0f0f0; /* Fundo levemente cinza ao passar o mouse */
 }
 
 .view {

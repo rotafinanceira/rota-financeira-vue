@@ -60,12 +60,19 @@
           label="Aceito os termos e condições"
           color="red"
         />
-        <q-btn
-          class="styled-button"
-          label="Cadastrar"
-          type="submit"
-          :disabled="!acceptTerms || !isPasswordValid || !passwordsMatch"
-        />
+        <div class="button-group">
+          <q-btn
+            class="back-button"
+            label="Voltar"
+            @click="goBack"
+          />
+          <q-btn
+            class="styled-button"
+            label="Cadastrar"
+            type="submit"
+            :disabled="!acceptTerms || !isPasswordValid || !passwordsMatch"
+          />
+        </div>
       </form>
     </div>
     <div class="view">
@@ -113,14 +120,6 @@ const isPasswordValid = computed(() => {
 
 const passwordsMatch = computed(() => password.value === confirmPassword.value);
 
-// Função para formatar a data
-const formatDate = (day: number, month: number, year: number) => {
-  const dayStr = isNaN(day) || day < 1 || day > 31 ? '01' : String(day).padStart(2, '0');
-  const monthStr = isNaN(month) || month < 1 || month > 12 ? '01' : String(month).padStart(2, '0');
-  const yearStr = isNaN(year) || year < 1900 || year > 2100 ? '1900' : String(year).padStart(4, '0');
-  return `${dayStr}/${monthStr}/${yearStr}`;
-};
-
 // Função de validação do formulário
 const validateStep = async () => {
   if (!isPasswordValid.value) {
@@ -139,7 +138,7 @@ const validateStep = async () => {
   const month = Number(store.month);
   const year = Number(store.year);
 
-  const formattedDate = formatDate(day, month, year);
+  const formattedDate = `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
 
   const payload = {
     name: store.name,
@@ -161,11 +160,9 @@ const validateStep = async () => {
     }
   } catch (error) {
     if (error instanceof AxiosError) {
-      // Verificar se o erro é uma instância de AxiosError
       console.error('Erro na requisição:', error.response?.data);
       alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');
     } else if (error instanceof Error) {
-      // Verificar se o erro é uma instância de Error
       console.error('Erro na requisição:', error.message);
       alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');
     } else {
@@ -175,10 +172,14 @@ const validateStep = async () => {
   }
 };
 
-
 // Navegar para a página de login
 const goToLogin = () => {
   router.push('/login');
+};
+
+// Navegar para a etapa anterior
+const goBack = () => {
+  router.go(-1); // Volta uma etapa na navegação
 };
 </script>
 
@@ -263,6 +264,31 @@ const goToLogin = () => {
   font-family: 'Inter';
   text-transform: capitalize;
   font-size: 18px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.back-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 24px;
+  border-radius: 4px;
+  background-color: #ffffff; /* Fundo branco */
+  border: 2px solid #8ce95f; /* Borda verde */
+  color: #314b39;
+  font-weight: 700;
+  font-family: 'Inter';
+  text-transform: capitalize;
+  font-size: 18px;
+}
+
+.back-button:hover {
+  background-color: #f0f0f0; /* Fundo levemente cinza ao passar o mouse */
 }
 
 .view {
