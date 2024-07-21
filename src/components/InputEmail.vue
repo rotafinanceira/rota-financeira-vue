@@ -13,6 +13,7 @@
       outlined
       class="styled-input"
       no-border
+      hide-bottom-space
     />
   </div>
 </template>
@@ -48,7 +49,7 @@ watch(internalEmail, (newValue) => {
 }
 
 .input-label-error {
-  color: red;
+  color: #b00020;
 }
 
 .styled-input :deep(.q-field__native) {

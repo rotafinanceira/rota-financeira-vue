@@ -18,6 +18,7 @@
       class="styled-input"
       outlined
       no-border
+      hide-bottom-space
     >
       <template v-slot:append>
         <q-icon
@@ -72,7 +73,7 @@ watch(internalPassword, (newValue) => {
 }
 
 .input-label-error {
-  color: red;
+  color: #b00020;
 }
 
 .forgot-password {
