@@ -39,9 +39,8 @@ import continuosLineDisabled from '../assets/ContinuosLineDisabled.svg';
 import stepActived from '../assets/Status=Actived.svg';
 import stepCompleted from '../assets/Status=Completed.svg';
 import stepDisabled from '../assets/Status=Disabled.svg';
-import { ref } from 'vue';
 
-const props = defineProps({
+defineProps({
   step: Number,
 });
 </script>
