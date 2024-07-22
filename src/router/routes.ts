@@ -34,7 +34,6 @@ const routes: RouteRecordRaw[] = [
           },
         ],
       },
-      { path: 'test', component: () => import('src/pages/TestPage.vue'), name: 'TestPage' },
     ],
   },
   {

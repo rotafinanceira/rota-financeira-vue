@@ -1,8 +1,5 @@
 <template>
   <div class="container">
-    <div class="logo-container">
-      <q-img :src="logo" class="logo" />
-    </div>
     <div class="container-content">
       <div class="title">Defina sua senha</div>
       <form class="form" @submit.prevent="validateStep">
@@ -84,13 +81,14 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
-import logo from '../../assets/logolight.svg';
 import checkIcon from '../../assets/check.svg';
 import errorIcon from '../../assets/x.svg';
 import { useRouter } from 'vue-router';
 import { useRegisterStore } from '../../store/registerStore';
 import { httpClient } from '../../infra/http/httpClient';
 import { AxiosError } from 'axios';
+
+const emit = defineEmits(['previous-step']); // Declare the emits
 
 // Store e Router
 const store = useRegisterStore();
@@ -179,7 +177,7 @@ const goToLogin = () => {
 
 // Navegar para a etapa anterior
 const goBack = () => {
-  router.go(-1); // Volta uma etapa na navegação
+  emit('previous-step'); // Emitir um evento personalizado
 };
 </script>
 

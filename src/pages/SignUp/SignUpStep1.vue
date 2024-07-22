@@ -22,7 +22,7 @@
         <ButtonComponent
           label="Avançar"
           :isLoading="isLoading"
-          @click="onClick"
+          @click="nextStep"
         />
         <SignInUpFooter
           message="Já possui conta?"
@@ -49,6 +49,8 @@ import ButtonComponent from '../../components/ButtonComponent.vue';
 import SignInUpFooter from '../../components/SignInUpFooter.vue';
 import ModalGenerico from '../../components/ModalGenerico.vue';
 import { useRegisterStore } from '../../store/registerStore'; // Importar o store
+
+const emit = defineEmits(['next-step']);
 
 const store = useRegisterStore(); // Usar o store
 
@@ -96,25 +98,34 @@ const validateForm = () => {
   }
 };
 
-watch([email, confirmEmail], () => {
-  if (!isValidatingForm.value) return;
-  validateForm();
-});
+const nextStep = () => {
+  if (validateStep1()) {
+    emit('next-step');
+  } else {
+    // Exibir mensagem de erro de validação
+  }
+};
 
-const onClick = () => {
+const validateStep1 = () => {
   validateForm();
 
   if (isValid.value) {
     store.setEmail(email.value); // Atualizar o store
     store.setConfirmEmail(confirmEmail.value); // Atualizar o store
-    router.push('/register-2'); // Navegar para o próximo passo
+    return true;
   } else {
     // Exibir modal se houver erros
     modalContent.value = 'Erro de validação';
     modalDescription.value = 'Por favor, verifique os erros e tente novamente.';
     isOpen.value = true;
+    return false;
   }
 };
+
+watch([email, confirmEmail], () => {
+  if (!isValidatingForm.value) return;
+  validateForm();
+});
 </script>
 
 <style scoped>

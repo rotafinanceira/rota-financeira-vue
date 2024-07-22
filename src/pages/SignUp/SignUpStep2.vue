@@ -1,9 +1,8 @@
+
+Copiar código
 <template>
   <q-page padding>
     <div class="container">
-      <div class="logo-container">
-        <q-img :src="logo" class="logo" />
-      </div>
       <div class="signup-title">Informações Pessoais</div>
       <div class="container-content">
         <div class="form">
@@ -62,12 +61,12 @@
             />
           </div>
           <div class="actions">
-            <q-btn class="back-button" label="Voltar" />
+            <q-btn class="back-button" label="Voltar" @click="goBack" />
             <q-btn
               class="styled-button"
               label="Avançar"
               :disable="!formValid"
-              @click="goToPasswordStep"
+              @click="nextStep"
             />
           </div>
         </div>
@@ -81,9 +80,10 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import logo from '../../assets/logolight.svg';
 import { useRegisterStore } from '../../store/registerStore'; // Importar o store
 import { useRouter } from 'vue-router';
+
+const emit = defineEmits(['next-step', 'previous-step']); // Definir eventos personalizados
 
 const store = useRegisterStore(); // Usar o store
 const router = useRouter();
@@ -183,6 +183,20 @@ const formValid = computed(() => {
     !yearError.value
   );
 });
+
+const goBack = () => {
+  store.setName(name.value); // Atualizar o store
+  store.setlastName(lastName.value); // Atualizar o store
+  store.setDay(day.value); // Atualizar o store
+  store.setMonth(month.value); // Atualizar o store
+  store.setYear(year.value); // Atualizar o store
+  // router.push('/register-1'); // Voltar para o passo anterior
+  emit('previous-step'); // Emitir um evento personalizado
+};
+
+const nextStep = () => {
+  if(goToPasswordStep) emit('next-step');
+};
 
 const goToPasswordStep = () => {
   if (formValid.value) {

@@ -1,20 +1,20 @@
 <template>
   <q-page padding>
     <div class="container">
-      <!-- Logo no topo -->
       <div class="logo-container">
         <q-img :src="logo" class="logo" />
       </div>
 
-      <!-- Stepper -->
       <q-stepper
         v-model="currentStep"
         ref="stepper"
         alternative-labels
-        color="primary"
+        done-color="green"
+        active-color="green"
+        inactive-color="invisible"
         animated
         flat
-        bordered="false"
+        :bordered="false"
         header-class="custom-header"
       >
         <q-step
@@ -23,8 +23,7 @@
           icon="settings"
           :done="currentStep > 1"
         >
-          <!-- Conteúdo do Step 1 -->
-          <SignUpStep1 />
+          <SignUpStep1 @next-step="handleNextStep"/>
         </q-step>
 
         <q-step
@@ -33,36 +32,17 @@
           icon="create_new_folder"
           :done="currentStep > 2"
         >
-          <!-- Conteúdo do Step 2 -->
-          <SignUpStep2 />
+          <SignUpStep2 @next-step="handleNextStep" @previous-step="handlePreviousStep"/>
         </q-step>
 
         <q-step
           :name="3"
           title="Step 3"
           icon="add_comment"
+          :done="currentStep >= 3"
         >
-          <!-- Conteúdo do Step 3 -->
-          <SignUpStep3 />
+          <SignUpStep3 @next-step="handleNextStep" @previous-step="handlePreviousStep"/>
         </q-step>
-
-        <template v-slot:navigation>
-          <q-stepper-navigation>
-            <q-btn
-              @click="$refs.stepper.previous()"
-              v-if="currentStep > 1"
-              flat
-              color="primary"
-              label="Back"
-            />
-            <q-btn
-              @click="handleNext"
-              v-if="currentStep < 3"
-              color="primary"
-              :label="currentStep === 3 ? 'Finish' : 'Next'"
-            />
-          </q-stepper-navigation>
-        </template>
       </q-stepper>
     </div>
   </q-page>
@@ -79,15 +59,20 @@ import logo from '../../assets/logolight.svg';
 const router = useRouter();
 const currentStep = ref(1);
 
-const handleNext = () => {
+const handleNextStep = () => {
   if (currentStep.value === 3) {
-    // Finaliza o registro se no último passo
-    router.push({ path: '/finalize-registration' });
+    router.push('/home'); // Certifique-se de que a rota está correta
   } else {
-    // Avança para o próximo passo
     currentStep.value++;
   }
 };
+
+const handlePreviousStep = () => {
+  if (currentStep.value > 1) {
+    currentStep.value--;
+  }
+};
+
 </script>
 
 <style scoped>
@@ -98,19 +83,19 @@ const handleNext = () => {
 }
 
 .logo-container {
-  margin-bottom: 20px; /* Espaço entre a logo e o stepper */
+  margin-bottom: 20px;
 }
 
 .logo {
-  width: 150px; /* Ajuste o tamanho da logo conforme necessário */
+  width: 150px;
 }
 
 .stepper {
   width: 100%;
-  max-width: 600px; /* Ajuste o tamanho máximo do stepper conforme necessário */
+  max-width: 600px;
 }
 
 .custom-header {
-  border-bottom: none; /* Remove a linha de separação no cabeçalho do stepper */
+  border-bottom: none;
 }
 </style>
