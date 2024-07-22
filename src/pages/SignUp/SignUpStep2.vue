@@ -4,6 +4,7 @@
       <div class="logo-container">
         <q-img :src="logo" class="logo" />
       </div>
+      <StepperComponent :step="2" />
       <div class="signup-title">Informações Pessoais</div>
       <div class="container-content">
         <div class="form">
@@ -83,6 +84,8 @@
 import { ref, computed } from 'vue';
 import logo from '../../assets/logolight.svg';
 import { useRegisterStore } from '../../store/registerStore'; // Importar o store
+
+import StepperComponent from '../../components/StepperComponent.vue';
 import { useRouter } from 'vue-router';
 
 const store = useRegisterStore(); // Usar o store

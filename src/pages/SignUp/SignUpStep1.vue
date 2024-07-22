@@ -4,6 +4,7 @@
       <div class="logo-container">
         <q-img :src="logo" class="logo" />
       </div>
+      <StepperComponent :step="1" />
       <div class="container-content">
         <p class="signup-title">Criar conta</p>
         <div class="form">
@@ -53,6 +54,7 @@ import InputEmail from '../../components/InputEmail.vue';
 import ButtonComponent from '../../components/ButtonComponent.vue';
 import SignInUpFooter from '../../components/SignInUpFooter.vue';
 import ModalGenerico from '../../components/ModalGenerico.vue';
+import StepperComponent from '../../components/StepperComponent.vue';
 import { useRegisterStore } from '../../store/registerStore'; // Importar o store
 
 const store = useRegisterStore(); // Usar o store
@@ -121,7 +123,6 @@ const onClick = () => {
 .container {
   display: flex;
   flex-direction: column;
-  gap: 96px;
   padding: 0 20px;
   margin-top: 24px;
 }
@@ -130,7 +131,7 @@ const onClick = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 100px;
+  margin-bottom: 40px;
 }
 
 .logo {
@@ -143,6 +144,7 @@ const onClick = () => {
   line-height: 24px;
   letter-spacing: -0.02em;
   margin-bottom: 24px;
+  margin-top: 80px;
 }
 
 .container-content {

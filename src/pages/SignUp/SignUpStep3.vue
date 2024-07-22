@@ -3,6 +3,7 @@
     <div class="logo-container">
       <q-img :src="logo" class="logo" />
     </div>
+    <StepperComponent :step="3" />
     <div class="container-content">
       <div class="title">Defina sua senha</div>
       <form class="form" @submit.prevent="validateStep">
@@ -61,11 +62,7 @@
           color="red"
         />
         <div class="button-group">
-          <q-btn
-            class="back-button"
-            label="Voltar"
-            @click="goBack"
-          />
+          <q-btn class="back-button" label="Voltar" @click="goBack" />
           <q-btn
             class="styled-button"
             label="Cadastrar"
@@ -91,6 +88,8 @@ import { useRouter } from 'vue-router';
 import { useRegisterStore } from '../../store/registerStore';
 import { httpClient } from '../../infra/http/httpClient';
 import { AxiosError } from 'axios';
+
+import StepperComponent from '../../components/StepperComponent.vue';
 
 // Store e Router
 const store = useRegisterStore();
@@ -138,7 +137,9 @@ const validateStep = async () => {
   const month = Number(store.month);
   const year = Number(store.year);
 
-  const formattedDate = `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
+  const formattedDate = `${day < 10 ? '0' : ''}${day}/${
+    month < 10 ? '0' : ''
+  }${month}/${year}`;
 
   const payload = {
     name: store.name,
