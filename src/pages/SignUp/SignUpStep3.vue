@@ -153,7 +153,7 @@ const validateStep = async () => {
 
     if (response.status === 201) {
       alert('Cadastro realizado com sucesso!');
-      router.push('/login');
+      router.push('/');
     } else {
       console.error('Erro ao realizar cadastro:', response.data);
       alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');
@@ -174,7 +174,7 @@ const validateStep = async () => {
 
 // Navegar para a página de login
 const goToLogin = () => {
-  router.push('/login');
+  router.push('/');
 };
 
 // Navegar para a etapa anterior

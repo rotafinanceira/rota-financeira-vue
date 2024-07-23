@@ -63,7 +63,7 @@
             />
           </div>
           <div class="actions">
-            <q-btn class="back-button" label="Voltar" />
+            <q-btn class="back-button" label="Voltar" @click="goBack" />
             <q-btn
               class="styled-button"
               label="Avançar"
@@ -196,6 +196,12 @@ const goToPasswordStep = () => {
     router.push('/register-3');
   }
 };
+
+// Navegar para a etapa anterior
+const goBack = () => {
+  router.go(-1); // Volta uma etapa na navegação
+};
+
 </script>
 
 <style scoped>
