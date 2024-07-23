@@ -81,15 +81,14 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
-import logo from '../../assets/logolight.svg';
-import checkIcon from '../../assets/check.svg';
-import errorIcon from '../../assets/x.svg';
+import logo from '@/assets/logolight.svg';
+import checkIcon from '@/assets/check.svg';
+import errorIcon from '@/assets/x.svg';
 import { useRouter } from 'vue-router';
-import { useRegisterStore } from '../../store/registerStore';
-import { httpClient } from '../../infra/http/httpClient';
+import { useRegisterStore } from '@/store/registerStore';
+import { httpClient } from '@/infra/http/httpClient';
 import { AxiosError } from 'axios';
-
-import StepperComponent from '../../components/StepperComponent.vue';
+import StepperComponent from '@/components/StepperComponent.vue';
 
 // Store e Router
 const store = useRegisterStore();

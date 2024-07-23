@@ -49,13 +49,13 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import logo from '../../assets/logolight.svg';
-import InputEmail from '../../components/InputEmail.vue';
-import ButtonComponent from '../../components/ButtonComponent.vue';
-import SignInUpFooter from '../../components/SignInUpFooter.vue';
-import ModalGenerico from '../../components/ModalGenerico.vue';
-import StepperComponent from '../../components/StepperComponent.vue';
-import { useRegisterStore } from '../../store/registerStore'; // Importar o store
+import logo from '@/assets/logolight.svg';
+import InputEmail from '@/components/InputEmail.vue';
+import ButtonComponent from '@/components/ButtonComponent.vue';
+import SignInUpFooter from '@/components/SignInUpFooter.vue';
+import ModalGenerico from '@/components/ModalGenerico.vue';
+import StepperComponent from '@/components/StepperComponent.vue';
+import { useRegisterStore } from '@/store/registerStore';
 
 const store = useRegisterStore(); // Usar o store
 

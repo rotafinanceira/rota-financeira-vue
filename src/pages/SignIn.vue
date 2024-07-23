@@ -45,13 +45,13 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import InputPassword from '../components/InputPassword.vue';
-import InputEmail from '../components/InputEmail.vue';
-import ButtonComponent from '../components/ButtonComponent.vue';
-import ModalGenerico from 'src/components/ModalGenerico.vue';
-import SignInUpFooter from 'src/components/SignInUpFooter.vue';
-import logo from './../assets/logolight.svg';
-import { httpClient } from '../infra/http/httpClient';
+import InputPassword from '@/components/InputPassword.vue';
+import InputEmail from '@/components/InputEmail.vue';
+import ButtonComponent from '@/components/ButtonComponent.vue';
+import ModalGenerico from '@/components/ModalGenerico.vue';
+import SignInUpFooter from '@/components/SignInUpFooter.vue';
+import logo from '@/assets/logolight.svg';
+import { httpClient } from '@/infra/http/httpClient';
 
 const isLoading = ref(false);
 const isValidatingForm = ref(false);

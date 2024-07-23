@@ -82,10 +82,9 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import logo from '../../assets/logolight.svg';
-import { useRegisterStore } from '../../store/registerStore'; // Importar o store
-
-import StepperComponent from '../../components/StepperComponent.vue';
+import logo from '@/assets/logolight.svg';
+import { useRegisterStore } from '@/store/registerStore'; // Importar o store
+import StepperComponent from '@/components/StepperComponent.vue';
 import { useRouter } from 'vue-router';
 
 const store = useRegisterStore(); // Usar o store
