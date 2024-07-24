@@ -9,18 +9,18 @@
       <form class="form" @submit.prevent="validateStep">
         <div class="inputs-wrapper">
           <q-input
-            filled
             v-model="password"
             label="Senha"
             type="password"
             outlined
+            class="password-input"
           />
           <q-input
-            filled
             v-model="confirmPassword"
             label="Confirmar Senha"
             type="password"
             outlined
+            class="confirm-password-input"
           />
         </div>
         <div class="password-checker">
@@ -232,6 +232,10 @@ const goBack = () => {
   margin-bottom: 16px;
 }
 
+.password-input {
+  margin-bottom: 16px;
+}
+
 .password-checker {
   margin-top: 16px;
 }
@@ -298,18 +302,15 @@ const goBack = () => {
   align-items: center;
   font-size: 16px;
   color: #737578;
-  justify-content: center;
-  margin-top: 8px;
+  margin-top: 20px;
 }
 
 .sign-up-button {
-  text-transform: capitalize;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  color: #4140c2;
-  font-weight: 700;
-  padding-left: 4px;
+  text-decoration: none;
+  color: #314b39;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  margin-left: 4px;
 }
 </style>

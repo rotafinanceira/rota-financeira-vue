@@ -15,7 +15,6 @@
               outlined
               :error="nameError !== ''"
               :error-message="nameError"
-              @input="validateName"
               class="input-field"
             />
             <q-input
@@ -24,7 +23,6 @@
               outlined
               :error="lastNameError !== ''"
               :error-message="lastNameError"
-              @input="validatelastName"
               class="input-field"
             />
           </div>
@@ -37,7 +35,6 @@
               maxlength="2"
               :error="dayError !== ''"
               :error-message="dayError"
-              @input="validateDay"
               class="input-field"
             />
             <q-select
@@ -47,7 +44,6 @@
               outlined
               :error="monthError !== ''"
               :error-message="monthError"
-              @input="validateMonth"
               class="input-field"
             />
             <q-input
@@ -58,7 +54,6 @@
               maxlength="4"
               :error="yearError !== ''"
               :error-message="yearError"
-              @input="validateYear"
               class="input-field"
             />
           </div>
@@ -67,7 +62,6 @@
             <q-btn
               class="styled-button"
               label="Avançar"
-              :disable="!formValid"
               @click="goToPasswordStep"
             />
           </div>
@@ -174,9 +168,6 @@ const validateBirthDate = () => {
 };
 
 const formValid = computed(() => {
-  validateName();
-  validatelastName();
-  validateBirthDate();
   return (
     !nameError.value &&
     !lastNameError.value &&
@@ -187,6 +178,9 @@ const formValid = computed(() => {
 });
 
 const goToPasswordStep = () => {
+  validateName();
+  validatelastName();
+  validateBirthDate();
   if (formValid.value) {
     store.setName(name.value); // Atualizar o store
     store.setlastName(lastName.value); // Atualizar o store
@@ -317,11 +311,16 @@ const goBack = () => {
   padding-left: 4px;
 }
 
-.input-field {
-  border: 1px solid #ccc;
-}
 
 .input-field.q-input--error {
+  border-color: red;
+}
+
+.input-field.q-input--error .q-field__control {
+  border-color: red;
+}
+
+.input-field.q-input--error .q-field__control::before {
   border-color: red;
 }
 </style>
