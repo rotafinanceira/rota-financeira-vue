@@ -11,17 +11,28 @@
           <q-input
             v-model="password"
             label="Senha"
-            type="password"
+            :type="showPassword ? 'text' : 'password'"
             outlined
             class="password-input"
-          />
+          >
+            <template v-slot:append>
+              <q-icon :name="showPassword ? 'visibility_off' : 'visibility'" @click="togglePasswordVisibility" />
+            </template>
+          </q-input>
           <q-input
             v-model="confirmPassword"
             label="Confirmar Senha"
-            type="password"
+            :type="showConfirmPassword ? 'text' : 'password'"
             outlined
             class="confirm-password-input"
-          />
+          >
+            <template v-slot:append>
+              <q-icon :name="showConfirmPassword ? 'visibility_off' : 'visibility'" @click="toggleConfirmPasswordVisibility" />
+            </template>
+          </q-input>
+          <div v-if="!passwordsMatch" class="password-mismatch">
+            Senhas não coincidem.
+          </div>
         </div>
         <div class="password-checker">
           <p>A senha deve ter:</p>
@@ -98,6 +109,8 @@ const router = useRouter();
 const password = ref(store.password);
 const confirmPassword = ref(store.confirmPassword);
 const acceptTerms = ref(false);
+const showPassword = ref(false);
+const showConfirmPassword = ref(false);
 
 // Computed properties para validação da senha
 const hasLowerCase = computed(() => /[a-z]/.test(password.value));
@@ -117,6 +130,16 @@ const isPasswordValid = computed(() => {
 });
 
 const passwordsMatch = computed(() => password.value === confirmPassword.value);
+
+// Função para alternar visibilidade da senha
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value;
+};
+
+// Função para alternar visibilidade da confirmação da senha
+const toggleConfirmPasswordVisibility = () => {
+  showConfirmPassword.value = !showConfirmPassword.value;
+};
 
 // Função de validação do formulário
 const validateStep = async () => {
