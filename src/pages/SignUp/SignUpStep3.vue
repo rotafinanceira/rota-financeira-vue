@@ -16,7 +16,10 @@
             class="password-input"
           >
             <template v-slot:append>
-              <q-icon :name="showPassword ? 'visibility_off' : 'visibility'" @click="togglePasswordVisibility" />
+              <q-icon
+                :name="showPassword ? 'visibility_off' : 'visibility'"
+                @click="togglePasswordVisibility"
+              />
             </template>
           </q-input>
           <q-input
@@ -27,7 +30,10 @@
             class="confirm-password-input"
           >
             <template v-slot:append>
-              <q-icon :name="showConfirmPassword ? 'visibility_off' : 'visibility'" @click="toggleConfirmPasswordVisibility" />
+              <q-icon
+                :name="showConfirmPassword ? 'visibility_off' : 'visibility'"
+                @click="toggleConfirmPasswordVisibility"
+              />
             </template>
           </q-input>
           <div v-if="!passwordsMatch" class="password-mismatch">
@@ -73,7 +79,6 @@
           color="red"
         />
         <div class="button-group">
-          <q-btn class="back-button" label="Voltar" @click="goBack" />
           <q-btn
             class="styled-button"
             label="Cadastrar"
@@ -83,10 +88,11 @@
         </div>
       </form>
     </div>
-    <div class="view">
-      Já possui uma conta?
-      <span class="sign-up-button" @click="goToLogin">Faça login</span>
-    </div>
+    <SignInUpFooter
+      message="Já possui conta?"
+      buttonText="Entrar"
+      :path="'/'"
+    />
   </div>
 </template>
 
@@ -100,6 +106,7 @@ import { useRegisterStore } from '@/store/registerStore';
 import { httpClient } from '@/infra/http/httpClient';
 import { AxiosError } from 'axios';
 import StepperComponent from '@/components/StepperComponent.vue';
+import SignInUpFooter from '@/components/SignInUpFooter.vue';
 
 // Store e Router
 const store = useRegisterStore();
@@ -193,16 +200,6 @@ const validateStep = async () => {
       alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');
     }
   }
-};
-
-// Navegar para a página de login
-const goToLogin = () => {
-  router.push('/');
-};
-
-// Navegar para a etapa anterior
-const goBack = () => {
-  router.go(-1); // Volta uma etapa na navegação
 };
 </script>
 

@@ -8,15 +8,25 @@
 </template>
 
 <script setup>
-const { message, buttonText } = defineProps({
+import { useRegisterStore } from '@/store/registerStore'; // Importar o store
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const store = useRegisterStore(); // Usar o store
+
+const { message, buttonText, path } = defineProps({
   message: String,
   buttonText: String,
+  path: String,
 });
 
 const emits = defineEmits(['click']);
 
 const handleButtonClick = () => {
+  console.log(path);
   emits('click');
+  store.resetStore();
+  router.push(path);
 };
 </script>
 

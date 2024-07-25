@@ -28,7 +28,7 @@
           <SignInUpFooter
             message="Não possui cadastro?"
             buttonText="Cadastrar"
-            @click="navigateToSignUpStep1"
+            :path="'/register-1'"
           />
         </div>
       </div>
@@ -130,10 +130,6 @@ const onClick = async () => {
   } finally {
     isLoading.value = false;
   }
-};
-
-const navigateToSignUpStep1 = () => {
-  router.push({ path: '/register-1' });
 };
 </script>
 

@@ -32,7 +32,7 @@
           <SignInUpFooter
             message="Já possui conta?"
             buttonText="Entrar"
-            :onClick="navigateToSignIn"
+            :path="'/'"
           />
         </div>
       </div>
@@ -72,10 +72,6 @@ const confirmEmail = ref(store.confirmEmail); // Inicializar com o valor do stor
 const errors = ref({});
 
 const router = useRouter();
-
-const navigateToSignIn = () => {
-  router.push('/');
-};
 
 const validateForm = () => {
   isValidatingForm.value = true;

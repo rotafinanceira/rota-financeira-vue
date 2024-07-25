@@ -58,18 +58,19 @@
             />
           </div>
           <div class="actions">
-            <q-btn class="back-button" label="Voltar" @click="goBack" />
             <q-btn
               class="styled-button"
               label="Avançar"
-              @click="goToPasswordStep"
+              @click="goToNextStep"
             />
           </div>
         </div>
       </div>
-      <div class="view">
-        Já tem uma conta? <a href="/login" class="sign-in-button">Entrar</a>
-      </div>
+      <SignInUpFooter
+        message="Já possui conta?"
+        buttonText="Entrar"
+        :path="'/'"
+      />
     </div>
   </q-page>
 </template>
@@ -79,6 +80,7 @@ import { ref, computed } from 'vue';
 import logo from '@/assets/logolight.svg';
 import { useRegisterStore } from '@/store/registerStore'; // Importar o store
 import StepperComponent from '@/components/StepperComponent.vue';
+import SignInUpFooter from '@/components/SignInUpFooter.vue';
 import { useRouter } from 'vue-router';
 
 const store = useRegisterStore(); // Usar o store
@@ -154,14 +156,16 @@ const validateYear = () => {
   const yearValue = parseInt(year.value, 10);
   if (!year.value) {
     yearError.value = 'Ano é obrigatório';
-  } else if (isNaN(yearValue)) {
+  } else if (isNaN(yearValue) || yearValue < 1800) {
     yearError.value = 'Ano inválido';
   } else {
     yearError.value = '';
   }
 };
 
-const validateBirthDate = () => {
+const validateAllInfo = () => {
+  validateName();
+  validatelastName();
   validateDay();
   validateMonth();
   validateYear();
@@ -177,25 +181,21 @@ const formValid = computed(() => {
   );
 });
 
-const goToPasswordStep = () => {
-  validateName();
-  validatelastName();
-  validateBirthDate();
+const goToNextStep = () => {
+  validateAllInfo();
   if (formValid.value) {
     store.setName(name.value); // Atualizar o store
     store.setlastName(lastName.value); // Atualizar o store
     store.setDay(day.value); // Atualizar o store
     store.setMonth(month.value); // Atualizar o store
     store.setYear(year.value); // Atualizar o store
-    router.push('/register-3');
+    navigateToNextStep();
   }
 };
 
-// Navegar para a etapa anterior
-const goBack = () => {
-  router.go(-1); // Volta uma etapa na navegação
+const navigateToNextStep = () => {
+  router.push('/register-3');
 };
-
 </script>
 
 <style scoped>
@@ -310,7 +310,6 @@ const goBack = () => {
   font-weight: 700;
   padding-left: 4px;
 }
-
 
 .input-field.q-input--error {
   border-color: red;
