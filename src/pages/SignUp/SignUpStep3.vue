@@ -5,41 +5,50 @@
     </div>
     <StepperComponent :step="3" />
     <div class="container-content">
-      <div class="title">Defina sua senha</div>
+      <div class="signup-title">Criar conta</div>
       <form class="form" @submit.prevent="validateStep">
         <div class="inputs-wrapper">
-          <q-input
-            v-model="password"
-            label="Senha"
-            :type="showPassword ? 'text' : 'password'"
-            outlined
-            class="password-input"
-          >
-            <template v-slot:append>
-              <q-icon
-                :name="showPassword ? 'visibility_off' : 'visibility'"
-                @click="togglePasswordVisibility"
-              />
-            </template>
-          </q-input>
-          <q-input
-            v-model="confirmPassword"
-            label="Confirmar Senha"
-            :type="showConfirmPassword ? 'text' : 'password'"
-            outlined
-            class="confirm-password-input"
-          >
-            <template v-slot:append>
-              <q-icon
-                :name="showConfirmPassword ? 'visibility_off' : 'visibility'"
-                @click="toggleConfirmPasswordVisibility"
-              />
-            </template>
-          </q-input>
-          <div v-if="!passwordsMatch" class="password-mismatch">
-            Senhas não coincidem.
+          <div class="input-wrapper">
+            <label class="input-label" for="input-password">Senha*</label>
+            <q-input
+              v-model="password"
+              id="input-password"
+              placeholder="**********"
+              :type="showPassword ? 'text' : 'password'"
+              outlined
+              class="password-input"
+            >
+              <template v-slot:append>
+                <q-icon
+                  :name="showPassword ? 'visibility' : 'visibility_off'"
+                  @click="togglePasswordVisibility"
+                />
+              </template>
+            </q-input>
+          </div>
+
+          <div class="input-wrapper">
+            <label class="input-label" for="input-confirm-password"
+              >Confirmar senha*</label
+            >
+            <q-input
+              v-model="confirmPassword"
+              id="input-confirm-password"
+              placeholder="**********"
+              :type="showConfirmPassword ? 'text' : 'password'"
+              outlined
+              class="confirm-password-input"
+            >
+              <template v-slot:append>
+                <q-icon
+                  :name="showConfirmPassword ? 'visibility' : 'visibility_off'"
+                  @click="toggleConfirmPasswordVisibility"
+                />
+              </template>
+            </q-input>
           </div>
         </div>
+
         <div class="password-checker">
           <p>A senha deve ter:</p>
           <div>
@@ -65,7 +74,7 @@
           <div>
             <img :src="checkIcon" v-if="hasMinLength" class="icon" />
             <img :src="errorIcon" v-else class="icon" />
-            Mínimo 8 caracteres
+            Mínimo de 8 dígitos
           </div>
           <div>
             <img :src="checkIcon" v-if="passwordsMatch" class="icon" />
@@ -75,8 +84,8 @@
         </div>
         <q-checkbox
           v-model="acceptTerms"
-          label="Aceito os termos e condições"
-          color="red"
+          label="Li e concordo com as regras do Termo de Uso e Privacidade"
+          color="#4E4EDD"
         />
         <div class="button-group">
           <q-btn
@@ -207,8 +216,6 @@ const validateStep = async () => {
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
   padding: 0 20px;
   margin-top: 24px;
 }
@@ -217,25 +224,24 @@ const validateStep = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  margin-bottom: 40px;
 }
 
 .logo {
-  width: 260px;
+  width: 230px;
 }
 
 .container-content {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
-.title {
+.signup-title {
+  font-size: 20px;
   font-weight: 700;
-  font-size: 32px;
-  line-height: 40px;
-  text-align: center;
-  padding: 0px 10px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  margin: 32px 0 24px 0;
   color: #314b39;
 }
 
@@ -248,31 +254,41 @@ const validateStep = async () => {
 .inputs-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0px;
-  margin-bottom: 16px;
+  gap: 20px;
+  margin-bottom: 32px;
 }
 
-.password-input {
-  margin-bottom: 16px;
+.input-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #33373c;
 }
 
 .password-checker {
-  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  border-top: 1px solid #e0e5e7;
+  margin-bottom: 18px;
 }
 
 .password-checker p {
   font-weight: bold;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+  margin: 0;
 }
 
 .password-checker div {
   display: flex;
   align-items: center;
-  margin-top: 8px;
 }
 
 .icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   margin-right: 8px;
 }
 
@@ -280,57 +296,38 @@ const validateStep = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
   padding: 12px 24px;
   border-radius: 4px;
   background-color: #8ce95f;
   color: #314b39;
   font-weight: 700;
-  font-family: 'Inter';
   text-transform: capitalize;
   font-size: 18px;
+  margin-top: 38px;
 }
 
 .button-group {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
 }
 
-.back-button {
+/* Comentado temporariamente - aguardar decisão de design */
+/* .back-button {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 12px 24px;
   border-radius: 4px;
-  background-color: #ffffff; /* Fundo branco */
-  border: 2px solid #8ce95f; /* Borda verde */
+  background-color: #ffffff;
+  border: 2px solid #8ce95f;
   color: #314b39;
   font-weight: 700;
-  font-family: 'Inter';
   text-transform: capitalize;
   font-size: 18px;
 }
 
 .back-button:hover {
-  background-color: #f0f0f0; /* Fundo levemente cinza ao passar o mouse */
-}
-
-.view {
-  text-align: center;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-size: 16px;
-  color: #737578;
-  margin-top: 20px;
-}
-
-.sign-up-button {
-  text-decoration: none;
-  color: #314b39;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 700;
-  margin-left: 4px;
-}
+  background-color: #f0f0f0;
+} */
 </style>
