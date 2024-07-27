@@ -39,7 +39,7 @@ const handleButtonClick = () => {
   font-size: 16px;
   color: #737578;
   justify-content: center;
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 .button {

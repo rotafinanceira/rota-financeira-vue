@@ -80,6 +80,7 @@ watch(internalPassword, (newValue) => {
   color: #4140c2;
   font-weight: 500;
   font-size: 14px;
+  line-height: 17px;
 }
 
 .styled-input {
