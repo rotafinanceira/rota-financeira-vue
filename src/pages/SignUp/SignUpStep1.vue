@@ -158,7 +158,7 @@ const onClick = () => {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-bottom: 16px;
+  margin-bottom: 32px;
 }
 
 .error {
