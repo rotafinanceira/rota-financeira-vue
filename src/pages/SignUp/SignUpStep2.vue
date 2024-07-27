@@ -5,57 +5,120 @@
         <q-img :src="logo" class="logo" />
       </div>
       <StepperComponent :step="2" />
-      <div class="signup-title">Informações Pessoais</div>
+      <div class="signup-title">Criar conta</div>
       <div class="container-content">
         <div class="form">
-          <div class="inputs-wrapper">
-            <q-input
-              v-model="name"
-              label="Nome*"
-              outlined
-              :error="nameError !== ''"
-              :error-message="nameError"
-              class="input-field"
-            />
-            <q-input
-              v-model="lastName"
-              label="Sobrenome*"
-              outlined
-              :error="lastNameError !== ''"
-              :error-message="lastNameError"
-              class="input-field"
-            />
+          <div class="names-inputs-wrapper">
+            <div class="input-wrapper">
+              <label
+                :class="['input-label', { 'input-label-error': !!nameError }]"
+                for="input-name"
+              >
+                Nome*
+              </label>
+              <q-input
+                v-model="name"
+                id="input-name"
+                placeholder="Insira seu primeiro nome"
+                outlined
+                :error="nameError !== ''"
+                :error-message="nameError"
+                class="input-field"
+                hide-bottom-space
+              />
+            </div>
+
+            <div class="input-wrapper">
+              <label
+                :class="[
+                  'input-label',
+                  { 'input-label-error': !!lastNameError },
+                ]"
+                for="input-last-name"
+              >
+                Sobrenome*
+              </label>
+              <q-input
+                v-model="lastName"
+                id="input-last-name"
+                placeholder="Insira seu sobrenome"
+                outlined
+                :error="lastNameError !== ''"
+                :error-message="lastNameError"
+                class="input-field"
+                hide-bottom-space
+              />
+            </div>
           </div>
           <div class="birth-date-wrapper">
-            <q-input
-              v-model="day"
-              label="Dia*"
-              outlined
-              type="number"
-              maxlength="2"
-              :error="dayError !== ''"
-              :error-message="dayError"
-              class="input-field"
-            />
-            <q-select
-              v-model="month"
-              label="Mês*"
-              :options="months"
-              outlined
-              :error="monthError !== ''"
-              :error-message="monthError"
-              class="input-field"
-            />
-            <q-input
-              v-model="year"
-              label="Ano*"
-              outlined
-              type="number"
-              maxlength="4"
-              :error="yearError !== ''"
-              :error-message="yearError"
-              class="input-field"
-            />
+            <data class="birthdate-title">Data de nascimento</data>
+
+            <div class="day-month-inputs-wrapper">
+              <div class="input-wrapper w-50">
+                <label
+                  :class="['input-label', { 'input-label-error': !!dayError }]"
+                  for="input-day"
+                >
+                  Dia*
+                </label>
+                <q-input
+                  v-model="day"
+                  id="input-day"
+                  placeholder="DD"
+                  outlined
+                  type="number"
+                  maxlength="2"
+                  :error="dayError !== ''"
+                  :error-message="dayError"
+                  class="input-field"
+                  hide-bottom-space
+                />
+              </div>
+
+              <div class="input-wrapper w-50">
+                <label
+                  :class="[
+                    'input-label',
+                    { 'input-label-error': !!monthError },
+                  ]"
+                  for="input-month"
+                >
+                  Mês*
+                </label>
+                <q-select
+                  v-model="month"
+                  id="input-month"
+                  placeholder="MM"
+                  :options="months"
+                  outlined
+                  :error="monthError !== ''"
+                  :error-message="monthError"
+                  class="input-field"
+                  hide-bottom-space
+                />
+              </div>
+            </div>
+
+            <div class="input-wrapper">
+              <label
+                :class="['input-label', { 'input-label-error': !!yearError }]"
+                for="input-year"
+              >
+                Ano*
+              </label>
+              <q-input
+                v-model="year"
+                id="input-year"
+                placeholder="AAAA"
+                outlined
+                type="number"
+                maxlength="4"
+                :error="yearError !== ''"
+                :error-message="yearError"
+                class="input-field"
+                hide-bottom-space
+              />
+            </div>
           </div>
           <div class="actions">
             <q-btn
@@ -202,7 +265,6 @@ const navigateToNextStep = () => {
 .container {
   display: flex;
   flex-direction: column;
-  gap: 96px;
   padding: 0 20px;
   margin-top: 24px;
 }
@@ -211,7 +273,7 @@ const navigateToNextStep = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 .logo {
@@ -223,8 +285,13 @@ const navigateToNextStep = () => {
   font-weight: 700;
   line-height: 24px;
   letter-spacing: -0.02em;
-  margin-bottom: 24px;
-  text-align: center;
+  margin: 32px 0 24px 0;
+}
+
+.birthdate-title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 22px;
 }
 
 .container-content {
@@ -238,29 +305,50 @@ const navigateToNextStep = () => {
   width: 100%;
 }
 
-.inputs-wrapper {
+.names-inputs-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.input-wrapper.w-50 {
+  width: 50%;
+}
+
+.day-month-inputs-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.input-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #33373c;
+}
+
+.input-label-error {
+  color: #b00020;
 }
 
 .birth-date-wrapper {
   display: flex;
-  flex-direction: row;
-  gap: 16px;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 32px;
 }
 
 .styled-button {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
   padding: 12px 24px;
   border-radius: 4px;
   background-color: #8ce95f;
@@ -271,14 +359,15 @@ const navigateToNextStep = () => {
   font-size: 18px;
 }
 
-.back-button {
+/* Comentado temporariamente - aguardar decisão de design */
+/* .back-button {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 12px 24px;
   border-radius: 4px;
-  background-color: #ffffff; /* Fundo branco */
-  border: 2px solid #8ce95f; /* Borda verde */
+  background-color: #ffffff;
+  border: 2px solid #8ce95f;
   color: #314b39;
   font-weight: 700;
   font-family: 'Inter';
@@ -287,19 +376,8 @@ const navigateToNextStep = () => {
 }
 
 .back-button:hover {
-  background-color: #f0f0f0; /* Fundo levemente cinza ao passar o mouse */
-}
-
-.view {
-  text-align: center;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-size: 16px;
-  color: #737578;
-  justify-content: center;
-  margin-top: 8px;
-}
+  background-color: #f0f0f0;
+} */
 
 .sign-in-button {
   text-transform: capitalize;
