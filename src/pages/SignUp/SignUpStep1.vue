@@ -141,6 +141,7 @@ const onClick = () => {
   letter-spacing: -0.02em;
   margin-bottom: 24px;
   margin-top: 80px;
+  color: #314b39;
 }
 
 .container-content {

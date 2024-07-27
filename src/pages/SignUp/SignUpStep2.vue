@@ -286,6 +286,7 @@ const navigateToNextStep = () => {
   line-height: 24px;
   letter-spacing: -0.02em;
   margin: 32px 0 24px 0;
+  color: #314b39;
 }
 
 .birthdate-title {
@@ -354,7 +355,6 @@ const navigateToNextStep = () => {
   background-color: #8ce95f;
   color: #314b39;
   font-weight: 700;
-  font-family: 'Inter';
   text-transform: capitalize;
   font-size: 18px;
 }
@@ -370,7 +370,6 @@ const navigateToNextStep = () => {
   border: 2px solid #8ce95f;
   color: #314b39;
   font-weight: 700;
-  font-family: 'Inter';
   text-transform: capitalize;
   font-size: 18px;
 }
