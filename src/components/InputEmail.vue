@@ -14,6 +14,7 @@
       class="styled-input"
       no-border
       hide-bottom-space
+      @blur="alreadyRegistered"
     />
   </div>
 </template>
@@ -25,6 +26,7 @@ const props = defineProps({
   modelValue: String,
   errors: Object,
   label: String,
+  isRegisterStepOne: Boolean || undefined,
 });
 
 const emits = defineEmits(['update:modelValue']);
@@ -33,6 +35,36 @@ const internalEmail = ref(props.modelValue);
 watch(internalEmail, (newValue) => {
   emits('update:modelValue', newValue);
 });
+
+const alreadyRegistered = async () => {
+  if (props.isRegisterStepOne) {
+    // try {
+    //   const response = await httpClient.post('/login', {
+    //     email: email.value,
+    //     password: password.value,
+    //   });
+    //   if (response.status === 200) {
+    //     router.push({ path: '/success' });
+    //   }
+    // } catch (error) {
+    //   const statusCode = error.response?.status;
+    //   if (statusCode === 403) {
+    //     isOpen.value = true;
+    //     modalContent.value = 'E-mail e/ou senha incorretos';
+    //     modalDescription.value = 'Verifique os dados informados';
+    //   } else if (statusCode === 404) {
+    //     isOpen.value = true;
+    //     modalContent.value = 'E-mail não cadastrado';
+    //     modalDescription.value = 'Faça o cadastro no App';
+    //   } else {
+    //     isOpen.value = true;
+    //     modalContent.value = 'Ocorreu um erro ao tentar fazer login';
+    //     modalDescription.value = 'Tente novamente mais tarde';
+    //   }
+    // } finally {
+    // }
+  }
+};
 </script>
 
 <style scoped>

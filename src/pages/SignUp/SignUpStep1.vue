@@ -10,7 +10,12 @@
         <div class="form">
           <div class="inputs-wrapper">
             <div>
-              <InputEmail v-model="email" :errors="errors" label="E-mail*" />
+              <InputEmail
+                v-model="email"
+                :errors="errors"
+                label="E-mail*"
+                :is-register-step-one="true"
+              />
               <div class="error" v-if="errors.email">{{ errors.email }}</div>
             </div>
             <div>
