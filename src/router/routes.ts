@@ -9,19 +9,19 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'success',
         component: () => import('src/pages/LoginSuccess.vue'),
-      }, // Rota para a tela de sucesso
+      }, 
       {
         path: 'register-1',
         component: () => import('src/pages/SignUp/SignUpStep1.vue'),
-      }, // Rota para a tela de cadastro
+      },
       {
         path: 'register-2',
         component: () => import('src/pages/SignUp/SignUpStep2.vue'),
-      }, // Rota para a tela de informações pessoais
+      },
       {
         path: 'register-3',
         component: () => import('src/pages/SignUp/SignUpStep3.vue'),
-      }, // Rota para a tela de senha
+      },
       { path: 'test', component: () => import('src/pages/TestPage.vue') }, // Rota de teste
     ],
   },

@@ -117,18 +117,15 @@ import { AxiosError } from 'axios';
 import StepperComponent from '@/components/StepperComponent.vue';
 import SignInUpFooter from '@/components/SignInUpFooter.vue';
 
-// Store e Router
 const store = useRegisterStore();
 const router = useRouter();
 
-// Refs para senha e confirmação de senha
 const password = ref(store.password);
 const confirmPassword = ref(store.confirmPassword);
 const acceptTerms = ref(false);
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 
-// Computed properties para validação da senha
 const hasLowerCase = computed(() => /[a-z]/.test(password.value));
 const hasUpperCase = computed(() => /[A-Z]/.test(password.value));
 const hasNumber = computed(() => /[0-9]/.test(password.value));
@@ -147,17 +144,14 @@ const isPasswordValid = computed(() => {
 
 const passwordsMatch = computed(() => password.value === confirmPassword.value);
 
-// Função para alternar visibilidade da senha
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
 };
 
-// Função para alternar visibilidade da confirmação da senha
 const toggleConfirmPasswordVisibility = () => {
   showConfirmPassword.value = !showConfirmPassword.value;
 };
 
-// Função de validação do formulário
 const validateStep = async () => {
   if (!isPasswordValid.value) {
     alert('A senha não atende a todos os critérios.');

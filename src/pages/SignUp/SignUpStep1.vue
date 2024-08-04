@@ -62,8 +62,7 @@ import ModalGenerico from '@/components/ModalGenerico.vue';
 import StepperComponent from '@/components/StepperComponent.vue';
 import { useRegisterStore } from '@/store/registerStore';
 
-const store = useRegisterStore(); // Usar o store
-
+const store = useRegisterStore();
 const isLoading = ref(false);
 const isValidatingForm = ref(false);
 
@@ -72,8 +71,8 @@ const modalDescription = ref('');
 const isOpen = ref(false);
 const isValid = ref(true);
 
-const email = ref(store.email); // Inicializar com o valor do store
-const confirmEmail = ref(store.confirmEmail); // Inicializar com o valor do store
+const email = ref(store.email);
+const confirmEmail = ref(store.confirmEmail);
 const errors = ref({});
 
 const router = useRouter();
@@ -113,8 +112,8 @@ const onClick = () => {
   validateForm();
 
   if (isValid.value) {
-    store.setEmail(email.value); // Atualizar o store
-    store.setConfirmEmail(confirmEmail.value); // Atualizar o store
+    store.setEmail(email.value);
+    store.setConfirmEmail(confirmEmail.value);
     router.push('/register-2');
   }
 };

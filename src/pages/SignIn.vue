@@ -67,6 +67,12 @@ const errors = ref({});
 
 const router = useRouter();
 
+const resetModal = () => {
+  modalContent.value = '';
+  modalDescription.value = '';
+  isOpen.value = false;
+};
+
 const validateForm = () => {
   isValidatingForm.value = true;
   errors.value = {};
@@ -99,6 +105,7 @@ watch([email, password], () => {
 });
 
 const onClick = async () => {
+  resetModal(); 
   validateForm();
 
   if (!isValid.value) return;
@@ -132,6 +139,7 @@ const onClick = async () => {
   }
 };
 </script>
+
 
 <style scoped>
 .container {

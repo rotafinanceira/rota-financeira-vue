@@ -14,8 +14,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const handleLogout = () => {
-  // Aqui você pode adicionar qualquer lógica adicional de logout, como limpar tokens de autenticação, etc.
-  router.push({ path: '/' }); // Redirecionar para a página de login
+  router.push({ path: '/' }); 
 };
 </script>
 

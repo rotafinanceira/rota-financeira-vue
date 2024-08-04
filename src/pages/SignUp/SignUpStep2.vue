@@ -146,13 +146,13 @@ import StepperComponent from '@/components/StepperComponent.vue';
 import SignInUpFooter from '@/components/SignInUpFooter.vue';
 import { useRouter } from 'vue-router';
 
-const store = useRegisterStore(); // Usar o store
+const store = useRegisterStore(); 
 const router = useRouter();
-const name = ref(store.name); // Inicializar com o valor do store
-const lastName = ref(store.lastName); // Inicializar com o valor do store
-const day = ref(store.day); // Inicializar com o valor do store
-const month = ref(store.month); // Inicializar com o valor do store
-const year = ref(store.year); // Inicializar com o valor do store
+const name = ref(store.name);
+const lastName = ref(store.lastName);
+const day = ref(store.day);
+const month = ref(store.month);
+const year = ref(store.year);
 
 const nameError = ref('');
 const lastNameError = ref('');
@@ -247,11 +247,11 @@ const formValid = computed(() => {
 const goToNextStep = () => {
   validateAllInfo();
   if (formValid.value) {
-    store.setName(name.value); // Atualizar o store
-    store.setlastName(lastName.value); // Atualizar o store
-    store.setDay(day.value); // Atualizar o store
-    store.setMonth(month.value); // Atualizar o store
-    store.setYear(year.value); // Atualizar o store
+    store.setName(name.value);
+    store.setlastName(lastName.value);
+    store.setDay(day.value);
+    store.setMonth(month.value);
+    store.setYear(year.value);
     navigateToNextStep();
   }
 };
