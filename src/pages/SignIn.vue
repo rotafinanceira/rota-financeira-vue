@@ -23,7 +23,7 @@
           <ButtonComponent
             label="Entrar"
             :isLoading="isLoading"
-            @click="onClick"
+            @click="handleSubmit"
           />
           <SignInUpFooter
             message="Não possui cadastro?"
@@ -104,8 +104,8 @@ watch([email, password], () => {
   validateForm();
 });
 
-const onClick = async () => {
-  resetModal(); 
+const handleSubmit = async () => {
+  resetModal();
   validateForm();
 
   if (!isValid.value) return;
@@ -120,26 +120,28 @@ const onClick = async () => {
       router.push({ path: '/success' });
     }
   } catch (error) {
-    const statusCode = error.response?.status;
-    if (statusCode === 403) {
-      isOpen.value = true;
-      modalContent.value = 'E-mail e/ou senha incorretos';
-      modalDescription.value = 'Verifique os dados informados';
-    } else if (statusCode === 404) {
-      isOpen.value = true;
-      modalContent.value = 'E-mail não cadastrado';
-      modalDescription.value = 'Faça o cadastro no App';
-    } else {
-      isOpen.value = true;
-      modalContent.value = 'Ocorreu um erro ao tentar fazer login';
-      modalDescription.value = 'Tente novamente mais tarde';
-    }
+    handleApiError(error.response?.status);
   } finally {
     isLoading.value = false;
   }
 };
-</script>
 
+const handleApiError = (statusCode) => {
+  if (statusCode === 403) {
+    isOpen.value = true;
+    modalContent.value = 'E-mail e/ou senha incorretos';
+    modalDescription.value = 'Verifique os dados informados';
+  } else if (statusCode === 404) {
+    isOpen.value = true;
+    modalContent.value = 'E-mail não cadastrado';
+    modalDescription.value = 'Faça o cadastro no App';
+  } else {
+    isOpen.value = true;
+    modalContent.value = 'Ocorreu um erro ao tentar fazer login';
+    modalDescription.value = 'Tente novamente mais tarde';
+  }
+};
+</script>
 
 <style scoped>
 .container {
