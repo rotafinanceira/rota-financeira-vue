@@ -9,7 +9,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'success',
         component: () => import('src/pages/LoginSuccess.vue'),
-      }, 
+      },
       {
         path: 'register-1',
         component: () => import('src/pages/SignUp/SignUpStep1.vue'),
@@ -21,6 +21,10 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'register-3',
         component: () => import('src/pages/SignUp/SignUpStep3.vue'),
+      },
+      {
+        path: 'oil-maintenance',
+        component: () => import('src/pages/OilMaintenance.vue'),
       },
       { path: 'test', component: () => import('src/pages/TestPage.vue') }, // Rota de teste
     ],

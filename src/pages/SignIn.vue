@@ -31,6 +31,13 @@
             :path="'/register-1'"
           />
         </div>
+        <div>
+          <q-btn
+            color="primary"
+            label="Oil Maintenance"
+            @click="oilMaintenance"
+          ></q-btn>
+        </div>
       </div>
     </div>
     <ModalGenerico
@@ -140,6 +147,10 @@ const handleApiError = (statusCode) => {
     modalContent.value = 'Ocorreu um erro ao tentar fazer login';
     modalDescription.value = 'Tente novamente mais tarde';
   }
+};
+
+const oilMaintenance = () => {
+  router.push({ path: '/oil-maintenance' });
 };
 </script>
 
