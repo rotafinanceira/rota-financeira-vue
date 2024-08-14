@@ -22,7 +22,25 @@
             ></q-select>
           </div>
         </div>
-        <div class="card"></div>
+        <!-- Segundo card preenchido -->
+        <div class="card">
+          <div class="input-wrapper">
+            <label for="last-oil-change">Última troca</label>
+            <q-input id="last-oil-change" label="Data*" placeholder="Seleciona ou digita a data"></q-input>
+          </div>
+          <div class="input-wrapper">
+            <label for="mileage">Quilometragem*</label>
+            <q-input id="mileage" label="Ex: 86.540"></q-input>
+          </div>
+          <div class="input-wrapper">
+            <label for="brand">Marca*</label>
+            <q-select id="brand" label="Insira a marca do filtro instalado"></q-select>
+          </div>
+          <div class="input-wrapper">
+            <label for="model">Modelo*</label>
+            <q-select id="model" label="Insira o modelo do filtro instalado"></q-select>
+          </div>
+        </div>
       </div>
       <ButtonComponent
         label="Finalizar"
@@ -63,5 +81,9 @@ import HeaderBar from '@/components/HeaderBar.vue';
   background-color: white;
   border-radius: 8px;
   padding: 16px;
+}
+
+.input-wrapper {
+  margin-bottom: 16px;
 }
 </style>
