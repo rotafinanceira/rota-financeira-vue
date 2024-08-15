@@ -38,6 +38,20 @@
             @click="oilMaintenance"
           ></q-btn>
         </div>
+        <div>
+          <q-btn
+            color="primary"
+            label="Battery Maintenance"
+            @click="batteryMaintenance"
+          ></q-btn>
+        </div>
+        <div>
+          <q-btn
+            color="primary"
+            label="Fuel Filter Maintenance"
+            @click="fuelFilterMaintenance"
+          ></q-btn>
+        </div>
       </div>
     </div>
     <ModalGenerico
@@ -151,6 +165,12 @@ const handleApiError = (statusCode) => {
 
 const oilMaintenance = () => {
   router.push({ path: '/oil-maintenance' });
+};
+const batteryMaintenance = () => {
+  router.push({ path: '/battery-maintenance' });
+};
+const fuelFilterMaintenance = () => {
+  router.push({ path: '/fuel-filter-maintenance' });
 };
 </script>
 

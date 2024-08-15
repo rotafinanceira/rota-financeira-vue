@@ -24,7 +24,15 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'oil-maintenance',
-        component: () => import('src/pages/OilMaintenance.vue'),
+        component: () => import('@/pages/RegistrationMaintenance/OilMaintenance.vue'),
+      },
+      {
+        path: 'battery-maintenance',
+        component: () => import('@/pages/RegistrationMaintenance/BatteryMaintenance.vue'),
+      },
+      {
+        path: 'fuel-filter-maintenance',
+        component: () => import('@/pages/RegistrationMaintenance/FuelFilterMaintenance.vue'),
       },
       { path: 'test', component: () => import('src/pages/TestPage.vue') }, // Rota de teste
     ],
