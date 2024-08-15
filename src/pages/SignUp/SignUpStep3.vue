@@ -165,13 +165,13 @@ const validateStep = async () => {
   store.setPassword(password.value);
   store.setConfirmPassword(confirmPassword.value);
 
-  const day = Number(store.day);
-  const month = Number(store.month);
-  const year = Number(store.year);
+  // Garantir que os valores sejam números válidos ou definir um valor padrão
+  const day = isNaN(parseInt(store.day, 10)) ? 11 : parseInt(store.day, 10);
+  const month = isNaN(parseInt(store.month, 10)) ? 11 : parseInt(store.month, 10);
+  const year = isNaN(parseInt(store.year, 10)) ? 2000 : parseInt(store.year, 10);
 
-  const formattedDate = `${day < 10 ? '0' : ''}${day}/${
-    month < 10 ? '0' : ''
-  }${month}/${year}`;
+  // Formatar a data como YYYY-MM-DD
+  const formattedDate = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
 
   const payload = {
     name: store.name,
@@ -182,7 +182,7 @@ const validateStep = async () => {
   };
 
   try {
-    const response = await httpClient.post('/register', payload);
+    const response = await httpClient.post('/user', payload);
 
     if (response.status === 201) {
       alert('Cadastro realizado com sucesso!');
@@ -204,6 +204,7 @@ const validateStep = async () => {
     }
   }
 };
+
 </script>
 
 <style scoped>
