@@ -61,6 +61,7 @@ import SignInUpFooter from '@/components/SignInUpFooter.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import StepperComponent from '@/components/StepperComponent.vue';
 import { useRegisterStore } from '@/store/registerStore';
+import { httpClient } from '@/infra/http/httpClient';
 
 const store = useRegisterStore();
 const isLoading = ref(false);
@@ -118,7 +119,7 @@ const verifyEmail = async (email) => {
 };
 
 const handleApiError = (statusCode) => {
-  if (statusCode === 404) {
+  if (statusCode === 404 || statusCode === 400) {
     if (isValid.value) {
       store.setEmail(email.value);
       store.setConfirmEmail(confirmEmail.value);
