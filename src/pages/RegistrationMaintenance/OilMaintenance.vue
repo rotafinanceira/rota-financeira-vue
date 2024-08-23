@@ -8,20 +8,7 @@
     <div class="main-content">
       <div class="card-wrapper">
         <!-- Primeiro card: Seleção de veículo -->
-        <div class="card">
-          <div>
-            <span>Selecione o veículo</span>
-            <span>Escolha o carro para o qual deseja cadastrar a manutenção</span>
-          </div>
-          <div class="input-wrapper">
-            <label for="select-vehicle">Selecione seu carro*</label>
-            <q-select
-              id="select-vehicle"
-              label="Placa do seu veículo"
-              outlined
-            ></q-select>
-          </div>
-        </div>
+        <SelectVehicle />
 
         <!-- Segundo card: Manutenção -->
         <div class="card">
@@ -39,7 +26,10 @@
               @focus="showDatePicker = true"
             >
               <template v-slot:append>
-                <q-icon name="event" @click="showDatePicker = !showDatePicker" />
+                <q-icon
+                  name="event"
+                  @click="showDatePicker = !showDatePicker"
+                />
               </template>
             </q-input>
             <q-menu v-model="showDatePicker" fit>
@@ -49,11 +39,7 @@
 
           <div class="input-wrapper">
             <label for="mileage">Quilometragem*</label>
-            <q-input
-              id="mileage"
-              outlined
-              label="Ex: 86.540"
-            ></q-input>
+            <q-input id="mileage" outlined label="Ex: 86.540"></q-input>
           </div>
           <div class="input-wrapper">
             <label for="brand">Tipo*</label>
@@ -73,11 +59,7 @@
           </div>
           <div class="input-wrapper">
             <label for="oil-brand">Marca</label>
-            <q-select
-              id="oil-brand"
-              outlined
-              label="Ex: Castrol"
-            ></q-select>
+            <q-select id="oil-brand" outlined label="Ex: Castrol"></q-select>
           </div>
         </div>
       </div>
@@ -94,6 +76,7 @@
 import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
+import SelectVehicle from '@/components/SelectVehicle.vue';
 
 const date = ref('');
 const showDatePicker = ref(false);
