@@ -7,22 +7,7 @@
     />
     <div class="main-content">
       <div class="card-wrapper">
-        <div class="card">
-          <div class="text-wrapper">
-            <span class="title">Selecione o veículo</span>
-            <span class="subtitle">Escolha o carro para o qual deseja cadastrar a manutenção</span>
-          </div>
-          <div class="input-wrapper">
-            <label for="select-vehicle">Selecione seu carro*</label>
-            <q-select
-              id="select-vehicle"
-              label="Placa do seu veículo"
-              outlined
-            ></q-select>
-          </div>
-        </div>
-
-        <!-- Segundo card: Manutenção -->
+        <SelectVehicle />
         <div class="card">
           <div class="text-wrapper">
             <span class="title">Última troca</span>
@@ -52,22 +37,27 @@
             <q-input
               id="mileage"
               outlined
+              v-model="mileage"
               label="Ex: 86.540 km"
             ></q-input>
           </div>
+
           <div class="input-wrapper">
             <label for="brand">Marca</label>
-            <q-select
+            <q-input
               id="brand"
               outlined
+              v-model="brand"
               label="Ex: Authomix"
-            ></q-select>
+            ></q-input>
           </div>
+
           <div class="input-wrapper">
-            <label for="model">Modelo*</label> <!-- Mudança do id para model -->
-              <q-input
+            <label for="model">Modelo*</label>
+            <q-input
               id="model"
               outlined
+              v-model="model"
               label="Ex: Main-Filter"
             ></q-input>
           </div>
@@ -82,16 +72,18 @@
   </q-page>
 </template>
 
-
 <script setup>
 import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
+import SelectVehicle from '@/components/SelectVehicle.vue';
 
 const date = ref('');
 const showDatePicker = ref(false);
 const isLoading = ref(false);
-
+const mileage = ref(''); // Quilometragem
+const model = ref('');   // Modelo
+const brand = ref('');   // Marca
 
 function onDateSelect(value) {
   date.value = value;
@@ -99,7 +91,6 @@ function onDateSelect(value) {
 }
 
 function validateDate() {
-  // Pode adicionar uma validação adicional aqui, se necessário
   if (!/^\d{2}\/\d{2}\/\d{4}$/.test(date.value)) {
     console.log('Data inválida!');
   }

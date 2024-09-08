@@ -2,32 +2,32 @@
   <div class="card">
     <div class="wrapper-title">
       <h3 class="title">Selecione o veículo</h3>
-      <span class="subtitle"
-        >Escolha o carro para o qual deseja cadastrar a manutenção</span
-      >
+      <span class="subtitle">Escolha o carro para o qual deseja cadastrar a manutenção</span>
     </div>
     <div class="input-wrapper">
-      <label for="select-vehicle" class="select-vehicle-label"
-        >Selecione seu carro*</label
-      >
+      <label for="select-vehicle" class="select-vehicle-label">Selecione seu carro*</label>
       <q-select
         id="select-vehicle"
+        v-model="selectedVehicle"
         label="Placa do seu veículo"
         outlined
         :options="options"
         input-class="custom-padding"
       >
         <template v-slot:dropdown-icon>
-          <img :src="downArrow" alt="Down Arrow" /> </template
-      ></q-select>
+          <img :src="downArrow" alt="Down Arrow" />
+        </template>
+      </q-select>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import downArrow from '../assets/downarrow.svg';
 
 const options = ['NAM-3630', 'NAH-6708', 'ITV-8559', 'NET-2557', 'KDM-9934'];
+const selectedVehicle = ref(''); 
 </script>
 
 <style scoped>

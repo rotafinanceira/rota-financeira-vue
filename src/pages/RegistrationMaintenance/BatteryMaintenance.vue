@@ -7,22 +7,8 @@
     />
     <div class="main-content">
       <div class="card-wrapper">
-        <div class="card">
-          <div class="text-wrapper">
-            <span class="title">Selecione o veículo</span>
-            <span class="subtitle">Escolha o carro para o qual deseja cadastrar a manutenção</span>
-          </div>
-          <div class="input-wrapper">
-            <label for="select-vehicle">Selecione seu carro*</label>
-            <q-select
-              id="select-vehicle"
-              label="Placa do seu veículo"
-              outlined
-            ></q-select>
-          </div>
-        </div>
+        <SelectVehicle />
 
-        <!-- Segundo card: Manutenção -->
         <div class="card">
           <div class="text-wrapper">
             <span class="title">Cadastro de Bateria</span>
@@ -95,13 +81,12 @@
 import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
-
+import SelectVehicle from '@/components/SelectVehicle.vue';
 const date = ref('');
 const showDatePicker = ref(false);
 const isLoading = ref(false);
 const selectedAmperage = ref(null);
 
-// Opções para a amperagem
 const amperageOptions = [
   { label: '60Ah', value: '60Ah' },
   { label: '80Ah', value: '80Ah' },
@@ -114,7 +99,6 @@ function onDateSelect(value) {
 }
 
 function validateDate() {
-  // Pode adicionar uma validação adicional aqui, se necessário
   if (!/^\d{2}\/\d{2}\/\d{4}$/.test(date.value)) {
     console.log('Data inválida!');
   }

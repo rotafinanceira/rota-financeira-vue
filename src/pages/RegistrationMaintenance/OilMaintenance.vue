@@ -7,10 +7,7 @@
     />
     <div class="main-content">
       <div class="card-wrapper">
-        <!-- Primeiro card: Seleção de veículo -->
         <SelectVehicle />
-
-        <!-- Segundo card: Manutenção -->
         <div class="card">
           <div>
             <span>Manutenção*</span>
@@ -39,27 +36,40 @@
 
           <div class="input-wrapper">
             <label for="mileage">Quilometragem*</label>
-            <q-input id="mileage" outlined label="Ex: 86.540"></q-input>
+            <q-input
+              id="mileage"
+              outlined
+              v-model="mileage"
+              label="Ex: 86.540"
+            ></q-input>
           </div>
           <div class="input-wrapper">
-            <label for="brand">Tipo*</label>
+            <label for="oil-type">Tipo de Óleo*</label>
             <q-select
-              id="brand"
+              id="oil-type"
               outlined
-              label="Insira a marca do filtro instalado"
+              v-model="oilType"
+              :options="oilOptions"
+              label="Selecione o tipo de óleo"
             ></q-select>
           </div>
           <div class="input-wrapper">
             <label for="liters">Litros utilizados*</label>
-            <q-select
+            <q-input
               id="liters"
               outlined
+              v-model="liters"
               label="Insira o modelo do filtro instalado"
-            ></q-select>
+            ></q-input>
           </div>
           <div class="input-wrapper">
             <label for="oil-brand">Marca</label>
-            <q-select id="oil-brand" outlined label="Ex: Castrol"></q-select>
+            <q-input
+              id="oil-brand"
+              outlined
+              v-model="oilBrand"
+              label="Ex: Castrol"
+            ></q-input>
           </div>
         </div>
       </div>
@@ -81,6 +91,18 @@ import SelectVehicle from '@/components/SelectVehicle.vue';
 const date = ref('');
 const showDatePicker = ref(false);
 const isLoading = ref(false);
+const mileage = ref('');
+const oilType = ref('');
+const liters = ref('');
+const oilBrand = ref('');
+
+// Lista de opções para o tipo de óleo
+const oilOptions = [
+  { label: 'Sintético', value: 'sintetico' },
+  { label: 'Semi-Sintético', value: 'semi-sintetico' },
+  { label: 'Mineral', value: 'mineral' },
+  { label: 'Outro', value: 'outro' },
+];
 
 function onDateSelect(value) {
   date.value = value;
@@ -89,6 +111,7 @@ function onDateSelect(value) {
 
 function handleSubmit() {
   // Lógica para envio do formulário
+  console.log('Tipo de Óleo:', oilType.value);
 }
 </script>
 
