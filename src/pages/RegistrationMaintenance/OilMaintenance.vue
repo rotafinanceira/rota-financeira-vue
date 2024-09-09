@@ -41,6 +41,7 @@
               outlined
               v-model="mileage"
               label="Ex: 86.540"
+              type="number"
             ></q-input>
           </div>
           <div class="input-wrapper">
@@ -59,7 +60,8 @@
               id="liters"
               outlined
               v-model="liters"
-              label="Insira o modelo do filtro instalado"
+              label="Insira a quantidade de litros"
+              type="number"
             ></q-input>
           </div>
           <div class="input-wrapper">
@@ -82,37 +84,86 @@
   </q-page>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<script>
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
 import SelectVehicle from '@/components/SelectVehicle.vue';
+import { httpClient } from '@/infra/http/httpClient';
 
-const date = ref('');
-const showDatePicker = ref(false);
-const isLoading = ref(false);
-const mileage = ref('');
-const oilType = ref('');
-const liters = ref('');
-const oilBrand = ref('');
+export default {
+  name: 'OilChangePage',
+  components: {
+    ButtonComponent,
+    HeaderBar,
+    SelectVehicle,
+  },
+  data() {
+    return {
+      date: '',
+      showDatePicker: false,
+      isLoading: false,
+      mileage: '',
+      oilType: '',
+      liters: '',
+      oilBrand: '',
+      oilOptions: [
+        { label: 'Sintético', value: 'sintetico' },
+        { label: 'Semi-Sintético', value: 'semi-sintetico' },
+        { label: 'Mineral', value: 'mineral' },
+        { label: 'Outro', value: 'outro' },
+      ],
+    };
+  },
+  methods: {
+    onDateSelect(value) {
+      this.date = value;
+      this.showDatePicker = false;
+    },
+    handleSubmit() {
+      console.log('Botão Finalizar clicado.');
+      console.log('Data Selecionada:', this.date);
+      console.log('Quilometragem:', this.mileage);
+      console.log('Tipo de Óleo:', this.oilType);
+      console.log('Litros Utilizados:', this.liters);
+      console.log('Marca do Óleo:', this.oilBrand);
 
-// Lista de opções para o tipo de óleo
-const oilOptions = [
-  { label: 'Sintético', value: 'sintetico' },
-  { label: 'Semi-Sintético', value: 'semi-sintetico' },
-  { label: 'Mineral', value: 'mineral' },
-  { label: 'Outro', value: 'outro' },
-];
+      // Validação dos campos obrigatórios
+      if (!this.date || !this.mileage || !this.oilType || !this.liters) {
+        console.error('Por favor, preencha todos os campos obrigatórios.');
+        return;
+      }
 
-function onDateSelect(value) {
-  date.value = value;
-  showDatePicker.value = false;
-}
+      // Conversão dos campos para os formatos esperados pelo backend
+      const payload = {
+        date: this.date, // Certifique-se de que o formato está correto
+        mileage: parseFloat(this.mileage), // Convertido para número
+        oilType: this.oilType,
+        liters: parseFloat(this.liters), // Convertido para número
+        oilBrand: this.oilBrand,
+        car_id: this.carId, // Adicione o car_id se necessário
+      };
 
-function handleSubmit() {
-  // Lógica para envio do formulário
-  console.log('Tipo de Óleo:', oilType.value);
-}
+      // Ativa o estado de carregamento
+      this.isLoading = true;
+
+      // Envia os dados ao backend
+      httpClient
+        .post('/manutencao/troca-oleo', payload) // Atualize a rota conforme sua API
+        .then((response) => {
+          console.log('Dados enviados com sucesso:', response.data);
+          // Adicione a lógica de sucesso, como navegação ou exibição de mensagens
+        })
+        .catch((error) => {
+          console.error('Erro ao enviar os dados:', error);
+          // Adicione lógica de tratamento de erros
+        })
+        .finally(() => {
+          // Desativa o estado de carregamento
+          this.isLoading = false;
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
