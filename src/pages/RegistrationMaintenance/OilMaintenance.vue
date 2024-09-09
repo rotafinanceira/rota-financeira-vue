@@ -9,17 +9,20 @@
       <div class="card-wrapper">
         <SelectVehicle @vehicle-selected="setCarId" />
         <div class="card">
-          <div>
-            <span>Manutenção*</span>
+          <div class="title-wrapper">
+            <span class="title">Manutenção*</span>
+            <div @click="showHelpModal">
+              <img :src="helpIcon" alt="" />
+            </div>
           </div>
           <div class="input-wrapper">
-            <label for="last-oil-change">Última troca</label>
+            <label for="last-oil-change">Data*</label>
             <q-input
               id="last-oil-change"
               outlined
               v-model="date"
               mask="##/##/####"
-              placeholder="Seleciona ou digita a data"
+              label="Seleciona ou digita a data"
               @focus="showDatePicker = true"
             >
               <template v-slot:append>
@@ -36,33 +39,39 @@
 
           <div class="input-wrapper">
             <label for="mileage">Quilometragem*</label>
-            <q-input
-              id="mileage"
-              outlined
-              v-model="mileage"
-              label="Ex: 86.540"
-              type="number"
-            ></q-input>
+            <div class="definitions-wrapper">
+              <q-input
+                id="mileage"
+                outlined
+                v-model="mileage"
+                label="Ex: 86.540"
+                type="number"
+              ></q-input>
+              <span>Km</span>
+            </div>
           </div>
           <div class="input-wrapper">
-            <label for="oil-type">Tipo de Óleo*</label>
+            <label for="oil-type">Tipo*</label>
             <q-select
               id="oil-type"
               outlined
               v-model="oilType"
               :options="oilOptions"
-              label="Selecione o tipo de óleo"
+              label="Escolha o tipo de óleo"
             ></q-select>
           </div>
           <div class="input-wrapper">
             <label for="liters">Litros utilizados*</label>
-            <q-input
-              id="liters"
-              outlined
-              v-model="liters"
-              label="Insira a quantidade de litros"
-              type="number"
-            ></q-input>
+            <div class="definitions-wrapper">
+              <q-input
+                id="liters"
+                outlined
+                v-model="liters"
+                label="Ex: 8"
+                type="number"
+              ></q-input>
+              <span id="litros">L</span>
+            </div>
           </div>
           <div class="input-wrapper">
             <label for="oil-brand">Marca</label>
@@ -81,6 +90,12 @@
         @click="handleSubmit"
       />
     </div>
+    <ModalGenerico
+      :title="modalContent"
+      :open="isOpen"
+      :description="modalDescription"
+      :text-button="'Fechar'"
+    />
   </q-page>
 </template>
 
@@ -89,7 +104,9 @@ import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
 import SelectVehicle from '@/components/SelectVehicle.vue';
+import ModalGenerico from '@/components/ModalGenerico.vue';
 import { httpClient } from '@/infra/http/httpClient';
+import helpIcon from '@/assets/helpIcon.svg';
 
 // Estado reativo e referências
 const showDatePicker = ref(false);
@@ -100,6 +117,9 @@ const oilType = ref('');
 const liters = ref('');
 const oilBrand = ref('');
 const carId = ref(null);
+const modalContent = ref('');
+const modalDescription = ref('');
+const isOpen = ref(false);
 
 const oilOptions = [
   { label: 'Sintético', value: 'sintetico' },
@@ -109,6 +129,15 @@ const oilOptions = [
 ];
 
 // Funções
+const showHelpModal = () => {
+  isOpen.value = true;
+  modalContent.value = 'Quando fazer a manutenção?';
+  modalDescription.value = `A recomendação é fazer esse tipo de manunteção a cada 10.000km rodados.
+  Fique atento a vibrações no volante, desgaste irregular dos pneus e puxões do veículo para um lado.
+  Troque seus pneus se tiverem mais de 5 anos, mesmo que pareçam bons. O material envelhece e pode não ser seguro.
+  Troque após rodar entre 40.000 e 60.000 km. Pneus muito usados perdem eficiência.`;
+};
+
 const onDateSelect = (value) => {
   date.value = value;
   showDatePicker.value = false;
@@ -156,7 +185,6 @@ const handleSubmit = () => {
 };
 </script>
 
-
 <style scoped>
 .main-content {
   display: flex;
@@ -178,13 +206,50 @@ const handleSubmit = () => {
   background-color: white;
   border-radius: 8px;
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .input-wrapper {
-  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #33373c;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
 }
 
 .q-input__inner {
   cursor: pointer;
+}
+
+.title {
+  color: #0c0d0f;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19px;
+}
+
+.definitions-wrapper {
+  position: relative;
+}
+
+.definitions-wrapper span {
+  position: absolute;
+  right: 12px;
+  top: 18px;
+  font-size: 14px;
+  color: #9ba7ad;
+}
+
+#litros {
+  right: 18px;
+}
+
+.title-wrapper {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
