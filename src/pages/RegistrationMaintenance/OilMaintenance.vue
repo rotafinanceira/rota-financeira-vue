@@ -7,7 +7,7 @@
     />
     <div class="main-content">
       <div class="card-wrapper">
-        <SelectVehicle />
+        <SelectVehicle @vehicle-selected="setCarId" />
         <div class="card">
           <div>
             <span>Manutenção*</span>
@@ -84,87 +84,78 @@
   </q-page>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
 import SelectVehicle from '@/components/SelectVehicle.vue';
 import { httpClient } from '@/infra/http/httpClient';
 
-export default {
-  name: 'OilChangePage',
-  components: {
-    ButtonComponent,
-    HeaderBar,
-    SelectVehicle,
-  },
-  data() {
-    return {
-      date: '',
-      showDatePicker: false,
-      isLoading: false,
-      mileage: '',
-      oilType: '',
-      liters: '',
-      oilBrand: '',
-      oilOptions: [
-        { label: 'Sintético', value: 'sintetico' },
-        { label: 'Semi-Sintético', value: 'semi-sintetico' },
-        { label: 'Mineral', value: 'mineral' },
-        { label: 'Outro', value: 'outro' },
-      ],
-    };
-  },
-  methods: {
-    onDateSelect(value) {
-      this.date = value;
-      this.showDatePicker = false;
-    },
-    handleSubmit() {
-      console.log('Botão Finalizar clicado.');
-      console.log('Data Selecionada:', this.date);
-      console.log('Quilometragem:', this.mileage);
-      console.log('Tipo de Óleo:', this.oilType);
-      console.log('Litros Utilizados:', this.liters);
-      console.log('Marca do Óleo:', this.oilBrand);
+// Estado reativo e referências
+const showDatePicker = ref(false);
+const isLoading = ref(false);
+const date = ref('');
+const mileage = ref('');
+const oilType = ref('');
+const liters = ref('');
+const oilBrand = ref('');
+const carId = ref(null);
 
-      // Validação dos campos obrigatórios
-      if (!this.date || !this.mileage || !this.oilType || !this.liters) {
-        console.error('Por favor, preencha todos os campos obrigatórios.');
-        return;
-      }
+const oilOptions = [
+  { label: 'Sintético', value: 'sintetico' },
+  { label: 'Semi-Sintético', value: 'semi-sintetico' },
+  { label: 'Mineral', value: 'mineral' },
+  { label: 'Outro', value: 'outro' },
+];
 
-      // Conversão dos campos para os formatos esperados pelo backend
-      const payload = {
-        date: this.date, // Certifique-se de que o formato está correto
-        mileage: parseFloat(this.mileage), // Convertido para número
-        oilType: this.oilType,
-        liters: parseFloat(this.liters), // Convertido para número
-        oilBrand: this.oilBrand,
-        car_id: this.carId, // Adicione o car_id se necessário
-      };
+// Funções
+const onDateSelect = (value) => {
+  date.value = value;
+  showDatePicker.value = false;
+};
 
-      // Ativa o estado de carregamento
-      this.isLoading = true;
+const setCarId = (selectedCarId) => {
+  carId.value = selectedCarId;
+};
 
-      // Envia os dados ao backend
-      httpClient
-        .post('/manutencao/troca-oleo', payload) // Atualize a rota conforme sua API
-        .then((response) => {
-          console.log('Dados enviados com sucesso:', response.data);
-          // Adicione a lógica de sucesso, como navegação ou exibição de mensagens
-        })
-        .catch((error) => {
-          console.error('Erro ao enviar os dados:', error);
-          // Adicione lógica de tratamento de erros
-        })
-        .finally(() => {
-          // Desativa o estado de carregamento
-          this.isLoading = false;
-        });
-    },
-  },
+const handleSubmit = () => {
+  isLoading.value = true;
+
+  // Definindo o payload com os campos conforme o Swagger
+  const payload = {
+    car_id: carId.value, // ID do carro
+    last_maintenance_date: date.value, // Data da última manutenção
+    oil_brand: oilBrand.value, // Marca do óleo
+    last_maintenance_km: parseInt(mileage.value, 10), // Quilometragem da última manutenção (convertendo para número)
+    oil_type: oilType.value, // Tipo de óleo
+    oil_quantity_lt: parseFloat(liters.value), // Quantidade de óleo em litros (convertendo para número)
+  };
+
+  // Enviando a requisição com o payload correto
+  httpClient
+    .post('/maintenance/oil', payload)
+    .then((response) => {
+      console.log('Dados enviados com sucesso:', response.data);
+
+      // Redirecionar para outra página
+      this.$router.push('/');
+
+      // Limpar os campos após o envio
+      date.value = '';
+      mileage.value = '';
+      oilType.value = '';
+      liters.value = '';
+      oilBrand.value = '';
+    })
+    .catch((error) => {
+      console.error('Erro ao enviar os dados:', error);
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
 };
 </script>
+
 
 <style scoped>
 .main-content {
