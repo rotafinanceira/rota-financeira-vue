@@ -13,6 +13,9 @@
           <div class="text-wrapper">
             <span class="title">Cadastro de Bateria</span>
             <span class="subtitle">Insira os dados da sua última troca de bateria</span>
+            <div @click="showHelpModal">
+              <img :src="helpIcon" alt="Ícone de ajuda" />
+            </div>
           </div>
           <div class="input-wrapper">
             <label for="last-oil-change">Última troca</label>
@@ -74,6 +77,12 @@
         @click="handleSubmit"
       />
     </div>
+    <ModalGenerico
+      :title="modalContent"
+      :open="isOpen"
+      :description="modalDescription"
+      :text-button="'Fechar'"
+    />
   </q-page>
 </template>
 
@@ -82,16 +91,29 @@ import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
 import SelectVehicle from '@/components/SelectVehicle.vue';
-const date = ref('');
+import ModalGenerico from '@/components/ModalGenerico.vue';
+import helpIcon from '@/assets/helpIcon.svg';
+
+// Estado reativo e referências
 const showDatePicker = ref(false);
 const isLoading = ref(false);
+const date = ref('');
 const selectedAmperage = ref(null);
+const modalContent = ref('');
+const modalDescription = ref('');
+const isOpen = ref(false);
 
 const amperageOptions = [
   { label: '60Ah', value: '60Ah' },
   { label: '80Ah', value: '80Ah' },
   { label: '120Ah', value: '120Ah' }
 ];
+
+const showHelpModal = () => {
+  isOpen.value = true;
+  modalContent.value = 'Quando trocar a bateria?';
+  modalDescription.value = 'A troca da bateria deve ser feita a cada 3 a 5 anos, dependendo do tipo e uso. Fique atento a sinais como dificuldade para dar partida no veículo, luzes do painel fracas ou carregamento irregular.';
+};
 
 function onDateSelect(value) {
   date.value = value;

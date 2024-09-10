@@ -11,6 +11,9 @@
         <div class="card">
           <div class="text-wrapper">
             <span class="title">Última troca</span>
+            <div @click="openHelpModal">
+              <img :src="helpIcon" alt="Ícone de ajuda" />
+            </div>
           </div>
           <div class="input-wrapper">
             <label for="last-oil-change">Data*</label>
@@ -68,7 +71,17 @@
         :isLoading="isLoading"
         @click="handleSubmit"
       />
+      <div v-if="invalidDate" class="error-message">
+        Data inválida! Por favor, insira uma data no formato correto (DD/MM/YYYY).
+      </div>
     </div>
+    <ModalGenerico
+      :title="modalContent"
+      :open="isOpen"
+      :description="modalDescription"
+      :text-button="'Fechar'"
+      @close="isOpen = false"
+    />
   </q-page>
 </template>
 
@@ -77,6 +90,8 @@ import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
 import SelectVehicle from '@/components/SelectVehicle.vue';
+import helpIcon from '@/assets/helpIcon.svg';
+import ModalGenerico from '@/components/ModalGenerico.vue';
 
 const date = ref('');
 const showDatePicker = ref(false);
@@ -84,20 +99,27 @@ const isLoading = ref(false);
 const mileage = ref(''); // Quilometragem
 const model = ref('');   // Modelo
 const brand = ref('');   // Marca
+const invalidDate = ref(false);
+const modalContent = ref('Ajuda');
+const modalDescription = ref('Este formulário é usado para registrar as informações sobre a troca de combustíveis do veículo. Preencha todos os campos obrigatórios.');
+const isOpen = ref(false);
 
 function onDateSelect(value) {
   date.value = value;
   showDatePicker.value = false;
+  validateDate(); // Validate the date when it's selected
 }
 
 function validateDate() {
-  if (!/^\d{2}\/\d{2}\/\d{4}$/.test(date.value)) {
-    console.log('Data inválida!');
-  }
+  invalidDate.value = !/^\d{2}\/\d{2}\/\d{4}$/.test(date.value);
 }
 
 function handleSubmit() {
   // Lógica para envio do formulário
+}
+
+function openHelpModal() {
+  isOpen.value = true; // Abre o modal genérico
 }
 </script>
 
@@ -133,6 +155,8 @@ function handleSubmit() {
 }
 
 .text-wrapper {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 16px;
 }
 
