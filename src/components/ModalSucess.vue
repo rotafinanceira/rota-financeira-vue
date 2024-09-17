@@ -2,20 +2,18 @@
   <q-dialog v-model="isOpen" persistent>
     <div class="modal-wrapper">
       <div class="modal-container">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div class="modal-title">
-              {{ title }}
-            </div>
-            <q-btn
-              class="modal-close-button"
-              flat
-              icon="close"
-              @click="closeModal"
-            />
-          </div>
-          <div class="modal-description" v-html="description"></div>
+        <div class="modal-image">
+          <q-img :src="sucessIcon" />
         </div>
+        <div class="modal-content">
+          <div class="modal-title">
+            {{ title }}
+          </div>
+          <div class="modal-description">{{ description }}</div>
+        </div>
+        <q-btn class="modal-button" @click="closeModal">
+          <span>{{ textButton }}</span>
+        </q-btn>
       </div>
     </div>
   </q-dialog>
@@ -23,6 +21,7 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+import sucessIcon from '../assets/sucessIcon.svg';
 
 const props = defineProps({
   title: String,
@@ -35,7 +34,6 @@ const isOpen = ref(props.open);
 const title = ref(props.title);
 const description = ref(props.description);
 const textButton = ref(props.textButton);
-const emit = defineEmits(['close']);
 
 watch(
   () => props.open,
@@ -67,7 +65,6 @@ watch(
 
 const closeModal = () => {
   isOpen.value = false;
-  emit('close');
 };
 </script>
 
@@ -87,17 +84,19 @@ const closeModal = () => {
   gap: 32px;
 }
 
+.modal-image {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  width: 44px;
+  height: 44px;
+}
+
 .modal-content {
   display: flex;
   flex-direction: column;
   gap: 12px;
   text-align: center;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .modal-title {
@@ -112,10 +111,6 @@ const closeModal = () => {
   font-size: 16px;
   line-height: 24px;
   color: #485159;
-}
-
-.modal-close-button {
-  color: #0c0d0f;
 }
 
 .modal-button {

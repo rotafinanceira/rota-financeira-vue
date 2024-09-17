@@ -12,7 +12,7 @@
           <div class="title-wrapper">
             <span class="title">Manutenção*</span>
             <div @click="showHelpModal">
-              <img :src="helpIcon" alt="" />
+              <img :src="helpIcon" alt="Help Icon" />
             </div>
           </div>
           <div class="input-wrapper">
@@ -94,6 +94,13 @@
       :title="modalContent"
       :open="isOpen"
       :description="modalDescription"
+      @close="isOpen = false"
+    />
+    <ModalPositive
+      :title="successTitle"
+      :open="isPositiveOpen"
+      :description="successDescription"
+      @close="isPositiveOpen = false"
       :text-button="'Fechar'"
     />
   </q-page>
@@ -105,7 +112,7 @@ import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
 import SelectVehicle from '@/components/SelectVehicle.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
-import { httpClient } from '@/infra/http/httpClient';
+import ModalPositive from '@/components/ModalSucess.vue';
 import helpIcon from '@/assets/helpIcon.svg';
 
 // Estado reativo e referências
@@ -121,6 +128,12 @@ const modalContent = ref('');
 const modalDescription = ref('');
 const isOpen = ref(false);
 
+// Estado do modal positivo
+const isPositiveOpen = ref(false);
+const successTitle = ref('');
+const successDescription = ref('');
+
+// Opções de óleo
 const oilOptions = [
   { label: 'Sintético', value: 'sintetico' },
   { label: 'Semi-Sintético', value: 'semi-sintetico' },
@@ -131,11 +144,16 @@ const oilOptions = [
 // Funções
 const showHelpModal = () => {
   isOpen.value = true;
-  modalContent.value = 'Quando fazer a manutenção?';
-  modalDescription.value = `A recomendação é fazer esse tipo de manunteção a cada 10.000km rodados.
-  Fique atento a vibrações no volante, desgaste irregular dos pneus e puxões do veículo para um lado.
-  Troque seus pneus se tiverem mais de 5 anos, mesmo que pareçam bons. O material envelhece e pode não ser seguro.
-  Troque após rodar entre 40.000 e 60.000 km. Pneus muito usados perdem eficiência.`;
+  modalContent.value = 'Quando devo fazer a troca?';
+  modalDescription.value = `
+    <ul>
+      <li>O tempo recomendado para troca de óleo é de 6 a 12 meses.</li>
+      <li>Troque de óleo a cada 10 mil quilômetros aproximadamente.</li>
+      <li>O uso severo do veículo pode encurtar o intervalo de troca de óleo.</li>
+      <li>Utilize o tipo de óleo e quantidade correta do modelo do seu veículo.</li>
+      <li>Jamais misture óleos de viscosidades diferentes.</li>
+    </ul>
+  `;
 };
 
 const onDateSelect = (value) => {
@@ -150,38 +168,20 @@ const setCarId = (selectedCarId) => {
 const handleSubmit = () => {
   isLoading.value = true;
 
-  // Definindo o payload com os campos conforme o Swagger
-  const payload = {
-    car_id: carId.value, // ID do carro
-    last_maintenance_date: date.value, // Data da última manutenção
-    oil_brand: oilBrand.value, // Marca do óleo
-    last_maintenance_km: parseInt(mileage.value, 10), // Quilometragem da última manutenção (convertendo para número)
-    oil_type: oilType.value, // Tipo de óleo
-    oil_quantity_lt: parseFloat(liters.value), // Quantidade de óleo em litros (convertendo para número)
-  };
+  // Simular sucesso de envio
+  setTimeout(() => {
+    isLoading.value = false;
+    successTitle.value = 'Cadastro concluído!';
+    successDescription.value = 'Informaremos você sobre a próxima troca.';
+    isPositiveOpen.value = true;
 
-  // Enviando a requisição com o payload correto
-  httpClient
-    .post('/maintenance/oil', payload)
-    .then((response) => {
-      console.log('Dados enviados com sucesso:', response.data);
-
-      // Redirecionar para outra página
-      this.$router.push('/');
-
-      // Limpar os campos após o envio
-      date.value = '';
-      mileage.value = '';
-      oilType.value = '';
-      liters.value = '';
-      oilBrand.value = '';
-    })
-    .catch((error) => {
-      console.error('Erro ao enviar os dados:', error);
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
+    // Limpar os campos após o envio
+    date.value = '';
+    mileage.value = '';
+    oilType.value = '';
+    liters.value = '';
+    oilBrand.value = '';
+  }, 1000); // Simula uma resposta de sucesso após 1 segundo
 };
 </script>
 
