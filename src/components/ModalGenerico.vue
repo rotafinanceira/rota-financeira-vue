@@ -32,12 +32,8 @@ const props = defineProps({
 
 const emit = defineEmits(['close']);
 
-// Reatividade dos estados internos do modal
 const isOpen = ref(props.open);
-const title = ref(props.title);
-const description = ref(props.description);
 
-// Observar a prop `open` e sincronizar com `isOpen`
 watch(
   () => props.open,
   (newVal) => {
@@ -45,23 +41,6 @@ watch(
   }
 );
 
-// Observar a prop `title` e sincronizar
-watch(
-  () => props.title,
-  (newVal) => {
-    title.value = newVal;
-  }
-);
-
-// Observar a prop `description` e sincronizar
-watch(
-  () => props.description,
-  (newVal) => {
-    description.value = newVal;
-  }
-);
-
-// Fechar o modal e emitir evento `close`
 const closeModal = () => {
   isOpen.value = false;
   emit('close');
@@ -70,8 +49,8 @@ const closeModal = () => {
 
 <style scoped>
 .modal-wrapper {
-  width: 400px; /* Aumentar o tamanho do modal */
-  max-width: 100%; /* Garantir que ele não ultrapasse a tela */
+  width: 400px;
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,20 +60,19 @@ const closeModal = () => {
   overflow: hidden;
 }
 
-
 .modal-container {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  width: 100%; /* Ajusta para ocupar toda a largura disponível */
-
+  width: 100%;
 }
+
 .modal-description ul li {
-  margin-bottom: 24px; /* Espaçamento entre cada <li> */
+  margin-bottom: 24px;
 }
 
 .modal-description ul li:last-child {
-  margin-bottom: 0; /* Remove o espaçamento do último <li> */
+  margin-bottom: 0;
 }
 
 .modal-content {
@@ -116,11 +94,10 @@ const closeModal = () => {
   color: var(--Texto-Texto-Primrio, #0C0D0F);
   font-family: var(--Tipo-Familia-Button, Inter);
   line-height: 120%;
-  white-space: nowrap; /* Impede que o título seja quebrado em várias linhas */
-  overflow: hidden;    /* Evita que o conteúdo ultrapasse a largura */
-  text-overflow: ellipsis; /* Adiciona "..." se o texto for muito longo */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
 
 .modal-description {
   font-weight: 400;
@@ -129,20 +106,8 @@ const closeModal = () => {
   color: var(--Texto-Corpo, #5B6871);
   width: 320px;
   text-align: left;
-  height: auto;
-  width: 100%; /* Ajusta para ocupar toda a largura disponível */
-  box-sizing: border-box; /* Garantir que padding seja incluído no cálculo de largura */
-
-
-}
-.modal-description ul + ul {
-  margin-top: 24px; /* Espaçamento entre <ul> consecutivos */
-}
-
-.modal-description ul {
-  margin: 0;
-  padding: 0;
-  list-style: none; /* Remover padding/margens padrões para garantir o espaçamento personalizado */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .modal-close-button {
@@ -152,8 +117,5 @@ const closeModal = () => {
   justify-content: flex-end;
   align-items: flex-start;
   gap: 4px;
-
 }
-
-
 </style>
