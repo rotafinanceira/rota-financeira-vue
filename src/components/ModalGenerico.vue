@@ -28,15 +28,16 @@ const props = defineProps({
   title: String,
   open: Boolean,
   description: String,
-  textButton: String,
 });
 
+const emit = defineEmits(['close']);
+
+// Reatividade dos estados internos do modal
 const isOpen = ref(props.open);
 const title = ref(props.title);
 const description = ref(props.description);
-const textButton = ref(props.textButton);
-const emit = defineEmits(['close']);
 
+// Observar a prop `open` e sincronizar com `isOpen`
 watch(
   () => props.open,
   (newVal) => {
@@ -44,6 +45,7 @@ watch(
   }
 );
 
+// Observar a prop `title` e sincronizar
 watch(
   () => props.title,
   (newVal) => {
@@ -51,6 +53,7 @@ watch(
   }
 );
 
+// Observar a prop `description` e sincronizar
 watch(
   () => props.description,
   (newVal) => {
@@ -58,13 +61,7 @@ watch(
   }
 );
 
-watch(
-  () => props.textButton,
-  (newVal) => {
-    textButton.value = newVal;
-  }
-);
-
+// Fechar o modal e emitir evento `close`
 const closeModal = () => {
   isOpen.value = false;
   emit('close');
@@ -73,24 +70,37 @@ const closeModal = () => {
 
 <style scoped>
 .modal-wrapper {
+  width: 400px; /* Aumentar o tamanho do modal */
+  max-width: 100%; /* Garantir que ele não ultrapasse a tela */
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: white;
   border-radius: 10px;
   padding: 32px;
+  overflow: hidden;
 }
+
 
 .modal-container {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 16px;
+  width: 100%; /* Ajusta para ocupar toda a largura disponível */
+
+}
+.modal-description ul li {
+  margin-bottom: 24px; /* Espaçamento entre cada <li> */
+}
+
+.modal-description ul li:last-child {
+  margin-bottom: 0; /* Remove o espaçamento do último <li> */
 }
 
 .modal-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   text-align: center;
 }
 
@@ -103,30 +113,47 @@ const closeModal = () => {
 .modal-title {
   font-weight: 600;
   font-size: 18px;
-  line-height: 22px;
-  color: #0c0d0f;
+  color: var(--Texto-Texto-Primrio, #0C0D0F);
+  font-family: var(--Tipo-Familia-Button, Inter);
+  line-height: 120%;
+  white-space: nowrap; /* Impede que o título seja quebrado em várias linhas */
+  overflow: hidden;    /* Evita que o conteúdo ultrapasse a largura */
+  text-overflow: ellipsis; /* Adiciona "..." se o texto for muito longo */
 }
+
 
 .modal-description {
   font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  color: #485159;
+  font-size: 14px;
+  line-height: 150%;
+  color: var(--Texto-Corpo, #5B6871);
+  width: 320px;
+  text-align: left;
+  height: auto;
+  width: 100%; /* Ajusta para ocupar toda a largura disponível */
+  box-sizing: border-box; /* Garantir que padding seja incluído no cálculo de largura */
+
+
+}
+.modal-description ul + ul {
+  margin-top: 24px; /* Espaçamento entre <ul> consecutivos */
+}
+
+.modal-description ul {
+  margin: 0;
+  padding: 0;
+  list-style: none; /* Remover padding/margens padrões para garantir o espaçamento personalizado */
 }
 
 .modal-close-button {
-  color: #0c0d0f;
+  display: flex;
+  width: 20px;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 4px;
+
 }
 
-.modal-button {
-  border-radius: 4px;
-  background-color: #0c0d0f;
-  color: white;
-  padding: 13px 0;
-  min-width: 256px;
-  text-transform: none;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 22px;
-}
+
 </style>
