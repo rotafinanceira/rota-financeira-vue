@@ -2,7 +2,7 @@
   <q-page>
     <HeaderBar
       title="Filtro de Combustiível"
-      subtitle="Filtro de Combustiível"
+      subtitle="Cadastro de Manutenção"
       :path="'/'"
     />
     <div class="main-content">
@@ -89,6 +89,13 @@
       :text-button="'Fechar'"
       @close="isOpen = false"
     />
+    <ModalPositive
+      :title="successTitle"
+      :open="isPositiveOpen"
+      :description="successDescription"
+      @close="isPositiveOpen = false"
+      :text-button="'Fechar'"
+    />
   </q-page>
 </template>
 
@@ -110,6 +117,12 @@ const invalidDate = ref(false);
 const modalContent = ref('Ajuda');
 const modalDescription = ref('Este formulário é usado para registrar as informações sobre a troca de combustíveis do veículo. Preencha todos os campos obrigatórios.');
 const isOpen = ref(false);
+const successTitle = ref('');
+const successDescription = ref('');
+const isPositiveOpen = ref(false);
+
+import ModalPositive from '@/components/ModalSucess.vue';
+
 
 function onDateSelect(value) {
   date.value = value;
@@ -122,8 +135,30 @@ function validateDate() {
 }
 
 function handleSubmit() {
-  // Lógica para envio do formulário
-};
+  // Validar campos obrigatórios
+  // if (!date.value || !mileage.value || !brand.value || !model.value) {
+  //   modalContent.value = 'Erro';
+  //   modalDescription.value = 'Por favor, preencha todos os campos obrigatórios.';
+  //   isOpen.value = true;
+  //   return;
+  // }
+
+  // Simular envio de dados
+  isLoading.value = true;
+
+  setTimeout(() => {
+    isLoading.value = false;
+    successTitle.value = 'Cadastro concluído!';
+    successDescription.value = 'Informaremos sobre a próxima troca de bateria.';
+    isPositiveOpen.value = true;
+
+    // Limpar o formulário
+    date.value = '';
+    mileage.value = '';
+    brand.value = '';
+    model.value = '';
+  }, 2000); // Simulando um delay de 2 segundos
+}
 
 const showHelpModal = () => {
   isOpen.value = true;

@@ -22,7 +22,9 @@
 <script setup>
 import { ref, watch } from 'vue';
 import sucessIcon from '../assets/sucessIcon.svg';
-
+import { useRouter } from 'vue-router';
+  
+const router = useRouter();
 const props = defineProps({
   title: String,
   open: Boolean,
@@ -65,6 +67,7 @@ watch(
 
 const closeModal = () => {
   isOpen.value = false;
+  router.push('/');
 };
 </script>
 

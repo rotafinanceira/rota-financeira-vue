@@ -7,18 +7,18 @@
     />
     <div class="main-content">
       <div class="card-wrapper">
-        <SelectVehicle />
+        <SelectVehicle @vehicle-selected="setCarId" />
 
         <div class="card">
           <div class="text-wrapper">
-  <div class="header-content">
-    <span class="title">Manutenção</span>
-    <div class="help-icon" @click="showHelpModal">
-      <img :src="helpIcon" alt="Ícone de ajuda" />
-    </div>
-  </div>
-  <span class="subtitle">Insira os dados da sua última troca de bateria</span>
-</div>
+            <div class="header-content">
+              <span class="title">Manutenção</span>
+              <div class="help-icon" @click="showHelpModal">
+                <img :src="helpIcon" alt="Ícone de ajuda" />
+              </div>
+            </div>
+            <span class="subtitle">Insira os dados da sua última troca de bateria</span>
+          </div>
 
           <div class="input-wrapper">
             <label for="last-oil-change">Última troca</label>
@@ -28,7 +28,6 @@
               v-model="date"
               mask="##/##/####"
               placeholder="Seleciona ou digita a data"
-              @input="validateDate"
               @focus="showDatePicker = true"
             >
               <template v-slot:append>
@@ -45,6 +44,7 @@
             <q-input
               id="mileage"
               outlined
+              v-model="mileage"
               label="Ex: 86.540 km"
             ></q-input>
           </div>
@@ -53,7 +53,9 @@
             <q-select
               id="brand"
               outlined
-              label="Insira a marca do filtro instalado"
+              v-model="batteryBrand"
+              :options="brandOptions"
+              label="Insira a marca da bateria"
             ></q-select>
           </div>
           <div class="input-wrapper">
@@ -85,6 +87,14 @@
       :open="isOpen"
       :description="modalDescription"
       :text-button="'Fechar'"
+      @close="isOpen = false"
+    />
+    <ModalPositive
+      :title="successTitle"
+      :open="isPositiveOpen"
+      :description="successDescription"
+      @close="isPositiveOpen = false"
+      :text-button="'Fechar'"
     />
   </q-page>
 </template>
@@ -95,16 +105,30 @@ import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
 import SelectVehicle from '@/components/SelectVehicle.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
+import ModalPositive from '@/components/ModalSucess.vue';
 import helpIcon from '@/assets/helpIcon.svg';
 
-// Estado reativo e referências
 const showDatePicker = ref(false);
 const isLoading = ref(false);
 const date = ref('');
+const mileage = ref('');
+const batteryBrand = ref('');
 const selectedAmperage = ref(null);
+const carId = ref(null);
 const modalContent = ref('');
 const modalDescription = ref('');
 const isOpen = ref(false);
+
+const isPositiveOpen = ref(false);
+const successTitle = ref('');
+const successDescription = ref('');
+
+const brandOptions = [
+  { label: 'Moura', value: 'Moura' },
+  { label: 'Heliar', value: 'Heliar' },
+  { label: 'ACDelco', value: 'ACDelco' },
+  { label: 'Outro', value: 'Outro' }
+];
 
 const amperageOptions = [
   { label: '60Ah', value: '60Ah' },
@@ -114,24 +138,41 @@ const amperageOptions = [
 
 const showHelpModal = () => {
   isOpen.value = true;
-  modalContent.value = 'Quando trocar a bateria?';
-  modalDescription.value = 'A troca da bateria deve ser feita a cada 3 a 5 anos, dependendo do tipo e uso. Fique atento a sinais como dificuldade para dar partida no veículo, luzes do painel fracas ou carregamento irregular.';
+  modalContent.value = 'Quando devo fazer a troca?';
+  modalDescription.value = `
+    <ul>
+      <li>Substitua a bateria se já tiver mais de 3 anos de uso;</li>
+      <li>Troque a bateria se o carro apresentar dificuldade para ligar;</li>
+      <li>Verifique a carga da bateria se as luzes internas estiverem fracas;</li>
+      <li>Limpe os terminais ou troque a bateria em caso de corrosão visível.</li>
+    </ul>
+  `;
 };
 
-function onDateSelect(value) {
+const onDateSelect = (value) => {
   date.value = value;
   showDatePicker.value = false;
-}
+};
 
-function validateDate() {
-  if (!/^\d{2}\/\d{2}\/\d{4}$/.test(date.value)) {
-    console.log('Data inválida!');
-  }
-}
+const setCarId = (selectedCarId) => {
+  carId.value = selectedCarId;
+};
 
-function handleSubmit() {
-  // Lógica para envio do formulário
-}
+const handleSubmit = () => {
+  isLoading.value = true;
+
+  setTimeout(() => {
+    isLoading.value = false;
+    successTitle.value = 'Cadastro de troca de bateria concluído!';
+    successDescription.value = 'Informaremos sobre a próxima troca de bateria.';
+    isPositiveOpen.value = true;
+
+    date.value = '';
+    mileage.value = '';
+    batteryBrand.value = '';
+    selectedAmperage.value = null;
+  }, 1000);
+};
 </script>
 
 <style scoped>
@@ -139,7 +180,6 @@ function handleSubmit() {
   display: flex;
   flex-direction: column;
   background-color: #eff3f5;
-  height: auto;
   padding: 24px 20px;
   gap: 32px;
 }
@@ -173,29 +213,5 @@ function handleSubmit() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.text-wrapper .title {
-  font-size: 18px;
-  font-weight: bold;
-  display: block;
-}
-
-.help-icon {
-  cursor: pointer;
-}
-
-.text-wrapper .subtitle {
-  font-size: 14px;
-  color: #666;
-  margin-top: 8px;
-  display: block;
-}
-
-
-.amperage-buttons {
-  display: flex;
-  gap: 16px;
-  align-items: center;
 }
 </style>

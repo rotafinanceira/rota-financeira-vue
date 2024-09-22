@@ -115,7 +115,6 @@ import ModalGenerico from '@/components/ModalGenerico.vue';
 import ModalPositive from '@/components/ModalSucess.vue';
 import helpIcon from '@/assets/helpIcon.svg';
 
-// Estado reativo e referências
 const showDatePicker = ref(false);
 const isLoading = ref(false);
 const date = ref('');
@@ -128,12 +127,10 @@ const modalContent = ref('');
 const modalDescription = ref('');
 const isOpen = ref(false);
 
-// Estado do modal positivo
 const isPositiveOpen = ref(false);
 const successTitle = ref('');
 const successDescription = ref('');
 
-// Opções de óleo
 const oilOptions = [
   { label: 'Sintético', value: 'sintetico' },
   { label: 'Semi-Sintético', value: 'semi-sintetico' },
@@ -141,7 +138,6 @@ const oilOptions = [
   { label: 'Outro', value: 'outro' },
 ];
 
-// Funções
 const showHelpModal = () => {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
@@ -168,20 +164,18 @@ const setCarId = (selectedCarId) => {
 const handleSubmit = () => {
   isLoading.value = true;
 
-  // Simular sucesso de envio
   setTimeout(() => {
     isLoading.value = false;
     successTitle.value = 'Cadastro concluído!';
     successDescription.value = 'Informaremos você sobre a próxima troca.';
     isPositiveOpen.value = true;
 
-    // Limpar os campos após o envio
     date.value = '';
     mileage.value = '';
     oilType.value = '';
     liters.value = '';
     oilBrand.value = '';
-  }, 1000); // Simula uma resposta de sucesso após 1 segundo
+  }, 1000);
 };
 </script>
 

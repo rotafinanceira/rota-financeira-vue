@@ -5,7 +5,7 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/SignIn.vue') }, // Página inicial
+      { path: '', component: () => import('src/pages/SignIn.vue') }, 
       {
         path: 'success',
         component: () => import('src/pages/LoginSuccess.vue'),
@@ -34,11 +34,9 @@ const routes: RouteRecordRaw[] = [
         path: 'fuel-filter-maintenance',
         component: () => import('@/pages/RegistrationMaintenance/FuelFilterMaintenance.vue'),
       },
-      { path: 'test', component: () => import('src/pages/TestPage.vue') }, // Rota de teste
     ],
   },
 
-  // Rota para página não encontrada
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),
