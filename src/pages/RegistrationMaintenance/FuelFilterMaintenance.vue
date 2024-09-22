@@ -163,15 +163,14 @@ function handleSubmit() {
 const showHelpModal = () => {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
-  modalDescription.value = `
-    <ul>
-      <li>Troque o filtro de combustível quando apresentar sinais de mal estado.</li>
-      <li>Siga a frequência indicada no manual do fabricante do veículo.</li>
-      <li>Não limpe o filtro de combustível; substitua-o por um novo.</li>
-      <li>Atualmente, a maioria dos manuais recomenda a troca a cada 10.000 km (antigamente, era a cada 30.000 km).</li>
-    </ul>
-  `;
+  modalDescription.value = [
+    'Troque o filtro de combustível quando apresentar sinais de mal estado.',
+    'Siga a frequência indicada no manual do fabricante do veículo.',
+    'Não limpe o filtro de combustível; substitua-o por um novo.',
+    'Atualmente, a maioria dos manuais recomenda a troca a cada 10.000 km (antigamente, era a cada 30.000 km).'
+  ];
 };
+
 </script>
 
 <style scoped>

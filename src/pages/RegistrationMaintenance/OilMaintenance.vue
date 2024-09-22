@@ -141,16 +141,15 @@ const oilOptions = [
 const showHelpModal = () => {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
-  modalDescription.value = `
-    <ul>
-      <li>O tempo recomendado para troca de óleo é de 6 a 12 meses.</li>
-      <li>Troque de óleo a cada 10 mil quilômetros aproximadamente.</li>
-      <li>O uso severo do veículo pode encurtar o intervalo de troca de óleo.</li>
-      <li>Utilize o tipo de óleo e quantidade correta do modelo do seu veículo.</li>
-      <li>Jamais misture óleos de viscosidades diferentes.</li>
-    </ul>
-  `;
+  modalDescription.value = [
+    'O tempo recomendado para troca de óleo é de 6 a 12 meses.',
+    'Troque de óleo a cada 10 mil quilômetros aproximadamente.',
+    'O uso severo do veículo pode encurtar o intervalo de troca de óleo.',
+    'Utilize o tipo de óleo e quantidade correta do modelo do seu veículo.',
+    'Jamais misture óleos de viscosidades diferentes.',
+  ];
 };
+
 
 const onDateSelect = (value) => {
   date.value = value;

@@ -139,15 +139,14 @@ const amperageOptions = [
 const showHelpModal = () => {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
-  modalDescription.value = `
-    <ul>
-      <li>Substitua a bateria se já tiver mais de 3 anos de uso;</li>
-      <li>Troque a bateria se o carro apresentar dificuldade para ligar;</li>
-      <li>Verifique a carga da bateria se as luzes internas estiverem fracas;</li>
-      <li>Limpe os terminais ou troque a bateria em caso de corrosão visível.</li>
-    </ul>
-  `;
+  modalDescription.value = [
+    'Substitua a bateria se já tiver mais de 3 anos de uso;',
+    'Troque a bateria se o carro apresentar dificuldade para ligar;',
+    'Verifique a carga da bateria se as luzes internas estiverem fracas;',
+    'Limpe os terminais ou troque a bateria em caso de corrosão visível.'
+  ];
 };
+
 
 const onDateSelect = (value) => {
   date.value = value;

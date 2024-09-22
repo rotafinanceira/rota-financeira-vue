@@ -4,17 +4,14 @@
       <div class="modal-container">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title">
-              {{ title }}
-            </div>
-            <q-btn
-              class="modal-close-button"
-              flat
-              icon="close"
-              @click="closeModal"
-            />
+            <div class="modal-title">{{ title }}</div>
+            <q-btn class="modal-close-button" flat icon="close" @click="closeModal" />
           </div>
-          <div class="modal-description" v-html="description"></div>
+          <div class="modal-description">
+            <ul>
+              <li v-for="(item, index) in description" :key="index">{{ item }}</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -27,7 +24,7 @@ import { ref, watch } from 'vue';
 const props = defineProps({
   title: String,
   open: Boolean,
-  description: String,
+  description: Array, // Mudei para Array
 });
 
 const emit = defineEmits(['close']);
