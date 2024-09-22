@@ -11,12 +11,15 @@
 
         <div class="card">
           <div class="text-wrapper">
-            <span class="title">Cadastro de Bateria</span>
-            <span class="subtitle">Insira os dados da sua última troca de bateria</span>
-            <div @click="showHelpModal">
-              <img :src="helpIcon" alt="Ícone de ajuda" />
-            </div>
-          </div>
+  <div class="header-content">
+    <span class="title">Manutenção</span>
+    <div class="help-icon" @click="showHelpModal">
+      <img :src="helpIcon" alt="Ícone de ajuda" />
+    </div>
+  </div>
+  <span class="subtitle">Insira os dados da sua última troca de bateria</span>
+</div>
+
           <div class="input-wrapper">
             <label for="last-oil-change">Última troca</label>
             <q-input
@@ -166,17 +169,29 @@ function handleSubmit() {
   margin-bottom: 16px;
 }
 
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .text-wrapper .title {
   font-size: 18px;
   font-weight: bold;
   display: block;
 }
 
+.help-icon {
+  cursor: pointer;
+}
+
 .text-wrapper .subtitle {
   font-size: 14px;
-  display: block;
   color: #666;
+  margin-top: 8px;
+  display: block;
 }
+
 
 .amperage-buttons {
   display: flex;

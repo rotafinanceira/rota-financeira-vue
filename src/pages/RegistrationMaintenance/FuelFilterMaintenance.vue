@@ -10,11 +10,15 @@
         <SelectVehicle />
         <div class="card">
           <div class="text-wrapper">
-            <span class="title">Última troca</span>
-            <div @click="openHelpModal">
-              <img :src="helpIcon" alt="Ícone de ajuda" />
+            <div class="header-content">
+              <span class="title">Manutenção</span>
+              <div class="help-icon" @click="showHelpModal">
+                <img :src="helpIcon" alt="Ícone de ajuda" />
+              </div>
             </div>
+            <span class="subtitle">Preencha com as informações sobre a última troca do filtro de combustível.</span>
           </div>
+
           <div class="input-wrapper">
             <label for="last-oil-change">Data*</label>
             <q-input
@@ -36,23 +40,23 @@
           </div>
 
           <div class="input-wrapper">
-            <label for="mileage">Quilometragem*</label>
+            <label for="mileage">Quilometragem da troca*</label>
             <q-input
               id="mileage"
               outlined
               v-model="mileage"
               label="Ex: 86.540 km"
-            ></q-input>
+            />
           </div>
 
           <div class="input-wrapper">
-            <label for="brand">Marca</label>
+            <label for="brand">Marca*</label>
             <q-input
               id="brand"
               outlined
               v-model="brand"
               label="Ex: Authomix"
-            ></q-input>
+            />
           </div>
 
           <div class="input-wrapper">
@@ -62,19 +66,22 @@
               outlined
               v-model="model"
               label="Ex: Main-Filter"
-            ></q-input>
+            />
           </div>
         </div>
       </div>
+
       <ButtonComponent
         label="Finalizar"
         :isLoading="isLoading"
         @click="handleSubmit"
       />
+
       <div v-if="invalidDate" class="error-message">
         Data inválida! Por favor, insira uma data no formato correto (DD/MM/YYYY).
       </div>
     </div>
+
     <ModalGenerico
       :title="modalContent"
       :open="isOpen"
@@ -96,9 +103,9 @@ import ModalGenerico from '@/components/ModalGenerico.vue';
 const date = ref('');
 const showDatePicker = ref(false);
 const isLoading = ref(false);
-const mileage = ref(''); // Quilometragem
-const model = ref('');   // Modelo
-const brand = ref('');   // Marca
+const mileage = ref('');
+const model = ref('');
+const brand = ref('');
 const invalidDate = ref(false);
 const modalContent = ref('Ajuda');
 const modalDescription = ref('Este formulário é usado para registrar as informações sobre a troca de combustíveis do veículo. Preencha todos os campos obrigatórios.');
@@ -107,7 +114,7 @@ const isOpen = ref(false);
 function onDateSelect(value) {
   date.value = value;
   showDatePicker.value = false;
-  validateDate(); // Validate the date when it's selected
+  validateDate();
 }
 
 function validateDate() {
@@ -116,11 +123,20 @@ function validateDate() {
 
 function handleSubmit() {
   // Lógica para envio do formulário
-}
+};
 
-function openHelpModal() {
-  isOpen.value = true; // Abre o modal genérico
-}
+const showHelpModal = () => {
+  isOpen.value = true;
+  modalContent.value = 'Quando devo fazer a troca?';
+  modalDescription.value = `
+    <ul>
+      <li>Troque o filtro de combustível quando apresentar sinais de mal estado.</li>
+      <li>Siga a frequência indicada no manual do fabricante do veículo.</li>
+      <li>Não limpe o filtro de combustível; substitua-o por um novo.</li>
+      <li>Atualmente, a maioria dos manuais recomenda a troca a cada 10.000 km (antigamente, era a cada 30.000 km).</li>
+    </ul>
+  `;
+};
 </script>
 
 <style scoped>
@@ -155,26 +171,32 @@ function openHelpModal() {
 }
 
 .text-wrapper {
-  display: flex;
-  justify-content: space-between;
   margin-bottom: 16px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .text-wrapper .title {
   font-size: 18px;
   font-weight: bold;
-  display: block;
+}
+
+.help-icon {
+  cursor: pointer;
 }
 
 .text-wrapper .subtitle {
   font-size: 14px;
-  display: block;
   color: #666;
+  margin-top: 8px;
 }
 
-.amperage-buttons {
-  display: flex;
-  gap: 16px;
-  align-items: center;
+.error-message {
+  color: red;
+  margin-top: 16px;
 }
 </style>

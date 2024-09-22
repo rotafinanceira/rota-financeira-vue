@@ -5,11 +5,11 @@
       <span class="subtitle">Escolha o carro para o qual deseja cadastrar a manutenção</span>
     </div>
     <div class="input-wrapper">
-      <label for="select-vehicle" class="select-vehicle-label">Selecione seu carro*</label>
+      <label for="select-vehicle" class="select-vehicle-label">Placa do veículo*</label>
       <q-select
         id="select-vehicle"
         v-model="selectedVehicle"
-        label="Placa do seu veículo"
+        label="Por favor selecione..."
         outlined
         :options="options"
         input-class="custom-padding"
@@ -27,7 +27,7 @@ import { ref } from 'vue';
 import downArrow from '../assets/downarrow.svg';
 
 const options = ['NAM-3630', 'NAH-6708', 'ITV-8559', 'NET-2557', 'KDM-9934'];
-const selectedVehicle = ref(''); 
+const selectedVehicle = ref('');
 </script>
 
 <style scoped>
