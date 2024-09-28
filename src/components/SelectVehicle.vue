@@ -49,12 +49,14 @@ const selectedVehicle = ref('');
   font-size: 18px;
   color: #0c0d0f;
   line-height: 22px;
+  font-weight: bold;
 }
 
 .subtitle {
   font-weight: 400;
   line-height: 21px;
   font-size: 14px;
+  color: #5B6871
 }
 
 .input-wrapper {

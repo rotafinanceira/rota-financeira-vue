@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <HeaderBar
-      title="Troca de Bateria"
+      title="Monitoriamento de Bateria"
       subtitle="Cadastro de Manutenção"
       :path="'/'"
     />
@@ -17,7 +17,7 @@
                 <img :src="helpIcon" alt="Ícone de ajuda" />
               </div>
             </div>
-            <span class="subtitle">Insira os dados da sua última troca de bateria</span>
+            <span class="subtitle">Preencha com as informações sobre a última troca de bateria.</span>
           </div>
 
           <div class="input-wrapper">
@@ -49,7 +49,7 @@
             ></q-input>
           </div>
           <div class="input-wrapper">
-            <label for="brand">Marca da bateria</label>
+            <label for="brand">Marca</label>
             <q-select
               id="brand"
               outlined
@@ -131,9 +131,9 @@ const brandOptions = [
 ];
 
 const amperageOptions = [
-  { label: '60Ah', value: '60Ah' },
-  { label: '80Ah', value: '80Ah' },
-  { label: '120Ah', value: '120Ah' }
+  { label: '60 Ah', value: '60 Ah' },
+  { label: '80 Ah', value: '80 Ah' },
+  { label: '120 Ah', value: '120 Ah' }
 ];
 
 const showHelpModal = () => {
@@ -213,4 +213,16 @@ const handleSubmit = () => {
   align-items: center;
   justify-content: space-between;
 }
+
+.amperage-buttons {
+  margin-top: 8px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.title {
+  font-weight: bold; /* Torna o texto em negrito */
+  font-size: 18px; /* Ajuste o tamanho da fonte, se necessário */
+}
+
 </style>

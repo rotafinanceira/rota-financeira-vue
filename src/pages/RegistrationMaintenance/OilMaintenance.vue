@@ -10,13 +10,17 @@
         <SelectVehicle @vehicle-selected="setCarId" />
         <div class="card">
           <div class="title-wrapper">
-            <span class="title">Manutenção*</span>
-            <div @click="showHelpModal">
-              <img :src="helpIcon" alt="Help Icon" />
+            <div class="header-content">
+              <span class="title">Manutenção*</span>
+              <div @click="showHelpModal">
+                <img :src="helpIcon" alt="Help Icon" />
+              </div>
             </div>
+
+            <span class="subtitle">Preencha com as informações sobre a última troca de óleo.</span>
           </div>
           <div class="input-wrapper">
-            <label for="last-oil-change">Data*</label>
+            <label for="last-oil-change">Última troca*</label>
             <q-input
               id="last-oil-change"
               outlined
@@ -38,7 +42,7 @@
           </div>
 
           <div class="input-wrapper">
-            <label for="mileage">Quilometragem*</label>
+            <label for="mileage">Quilometragem da troca*</label>
             <div class="definitions-wrapper">
               <q-input
                 id="mileage"
@@ -224,7 +228,14 @@ const handleSubmit = () => {
   font-weight: 600;
   line-height: 19px;
 }
-
+.subtitle{
+  font-size: 14px;
+  color: #5B6871;
+  font-family: var(--Tipo-Familia-Paragrafh, Inter);
+  font-size: var(--Tipo-Tamanho-Sm, 14px);
+  font-style: normal;
+  line-height: 150%;
+}
 .definitions-wrapper {
   position: relative;
 }
@@ -241,10 +252,19 @@ const handleSubmit = () => {
   right: 18px;
 }
 
-.title-wrapper {
-  display: flex;
-  justify-content: space-between;
+.text-wrapper .title {
+  font-size: 18px;
+  font-weight: bold;
 }
 
+.help-icon {
+  cursor: pointer;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
 </style>

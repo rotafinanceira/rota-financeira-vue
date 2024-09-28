@@ -20,7 +20,7 @@
           </div>
 
           <div class="input-wrapper">
-            <label for="last-oil-change">Data*</label>
+            <label for="last-oil-change">Última troca*</label>
             <q-input
               id="last-oil-change"
               outlined
@@ -50,22 +50,22 @@
           </div>
 
           <div class="input-wrapper">
-            <label for="brand">Marca*</label>
-            <q-input
-              id="brand"
-              outlined
-              v-model="brand"
-              label="Ex: Authomix"
-            />
-          </div>
-
-          <div class="input-wrapper">
             <label for="model">Modelo*</label>
             <q-input
               id="model"
               outlined
               v-model="model"
               label="Ex: Main-Filter"
+            />
+          </div>
+
+          <div class="input-wrapper">
+            <label for="brand">Marca*</label>
+            <q-input
+              id="brand"
+              outlined
+              v-model="brand"
+              label="Ex: Authomix"
             />
           </div>
         </div>
@@ -225,7 +225,8 @@ const showHelpModal = () => {
 
 .text-wrapper .subtitle {
   font-size: 14px;
-  color: #666;
+  color: #5B6871;
+
   margin-top: 8px;
 }
 
