@@ -17,7 +17,9 @@
               </div>
             </div>
 
-            <span class="subtitle">Preencha com as informações sobre a última troca de óleo.</span>
+            <span class="subtitle"
+              >Preencha com as informações sobre a última troca de óleo.</span
+            >
           </div>
           <div class="input-wrapper">
             <label for="last-oil-change">Última troca*</label>
@@ -73,8 +75,9 @@
                 v-model="liters"
                 label="Ex: 8"
                 type="number"
-              ></q-input>
-              <span id="litros">L</span>
+              >
+                <img :src="fuelIcon" alt="Fuel Icon" class="icons" />
+              </q-input>
             </div>
           </div>
           <div class="input-wrapper">
@@ -84,7 +87,9 @@
               outlined
               v-model="oilBrand"
               label="Ex: Castrol"
-            ></q-input>
+            >
+              <img :src="brandIcon" alt="Brand Icon" class="icons" />
+            </q-input>
           </div>
         </div>
       </div>
@@ -118,6 +123,8 @@ import SelectVehicle from '@/components/SelectVehicle.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import ModalPositive from '@/components/ModalSucess.vue';
 import helpIcon from '@/assets/helpIcon.svg';
+import fuelIcon from '@/assets/fuelIcon.svg';
+import brandIcon from '@/assets/brandIcon.svg';
 
 const showDatePicker = ref(false);
 const isLoading = ref(false);
@@ -153,7 +160,6 @@ const showHelpModal = () => {
     'Jamais misture óleos de viscosidades diferentes.',
   ];
 };
-
 
 const onDateSelect = (value) => {
   date.value = value;
@@ -228,9 +234,9 @@ const handleSubmit = () => {
   font-weight: 600;
   line-height: 19px;
 }
-.subtitle{
+.subtitle {
   font-size: 14px;
-  color: #5B6871;
+  color: #5b6871;
   font-family: var(--Tipo-Familia-Paragrafh, Inter);
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
@@ -248,10 +254,6 @@ const handleSubmit = () => {
   color: #9ba7ad;
 }
 
-#litros {
-  right: 18px;
-}
-
 .text-wrapper .title {
   font-size: 18px;
   font-weight: bold;
@@ -267,4 +269,13 @@ const handleSubmit = () => {
   justify-content: space-between;
 }
 
+.icons {
+  height: 20px;
+  width: 20px;
+  justify-content: center;
+  align-items: center;
+  top: 35%;
+  position: absolute;
+  right: 0;
+}
 </style>
