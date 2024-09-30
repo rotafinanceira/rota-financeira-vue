@@ -5,11 +5,15 @@
         <div class="modal-content">
           <div class="modal-header">
             <div class="modal-title">{{ title }}</div>
-            <q-btn class="modal-close-button" flat icon="close" @click="closeModal" />
+            <q-btn class="modal-close-button" flat @click="closeModal">
+              <img :src="closeIcon" alt="Close Icon" class="closeIcon" />
+            </q-btn>
           </div>
           <div class="modal-description">
             <ul>
-              <li v-for="(item, index) in description" :key="index">{{ item }}</li>
+              <li v-for="(item, index) in description" :key="index">
+                {{ item }}
+              </li>
             </ul>
           </div>
         </div>
@@ -20,11 +24,12 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+import closeIcon from '@/assets/closeIcon.svg';
 
 const props = defineProps({
   title: String,
   open: Boolean,
-  description: Array, // Mudei para Array
+  description: Array,
 });
 
 const emit = defineEmits(['close']);
@@ -53,7 +58,7 @@ const closeModal = () => {
   justify-content: center;
   background-color: white;
   border-radius: 10px;
-  padding: 32px;
+  padding: 20px;
   overflow: hidden;
 }
 
@@ -65,17 +70,23 @@ const closeModal = () => {
 }
 
 .modal-description ul li {
-  margin-bottom: 24px;
+  margin-bottom: 6px;
 }
 
 .modal-description ul li:last-child {
   margin-bottom: 0;
 }
 
+.modal-description ul {
+  margin: 0;
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
 .modal-content {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 24px;
   text-align: center;
 }
 
@@ -88,7 +99,7 @@ const closeModal = () => {
 .modal-title {
   font-weight: 600;
   font-size: 18px;
-  color: var(--Texto-Texto-Primrio, #0C0D0F);
+  color: var(--Texto-Texto-Primrio, #0c0d0f);
   font-family: var(--Tipo-Familia-Button, Inter);
   line-height: 120%;
   white-space: nowrap;
@@ -100,7 +111,7 @@ const closeModal = () => {
   font-weight: 400;
   font-size: 14px;
   line-height: 150%;
-  color: var(--Texto-Corpo, #5B6871);
+  color: var(--Texto-Corpo, #5b6871);
   width: 320px;
   text-align: left;
   width: 100%;
@@ -114,5 +125,14 @@ const closeModal = () => {
   justify-content: flex-end;
   align-items: flex-start;
   gap: 4px;
+  margin-right: 10px;
+  padding: 0;
+  min-width: 0;
+  width: 25px;
+}
+
+.closeIcon {
+  width: 25px;
+  height: 25px;
 }
 </style>
