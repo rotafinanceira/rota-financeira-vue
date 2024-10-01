@@ -54,7 +54,7 @@
         </div>
       </div>
     </div>
-    <ModalGenerico
+    <ModalGenericoAlert
       :title="modalContent"
       :open="isOpen"
       :description="modalDescription"
@@ -69,7 +69,7 @@ import { useRouter } from 'vue-router';
 import InputPassword from '@/components/InputPassword.vue';
 import InputEmail from '@/components/InputEmail.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
-import ModalGenerico from '@/components/ModalGenerico.vue';
+import ModalGenericoAlert from '@/components/ModalGenericoAlert.vue';
 import SignInUpFooter from '@/components/SignInUpFooter.vue';
 import logo from '@/assets/logolight.svg';
 import { httpClient } from '@/infra/http/httpClient';
