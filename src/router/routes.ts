@@ -5,11 +5,11 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/SignIn.vue') }, // Página inicial
+      { path: '', component: () => import('src/pages/SignIn.vue') }, 
       {
         path: 'success',
         component: () => import('src/pages/LoginSuccess.vue'),
-      }, 
+      },
       {
         path: 'register-1',
         component: () => import('src/pages/SignUp/SignUpStep1.vue'),
@@ -22,11 +22,21 @@ const routes: RouteRecordRaw[] = [
         path: 'register-3',
         component: () => import('src/pages/SignUp/SignUpStep3.vue'),
       },
-      { path: 'test', component: () => import('src/pages/TestPage.vue') }, // Rota de teste
+      {
+        path: 'oil-maintenance',
+        component: () => import('@/pages/RegistrationMaintenance/OilMaintenance.vue'),
+      },
+      {
+        path: 'battery-maintenance',
+        component: () => import('@/pages/RegistrationMaintenance/BatteryMaintenance.vue'),
+      },
+      {
+        path: 'fuel-filter-maintenance',
+        component: () => import('@/pages/RegistrationMaintenance/FuelFilterMaintenance.vue'),
+      },
     ],
   },
 
-  // Rota para página não encontrada
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),

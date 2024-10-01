@@ -32,7 +32,7 @@
           <ButtonComponent
             label="Avançar"
             :isLoading="isLoading"
-            @click="onClick"
+            @click="handleSubmit"
           />
           <SignInUpFooter
             message="Já possui conta?"
@@ -61,6 +61,7 @@ import SignInUpFooter from '@/components/SignInUpFooter.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import StepperComponent from '@/components/StepperComponent.vue';
 import { useRegisterStore } from '@/store/registerStore';
+import { httpClient } from '@/infra/http/httpClient';
 
 const store = useRegisterStore();
 const isLoading = ref(false);
@@ -108,13 +109,44 @@ watch([email, confirmEmail], () => {
   validateForm();
 });
 
-const onClick = () => {
+const verifyEmail = async (email) => {
+  try {
+    const response = await httpClient.post('/user/verify', { email });
+    return response;
+  } catch (error) {
+    throw error.response?.status;
+  }
+};
+
+const handleApiError = (statusCode) => {
+  if (statusCode === 404 || statusCode === 400) {
+    if (isValid.value) {
+      store.setEmail(email.value);
+      store.setConfirmEmail(confirmEmail.value);
+      router.push('/register-2');
+    }
+  } else {
+    console.log(statusCode);
+    isOpen.value = true;
+    modalContent.value = 'Ocorreu um erro ao tentar cadastrar o e-mail';
+    modalDescription.value = 'Tente novamente mais tarde';
+  }
+};
+
+const handleSubmit = async () => {
   validateForm();
 
-  if (isValid.value) {
-    store.setEmail(email.value);
-    store.setConfirmEmail(confirmEmail.value);
-    router.push('/register-2');
+  try {
+    const response = await verifyEmail(email.value);
+    if (response.status === 200) {
+      isOpen.value = true;
+      modalContent.value = 'E-mail já cadastrado';
+      modalDescription.value = 'Faça o login no App';
+    }
+  } catch (statusCode) {
+    handleApiError(statusCode);
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>

@@ -2,18 +2,21 @@
   <q-dialog v-model="isOpen" persistent>
     <div class="modal-wrapper">
       <div class="modal-container">
-        <div class="modal-image">
-          <q-img :src="errorIcon" />
-        </div>
         <div class="modal-content">
-          <div class="modal-title">
-            {{ title }}
+          <div class="modal-header">
+            <div class="modal-title">{{ title }}</div>
+            <q-btn class="modal-close-button" flat @click="closeModal">
+              <img :src="closeIcon" alt="Close Icon" class="closeIcon" />
+            </q-btn>
           </div>
-          <div class="modal-description">{{ description }}</div>
+          <div class="modal-description">
+            <ul>
+              <li v-for="(item, index) in description" :key="index">
+                {{ item }}
+              </li>
+            </ul>
+          </div>
         </div>
-        <q-btn class="modal-button" @click="closeModal">
-          <span>{{ textButton }}</span>
-        </q-btn>
       </div>
     </div>
   </q-dialog>
@@ -21,19 +24,17 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import errorIcon from '../assets/warning-error.svg';
+import closeIcon from '@/assets/closeIcon.svg';
 
 const props = defineProps({
   title: String,
   open: Boolean,
-  description: String,
-  textButton: String,
+  description: Array,
 });
 
+const emit = defineEmits(['close']);
+
 const isOpen = ref(props.open);
-const title = ref(props.title);
-const description = ref(props.description);
-const textButton = ref(props.textButton);
 
 watch(
   () => props.open,
@@ -42,86 +43,96 @@ watch(
   }
 );
 
-watch(
-  () => props.title,
-  (newVal) => {
-    title.value = newVal;
-  }
-);
-
-watch(
-  () => props.description,
-  (newVal) => {
-    description.value = newVal;
-  }
-);
-
-watch(
-  () => props.textButton,
-  (newVal) => {
-    textButton.value = newVal;
-  }
-);
-
 const closeModal = () => {
   isOpen.value = false;
+  emit('close');
 };
 </script>
 
 <style scoped>
 .modal-wrapper {
+  width: 400px;
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: white;
   border-radius: 10px;
-  padding: 32px;
+  padding: 20px;
+  overflow: hidden;
 }
 
 .modal-container {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 16px;
+  width: 100%;
 }
 
-.modal-image {
-  display: flex;
-  justify-content: center;
-  margin: auto;
-  width: 44px;
-  height: 44px;
+.modal-description ul li {
+  margin-bottom: 6px;
+}
+
+.modal-description ul li:last-child {
+  margin-bottom: 0;
+}
+
+.modal-description ul {
+  margin: 0;
+  padding-right: 25px;
+  padding-left: 25px;
 }
 
 .modal-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 24px;
   text-align: center;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .modal-title {
   font-weight: 600;
   font-size: 18px;
-  line-height: 22px;
-  color: #0c0d0f;
+  color: var(--Texto-Texto-Primrio, #0c0d0f);
+  font-family: var(--Tipo-Familia-Button, Inter);
+  line-height: 120%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modal-description {
   font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  color: #485159;
+  font-size: 14px;
+  line-height: 150%;
+  color: var(--Texto-Corpo, #5b6871);
+  width: 320px;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.modal-button {
-  border-radius: 4px;
-  background-color: #0c0d0f;
-  color: white;
-  padding: 13px 0;
-  min-width: 256px;
-  text-transform: none;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 22px;
+.modal-close-button {
+  display: flex;
+  width: 20px;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 4px;
+  margin-right: 10px;
+  padding: 0;
+  min-width: 0;
+  width: 25px;
+}
+
+.closeIcon {
+  width: 25px;
+  height: 25px;
 }
 </style>

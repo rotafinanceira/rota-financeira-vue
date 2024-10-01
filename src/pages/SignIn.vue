@@ -23,13 +23,34 @@
           <ButtonComponent
             label="Entrar"
             :isLoading="isLoading"
-            @click="onClick"
+            @click="handleSubmit"
           />
           <SignInUpFooter
             message="Não possui cadastro?"
             buttonText="Cadastrar"
             :path="'/register-1'"
           />
+        </div>
+        <div>
+          <q-btn
+            color="primary"
+            label="Oil Maintenance"
+            @click="oilMaintenance"
+          ></q-btn>
+        </div>
+        <div>
+          <q-btn
+            color="primary"
+            label="Battery Maintenance"
+            @click="batteryMaintenance"
+          ></q-btn>
+        </div>
+        <div>
+          <q-btn
+            color="primary"
+            label="Fuel Filter Maintenance"
+            @click="fuelFilterMaintenance"
+          ></q-btn>
         </div>
       </div>
     </div>
@@ -104,8 +125,8 @@ watch([email, password], () => {
   validateForm();
 });
 
-const onClick = async () => {
-  resetModal(); 
+const handleSubmit = async () => {
+  resetModal();
   validateForm();
 
   if (!isValid.value) return;
@@ -120,26 +141,38 @@ const onClick = async () => {
       router.push({ path: '/success' });
     }
   } catch (error) {
-    const statusCode = error.response?.status;
-    if (statusCode === 403) {
-      isOpen.value = true;
-      modalContent.value = 'E-mail e/ou senha incorretos';
-      modalDescription.value = 'Verifique os dados informados';
-    } else if (statusCode === 404) {
-      isOpen.value = true;
-      modalContent.value = 'E-mail não cadastrado';
-      modalDescription.value = 'Faça o cadastro no App';
-    } else {
-      isOpen.value = true;
-      modalContent.value = 'Ocorreu um erro ao tentar fazer login';
-      modalDescription.value = 'Tente novamente mais tarde';
-    }
+    handleApiError(error.response?.status);
   } finally {
     isLoading.value = false;
   }
 };
-</script>
 
+const handleApiError = (statusCode) => {
+  if (statusCode === 403) {
+    isOpen.value = true;
+    modalContent.value = 'E-mail e/ou senha incorretos';
+    modalDescription.value = 'Verifique os dados informados';
+  } else if (statusCode === 404) {
+    isOpen.value = true;
+    modalContent.value = 'E-mail não cadastrado';
+    modalDescription.value = 'Faça o cadastro no App';
+  } else {
+    isOpen.value = true;
+    modalContent.value = 'Ocorreu um erro ao tentar fazer login';
+    modalDescription.value = 'Tente novamente mais tarde';
+  }
+};
+
+const oilMaintenance = () => {
+  router.push({ path: '/oil-maintenance' });
+};
+const batteryMaintenance = () => {
+  router.push({ path: '/battery-maintenance' });
+};
+const fuelFilterMaintenance = () => {
+  router.push({ path: '/fuel-filter-maintenance' });
+};
+</script>
 
 <style scoped>
 .container {

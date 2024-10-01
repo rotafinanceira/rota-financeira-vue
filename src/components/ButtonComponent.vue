@@ -5,6 +5,7 @@
     :disable="isLoading"
     @click="handleButtonClick"
     class="styled-button"
+    unelevated
   />
 </template>
 
