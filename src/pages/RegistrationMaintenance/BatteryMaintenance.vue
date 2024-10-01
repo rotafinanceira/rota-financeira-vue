@@ -41,12 +41,15 @@
 
           <div class="input-wrapper">
             <label for="mileage">Quilometragem da última troca</label>
+            <div class="definitions-wrapper">
             <q-input
               id="mileage"
               outlined
               v-model="mileage"
-              label="Ex: 86.540 km"
+              label="Ex: 86.540"
             ></q-input>
+            <span>Km</span>
+          </div>
           </div>
           <div class="input-wrapper">
             <label for="brand">Marca</label>
@@ -56,7 +59,9 @@
               v-model="batteryBrand"
               :options="brandOptions"
               label="Insira a marca da bateria"
-            ></q-select>
+            >
+            <img :src="batteryIcon" alt="Battery Icon" class="icons" />
+          </q-select>
           </div>
           <div class="input-wrapper">
             <label for="amperage">Amperagem da bateria</label>
@@ -107,6 +112,7 @@ import SelectVehicle from '@/components/SelectVehicle.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import ModalPositive from '@/components/ModalSucess.vue';
 import helpIcon from '@/assets/helpIcon.svg';
+import batteryIcon from '@/assets/batteryIcon.svg';
 
 const showDatePicker = ref(false);
 const isLoading = ref(false);
@@ -199,7 +205,17 @@ const handleSubmit = () => {
 .input-wrapper {
   margin-bottom: 16px;
 }
+.definitions-wrapper {
+  position: relative;
+}
 
+.definitions-wrapper span {
+  position: absolute;
+  right: 12px;
+  top: 18px;
+  font-size: 14px;
+  color: #9ba7ad;
+}
 .q-input__inner {
   cursor: pointer;
 }
@@ -221,8 +237,16 @@ const handleSubmit = () => {
   justify-content: space-between;
 }
 .title {
-  font-weight: bold; /* Torna o texto em negrito */
-  font-size: 18px; /* Ajuste o tamanho da fonte, se necessário */
+  font-weight: bold;
+  font-size: 18px;
 }
-
+.icons {
+  height: 20px;
+  width: 20px;
+  justify-content: center;
+  align-items: center;
+  top: 35%;
+  position: absolute;
+  right: 0;
+}
 </style>

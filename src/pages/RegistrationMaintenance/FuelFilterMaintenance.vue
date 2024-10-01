@@ -41,14 +41,16 @@
 
           <div class="input-wrapper">
             <label for="mileage">Quilometragem da troca*</label>
-            <q-input
-              id="mileage"
-              outlined
-              v-model="mileage"
-              label="Ex: 86.540 km"
-            />
+            <div class="definitions-wrapper">
+              <q-input
+                id="mileage"
+                outlined
+                v-model="mileage"
+                label="Ex: 86.540"
+              ></q-input>
+              <span>Km</span>
+            </div>
           </div>
-
           <div class="input-wrapper">
             <label for="model">Modelo*</label>
             <q-input
@@ -56,7 +58,9 @@
               outlined
               v-model="model"
               label="Ex: Main-Filter"
-            />
+            >
+            <img :src="filterIcon" alt="Filter Icon" class="icons" />
+          </q-input>
           </div>
 
           <div class="input-wrapper">
@@ -66,7 +70,9 @@
               outlined
               v-model="brand"
               label="Ex: Authomix"
-            />
+            >
+            <img :src="RMarcaFiltroIcon" alt="Marca Icon" class="icons" />
+            </q-input>
           </div>
         </div>
       </div>
@@ -106,6 +112,8 @@ import HeaderBar from '@/components/HeaderBar.vue';
 import SelectVehicle from '@/components/SelectVehicle.vue';
 import helpIcon from '@/assets/helpIcon.svg';
 import ModalGenerico from '@/components/ModalGenerico.vue';
+import filterIcon from '@/assets/filterIcon.svg';
+import RMarcaFiltroIcon from '@/assets/RMarcaFiltroIcon.svg';
 
 const date = ref('');
 const showDatePicker = ref(false);
@@ -182,7 +190,15 @@ const showHelpModal = () => {
   padding: 24px 20px;
   gap: 32px;
 }
-
+.icons {
+  height: 20px;
+  width: 20px;
+  justify-content: center;
+  align-items: center;
+  top: 35%;
+  position: absolute;
+  right: 0;
+}
 .card-wrapper {
   display: flex;
   flex-direction: column;
@@ -199,7 +215,17 @@ const showHelpModal = () => {
 .input-wrapper {
   margin-bottom: 16px;
 }
+.definitions-wrapper {
+  position: relative;
+}
 
+.definitions-wrapper span {
+  position: absolute;
+  right: 12px;
+  top: 18px;
+  font-size: 14px;
+  color: #9ba7ad;
+}
 .q-input__inner {
   cursor: pointer;
 }
