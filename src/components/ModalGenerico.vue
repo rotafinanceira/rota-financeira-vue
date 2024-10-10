@@ -29,7 +29,10 @@ import closeIcon from '@/assets/closeIcon.svg';
 const props = defineProps({
   title: String,
   open: Boolean,
-  description: Array,
+  description: {
+    type: [Array, String],
+    required: true
+  },
 });
 
 const emit = defineEmits(['close']);
