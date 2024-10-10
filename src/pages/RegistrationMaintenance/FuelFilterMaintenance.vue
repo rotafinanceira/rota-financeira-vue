@@ -59,8 +59,8 @@
               v-model="model"
               label="Ex: Main-Filter"
             >
-            <img :src="filterIcon" alt="Filter Icon" class="icons" />
-          </q-input>
+              <img :src="filterIcon" alt="Filter Icon" class="icons" />
+            </q-input>
           </div>
 
           <div class="input-wrapper">
@@ -71,7 +71,7 @@
               v-model="brand"
               label="Ex: Authomix"
             >
-            <img :src="RMarcaFiltroIcon" alt="Marca Icon" class="icons" />
+              <img :src="RMarcaFiltroIcon" alt="Marca Icon" class="icons" />
             </q-input>
           </div>
         </div>
@@ -105,7 +105,7 @@
   </q-page>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
@@ -114,25 +114,23 @@ import helpIcon from '@/assets/helpIcon.svg';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import filterIcon from '@/assets/filterIcon.svg';
 import RMarcaFiltroIcon from '@/assets/RMarcaFiltroIcon.svg';
-
-const date = ref('');
-const showDatePicker = ref(false);
-const isLoading = ref(false);
-const mileage = ref('');
-const model = ref('');
-const brand = ref('');
-const invalidDate = ref(false);
-const modalContent = ref('Ajuda');
-const modalDescription = ref('Este formulário é usado para registrar as informações sobre a troca de combustíveis do veículo. Preencha todos os campos obrigatórios.');
-const isOpen = ref(false);
-const successTitle = ref('');
-const successDescription = ref('');
-const isPositiveOpen = ref(false);
-
 import ModalPositive from '@/components/ModalSucess.vue';
 
+const date = ref<string>('');
+const showDatePicker = ref<boolean>(false);
+const isLoading = ref<boolean>(false);
+const mileage = ref<string>('');
+const model = ref<string>('');
+const brand = ref<string>('');
+const invalidDate = ref<boolean>(false);
+const modalContent = ref<string>('Ajuda');
+const modalDescription = ref<Array<string> | string>('Este formulário é usado para registrar as informações sobre a troca de combustíveis do veículo. Preencha todos os campos obrigatórios.');
+const isOpen = ref<boolean>(false);
+const successTitle = ref<string>('');
+const successDescription = ref<string>('');
+const isPositiveOpen = ref<boolean>(false);
 
-function onDateSelect(value) {
+function onDateSelect(value: string) {
   date.value = value;
   showDatePicker.value = false;
   validateDate();
