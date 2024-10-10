@@ -104,7 +104,7 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
@@ -114,20 +114,20 @@ import ModalPositive from '@/components/ModalSucess.vue';
 import helpIcon from '@/assets/helpIcon.svg';
 import batteryIcon from '@/assets/batteryIcon.svg';
 
-const showDatePicker = ref(false);
-const isLoading = ref(false);
-const date = ref('');
-const mileage = ref('');
-const batteryBrand = ref('');
-const selectedAmperage = ref(null);
-const carId = ref(null);
-const modalContent = ref('');
-const modalDescription = ref('');
-const isOpen = ref(false);
+const showDatePicker = ref<boolean>(false);
+const isLoading = ref<boolean>(false);
+const date = ref<string>('');
+const mileage = ref<string>('');
+const batteryBrand = ref<string>('');
+const selectedAmperage = ref<string | null>(null);
+const carId = ref<number | null>(null);
+const modalContent = ref<string>('');
+const modalDescription = ref<string[] | string>('');
+const isOpen = ref<boolean>(false);
 
-const isPositiveOpen = ref(false);
-const successTitle = ref('');
-const successDescription = ref('');
+const isPositiveOpen = ref<boolean>(false);
+const successTitle = ref<string>('');
+const successDescription = ref<string>('');
 
 const brandOptions = [
   { label: 'Moura', value: 'Moura' },
@@ -142,7 +142,7 @@ const amperageOptions = [
   { label: '120 Ah', value: '120 Ah' }
 ];
 
-const showHelpModal = () => {
+const showHelpModal = (): void => {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
   modalDescription.value = [
@@ -153,17 +153,16 @@ const showHelpModal = () => {
   ];
 };
 
-
-const onDateSelect = (value) => {
+const onDateSelect = (value: string): void => {
   date.value = value;
   showDatePicker.value = false;
 };
 
-const setCarId = (selectedCarId) => {
+const setCarId = (selectedCarId: number): void => {
   carId.value = selectedCarId;
 };
 
-const handleSubmit = () => {
+const handleSubmit = (): void => {
   isLoading.value = true;
 
   setTimeout(() => {
