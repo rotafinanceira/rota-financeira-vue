@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="isOpen" persistent>
+  <q-dialog v-model="isOpen">
     <div class="modal-wrapper">
       <div class="modal-container">
         <div class="modal-content">
@@ -46,9 +46,14 @@ watch(
   }
 );
 
+watch(isOpen, (newVal) => {
+  if (!newVal) {
+    emit('close');
+  }
+});
+
 const closeModal = () => {
-  isOpen.value = false;
-  emit('close');
+  isOpen.value = false; 
 };
 </script>
 
