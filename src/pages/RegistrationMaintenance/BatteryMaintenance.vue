@@ -146,10 +146,10 @@ const showHelpModal = (): void => {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
   modalDescription.value = [
-    'Substitua a bateria se já tiver mais de 3 anos de uso;',
-    'Troque a bateria se o carro apresentar dificuldade para ligar;',
-    'Verifique a carga da bateria se as luzes internas estiverem fracas;',
-    'Limpe os terminais ou troque a bateria em caso de corrosão visível.'
+    'Troque a bateria a cada 3 a 5 anos.',
+    'Se o motor estiver demorando para ligar, a bateria pode estar fraca.',
+    'Luzes do painel ou faróis mais fracos podem indicar desgaste da bateria.',
+    'Odor de enxofre ou ovo podre pode indicar vazamento da bateria.'
   ];
 };
 
@@ -167,8 +167,8 @@ const handleSubmit = (): void => {
 
   setTimeout(() => {
     isLoading.value = false;
-    successTitle.value = 'Cadastro de troca de bateria concluído!';
-    successDescription.value = 'Informaremos sobre a próxima troca de bateria.';
+    successTitle.value = 'Cadastro concluído!';
+    successDescription.value = 'Informaremos você sobre a próxima troca.';
     isPositiveOpen.value = true;
 
     date.value = '';
@@ -220,7 +220,7 @@ const handleSubmit = (): void => {
 }
 
 .text-wrapper {
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .header-content {

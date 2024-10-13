@@ -1,95 +1,99 @@
 <template>
   <q-page>
     <HeaderBar
-      title="Troca de Óleo"
+      title="Alinhamento e balanceamento"
       subtitle="Cadastro de Manutenção"
       :path="'/'"
     />
     <div class="main-content">
       <div class="card-wrapper">
         <SelectVehicle @vehicle-selected="setCarId" />
+
         <div class="card">
           <div class="text-wrapper">
             <div class="header-content">
-              <span class="title">Manutenção*</span>
-              <div @click="showHelpModal">
-                <img :src="helpIcon" alt="Help Icon" />
+              <span class="title">Manutenção</span>
+              <div class="help-icon" @click="showHelpModal">
+                <img :src="helpIcon" alt="Ícone de ajuda" />
               </div>
             </div>
-
-            <span class="subtitle"
-              >Preencha com as informações sobre a última troca de óleo.</span
-            >
+            <span class="subtitle">Preencha as informações da manutenção do balanceamento e alinhamento do seu carro.</span>
           </div>
+
+          <!-- Quilometragem da última manutenção -->
           <div class="input-wrapper">
-            <label for="last-oil-change">Última troca*</label>
+            <label for="last-maintenance-mileage">Última manutenção</label>
+            <div class="definitions-wrapper">
+              <q-input
+                id="last-maintenance-mileage"
+                outlined
+                v-model="lastMaintenanceMileage"
+                label="Insira a quilometragem"
+              ></q-input>
+              <span>Km</span>
+            </div>
+          </div>
+
+          <!-- Insira o aro do seu pneu -->
+          <div class="input-wrapper">
+            <label for="tire-diameter">Aro do pneu</label>
+            <div class="definitions-wrapper">
+              <q-input
+                id="tire-diameter"
+                outlined
+                v-model="tireDiameter"
+                label="Insira o aro do seu pneu"
+              ></q-input>
+              <span>Pol</span>
+            </div>
+          </div>
+
+          <!-- Data da última troca de pneus -->
+          <div class="input-wrapper">
+            <label for="last-oil-change">Data da última troca de pneus</label>
             <q-input
               id="last-oil-change"
               outlined
               v-model="date"
               mask="##/##/####"
-              label="Seleciona ou digita a data"
+              placeholder="Insira a data da última troca"
               @focus="showDatePicker = true"
             >
               <template v-slot:append>
-                <q-icon
-                  name="event"
-                  @click="showDatePicker = !showDatePicker"
-                />
+                <q-icon name="event" @click="showDatePicker = !showDatePicker" />
               </template>
             </q-input>
             <q-menu v-model="showDatePicker" fit>
-              <q-date v-model="date" mask="DD/MM/YYYY" @input="onDateSelect" />
+              <q-date v-model="date" mask="Insira a data da última troca" @input="onDateSelect" />
             </q-menu>
           </div>
 
+          <!-- Quilometragem da troca de pneus -->
           <div class="input-wrapper">
-            <label for="mileage">Quilometragem da troca*</label>
+            <label for="mileage">Quilometragem da troca de pneus</label>
             <div class="definitions-wrapper">
               <q-input
                 id="mileage"
                 outlined
                 v-model="mileage"
-                label="Ex: 86.540"
-                type="number"
+                label="Insira a quilometragem"
               ></q-input>
               <span>Km</span>
             </div>
           </div>
+
+          <!-- Quilometragem do rodízio de pneus -->
           <div class="input-wrapper">
-            <label for="oil-type">Tipo*</label>
-            <q-select
-              id="oil-type"
-              outlined
-              v-model="oilType"
-              :options="oilOptions"
-              label="Escolha o tipo de óleo"
-            ></q-select>
-          </div>
-          <div class="input-wrapper">
-            <label for="liters">Litros utilizados*</label>
+            <label for="rotation-mileage">Rodízio de pneus</label>
             <div class="definitions-wrapper">
               <q-input
-                id="liters"
+                id="rotation-mileage"
                 outlined
-                v-model="liters"
-                label="Ex: 8"
-                type="number"
-              >
-                <img :src="fuelIcon" alt="Fuel Icon" class="icons" />
-              </q-input>
+                v-model="rotationMileage"
+                label="Insira a quilometragem"
+              ></q-input>
+              <span>Km</span>
             </div>
-          </div>
-          <div class="input-wrapper">
-            <label for="oil-brand">Marca</label>
-            <q-input
-              id="oil-brand"
-              outlined
-              v-model="oilBrand"
-              label="Ex: Castrol"
-            >
-              <img :src="brandIcon" alt="Brand Icon" class="icons" />
-            </q-input>
           </div>
         </div>
       </div>
@@ -103,6 +107,7 @@
       :title="modalContent"
       :open="isOpen"
       :description="modalDescription"
+      :text-button="'Fechar'"
       @close="isOpen = false"
     />
     <ModalPositive
@@ -123,46 +128,31 @@ import SelectVehicle from '@/components/SelectVehicle.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import ModalPositive from '@/components/ModalSucess.vue';
 import helpIcon from '@/assets/helpIcon.svg';
-import fuelIcon from '@/assets/fuelIcon.svg';
-import brandIcon from '@/assets/brandIcon.svg';
-
-interface OilOptionsProps {
-  label: string;
-  value: string;
-}
 
 const showDatePicker = ref<boolean>(false);
 const isLoading = ref<boolean>(false);
 const date = ref<string>('');
 const mileage = ref<string>('');
-const oilType = ref<string>('');
-const liters = ref<string>('');
-const oilBrand = ref<string>('');
+const tireDiameter = ref<string>('');
+const rotationMileage = ref<string>('');
 const carId = ref<number | null>(null);
 const modalContent = ref<string>('');
-const modalDescription = ref<string[]>([]);
+const modalDescription = ref<string[] | string>('');
 const isOpen = ref<boolean>(false);
+const lastMaintenanceMileage = ref<string>('');
 
 const isPositiveOpen = ref<boolean>(false);
 const successTitle = ref<string>('');
 const successDescription = ref<string>('');
 
-const oilOptions = ref<OilOptionsProps[]>([
-  { label: 'Sintético', value: 'sintetico' },
-  { label: 'Semi-Sintético', value: 'semi-sintetico' },
-  { label: 'Mineral', value: 'mineral' },
-  { label: 'Outro', value: 'outro' },
-]);
-
 const showHelpModal = (): void => {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
   modalDescription.value = [
-    'O tempo recomendado para troca de óleo é de 6 a 12 meses.',
-    'Troque de óleo a cada 10 mil quilômetros aproximadamente.',
-    'O uso severo do veículo pode encurtar o intervalo de troca de óleo.',
-    'Utilize o tipo de óleo e quantidade correta do modelo do seu veículo.',
-    'Jamais misture óleos de viscosidades diferentes.',
+    'A recomendação é fazer esse tipo de manutenção a cada 10.000km rodados.',
+    'Fique atento a vibrações no volante, desgaste irregular dos pneus e puxões do veículo para um lado.',
+    'Troque seus pneus se tiverem mais de 5 anos, mesmo que pareçam bons. O material envelhece e pode não ser seguro.',
+    'Troque após rodar entre 40.000 e 60.000 km. Pneus muito usados perdem eficiência.'
   ];
 };
 
@@ -181,37 +171,27 @@ const handleSubmit = (): void => {
   setTimeout(() => {
     isLoading.value = false;
     successTitle.value = 'Cadastro concluído!';
-    successDescription.value = 'Informaremos você sobre a próxima troca.';
+    successDescription.value = 'Informaremos você sobre a próxima manutenção.';
     isPositiveOpen.value = true;
 
     date.value = '';
     mileage.value = '';
-    oilType.value = '';
-    liters.value = '';
-    oilBrand.value = '';
+    tireDiameter.value = '';
+    rotationMileage.value = '';
   }, 1000);
 };
-</script>
 
+</script>
 
 <style scoped>
 .main-content {
   display: flex;
   flex-direction: column;
   background-color: #eff3f5;
-  height: auto;
   padding: 24px 20px;
   gap: 32px;
 }
-.icons {
-  height: 20px;
-  width: 20px;
-  justify-content: center;
-  align-items: center;
-  top: 35%;
-  position: absolute;
-  right: 0;
-}
+
 .card-wrapper {
   display: flex;
   flex-direction: column;
@@ -228,6 +208,7 @@ const handleSubmit = (): void => {
 .input-wrapper {
   margin-bottom: 16px;
 }
+
 .definitions-wrapper {
   position: relative;
 }
@@ -239,6 +220,7 @@ const handleSubmit = (): void => {
   font-size: 14px;
   color: #9ba7ad;
 }
+
 .q-input__inner {
   cursor: pointer;
 }
@@ -253,24 +235,25 @@ const handleSubmit = (): void => {
   justify-content: space-between;
 }
 
-.text-wrapper .title {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.help-icon {
-  cursor: pointer;
-}
-
-.text-wrapper .subtitle {
-  font-size: 14px;
-  color: #5B6871;
-
+.amperage-buttons {
   margin-top: 8px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
-.error-message {
-  color: red;
-  margin-top: 16px;
+.title {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.icons {
+  height: 20px;
+  width: 20px;
+  justify-content: center;
+  align-items: center;
+  top: 35%;
+  position: absolute;
+  right: 0;
 }
 </style>

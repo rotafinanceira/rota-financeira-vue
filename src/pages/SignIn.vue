@@ -31,25 +31,19 @@
             :path="'/register-1'"
           />
         </div>
-        <div>
+
+        <div class="maintenance-dropdown">
+          <q-select
+            filled
+            v-model="selectedMaintenance"
+            :options="maintenanceOptions"
+            label="Selecione uma manutenção"
+          ></q-select>
           <q-btn
+            label="Ir para Manutenção"
             color="primary"
-            label="Oil Maintenance"
-            @click="oilMaintenance"
-          ></q-btn>
-        </div>
-        <div>
-          <q-btn
-            color="primary"
-            label="Battery Maintenance"
-            @click="batteryMaintenance"
-          ></q-btn>
-        </div>
-        <div>
-          <q-btn
-            color="primary"
-            label="Fuel Filter Maintenance"
-            @click="fuelFilterMaintenance"
+            @click="navigateToMaintenance"
+            :disable="!selectedMaintenance"
           ></q-btn>
         </div>
       </div>
@@ -85,6 +79,14 @@ const isValid = ref(true);
 const email = ref('');
 const password = ref('');
 const errors = ref({});
+
+const selectedMaintenance = ref(null); // Modelo para o dropdown
+const maintenanceOptions = ref([
+  { label: 'Manutenção de Óleo', value: '/oil-maintenance' },
+  { label: 'Manutenção de Bateria', value: '/battery-maintenance' },
+  { label: 'Manutenção de Filtro de Combustível', value: '/fuel-filter-maintenance' },
+  { label: 'Alinhamento e Balanceamento', value: '/alignment-balancing' }, // Nova rota
+]);
 
 const router = useRouter();
 
@@ -163,15 +165,13 @@ const handleApiError = (statusCode) => {
   }
 };
 
-const oilMaintenance = () => {
-  router.push({ path: '/oil-maintenance' });
+const navigateToMaintenance = () => {
+  console.log('Selecionado:', selectedMaintenance.value); // Para depuração
+  if (selectedMaintenance.value) {
+    router.push(selectedMaintenance.value.value); // Passando o valor da rota
+  }
 };
-const batteryMaintenance = () => {
-  router.push({ path: '/battery-maintenance' });
-};
-const fuelFilterMaintenance = () => {
-  router.push({ path: '/fuel-filter-maintenance' });
-};
+
 </script>
 
 <style scoped>
@@ -227,5 +227,9 @@ const fuelFilterMaintenance = () => {
   font-size: 14px;
   margin-top: 5px;
   line-height: 21px;
+}
+
+.maintenance-dropdown {
+  margin-top: 32px; /* Adicione um espaçamento entre a form e o dropdown */
 }
 </style>

@@ -229,7 +229,7 @@ const showHelpModal = () => {
 }
 
 .text-wrapper {
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .header-content {
