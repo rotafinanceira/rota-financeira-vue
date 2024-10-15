@@ -17,12 +17,15 @@
                 <img :src="helpIcon" alt="Ícone de ajuda" />
               </div>
             </div>
-            <span class="subtitle">Preencha as informações da manutenção do balanceamento e alinhamento do seu carro.</span>
+            <span class="subtitle"
+              >Preencha as informações da manutenção do balanceamento e
+              alinhamento do seu carro.</span
+            >
           </div>
 
           <!-- Quilometragem da última manutenção -->
           <div class="input-wrapper">
-            <label for="last-maintenance-mileage">Última manutenção</label>
+            <label for="last-maintenance-mileage">Última manutenção*</label>
             <div class="definitions-wrapper">
               <q-input
                 id="last-maintenance-mileage"
@@ -36,7 +39,7 @@
 
           <!-- Insira o aro do seu pneu -->
           <div class="input-wrapper">
-            <label for="tire-diameter">Aro do pneu</label>
+            <label for="tire-diameter">Aro do pneu*</label>
             <div class="definitions-wrapper">
               <q-input
                 id="tire-diameter"
@@ -44,33 +47,46 @@
                 v-model="tireDiameter"
                 label="Insira o aro do seu pneu"
               ></q-input>
-              <span>Pol</span>
+              <span>
+                <div class="rim-icon">
+                  <img :src="rimIcon" alt="Ícone do Aro do Pneu" />
+                </div>
+              </span>
             </div>
           </div>
 
           <!-- Data da última troca de pneus -->
           <div class="input-wrapper">
-            <label for="last-oil-change">Data da última troca de pneus</label>
-            <q-input
-              id="last-oil-change"
-              outlined
-              v-model="date"
-              mask="##/##/####"
-              placeholder="Insira a data da última troca"
-              @focus="showDatePicker = true"
-            >
-              <template v-slot:append>
-                <q-icon name="event" @click="showDatePicker = !showDatePicker" />
-              </template>
-            </q-input>
-            <q-menu v-model="showDatePicker" fit>
-              <q-date v-model="date" mask="Insira a data da última troca" @input="onDateSelect" />
-            </q-menu>
+            <label for="last-tire-change">Data da última troca de pneus*</label>
+            <div class="definitions-wrapper">
+              <q-input
+                id="last-tire-change"
+                outlined
+                v-model="date"
+                mask="##/##/####"
+                placeholder="Insira a data da última troca"
+                @focus="showDatePicker = true"
+              >
+                <template v-slot:append>
+                  <q-icon
+                    name="event"
+                    @click="showDatePicker = !showDatePicker"
+                  />
+                </template>
+              </q-input>
+              <q-menu v-model="showDatePicker" fit>
+                <q-date
+                  v-model="date"
+                  mask="Insira a data da última troca"
+                  @input="onDateSelect"
+                />
+              </q-menu>
+            </div>
           </div>
 
           <!-- Quilometragem da troca de pneus -->
           <div class="input-wrapper">
-            <label for="mileage">Quilometragem da troca de pneus</label>
+            <label for="mileage">Quilometragem da troca de pneus*</label>
             <div class="definitions-wrapper">
               <q-input
                 id="mileage"
@@ -84,12 +100,12 @@
 
           <!-- Quilometragem do rodízio de pneus -->
           <div class="input-wrapper">
-            <label for="rotation-mileage">Rodízio de pneus</label>
+            <label for="tire-rotation">Rodízio de pneus*</label>
             <div class="definitions-wrapper">
               <q-input
-                id="rotation-mileage"
+                id="tire-rotation"
                 outlined
-                v-model="rotationMileage"
+                v-model="tireRotation"
                 label="Insira a quilometragem"
               ></q-input>
               <span>Km</span>
@@ -128,13 +144,14 @@ import SelectVehicle from '@/components/SelectVehicle.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import ModalPositive from '@/components/ModalSucess.vue';
 import helpIcon from '@/assets/helpIcon.svg';
+import rimIcon from '@/assets/rimIcon.svg';
 
 const showDatePicker = ref<boolean>(false);
 const isLoading = ref<boolean>(false);
 const date = ref<string>('');
 const mileage = ref<string>('');
 const tireDiameter = ref<string>('');
-const rotationMileage = ref<string>('');
+const tireRotation = ref<string>('');
 const carId = ref<number | null>(null);
 const modalContent = ref<string>('');
 const modalDescription = ref<string[] | string>('');
@@ -147,12 +164,12 @@ const successDescription = ref<string>('');
 
 const showHelpModal = (): void => {
   isOpen.value = true;
-  modalContent.value = 'Quando devo fazer a troca?';
+  modalContent.value = 'Quando devo fazer a manutenção?';
   modalDescription.value = [
     'A recomendação é fazer esse tipo de manutenção a cada 10.000km rodados.',
     'Fique atento a vibrações no volante, desgaste irregular dos pneus e puxões do veículo para um lado.',
     'Troque seus pneus se tiverem mais de 5 anos, mesmo que pareçam bons. O material envelhece e pode não ser seguro.',
-    'Troque após rodar entre 40.000 e 60.000 km. Pneus muito usados perdem eficiência.'
+    'Troque após rodar entre 40.000 e 60.000 km. Pneus muito usados perdem eficiência.',
   ];
 };
 
@@ -177,10 +194,9 @@ const handleSubmit = (): void => {
     date.value = '';
     mileage.value = '';
     tireDiameter.value = '';
-    rotationMileage.value = '';
+    tireRotation.value = '';
   }, 1000);
 };
-
 </script>
 
 <style scoped>
@@ -209,8 +225,14 @@ const handleSubmit = (): void => {
   margin-bottom: 16px;
 }
 
+.input-wrapper label {
+  font-weight: 500;
+  font-size: 16px;
+}
+
 .definitions-wrapper {
   position: relative;
+  margin-top: 4px;
 }
 
 .definitions-wrapper span {
@@ -227,6 +249,9 @@ const handleSubmit = (): void => {
 
 .text-wrapper {
   margin-bottom: 24px;
+  flex-direction: column;
+  gap: 6px;
+  display: flex;
 }
 
 .header-content {
