@@ -35,8 +35,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/RegistrationMaintenance/FuelFilterMaintenance.vue'),
       },
       {
-        path: 'alignment-balancing', 
-        component: () => import('@/pages/RegistrationMaintenance/AlignmentBalancing.vue'), // Importando o novo componente
+        path: 'alignment-balancing',
+        component: () => import('@/pages/RegistrationMaintenance/AlignmentBalancing.vue'),
+      },
+      {
+        path: 'air-conditioner-filter-maintenance',
+        component: () => import('@/pages/RegistrationMaintenance/AirConditioningFilter.vue'),
       },
     ],
   },

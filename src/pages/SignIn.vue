@@ -80,12 +80,13 @@ const email = ref('');
 const password = ref('');
 const errors = ref({});
 
-const selectedMaintenance = ref(null); // Modelo para o dropdown
+const selectedMaintenance = ref(null);
 const maintenanceOptions = ref([
   { label: 'Manutenção de Óleo', value: '/oil-maintenance' },
   { label: 'Manutenção de Bateria', value: '/battery-maintenance' },
   { label: 'Manutenção de Filtro de Combustível', value: '/fuel-filter-maintenance' },
-  { label: 'Alinhamento e Balanceamento', value: '/alignment-balancing' }, // Nova rota
+  { label: 'Alinhamento e Balanceamento', value: '/alignment-balancing' },
+  { label: 'Manutenção de Filtro de Ar-Condicionado', value: '/air-conditioner-filter-maintenance' },
 ]);
 
 const router = useRouter();
