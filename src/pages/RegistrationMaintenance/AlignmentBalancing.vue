@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <HeaderBar
-      title="Alinhamento e balanceamento"
+      title="Alinhamento e Balanceamento"
       subtitle="Cadastro de Manutenção"
       :path="'/'"
     />
