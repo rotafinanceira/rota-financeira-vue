@@ -7,6 +7,15 @@
       </div>
       <div class="title">{{ title }}</div>
     </div>
+    <div class="info-car">
+      <div class="car-image-wrapper">
+        <img src="src/assets/Ellipse53.png" alt="Brand Icon" class="car-image" />
+      </div>
+      <div class="car-details">
+        <div class="car-label">Meu carro</div>
+        <div class="car-name">Jeep Compass</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -62,4 +71,35 @@ const handleButtonClick = () => {
   color: #314b39;
   font-weight: 700;
 }
+
+.info-car {
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.car-image-wrapper {
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
+}
+
+.car-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+  .car-label {
+    font-size: 14px;
+    color: #5b6871;
+  }
+
+.car-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #314b39;
+}
+
 </style>
