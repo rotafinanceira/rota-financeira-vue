@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <HeaderBar
-      title="Filtro de Combustiível"
+      title="Filtro de Combustível"
       subtitle="Cadastro de Manutenção"
       :path="'/'"
     />
@@ -16,22 +16,36 @@
                 <img :src="helpIcon" alt="Ícone de ajuda" />
               </div>
             </div>
-            <span class="subtitle">Preencha com as informações sobre a última troca do filtro de combustível.</span>
+            <span class="subtitle">Preencha as informações da manutenção de Filtro de Combustível.</span>
           </div>
 
           <div class="input-wrapper">
-            <label for="last-oil-change">Última troca*</label>
+            <label for="value">Valor</label>
+            <q-input
+              id="value"
+              outlined
+              v-model="value"
+              placeholder="Digite o valor da manutenção"
+            >
+              <template v-slot:append>
+                <q-icon name="attach_money" />
+              </template>
+            </q-input>
+          </div>
+
+          <div class="input-wrapper">
+            <label for="last-oil-change">Data da troca</label>
             <q-input
               id="last-oil-change"
               outlined
               v-model="date"
               mask="##/##/####"
-              placeholder="Ex: 12/06/2024"
+              placeholder="Digite a data da última troca"
               @input="validateDate"
               @focus="showDatePicker = true"
             >
               <template v-slot:append>
-                <q-icon name="event" @click="showDatePicker = !showDatePicker" />
+                <q-icon name="event_note" @click="showDatePicker = !showDatePicker" />
               </template>
             </q-input>
             <q-menu v-model="showDatePicker" fit>
@@ -40,36 +54,37 @@
           </div>
 
           <div class="input-wrapper">
-            <label for="mileage">Quilometragem da troca*</label>
+            <label for="mileage">Quilometragem da troca</label>
             <div class="definitions-wrapper">
               <q-input
                 id="mileage"
                 outlined
                 v-model="mileage"
-                label="Ex: 86.540"
+                placeholder="Digite a quilometragem da última troca"
               ></q-input>
               <span>Km</span>
             </div>
           </div>
+
           <div class="input-wrapper">
-            <label for="model">Modelo*</label>
+            <label for="model">Modelo</label>
             <q-input
               id="model"
               outlined
               v-model="model"
-              label="Ex: Main-Filter"
+              placeholder="Digite o modelo utilizado"
             >
               <img :src="filterIcon" alt="Filter Icon" class="icons" />
             </q-input>
           </div>
 
           <div class="input-wrapper">
-            <label for="brand">Marca*</label>
+            <label for="brand">Marca</label>
             <q-input
               id="brand"
               outlined
               v-model="brand"
-              label="Ex: Authomix"
+              placeholder="Digite a marca utilizada"
             >
               <img :src="RMarcaFiltroIcon" alt="Marca Icon" class="icons" />
             </q-input>
@@ -122,6 +137,7 @@ const isLoading = ref<boolean>(false);
 const mileage = ref<string>('');
 const model = ref<string>('');
 const brand = ref<string>('');
+const value = ref<string>('');
 const invalidDate = ref<boolean>(false);
 const modalContent = ref<string>('Ajuda');
 const modalDescription = ref<Array<string> | string>('Este formulário é usado para registrar as informações sobre a troca de combustíveis do veículo. Preencha todos os campos obrigatórios.');
@@ -141,15 +157,6 @@ function validateDate() {
 }
 
 function handleSubmit() {
-  // Validar campos obrigatórios
-  // if (!date.value || !mileage.value || !brand.value || !model.value) {
-  //   modalContent.value = 'Erro';
-  //   modalDescription.value = 'Por favor, preencha todos os campos obrigatórios.';
-  //   isOpen.value = true;
-  //   return;
-  // }
-
-  // Simular envio de dados
   isLoading.value = true;
 
   setTimeout(() => {
@@ -163,7 +170,8 @@ function handleSubmit() {
     mileage.value = '';
     brand.value = '';
     model.value = '';
-  }, 2000); // Simulando um delay de 2 segundos
+    value.value = '';
+  }, 2000);
 }
 
 const showHelpModal = () => {
@@ -176,7 +184,6 @@ const showHelpModal = () => {
     'Atualmente, a maioria dos manuais recomenda a troca a cada 10.000 km (antigamente, era a cada 30.000 km).'
   ];
 };
-
 </script>
 
 <style scoped>
@@ -211,7 +218,7 @@ const showHelpModal = () => {
 }
 
 .input-wrapper {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 .definitions-wrapper {
   position: relative;
@@ -229,7 +236,7 @@ const showHelpModal = () => {
 }
 
 .text-wrapper {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 .header-content {
@@ -250,8 +257,6 @@ const showHelpModal = () => {
 .text-wrapper .subtitle {
   font-size: 14px;
   color: #5B6871;
-
-  margin-top: 8px;
 }
 
 .error-message {
