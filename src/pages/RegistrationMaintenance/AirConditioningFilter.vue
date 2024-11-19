@@ -22,21 +22,34 @@
             </span>
           </div>
 
-          <!-- Data da última troca do filtro de ar-condicionado -->
           <div class="input-wrapper">
-            <label for="last-filter-change">Última troca*</label>
+            <label for="maintenance-value">Valor da manutenção*</label>
+            <q-input
+              id="maintenance-value"
+              outlined
+              v-model="maintenanceValue"
+              placeholder="Digite o valor da manutenção"
+            >
+              <template v-slot:append>
+                <q-icon name="attach_money" />
+              </template>
+            </q-input>
+          </div>
+
+          <div class="input-wrapper">
+            <label for="last-filter-change">Data da troca*</label>
             <div class="definitions-wrapper">
               <q-input
                 id="last-filter-change"
                 outlined
                 v-model="lastFilterChangeDate"
                 mask="##/##/####"
-                placeholder="Insira a data da última troca"
+                placeholder="Digite a data da última troca"
                 @focus="showDatePicker = true"
               >
                 <template v-slot:append>
                   <q-icon
-                    name="event"
+                    name="event_note"
                     @click="showDatePicker = !showDatePicker"
                   />
                 </template>
@@ -51,21 +64,20 @@
             </div>
           </div>
 
-          <!-- Data da última limpeza do filtro de ar-condicionado -->
           <div class="input-wrapper">
-            <label for="last-filter-cleaning">Última limpeza*</label>
+            <label for="last-filter-cleaning">Data da limpeza*</label>
             <div class="definitions-wrapper">
               <q-input
                 id="last-filter-cleaning"
                 outlined
                 v-model="lastFilterCleaningDate"
                 mask="##/##/####"
-                placeholder="Insira a data da última limpeza"
+                placeholder="Digite a data da última limpeza"
                 @focus="showDatePickerCleaning = true"
               >
                 <template v-slot:append>
                   <q-icon
-                    name="event"
+                    name="event_note"
                     @click="showDatePickerCleaning = !showDatePickerCleaning"
                   />
                 </template>
@@ -118,14 +130,17 @@ const showDatePickerCleaning = ref<boolean>(false);
 const isLoading = ref<boolean>(false);
 const lastFilterChangeDate = ref<string>('');
 const lastFilterCleaningDate = ref<string>('');
+const maintenanceValue = ref<string>('');
 const carId = ref<number | null>(null);
 const modalContent = ref<string>('');
 const modalDescription = ref<string[] | string>('');
 const isOpen = ref<boolean>(false);
 
 const isPositiveOpen = ref<boolean>(false);
-const successTitle = ref<string>('');
-const successDescription = ref<string>('');
+const successTitle = ref<string>('Cadastro concluído!');
+const successDescription = ref<string>(
+  'Informaremos você sobre a próxima manutenção.'
+);
 
 const showHelpModal = (): void => {
   isOpen.value = true;
@@ -134,7 +149,7 @@ const showHelpModal = (): void => {
     'Troque o filtro a cada 12-18 meses para evitar acúmulo de poeira e contaminantes.',
     'Em áreas poluídas, troque a cada 15.000-30.000 quilômetros.',
     'Fique atento a redução no fluxo de ar, odores estranhos ou mofo no interior do veículo.',
-    'Consulte o manual do proprietário para orientações específicas do fabricante sobre a troca do filtro.'
+    'Consulte o manual do proprietário para orientações específicas do fabricante sobre a troca do filtro.',
   ];
 };
 
@@ -157,12 +172,11 @@ const handleSubmit = (): void => {
 
   setTimeout(() => {
     isLoading.value = false;
-    successTitle.value = 'Cadastro concluído!';
-    successDescription.value = 'Informaremos você sobre a próxima manutenção.';
     isPositiveOpen.value = true;
 
     lastFilterChangeDate.value = '';
     lastFilterCleaningDate.value = '';
+    maintenanceValue.value = '';
   }, 1000);
 };
 </script>
@@ -179,7 +193,7 @@ const handleSubmit = (): void => {
 .card-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 32px;
 }
 
 .card {
@@ -190,7 +204,7 @@ const handleSubmit = (): void => {
 }
 
 .input-wrapper {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .input-wrapper label {
@@ -198,25 +212,17 @@ const handleSubmit = (): void => {
   font-size: 16px;
 }
 
+.subtitle {
+  color: #5b6871;
+}
+
 .definitions-wrapper {
   position: relative;
   margin-top: 4px;
 }
 
-.definitions-wrapper span {
-  position: absolute;
-  right: 12px;
-  top: 18px;
-  font-size: 14px;
-  color: #9ba7ad;
-}
-
-.q-input__inner {
-  cursor: pointer;
-}
-
 .text-wrapper {
-  margin-bottom: 24px;
+  margin-bottom: 32px; 
   flex-direction: column;
   gap: 6px;
   display: flex;
