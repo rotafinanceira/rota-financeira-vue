@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <HeaderBar
-      title="Monitoriamento de Bateria"
+      title="Monitoramento de Bateria"
       subtitle="Cadastro de Manutenção"
       :path="'/'"
     />
@@ -17,17 +17,32 @@
                 <img :src="helpIcon" alt="Ícone de ajuda" />
               </div>
             </div>
-            <span class="subtitle">Preencha com as informações sobre a última troca de bateria.</span>
+            <span class="subtitle">Preencha as informações da manutenção de Monitoramento de Bateria.</span>
           </div>
 
           <div class="input-wrapper">
-            <label for="last-oil-change">Última troca</label>
+            <label for="maintenance-value">Valor da manutenção *</label>
+            <q-input
+              id="maintenance-value"
+              outlined
+              v-model="maintenanceValue"
+              placeholder="Digite o valor da manutenção"
+              type="number"
+            >
+              <template v-slot:append>
+                <q-icon name="attach_money" />
+              </template>
+            </q-input>
+          </div>
+
+          <div class="input-wrapper">
+            <label for="last-oil-change">Data da troca *</label>
             <q-input
               id="last-oil-change"
               outlined
               v-model="date"
               mask="##/##/####"
-              placeholder="Seleciona ou digita a data"
+              placeholder="Digite a data da última troca"
               @focus="showDatePicker = true"
             >
               <template v-slot:append>
@@ -40,17 +55,18 @@
           </div>
 
           <div class="input-wrapper">
-            <label for="mileage">Quilometragem da última troca</label>
+            <label for="mileage">Quilometragem da troca *</label>
             <div class="definitions-wrapper">
-            <q-input
-              id="mileage"
-              outlined
-              v-model="mileage"
-              label="Ex: 86.540"
-            ></q-input>
-            <span>Km</span>
+              <q-input
+                id="mileage"
+                outlined
+                v-model="mileage"
+                label="Digite a quilometragem da última troca"
+                ></q-input>
+              <span>Km</span>
+            </div>
           </div>
-          </div>
+
           <div class="input-wrapper">
             <label for="brand">Marca</label>
             <q-select
@@ -58,13 +74,14 @@
               outlined
               v-model="batteryBrand"
               :options="brandOptions"
-              label="Insira a marca da bateria"
+              label="Digite a marca da bateria"
             >
             <img :src="batteryIcon" alt="Battery Icon" class="icons" />
           </q-select>
           </div>
+
           <div class="input-wrapper">
-            <label for="amperage">Amperagem da bateria</label>
+            <label for="amperage">Amperagem da bateria *</label>
             <div class="amperage-buttons">
               <q-radio
                 v-for="option in amperageOptions"
@@ -121,6 +138,7 @@ const mileage = ref<string>('');
 const batteryBrand = ref<string>('');
 const selectedAmperage = ref<string | null>(null);
 const carId = ref<number | null>(null);
+const maintenanceValue = ref<string>('');
 const modalContent = ref<string>('');
 const modalDescription = ref<string[] | string>('');
 const isOpen = ref<boolean>(false);
@@ -173,6 +191,7 @@ const handleSubmit = (): void => {
 
     date.value = '';
     mileage.value = '';
+    maintenanceValue.value = '';
     batteryBrand.value = '';
     selectedAmperage.value = null;
   }, 1000);
@@ -202,7 +221,7 @@ const handleSubmit = (): void => {
 }
 
 .input-wrapper {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 .definitions-wrapper {
   position: relative;
@@ -220,7 +239,11 @@ const handleSubmit = (): void => {
 }
 
 .text-wrapper {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
+}
+
+.subtitle {
+  color: #5b6871;
 }
 
 .header-content {
