@@ -162,7 +162,7 @@ function handleSubmit() {
   setTimeout(() => {
     isLoading.value = false;
     successTitle.value = 'Cadastro concluído!';
-    successDescription.value = 'Informaremos sobre a próxima troca de bateria.';
+    successDescription.value = 'Informaremos sobre a próxima troca de filtro de óleo.';
     isPositiveOpen.value = true;
 
     // Limpar o formulário
