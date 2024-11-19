@@ -11,24 +11,39 @@
         <div class="card">
           <div class="text-wrapper">
             <div class="header-content">
-              <span class="title">Manutenção*</span>
+              <span class="title">Manutenção</span>
               <div @click="showHelpModal">
                 <img :src="helpIcon" alt="Help Icon" />
               </div>
             </div>
-
-            <span class="subtitle"
-              >Preencha com as informações sobre a última troca de óleo.</span
-            >
+            <span class="subtitle">
+              Preencha as informações da manutenção de Troca de Óleo.
+            </span>
           </div>
           <div class="input-wrapper">
-            <label for="last-oil-change">Última troca*</label>
+            <label for="maintenance-value">Valor da manutenção*</label>
+            <div class="definitions-wrapper">
+              <q-input
+                id="maintenance-value"
+                outlined
+                v-model="maintenanceValue"
+                label="Digite o valor da manutenção"
+                type="number"
+              >
+                <template v-slot:append>
+                  <q-icon name="attach_money" />
+                </template>
+              </q-input>
+            </div>
+          </div>
+          <div class="input-wrapper">
+            <label for="last-oil-change">Data da troca*</label>
             <q-input
               id="last-oil-change"
               outlined
               v-model="date"
               mask="##/##/####"
-              label="Seleciona ou digita a data"
+              label="Digite a data da última troca"
               @focus="showDatePicker = true"
             >
               <template v-slot:append>
@@ -42,7 +57,6 @@
               <q-date v-model="date" mask="DD/MM/YYYY" @input="onDateSelect" />
             </q-menu>
           </div>
-
           <div class="input-wrapper">
             <label for="mileage">Quilometragem da troca*</label>
             <div class="definitions-wrapper">
@@ -50,7 +64,7 @@
                 id="mileage"
                 outlined
                 v-model="mileage"
-                label="Ex: 86.540"
+                label="Digite a quilometragem da última troca"
                 type="number"
               ></q-input>
               <span>Km</span>
@@ -73,7 +87,7 @@
                 id="liters"
                 outlined
                 v-model="liters"
-                label="Ex: 8"
+                label="Digite a quantidade em litros"
                 type="number"
               >
                 <img :src="fuelIcon" alt="Fuel Icon" class="icons" />
@@ -86,7 +100,7 @@
               id="oil-brand"
               outlined
               v-model="oilBrand"
-              label="Ex: Castrol"
+              label="Digite a marca utilizada"
             >
               <img :src="brandIcon" alt="Brand Icon" class="icons" />
             </q-input>
@@ -138,14 +152,20 @@ const mileage = ref<string>('');
 const oilType = ref<string>('');
 const liters = ref<string>('');
 const oilBrand = ref<string>('');
+const maintenanceValue = ref<string>('');
 const carId = ref<number | null>(null);
-const modalContent = ref<string>('');
-const modalDescription = ref<string[]>([]);
+const modalContent = ref<string>('Quando devo fazer a troca?');
+const modalDescription = ref<string[]>([
+  'O tempo recomendado para troca de óleo é de 6 a 12 meses.',
+  'Troque de óleo a cada 10 mil quilômetros aproximadamente.',
+  'O uso severo do veículo pode encurtar o intervalo de troca de óleo.',
+  'Utilize o tipo de óleo e quantidade correta do modelo do seu veículo.',
+  'Jamais misture óleos de viscosidades diferentes.',
+]);
 const isOpen = ref<boolean>(false);
-
 const isPositiveOpen = ref<boolean>(false);
-const successTitle = ref<string>('');
-const successDescription = ref<string>('');
+const successTitle = ref<string>('Cadastro concluído!');
+const successDescription = ref<string>('Informaremos você sobre a próxima troca.');
 
 const oilOptions = ref<OilOptionsProps[]>([
   { label: 'Sintético', value: 'sintetico' },
@@ -177,22 +197,20 @@ const setCarId = (selectedCarId: number): void => {
 
 const handleSubmit = (): void => {
   isLoading.value = true;
-
   setTimeout(() => {
     isLoading.value = false;
     successTitle.value = 'Cadastro concluído!';
     successDescription.value = 'Informaremos você sobre a próxima troca.';
     isPositiveOpen.value = true;
-
     date.value = '';
     mileage.value = '';
     oilType.value = '';
     liters.value = '';
     oilBrand.value = '';
+    maintenanceValue.value = '';
   }, 1000);
 };
 </script>
-
 
 <style scoped>
 .main-content {
@@ -217,16 +235,14 @@ const handleSubmit = (): void => {
   flex-direction: column;
   gap: 20px;
 }
-
 .card {
   width: 100%;
   background-color: white;
   border-radius: 8px;
   padding: 16px;
 }
-
 .input-wrapper {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 .definitions-wrapper {
   position: relative;
@@ -244,7 +260,7 @@ const handleSubmit = (): void => {
 }
 
 .text-wrapper {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 .header-content {
