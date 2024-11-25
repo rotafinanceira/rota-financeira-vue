@@ -17,7 +17,10 @@
                 <img :src="helpIcon" alt="Ícone de ajuda" />
               </div>
             </div>
-            <span class="subtitle">Preencha as informações da manutenção de Monitoramento de Bateria.</span>
+            <span class="subtitle"
+              >Preencha as informações da manutenção de Monitoramento de
+              Bateria.</span
+            >
           </div>
 
           <div class="input-wrapper">
@@ -46,7 +49,10 @@
               @focus="showDatePicker = true"
             >
               <template v-slot:append>
-                <q-icon name="event" @click="showDatePicker = !showDatePicker" />
+                <q-icon
+                  name="event"
+                  @click="showDatePicker = !showDatePicker"
+                />
               </template>
             </q-input>
             <q-menu v-model="showDatePicker" fit>
@@ -62,7 +68,7 @@
                 outlined
                 v-model="mileage"
                 label="Digite a quilometragem da última troca"
-                ></q-input>
+              ></q-input>
               <span>Km</span>
             </div>
           </div>
@@ -76,8 +82,8 @@
               :options="brandOptions"
               label="Digite a marca da bateria"
             >
-            <img :src="batteryIcon" alt="Battery Icon" class="icons" />
-          </q-select>
+              <img :src="batteryIcon" alt="Battery Icon" class="icons" />
+            </q-select>
           </div>
 
           <div class="input-wrapper">
@@ -125,7 +131,7 @@
 import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
-import SelectVehicle from '@/components/SelectVehicle.vue';
+import SelectVehicle from '@/components/SelectVehiclePlate.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import ModalPositive from '@/components/ModalSucess.vue';
 import helpIcon from '@/assets/helpIcon.svg';
@@ -151,13 +157,13 @@ const brandOptions = [
   { label: 'Moura', value: 'Moura' },
   { label: 'Heliar', value: 'Heliar' },
   { label: 'ACDelco', value: 'ACDelco' },
-  { label: 'Outro', value: 'Outro' }
+  { label: 'Outro', value: 'Outro' },
 ];
 
 const amperageOptions = [
   { label: '60 Ah', value: '60 Ah' },
   { label: '80 Ah', value: '80 Ah' },
-  { label: '120 Ah', value: '120 Ah' }
+  { label: '120 Ah', value: '120 Ah' },
 ];
 
 const showHelpModal = (): void => {
@@ -167,7 +173,7 @@ const showHelpModal = (): void => {
     'Troque a bateria a cada 3 a 5 anos.',
     'Se o motor estiver demorando para ligar, a bateria pode estar fraca.',
     'Luzes do painel ou faróis mais fracos podem indicar desgaste da bateria.',
-    'Odor de enxofre ou ovo podre pode indicar vazamento da bateria.'
+    'Odor de enxofre ou ovo podre pode indicar vazamento da bateria.',
   ];
 };
 

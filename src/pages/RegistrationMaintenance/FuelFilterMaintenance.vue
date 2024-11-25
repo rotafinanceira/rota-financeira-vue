@@ -16,7 +16,10 @@
                 <img :src="helpIcon" alt="Ícone de ajuda" />
               </div>
             </div>
-            <span class="subtitle">Preencha as informações da manutenção de Filtro de Combustível.</span>
+            <span class="subtitle"
+              >Preencha as informações da manutenção de Filtro de
+              Combustível.</span
+            >
           </div>
 
           <div class="input-wrapper">
@@ -45,7 +48,10 @@
               @focus="showDatePicker = true"
             >
               <template v-slot:append>
-                <q-icon name="event_note" @click="showDatePicker = !showDatePicker" />
+                <q-icon
+                  name="event_note"
+                  @click="showDatePicker = !showDatePicker"
+                />
               </template>
             </q-input>
             <q-menu v-model="showDatePicker" fit>
@@ -99,7 +105,8 @@
       />
 
       <div v-if="invalidDate" class="error-message">
-        Data inválida! Por favor, insira uma data no formato correto (DD/MM/YYYY).
+        Data inválida! Por favor, insira uma data no formato correto
+        (DD/MM/YYYY).
       </div>
     </div>
 
@@ -124,7 +131,7 @@
 import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
-import SelectVehicle from '@/components/SelectVehicle.vue';
+import SelectVehicle from '@/components/SelectVehiclePlate.vue';
 import helpIcon from '@/assets/helpIcon.svg';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import filterIcon from '@/assets/filterIcon.svg';
@@ -140,7 +147,9 @@ const brand = ref<string>('');
 const value = ref<string>('');
 const invalidDate = ref<boolean>(false);
 const modalContent = ref<string>('Ajuda');
-const modalDescription = ref<Array<string> | string>('Este formulário é usado para registrar as informações sobre a troca de combustíveis do veículo. Preencha todos os campos obrigatórios.');
+const modalDescription = ref<Array<string> | string>(
+  'Este formulário é usado para registrar as informações sobre a troca de combustíveis do veículo. Preencha todos os campos obrigatórios.'
+);
 const isOpen = ref<boolean>(false);
 const successTitle = ref<string>('');
 const successDescription = ref<string>('');
@@ -162,7 +171,8 @@ function handleSubmit() {
   setTimeout(() => {
     isLoading.value = false;
     successTitle.value = 'Cadastro concluído!';
-    successDescription.value = 'Informaremos sobre a próxima troca de filtro de óleo.';
+    successDescription.value =
+      'Informaremos sobre a próxima troca de filtro de óleo.';
     isPositiveOpen.value = true;
 
     // Limpar o formulário
@@ -181,7 +191,7 @@ const showHelpModal = () => {
     'Troque o filtro de combustível quando apresentar sinais de mal estado.',
     'Siga a frequência indicada no manual do fabricante do veículo.',
     'Não limpe o filtro de combustível; substitua-o por um novo.',
-    'Atualmente, a maioria dos manuais recomenda a troca a cada 10.000 km (antigamente, era a cada 30.000 km).'
+    'Atualmente, a maioria dos manuais recomenda a troca a cada 10.000 km (antigamente, era a cada 30.000 km).',
   ];
 };
 </script>
@@ -256,7 +266,7 @@ const showHelpModal = () => {
 
 .text-wrapper .subtitle {
   font-size: 14px;
-  color: #5B6871;
+  color: #5b6871;
 }
 
 .error-message {

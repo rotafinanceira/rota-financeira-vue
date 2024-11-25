@@ -140,7 +140,7 @@
 import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
-import SelectVehicle from '@/components/SelectVehicle.vue';
+import SelectVehicle from '@/components/SelectVehiclePlate.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import ModalPositive from '@/components/ModalSucess.vue';
 import helpIcon from '@/assets/helpIcon.svg';

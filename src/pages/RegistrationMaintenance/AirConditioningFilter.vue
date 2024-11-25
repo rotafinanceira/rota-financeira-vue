@@ -18,7 +18,8 @@
               </div>
             </div>
             <span class="subtitle">
-              Preencha as informações da manutenção do Filtro de Ar-Condicionado.
+              Preencha as informações da manutenção do Filtro de
+              Ar-Condicionado.
             </span>
           </div>
 
@@ -120,7 +121,7 @@
 import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
-import SelectVehicle from '@/components/SelectVehicle.vue';
+import SelectVehicle from '@/components/SelectVehiclePlate.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import ModalPositive from '@/components/ModalSucess.vue';
 import helpIcon from '@/assets/helpIcon.svg';
@@ -222,7 +223,7 @@ const handleSubmit = (): void => {
 }
 
 .text-wrapper {
-  margin-bottom: 32px; 
+  margin-bottom: 32px;
   flex-direction: column;
   gap: 6px;
   display: flex;

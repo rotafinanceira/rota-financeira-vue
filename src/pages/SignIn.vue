@@ -84,9 +84,16 @@ const selectedMaintenance = ref(null);
 const maintenanceOptions = ref([
   { label: 'Manutenção de Óleo', value: '/oil-maintenance' },
   { label: 'Manutenção de Bateria', value: '/battery-maintenance' },
-  { label: 'Manutenção de Filtro de Combustível', value: '/fuel-filter-maintenance' },
+  {
+    label: 'Manutenção de Filtro de Combustível',
+    value: '/fuel-filter-maintenance',
+  },
   { label: 'Alinhamento e Balanceamento', value: '/alignment-balancing' },
-  { label: 'Manutenção de Filtro de Ar-Condicionado', value: '/air-conditioner-filter-maintenance' },
+  {
+    label: 'Manutenção de Filtro de Ar-Condicionado',
+    value: '/air-conditioner-filter-maintenance',
+  },
+  { label: 'Registrar Veiculo', value: '/registration-vehicle' },
 ]);
 
 const router = useRouter();
@@ -172,7 +179,6 @@ const navigateToMaintenance = () => {
     router.push(selectedMaintenance.value.value); // Passando o valor da rota
   }
 };
-
 </script>
 
 <style scoped>

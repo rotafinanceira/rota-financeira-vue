@@ -7,9 +7,13 @@
       </div>
       <div class="title">{{ title }}</div>
     </div>
-    <div class="info-car">
+    <div v-if="showInfoCar" class="info-car">
       <div class="car-image-wrapper">
-        <img src="src/assets/Ellipse53.png" alt="Brand Icon" class="car-image" />
+        <img
+          src="src/assets/Ellipse53.png"
+          alt="Brand Icon"
+          class="car-image"
+        />
       </div>
       <div class="car-details">
         <div class="car-label">Meu carro</div>
@@ -25,10 +29,14 @@ import { useRouter } from 'vue-router';
 import backArrow from '../assets/backarrow.svg';
 
 const router = useRouter();
-const { title, subtitle, path } = defineProps({
+const { title, subtitle, path, showInfoCar } = defineProps({
   title: String,
   subtitle: String,
   path: String,
+  showInfoCar: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const handleButtonClick = () => {
@@ -91,15 +99,14 @@ const handleButtonClick = () => {
   border-radius: 50%;
 }
 
-  .car-label {
-    font-size: 14px;
-    color: #5b6871;
-  }
+.car-label {
+  font-size: 14px;
+  color: #5b6871;
+}
 
 .car-name {
   font-size: 18px;
   font-weight: 700;
   color: #314b39;
 }
-
 </style>
