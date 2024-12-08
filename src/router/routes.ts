@@ -51,6 +51,10 @@ const routes: RouteRecordRaw[] = [
         path: 'registration-vehicle',
         component: () => import('@/pages/Vehicle/RegistrationVehicle.vue'),
       },
+      {
+        path: 'test-layout',
+        component: () => import('src/pages/TestLayoutPage.vue'), 
+      },
     ],
   },
 
