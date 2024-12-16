@@ -93,7 +93,14 @@ const maintenanceOptions = ref([
     label: 'Manutenção de Filtro de Ar-Condicionado',
     value: '/air-conditioner-filter-maintenance',
   },
-  { label: 'Registrar Veiculo', value: '/registration-vehicle' },
+  {
+    label: 'Registrar Veiculo',
+    value: '/registration-vehicle'
+  },
+  {
+    label:'Histórico de manutenção',
+    value: '/maintenance-history',
+  }
 ]);
 
 const router = useRouter();
