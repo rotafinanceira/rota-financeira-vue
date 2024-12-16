@@ -10,13 +10,17 @@
 
       <q-space />
 
-      <q-btn flat round icon="notifications" />
+      <!-- Colocando o ícone Noti.svg dentro de q-btn -->
+      <q-btn flat round>
+        <q-img :src="Noti" style="width: 24px; height: 24px;" />
+      </q-btn>
     </q-toolbar>
   </q-header>
 </template>
 
 <script setup>
 import logoRota from '@/assets/logoRota.svg';
+import Noti from '@/assets/Noti.svg';
 </script>
 
 <style scoped>
@@ -27,7 +31,7 @@ import logoRota from '@/assets/logoRota.svg';
 
 .column-header {
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
   align-items: flex-start;
 }
 

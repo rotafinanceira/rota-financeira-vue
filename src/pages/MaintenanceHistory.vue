@@ -1,121 +1,134 @@
-  <template>
-    <q-layout view="hHh lpR fFf" class="layout-background">
-      <!-- Header -->
-      <AppHeader />
+<template>
+  <q-layout view="hHh lpR fFf" class="layout-background">
+    <!-- Header -->
+    <AppHeader />
 
-      <q-page-container>
-        <q-page class="q-pa-md">
-          <!-- Cabeçalho -->
-          <div class="q-mt-md" style="display: flex; align-items: center; margin-top: 60px">
-            <!-- Ícone e Texto na mesma div -->
-            <q-btn flat round icon="description" class="my-icon" />
-            <div class="text-h6 q-ml-sm">Histórico Mensal</div>
-          </div>
+    <q-page-container>
+      <q-page class="q-pa-md">
+        <!-- Cabeçalho -->
+        <div class="q-mt-md" style="display: flex; align-items: center; margin-top: 60px">
+          <!-- Ícone e Texto na mesma div -->
 
-          <!-- Lista de Cards de Manutenção -->
-          <div class="q-mt-md">
-            <q-card
-              v-for="(item, index) in maintenanceHistory"
-              :key="index"
-              :class="{'last-card': index === maintenanceHistory.length - 1}"
-              class="my-card"
-            >
+          <q-btn flat round class="my-icon">
+      <q-img :src="Doc" style="width: 24px; height: 24px;" />
+    </q-btn>          <div class="text-h6 q-ml-sm">Histórico Mensal</div>
+        </div>
+
+        <!-- Lista de Cards de Manutenção -->
+        <div class="q-mt-md">
+          <q-card
+            v-for="(item, index) in maintenanceHistory"
+            :key="index"
+            :class="{ 'last-card': index === maintenanceHistory.length - 1 }"
+            class="my-card"
+          >
             <q-card-section class="custom-padding">
-  <div class="text-h6">{{ item.month }}</div>
-  <div class="maintenance-info">
-    <!-- Data -->
-    <div class="maintenance-date">{{ item.date }}</div>
-    <!-- Quilometragem -->
-    <div class="maintenance-km">Km do dia: {{ item.km }} km</div>
-  </div>
-  <div class="q-mt-sm">
-    <ul class="no-bullets">
-      <li
-        v-for="(maintenance, idx) in item.maintenanceDetails"
-        :key="idx"
-        class="q-mb-sm"
-      >
-      <q-item class="no-padding-item">
-  <!-- Ícone da manutenção -->
-  <q-item-section class="maintenance-section">
-    <q-icon :name="getMaintenanceIcon(maintenance.name)" class="maintenance-icon" />
-  </q-item-section>
+              <div class="text-h6">{{ item.month }}</div>
+              <div class="maintenance-info">
+                <!-- Data -->
+                <div class="maintenance-date">{{ item.date }}</div>
+                <!-- Quilometragem -->
+                <div class="maintenance-km">Km do dia: {{ item.km }} km</div>
+              </div>
+              <div class="q-mt-sm">
+                <ul class="no-bullets">
+                  <li
+                    v-for="(maintenance, idx) in item.maintenanceDetails"
+                    :key="`${index}-${idx}`"
+                    class="q-mb-sm"
+                  >
+                    <q-item class="no-padding-item">
+                      <!-- Ícone da manutenção -->
+                      <q-item-section class="maintenance-section">
+                        <img
+                          :src="getMaintenanceIcon(maintenance.name)"
+                          alt="Maintenance Icon"
+                          class="maintenance-icon"
+                        />
+                      </q-item-section>
 
-  <!-- Nome da manutenção -->
-  <q-item-section>
-    <div>{{ maintenance.name }}</div>
-    <div class="text-body2">R$ {{ maintenance.cost }}</div>
-  </q-item-section>
-</q-item>
-      </li>
-    </ul>
-  </div>
-</q-card-section>
+                      <!-- Nome da manutenção -->
+                      <q-item-section>
+                        <div>{{ maintenance.name }}</div>
+                        <div class="text-body2">R$ {{ maintenance.cost }}</div>
+                      </q-item-section>
+                    </q-item>
+                  </li>
+                </ul>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+      </q-page>
+    </q-page-container>
 
-            </q-card>
-          </div>
-        </q-page>
-      </q-page-container>
+    <!-- Footer -->
+    <AppFooter />
+  </q-layout>
+</template>
 
-      <!-- Footer -->
-      <AppFooter />
-    </q-layout>
-  </template>
+<script setup>
+import AppHeader from 'components/AppHeader.vue';
+import AppFooter from 'components/AppFooter.vue';
 
+// Importações de SVGs
+import FiltroComb from '@/assets/FiltroComb.svg';
+import Alinhamento from '@/assets/Alinham.svg';
+import Agua from '@/assets/agua.svg';
+import OilChange from '@/assets/oil-change.svg';
+import DefaultIcon from '@/assets/default.svg';
+import Doc from '@/assets/Doc.svg';
 
-  <script setup>
-  import AppHeader from 'components/AppHeader.vue';
-  import AppFooter from 'components/AppFooter.vue';
+// Dados de exemplo
+const maintenanceHistory = [
+  {
+    month: 'Setembro',
+    date: 'Quarta, 25 set. 2024',
+    km: '10.570',
+    maintenanceDetails: [
+      { name: 'Troca de filtro de combustível', cost: '400,00' },
+      { name: 'Alinhamento e Balanceamento', cost: '400,00' },
+    ],
+  },
+  {
+    month: 'Agosto',
+    date: 'Quarta, 25 set. 2024',
+    km: '9.510',
+    maintenanceDetails: [{ name: 'Troca de água', cost: '400,00' }],
+  },
+  {
+    month: 'Julho',
+    date: 'Quarta, 25 set. 2024',
+    km: '10.150',
+    maintenanceDetails: [
+      { name: 'Troca de filtro de combustível', cost: '400,00' },
+      { name: 'Alinhamento e Balanceamento', cost: '400,00' },
+    ],
+  },
+  {
+    month: 'Junho',
+    date: 'Quarta, 25 set. 2024',
+    km: '9.150',
+    maintenanceDetails: [{ name: 'Troca de óleo', cost: '300,00' }],
+  },
+];
 
-  const maintenanceHistory = [
-    {
-      month: 'Setembro',
-      date: 'Quarta, 25 set. 2024',
-      km: '10.570',
-      maintenanceDetails: [
-        { name: 'Troca de filtro de combustível', cost: '400,00' },
-        { name: 'Alinhamento e Balanceamento', cost: '400,00' }
-      ]
-    },
-    {
-      month: 'Agosto',
-      date: 'Quarta, 25 set. 2024',
-      km: '9.510',
-      maintenanceDetails: [{ name: 'Troca de água', cost: '400,00' }]
-    },
-    {
-      month: 'Julho',
-      date: 'Quarta, 25 set. 2024',
-      km: '10.150',
-      maintenanceDetails: [
-        { name: 'Troca de filtro de combustível', cost: '400,00' },
-        { name: 'Alinhamento e Balanceamento', cost: '400,00' }
-      ]
-    },
-    {
-      month: 'Junho',
-      date: 'Quarta, 25 set. 2024',
-      km: '9.150',
-      maintenanceDetails: [{ name: 'Troca de óleo', cost: '300,00' }]
-    }
-  ];
-
-  // Função para retornar o ícone dependendo da manutenção
-  function getMaintenanceIcon(name) {
-    switch (name) {
-      case 'Troca de filtro de combustível':
-        return 'local_gas_station'; // Ícone de combustível
-      case 'Alinhamento e Balanceamento':
-        return 'settings'; // Ícone de configurações (representando alinhamento)
-      case 'Troca de água':
-        return 'water_drop'; // Ícone de gota d'água
-      case 'Troca de óleo':
-        return 'build'; // Ícone de ferramenta (representando troca de óleo)
-      default:
-        return 'help'; // Ícone padrão
-    }
+// Função para retornar o ícone SVG correspondente
+function getMaintenanceIcon(name) {
+  switch (name) {
+    case 'Troca de filtro de combustível':
+      return FiltroComb;
+    case 'Alinhamento e Balanceamento':
+      return Alinhamento;
+    case 'Troca de água':
+      return Agua;
+    case 'Troca de óleo':
+      return OilChange;
+    default:
+      return DefaultIcon;
   }
-  </script>
+}
+</script>
 
   <style scoped>
   .q-page,
@@ -158,7 +171,9 @@
   .maintenance-icon {
   width: 24px;
   height: 24px;
-  margin-right: 8px;
+  margin-right: 9px;
+  padding: 5px;
+  border-right: 9px;
 }
   .layout-background {
     background-color: #f5f5f5; /* Cinza claro */
