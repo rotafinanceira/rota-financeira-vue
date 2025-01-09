@@ -94,6 +94,11 @@ const maintenanceOptions = ref([
     value: '/air-conditioner-filter-maintenance',
   },
   { label: 'Registrar Veiculo', value: '/registration-vehicle' },
+  ,
+  {
+    label: 'Home',
+    value: '/test-layout',
+  },
 ]);
 
 const router = useRouter();
