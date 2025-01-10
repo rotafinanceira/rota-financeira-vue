@@ -1,11 +1,15 @@
 {
   "version": 2,
-  "installCommand": "npm install",
-  "buildCommand": "npm run build",
   "builds": [
     {
       "src": "package.json",
-      "use": "vercel-quasar"
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/spa"
+      }
     }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
