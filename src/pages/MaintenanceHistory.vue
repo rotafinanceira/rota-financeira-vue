@@ -1,16 +1,12 @@
 <template>
   <q-layout view="hHh lpR fFf" class="layout-background">
-    <!-- Header -->
     <AppHeader />
-
     <q-page-container>
       <q-page class="q-pa-md">
-        <!-- Cabeçalho -->
         <div class="title-wrapper">
           <q-img :src="Doc" class="doc-image" />
           <span class="title-text">Histórico mensal</span>
         </div>
-        <!-- Lista de Cards de Manutenção -->
         <div>
           <q-card
             v-for="(item, index) in maintenanceHistory"
@@ -21,9 +17,7 @@
             <q-card-section class="custom-padding">
               <div class="text-h6">{{ item.month }}</div>
               <div class="maintenance-info">
-                <!-- Data -->
                 <div class="maintenance-date">{{ item.date }}</div>
-                <!-- Quilometragem -->
                 <div class="maintenance-km">
                   <span class="km-label">Km do dia</span> {{ item.km }}km
                 </div>
@@ -39,27 +33,21 @@
                     class="q-mb-sm"
                   >
                     <q-item class="no-padding-item">
-                      <!-- Ícone da manutenção -->
-                      <q-item-section class="maintenance-section">
+                      <q-item-section class="maintenance-section no-grow">
                         <img
                           :src="getMaintenanceIcon(maintenance.name)"
                           alt="Maintenance Icon"
                           class="maintenance-icon"
                         />
                       </q-item-section>
-
-                      <!-- Divisória -->
-
-                      <q-item-section>
+                      <q-item-section class="no-grow">
                         <img
                           :src="VerticalLine"
                           alt="Vertical Line Icon"
                           class="vertical-line-icon"
                         />
                       </q-item-section>
-
-                      <!-- Nome da manutenção -->
-                      <q-item-section>
+                      <q-item-section class="maintenance-info-section">
                         <div>{{ maintenance.name }}</div>
                         <div class="text-body2">R$ {{ maintenance.cost }}</div>
                       </q-item-section>
@@ -72,8 +60,6 @@
         </div>
       </q-page>
     </q-page-container>
-
-    <!-- Footer -->
     <AppFooter />
   </q-layout>
 </template>
@@ -81,8 +67,6 @@
 <script setup>
 import AppHeader from 'components/AppHeader.vue';
 import AppFooter from 'components/AppFooter.vue';
-
-// Importações de SVGs
 import FiltroComb from '@/assets/FiltroComb.svg';
 import Alinhamento from '@/assets/Alinham.svg';
 import Agua from '@/assets/agua.svg';
@@ -92,7 +76,6 @@ import Doc from '@/assets/Doc.svg';
 import Line from '@/assets/Line.svg';
 import VerticalLine from '@/assets/VerticalLine.svg';
 
-// Dados de exemplo
 const maintenanceHistory = [
   {
     month: 'Setembro',
@@ -105,13 +88,13 @@ const maintenanceHistory = [
   },
   {
     month: 'Agosto',
-    date: 'Quarta, 25 set. 2024',
+    date: 'Segunda, 21 ago. 2024',
     km: '9.510',
     maintenanceDetails: [{ name: 'Troca de água', cost: '400,00' }],
   },
   {
     month: 'Julho',
-    date: 'Quarta, 25 set. 2024',
+    date: 'Quinta, 15 jul. 2024',
     km: '10.150',
     maintenanceDetails: [
       { name: 'Troca de filtro de combustível', cost: '400,00' },
@@ -120,145 +103,35 @@ const maintenanceHistory = [
   },
   {
     month: 'Junho',
-    date: 'Quarta, 25 set. 2024',
+    date: 'Terça, 10 jun. 2024',
     km: '9.150',
     maintenanceDetails: [{ name: 'Troca de óleo', cost: '300,00' }],
   },
 ];
 
-// Função para retornar o ícone SVG correspondente
+const maintenanceIcons = {
+  'Troca de filtro de combustível': FiltroComb,
+  'Alinhamento e Balanceamento': Alinhamento,
+  'Troca de água': Agua,
+  'Troca de óleo': OilChange,
+};
+
 function getMaintenanceIcon(name) {
-  switch (name) {
-    case 'Troca de filtro de combustível':
-      return FiltroComb;
-    case 'Alinhamento e Balanceamento':
-      return Alinhamento;
-    case 'Troca de água':
-      return Agua;
-    case 'Troca de óleo':
-      return OilChange;
-    default:
-      return DefaultIcon;
-  }
+  return maintenanceIcons[name] || DefaultIcon;
 }
 </script>
 
 <style scoped>
+.layout-background {
+  background-color: #f5f5f5;
+}
+
 .q-page {
   padding-top: 24px;
 }
 
-.no-padding-item {
-  padding: 0 !important;
-}
-
-.maintenance-info {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 12px;
-}
-
-.maintenance-date {
-  color: #3c4349;
-  font-family: var(--Tipo-Familia-Tag, Inter);
-  font-size: 10px;
-  font-weight: 500;
-}
-
-.maintenance-km {
-  display: flex;
-  align-items: center;
-  font-size: 10px;
-  color: var(--Cores-Cinza-500, #3c4349); /* Cor para a quilometragem */
-  font-family: var(--Tipo-Familia-Tag, Inter);
-  font-size: 10px;
-}
-
-.km-label {
-  color: var(--Cores-Cinza-400, #76828b); /* Cor para o texto 'Km do dia' */
-  margin-right: 5px;
-}
-
-.maintenance-section {
-  width: 30px !important;
-  height: 100%;
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.maintenance-icon {
-  width: 30px;
-  height: 30px;
-  margin-right: 9px;
-  padding: 5px;
-  border-right: 9px;
-}
-.layout-background {
-  background-color: #f5f5f5; /* Cinza claro */
-}
-.custom-padding {
-  padding: 10px !important; /* Altera o padding para 10px */
-}
-.my-card {
-  width: calc(100% - 40px); /* Subtraindo 20px de cada lado */
-  min-height: 163px; /* Altura mínima para os cards */
-  margin: 12px auto; /* Centraliza horizontalmente e cria um espaço vertical */
-  gap: 12px; /* Espaço entre os elementos */
-  border-radius: 8px; /* Bordas arredondadas */
-  border: 1px solid #ddd; /* Borda de 1px com cor suave */
-  background: #ffffff; /* Fundo branco */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Distribui conteúdo de forma uniforme */
-}
-
-/* Adiciona margin-bottom de 60px no último card */
-.last-card {
-  margin-bottom: 80px;
-}
-
-/* Textos */
 .text-h6 {
   font-weight: 500;
-}
-
-.text-subtitle2 {
-  color: gray;
-}
-
-/* Ícones e seções */
-.q-item {
-  display: flex;
-  align-items: center;
-}
-
-.q-item-section {
-  margin-left: 8px;
-}
-
-.text-body2 {
-  color: gray;
-}
-.historico {
-  margin-top: 64px;
-}
-/* Remove bullets das listas */
-.no-bullets {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.headline-h6-bold {
-  color: var(--Cores-Secundria-800, #223227); /* Cor para o texto */
-  font-family: var(--Tipo-Familia-Headline, Raleway);
-  font-size: var(--Tipo-Tamanho-Xl, 20px); /* Tamanho da fonte */
-  font-style: normal;
-  font-weight: 700; /* Peso da fonte (negrito) */
-  line-height: 120%; /* Altura da linha */
-  letter-spacing: -0.4px; /* Espaçamento entre as letras */
 }
 
 .title-wrapper {
@@ -278,7 +151,91 @@ function getMaintenanceIcon(name) {
   font-weight: 700;
 }
 
-.line-image {
+.my-card {
+  width: calc(100% - 40px);
+  min-height: 163px;
+  margin: 12px auto;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.my-card:last-child {
+  margin-bottom: 80px;
+}
+
+.custom-padding {
+  padding: 10px;
+}
+
+.no-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.q-item {
+  display: flex;
   align-items: center;
+}
+
+.q-item-section {
+  margin-left: 8px;
+}
+
+.no-padding-item {
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+}
+
+.maintenance-section {
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.maintenance-icon {
+  width: 25px;
+  height: 25px;
+}
+
+.vertical-line-icon {
+  height: 100%;
+}
+
+.text-body2 {
+  color: gray;
+}
+
+.maintenance-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.no-grow {
+  flex: 0 0 auto;
+}
+
+.vertical-line-icon {
+  width: 1.5px;
+}
+
+.maintenance-date {
+  font-size: 10px;
+  color: #3c4349;
+}
+
+.maintenance-km {
+  font-size: 10px;
+  color: #3c4349;
+}
+
+.km-label {
+  color: #76828b;
+  margin-right: 5px;
 }
 </style>
