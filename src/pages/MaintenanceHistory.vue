@@ -6,14 +6,10 @@
     <q-page-container>
       <q-page class="q-pa-md">
         <!-- Cabeçalho -->
-        <div class="q-mt-md historico" style="display: flex; align-items: center;">
-  <q-btn flat class="my-icon">
-    <q-img :src="Doc" style="width: 24px; height: 24px;" />
-  </q-btn>
-  <div class="headline-h6-bold q-ml-sm">Histórico mensal</div>
-</div>
-
-
+        <div class="title-wrapper">
+          <q-img :src="Doc" class="doc-image" />
+          <span class="title-text">Histórico mensal</span>
+        </div>
         <!-- Lista de Cards de Manutenção -->
         <div>
           <q-card
@@ -22,44 +18,56 @@
             :class="{ 'last-card': index === maintenanceHistory.length - 1 }"
             class="my-card"
           >
-          <q-card-section class="custom-padding">
-  <div class="text-h6">{{ item.month }}</div>
-  <div class="maintenance-info">
-    <!-- Data -->
-    <div class="maintenance-date">{{ item.date }}</div>
-    <!-- Quilometragem -->
-    <div class="maintenance-km">
-      <span class="km-label">Km do dia:</span> {{ item.km }} km
-    </div>
-  </div>
-  <div class="q-mt-sm">
-    <ul class="no-bullets">
-      <li
-        v-for="(maintenance, idx) in item.maintenanceDetails"
-        :key="`${index}-${idx}`"
-        class="q-mb-sm"
-      >
-        <q-item class="no-padding-item">
-          <!-- Ícone da manutenção -->
-          <q-item-section class="maintenance-section">
-            <img
-              :src="getMaintenanceIcon(maintenance.name)"
-              alt="Maintenance Icon"
-              class="maintenance-icon"
-            />
-          </q-item-section>
+            <q-card-section class="custom-padding">
+              <div class="text-h6">{{ item.month }}</div>
+              <div class="maintenance-info">
+                <!-- Data -->
+                <div class="maintenance-date">{{ item.date }}</div>
+                <!-- Quilometragem -->
+                <div class="maintenance-km">
+                  <span class="km-label">Km do dia</span> {{ item.km }}km
+                </div>
+              </div>
+              <div>
+                <q-img :src="Line" class="line-image" />
+              </div>
+              <div class="q-mt-sm">
+                <ul class="no-bullets">
+                  <li
+                    v-for="(maintenance, idx) in item.maintenanceDetails"
+                    :key="`${index}-${idx}`"
+                    class="q-mb-sm"
+                  >
+                    <q-item class="no-padding-item">
+                      <!-- Ícone da manutenção -->
+                      <q-item-section class="maintenance-section">
+                        <img
+                          :src="getMaintenanceIcon(maintenance.name)"
+                          alt="Maintenance Icon"
+                          class="maintenance-icon"
+                        />
+                      </q-item-section>
 
-          <!-- Nome da manutenção -->
-          <q-item-section>
-            <div>{{ maintenance.name }}</div>
-            <div class="text-body2">R$ {{ maintenance.cost }}</div>
-          </q-item-section>
-        </q-item>
-      </li>
-    </ul>
-  </div>
-</q-card-section>
+                      <!-- Divisória -->
 
+                      <q-item-section>
+                        <img
+                          :src="VerticalLine"
+                          alt="Vertical Line Icon"
+                          class="vertical-line-icon"
+                        />
+                      </q-item-section>
+
+                      <!-- Nome da manutenção -->
+                      <q-item-section>
+                        <div>{{ maintenance.name }}</div>
+                        <div class="text-body2">R$ {{ maintenance.cost }}</div>
+                      </q-item-section>
+                    </q-item>
+                  </li>
+                </ul>
+              </div>
+            </q-card-section>
           </q-card>
         </div>
       </q-page>
@@ -81,6 +89,8 @@ import Agua from '@/assets/agua.svg';
 import OilChange from '@/assets/oil-change.svg';
 import DefaultIcon from '@/assets/default.svg';
 import Doc from '@/assets/Doc.svg';
+import Line from '@/assets/Line.svg';
+import VerticalLine from '@/assets/VerticalLine.svg';
 
 // Dados de exemplo
 const maintenanceHistory = [
@@ -133,111 +143,101 @@ function getMaintenanceIcon(name) {
 }
 </script>
 
-  <style scoped>
-  .q-page,
-  .q-page-container {
-    padding: 0 !important;
-  }
+<style scoped>
+.q-page {
+  padding-top: 24px;
+}
 
-  .no-padding-item {
+.no-padding-item {
   padding: 0 !important;
 }
 
-
-  .maintenance-info {
-    display: flex; /* Exibe as divs em linha */
-    justify-content: space-between; /* Espaçamento máximo entre os itens */
-    margin-top: 10px; /* Espaçamento superior entre o título e as informações */
-    margin-bottom: 10px; /* Espaçamento inferior entre as informações e a lista */
-  }
+.maintenance-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
 
 .maintenance-date {
-  color: var(--Cores-Cinza-700, #3C4349);
+  color: #3c4349;
   font-family: var(--Tipo-Familia-Tag, Inter);
   font-size: 10px;
+  font-weight: 500;
 }
 
 .maintenance-km {
   display: flex;
   align-items: center;
   font-size: 10px;
-}
-
-.km-label {
-  color: var(--Cores-Cinza-400, #76828B); /* Cor para o texto 'Km do dia' */
-  margin-right: 5px;
-}
-
-.maintenance-km {
-  color: var(--Cores-Cinza-700, #3C4349); /* Cor para a quilometragem */
+  color: var(--Cores-Cinza-500, #3c4349); /* Cor para a quilometragem */
   font-family: var(--Tipo-Familia-Tag, Inter);
   font-size: 10px;
 }
 
-  .maintenance-section {
-    width: 24px !important; /* Define largura fixa */
-    height: 100%; /* Preenche toda a altura do item */
-    flex: 0 0 auto; /* Impede que o elemento se expanda */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative; /* Necessário para a linha separadora */
+.km-label {
+  color: var(--Cores-Cinza-400, #76828b); /* Cor para o texto 'Km do dia' */
+  margin-right: 5px;
+}
 
-    /* Linha vertical pontilhada */
-    border-right: 1px dashed gray; /* Linha pontilhada separadora */
-    padding-right: 8px; /* Espaçamento entre a linha e o texto */
-  }
+.maintenance-section {
+  width: 30px !important;
+  height: 100%;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .maintenance-icon {
-  width: 24px;
-  height: 24px;
+.maintenance-icon {
+  width: 30px;
+  height: 30px;
   margin-right: 9px;
   padding: 5px;
   border-right: 9px;
 }
-  .layout-background {
-    background-color: #f5f5f5; /* Cinza claro */
-  }
-  .custom-padding {
+.layout-background {
+  background-color: #f5f5f5; /* Cinza claro */
+}
+.custom-padding {
   padding: 10px !important; /* Altera o padding para 10px */
 }
-  .my-card {
-    width: calc(100% - 40px); /* Subtraindo 20px de cada lado */
-    min-height: 163px; /* Altura mínima para os cards */
-    margin: 12px auto; /* Centraliza horizontalmente e cria um espaço vertical */
-    gap: 12px; /* Espaço entre os elementos */
-    border-radius: 8px; /* Bordas arredondadas */
-    border: 1px solid #ddd; /* Borda de 1px com cor suave */
-    background: #ffffff; /* Fundo branco */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Distribui conteúdo de forma uniforme */
-  }
+.my-card {
+  width: calc(100% - 40px); /* Subtraindo 20px de cada lado */
+  min-height: 163px; /* Altura mínima para os cards */
+  margin: 12px auto; /* Centraliza horizontalmente e cria um espaço vertical */
+  gap: 12px; /* Espaço entre os elementos */
+  border-radius: 8px; /* Bordas arredondadas */
+  border: 1px solid #ddd; /* Borda de 1px com cor suave */
+  background: #ffffff; /* Fundo branco */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribui conteúdo de forma uniforme */
+}
 
-  /* Adiciona margin-bottom de 60px no último card */
-  .last-card {
-    margin-bottom: 80px;
-  }
+/* Adiciona margin-bottom de 60px no último card */
+.last-card {
+  margin-bottom: 80px;
+}
 
-  /* Textos */
-  .text-h6 {
-    font-weight: 500;
-  }
+/* Textos */
+.text-h6 {
+  font-weight: 500;
+}
 
-  .text-subtitle2 {
-    color: gray;
-  }
+.text-subtitle2 {
+  color: gray;
+}
 
-  /* Ícones e seções */
-  .q-item {
-    display: flex;
-    align-items: center;
-  }
+/* Ícones e seções */
+.q-item {
+  display: flex;
+  align-items: center;
+}
 
-  .q-item-section {
-    margin-left: 8px;
-  }
+.q-item-section {
+  margin-left: 8px;
+}
 
 .text-body2 {
   color: gray;
@@ -245,15 +245,15 @@ function getMaintenanceIcon(name) {
 .historico {
   margin-top: 64px;
 }
-  /* Remove bullets das listas */
-  .no-bullets {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .headline-h6-bold {
+/* Remove bullets das listas */
+.no-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.headline-h6-bold {
   color: var(--Cores-Secundria-800, #223227); /* Cor para o texto */
-  font-family: var(--Tipo-Familia-Headline, Raleway); 
+  font-family: var(--Tipo-Familia-Headline, Raleway);
   font-size: var(--Tipo-Tamanho-Xl, 20px); /* Tamanho da fonte */
   font-style: normal;
   font-weight: 700; /* Peso da fonte (negrito) */
@@ -261,21 +261,24 @@ function getMaintenanceIcon(name) {
   letter-spacing: -0.4px; /* Espaçamento entre as letras */
 }
 
-/* Estilos para o botão de ícone */
-.my-icon img {
+.title-wrapper {
   display: flex;
-  width: var(--cones_Tamanho, 20px); /* Usando variável para o tamanho */
-  height: var(--cones_Tamanho, 20px); /* Usando variável para o tamanho */
-  justify-content: center; /* Centraliza o conteúdo dentro do container */
-  align-items: center; /* Alinha a imagem verticalmente */
-  object-fit: contain; /* Mantém a proporção da imagem */
+  align-items: center;
+  margin-left: 20px;
+  gap: 10px;
 }
 
-
-.my-icon img {
-  width: 100%;  /* Faz a imagem ocupar toda a largura do botão */
-  height: 100%; /* Faz a imagem ocupar toda a altura do botão */
-  object-fit: contain; /* Mantém a proporção da imagem */
+.doc-image {
+  width: 20px;
+  height: 20px;
 }
 
+.title-text {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.line-image {
+  align-items: center;
+}
 </style>
