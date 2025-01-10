@@ -55,6 +55,10 @@ const routes: RouteRecordRaw[] = [
         path: 'test-layout',
         component: () => import('src/pages/TestLayoutPage.vue'),
       },
+      {
+        path: 'maintenance-history',
+        component: () => import('@/pages/MaintenanceHistory.vue'),
+      }
     ],
   },
 
