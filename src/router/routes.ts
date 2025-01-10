@@ -5,7 +5,7 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/SignIn.vue') }, 
+      { path: '', component: () => import('src/pages/SignIn.vue') },
       {
         path: 'success',
         component: () => import('src/pages/LoginSuccess.vue'),
@@ -24,16 +24,41 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'oil-maintenance',
-        component: () => import('@/pages/RegistrationMaintenance/OilMaintenance.vue'),
+        component: () =>
+          import('@/pages/RegistrationMaintenance/OilMaintenance.vue'),
       },
       {
         path: 'battery-maintenance',
-        component: () => import('@/pages/RegistrationMaintenance/BatteryMaintenance.vue'),
+        component: () =>
+          import('@/pages/RegistrationMaintenance/BatteryMaintenance.vue'),
       },
       {
         path: 'fuel-filter-maintenance',
-        component: () => import('@/pages/RegistrationMaintenance/FuelFilterMaintenance.vue'),
+        component: () =>
+          import('@/pages/RegistrationMaintenance/FuelFilterMaintenance.vue'),
       },
+      {
+        path: 'alignment-balancing',
+        component: () =>
+          import('@/pages/RegistrationMaintenance/AlignmentBalancing.vue'),
+      },
+      {
+        path: 'air-conditioner-filter-maintenance',
+        component: () =>
+          import('@/pages/RegistrationMaintenance/AirConditioningFilter.vue'),
+      },
+      {
+        path: 'registration-vehicle',
+        component: () => import('@/pages/Vehicle/RegistrationVehicle.vue'),
+      },
+      {
+        path: 'test-layout',
+        component: () => import('src/pages/TestLayoutPage.vue'),
+      },
+      {
+        path: 'maintenance-history',
+        component: () => import('@/pages/MaintenanceHistory.vue'),
+      }
     ],
   },
 

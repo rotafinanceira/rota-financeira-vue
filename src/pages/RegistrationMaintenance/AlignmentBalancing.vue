@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <HeaderBar
-      title="Monitoramento de Bateria"
+      title="Alinhamento e Balanceamento"
       subtitle="Cadastro de Manutenção"
       :path="'/'"
     />
@@ -18,88 +18,97 @@
               </div>
             </div>
             <span class="subtitle"
-              >Preencha as informações da manutenção de Monitoramento de
-              Bateria.</span
+              >Preencha as informações da manutenção do balanceamento e
+              alinhamento do seu carro.</span
             >
           </div>
 
+          <!-- Quilometragem da última manutenção -->
           <div class="input-wrapper">
-            <label for="maintenance-value">Valor da manutenção *</label>
-            <q-input
-              id="maintenance-value"
-              outlined
-              v-model="maintenanceValue"
-              placeholder="Digite o valor da manutenção"
-              type="number"
-            >
-              <template v-slot:append>
-                <q-icon name="attach_money" />
-              </template>
-            </q-input>
-          </div>
-
-          <div class="input-wrapper">
-            <label for="last-oil-change">Data da troca *</label>
-            <q-input
-              id="last-oil-change"
-              outlined
-              v-model="date"
-              mask="##/##/####"
-              placeholder="Digite a data da última troca"
-              @focus="showDatePicker = true"
-            >
-              <template v-slot:append>
-                <q-icon
-                  name="event"
-                  @click="showDatePicker = !showDatePicker"
-                />
-              </template>
-            </q-input>
-            <q-menu v-model="showDatePicker" fit>
-              <q-date v-model="date" mask="DD/MM/YYYY" @input="onDateSelect" />
-            </q-menu>
-          </div>
-
-          <div class="input-wrapper">
-            <label for="mileage">Quilometragem da troca *</label>
+            <label for="last-maintenance-mileage">Última manutenção*</label>
             <div class="definitions-wrapper">
               <q-input
-                id="mileage"
+                id="last-maintenance-mileage"
                 outlined
-                v-model="mileage"
-                label="Digite a quilometragem da última troca"
+                v-model="lastMaintenanceMileage"
+                label="Insira a quilometragem"
               ></q-input>
               <span>Km</span>
             </div>
           </div>
 
+          <!-- Insira o aro do seu pneu -->
           <div class="input-wrapper">
-            <label for="brand">Marca</label>
-            <q-select
-              id="brand"
-              outlined
-              v-model="batteryBrand"
-              :options="brandOptions"
-              label="Digite a marca da bateria"
-            >
-              <img :src="batteryIcon" alt="Battery Icon" class="icons" />
-            </q-select>
+            <label for="tire-diameter">Aro do pneu*</label>
+            <div class="definitions-wrapper">
+              <q-input
+                id="tire-diameter"
+                outlined
+                v-model="tireDiameter"
+                label="Insira o aro do seu pneu"
+              ></q-input>
+              <span>
+                <div class="rim-icon">
+                  <img :src="rimIcon" alt="Ícone do Aro do Pneu" />
+                </div>
+              </span>
+            </div>
           </div>
 
+          <!-- Data da última troca de pneus -->
           <div class="input-wrapper">
-            <label for="amperage">Amperagem da bateria *</label>
-            <div class="amperage-buttons">
-              <q-radio
-                v-for="option in amperageOptions"
-                :key="option.value"
-                :label="option.label"
-                :val="option.value"
-                v-model="selectedAmperage"
-                color="primary"
-                size="lg"
-                dense
-                :style="{ marginRight: '8px' }"
-              />
+            <label for="last-tire-change">Data da última troca de pneus*</label>
+            <div class="definitions-wrapper">
+              <q-input
+                id="last-tire-change"
+                outlined
+                v-model="date"
+                mask="##/##/####"
+                placeholder="Insira a data da última troca"
+                @focus="showDatePicker = true"
+              >
+                <template v-slot:append>
+                  <q-icon
+                    name="event"
+                    @click="showDatePicker = !showDatePicker"
+                  />
+                </template>
+              </q-input>
+              <q-menu v-model="showDatePicker" fit>
+                <q-date
+                  v-model="date"
+                  mask="Insira a data da última troca"
+                  @input="onDateSelect"
+                />
+              </q-menu>
+            </div>
+          </div>
+
+          <!-- Quilometragem da troca de pneus -->
+          <div class="input-wrapper">
+            <label for="mileage">Quilometragem da troca de pneus*</label>
+            <div class="definitions-wrapper">
+              <q-input
+                id="mileage"
+                outlined
+                v-model="mileage"
+                label="Insira a quilometragem"
+              ></q-input>
+              <span>Km</span>
+            </div>
+          </div>
+
+          <!-- Quilometragem do rodízio de pneus -->
+          <div class="input-wrapper">
+            <label for="tire-rotation">Rodízio de pneus*</label>
+            <div class="definitions-wrapper">
+              <q-input
+                id="tire-rotation"
+                outlined
+                v-model="tireRotation"
+                label="Insira a quilometragem"
+              ></q-input>
+              <span>Km</span>
             </div>
           </div>
         </div>
@@ -135,45 +144,32 @@ import SelectVehicle from '@/components/SelectVehiclePlate.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import ModalPositive from '@/components/ModalSucess.vue';
 import helpIcon from '@/assets/helpIcon.svg';
-import batteryIcon from '@/assets/batteryIcon.svg';
+import rimIcon from '@/assets/rimIcon.svg';
 
 const showDatePicker = ref<boolean>(false);
 const isLoading = ref<boolean>(false);
 const date = ref<string>('');
 const mileage = ref<string>('');
-const batteryBrand = ref<string>('');
-const selectedAmperage = ref<string | null>(null);
+const tireDiameter = ref<string>('');
+const tireRotation = ref<string>('');
 const carId = ref<number | null>(null);
-const maintenanceValue = ref<string>('');
 const modalContent = ref<string>('');
 const modalDescription = ref<string[] | string>('');
 const isOpen = ref<boolean>(false);
+const lastMaintenanceMileage = ref<string>('');
 
 const isPositiveOpen = ref<boolean>(false);
 const successTitle = ref<string>('');
 const successDescription = ref<string>('');
 
-const brandOptions = [
-  { label: 'Moura', value: 'Moura' },
-  { label: 'Heliar', value: 'Heliar' },
-  { label: 'ACDelco', value: 'ACDelco' },
-  { label: 'Outro', value: 'Outro' },
-];
-
-const amperageOptions = [
-  { label: '60 Ah', value: '60 Ah' },
-  { label: '80 Ah', value: '80 Ah' },
-  { label: '120 Ah', value: '120 Ah' },
-];
-
 const showHelpModal = (): void => {
   isOpen.value = true;
-  modalContent.value = 'Quando devo fazer a troca?';
+  modalContent.value = 'Quando devo fazer a manutenção?';
   modalDescription.value = [
-    'Troque a bateria a cada 3 a 5 anos.',
-    'Se o motor estiver demorando para ligar, a bateria pode estar fraca.',
-    'Luzes do painel ou faróis mais fracos podem indicar desgaste da bateria.',
-    'Odor de enxofre ou ovo podre pode indicar vazamento da bateria.',
+    'A recomendação é fazer esse tipo de manutenção a cada 10.000km rodados.',
+    'Fique atento a vibrações no volante, desgaste irregular dos pneus e puxões do veículo para um lado.',
+    'Troque seus pneus se tiverem mais de 5 anos, mesmo que pareçam bons. O material envelhece e pode não ser seguro.',
+    'Troque após rodar entre 40.000 e 60.000 km. Pneus muito usados perdem eficiência.',
   ];
 };
 
@@ -192,14 +188,13 @@ const handleSubmit = (): void => {
   setTimeout(() => {
     isLoading.value = false;
     successTitle.value = 'Cadastro concluído!';
-    successDescription.value = 'Informaremos você sobre a próxima troca.';
+    successDescription.value = 'Informaremos você sobre a próxima manutenção.';
     isPositiveOpen.value = true;
 
     date.value = '';
     mileage.value = '';
-    maintenanceValue.value = '';
-    batteryBrand.value = '';
-    selectedAmperage.value = null;
+    tireDiameter.value = '';
+    tireRotation.value = '';
   }, 1000);
 };
 </script>
@@ -227,10 +222,17 @@ const handleSubmit = (): void => {
 }
 
 .input-wrapper {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
+
+.input-wrapper label {
+  font-weight: 500;
+  font-size: 16px;
+}
+
 .definitions-wrapper {
   position: relative;
+  margin-top: 4px;
 }
 
 .definitions-wrapper span {
@@ -240,16 +242,16 @@ const handleSubmit = (): void => {
   font-size: 14px;
   color: #9ba7ad;
 }
+
 .q-input__inner {
   cursor: pointer;
 }
 
 .text-wrapper {
-  margin-bottom: 32px;
-}
-
-.subtitle {
-  color: #5b6871;
+  margin-bottom: 24px;
+  flex-direction: column;
+  gap: 6px;
+  display: flex;
 }
 
 .header-content {
@@ -264,10 +266,12 @@ const handleSubmit = (): void => {
   width: 100%;
   justify-content: space-between;
 }
+
 .title {
   font-weight: bold;
   font-size: 18px;
 }
+
 .icons {
   height: 20px;
   width: 20px;

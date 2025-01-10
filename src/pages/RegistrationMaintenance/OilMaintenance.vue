@@ -9,26 +9,41 @@
       <div class="card-wrapper">
         <SelectVehicle @vehicle-selected="setCarId" />
         <div class="card">
-          <div class="title-wrapper">
+          <div class="text-wrapper">
             <div class="header-content">
-              <span class="title">Manutenção*</span>
+              <span class="title">Manutenção</span>
               <div @click="showHelpModal">
                 <img :src="helpIcon" alt="Help Icon" />
               </div>
             </div>
-
-            <span class="subtitle"
-              >Preencha com as informações sobre a última troca de óleo.</span
-            >
+            <span class="subtitle">
+              Preencha as informações da manutenção de Troca de Óleo.
+            </span>
           </div>
           <div class="input-wrapper">
-            <label for="last-oil-change">Última troca*</label>
+            <label for="maintenance-value">Valor da manutenção*</label>
+            <div class="definitions-wrapper">
+              <q-input
+                id="maintenance-value"
+                outlined
+                v-model="maintenanceValue"
+                label="Digite o valor da manutenção"
+                type="number"
+              >
+                <template v-slot:append>
+                  <q-icon name="attach_money" />
+                </template>
+              </q-input>
+            </div>
+          </div>
+          <div class="input-wrapper">
+            <label for="last-oil-change">Data da troca*</label>
             <q-input
               id="last-oil-change"
               outlined
               v-model="date"
               mask="##/##/####"
-              label="Seleciona ou digita a data"
+              label="Digite a data da última troca"
               @focus="showDatePicker = true"
             >
               <template v-slot:append>
@@ -42,7 +57,6 @@
               <q-date v-model="date" mask="DD/MM/YYYY" @input="onDateSelect" />
             </q-menu>
           </div>
-
           <div class="input-wrapper">
             <label for="mileage">Quilometragem da troca*</label>
             <div class="definitions-wrapper">
@@ -50,7 +64,7 @@
                 id="mileage"
                 outlined
                 v-model="mileage"
-                label="Ex: 86.540"
+                label="Digite a quilometragem da última troca"
                 type="number"
               ></q-input>
               <span>Km</span>
@@ -73,7 +87,7 @@
                 id="liters"
                 outlined
                 v-model="liters"
-                label="Ex: 8"
+                label="Digite a quantidade em litros"
                 type="number"
               >
                 <img :src="fuelIcon" alt="Fuel Icon" class="icons" />
@@ -86,7 +100,7 @@
               id="oil-brand"
               outlined
               v-model="oilBrand"
-              label="Ex: Castrol"
+              label="Digite a marca utilizada"
             >
               <img :src="brandIcon" alt="Brand Icon" class="icons" />
             </q-input>
@@ -115,41 +129,54 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
-import SelectVehicle from '@/components/SelectVehicle.vue';
+import SelectVehicle from '@/components/SelectVehiclePlate.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import ModalPositive from '@/components/ModalSucess.vue';
 import helpIcon from '@/assets/helpIcon.svg';
 import fuelIcon from '@/assets/fuelIcon.svg';
 import brandIcon from '@/assets/brandIcon.svg';
 
-const showDatePicker = ref(false);
-const isLoading = ref(false);
-const date = ref('');
-const mileage = ref('');
-const oilType = ref('');
-const liters = ref('');
-const oilBrand = ref('');
-const carId = ref(null);
-const modalContent = ref('');
-const modalDescription = ref('');
-const isOpen = ref(false);
+interface OilOptionsProps {
+  label: string;
+  value: string;
+}
 
-const isPositiveOpen = ref(false);
-const successTitle = ref('');
-const successDescription = ref('');
+const showDatePicker = ref<boolean>(false);
+const isLoading = ref<boolean>(false);
+const date = ref<string>('');
+const mileage = ref<string>('');
+const oilType = ref<string>('');
+const liters = ref<string>('');
+const oilBrand = ref<string>('');
+const maintenanceValue = ref<string>('');
+const carId = ref<number | null>(null);
+const modalContent = ref<string>('Quando devo fazer a troca?');
+const modalDescription = ref<string[]>([
+  'O tempo recomendado para troca de óleo é de 6 a 12 meses.',
+  'Troque de óleo a cada 10 mil quilômetros aproximadamente.',
+  'O uso severo do veículo pode encurtar o intervalo de troca de óleo.',
+  'Utilize o tipo de óleo e quantidade correta do modelo do seu veículo.',
+  'Jamais misture óleos de viscosidades diferentes.',
+]);
+const isOpen = ref<boolean>(false);
+const isPositiveOpen = ref<boolean>(false);
+const successTitle = ref<string>('Cadastro concluído!');
+const successDescription = ref<string>(
+  'Informaremos você sobre a próxima troca.'
+);
 
-const oilOptions = [
+const oilOptions = ref<OilOptionsProps[]>([
   { label: 'Sintético', value: 'sintetico' },
   { label: 'Semi-Sintético', value: 'semi-sintetico' },
   { label: 'Mineral', value: 'mineral' },
   { label: 'Outro', value: 'outro' },
-];
+]);
 
-const showHelpModal = () => {
+const showHelpModal = (): void => {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
   modalDescription.value = [
@@ -161,29 +188,28 @@ const showHelpModal = () => {
   ];
 };
 
-const onDateSelect = (value) => {
+const onDateSelect = (value: string): void => {
   date.value = value;
   showDatePicker.value = false;
 };
 
-const setCarId = (selectedCarId) => {
+const setCarId = (selectedCarId: number): void => {
   carId.value = selectedCarId;
 };
 
-const handleSubmit = () => {
+const handleSubmit = (): void => {
   isLoading.value = true;
-
   setTimeout(() => {
     isLoading.value = false;
     successTitle.value = 'Cadastro concluído!';
     successDescription.value = 'Informaremos você sobre a próxima troca.';
     isPositiveOpen.value = true;
-
     date.value = '';
     mileage.value = '';
     oilType.value = '';
     liters.value = '';
     oilBrand.value = '';
+    maintenanceValue.value = '';
   }, 1000);
 };
 </script>
@@ -197,50 +223,28 @@ const handleSubmit = () => {
   padding: 24px 20px;
   gap: 32px;
 }
-
+.icons {
+  height: 20px;
+  width: 20px;
+  justify-content: center;
+  align-items: center;
+  top: 35%;
+  position: absolute;
+  right: 0;
+}
 .card-wrapper {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-
 .card {
   width: 100%;
   background-color: white;
   border-radius: 8px;
   padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
 }
-
 .input-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  color: #33373c;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 19px;
-}
-
-.q-input__inner {
-  cursor: pointer;
-}
-
-.title {
-  color: #0c0d0f;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 19px;
-}
-.subtitle {
-  font-size: 14px;
-  color: #5b6871;
-  font-family: var(--Tipo-Familia-Paragrafh, Inter);
-  font-size: var(--Tipo-Tamanho-Sm, 14px);
-  font-style: normal;
-  line-height: 150%;
+  margin-bottom: 20px;
 }
 .definitions-wrapper {
   position: relative;
@@ -253,6 +257,19 @@ const handleSubmit = () => {
   font-size: 14px;
   color: #9ba7ad;
 }
+.q-input__inner {
+  cursor: pointer;
+}
+
+.text-wrapper {
+  margin-bottom: 32px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
 .text-wrapper .title {
   font-size: 18px;
@@ -263,19 +280,15 @@ const handleSubmit = () => {
   cursor: pointer;
 }
 
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.text-wrapper .subtitle {
+  font-size: 14px;
+  color: #5b6871;
+
+  margin-top: 8px;
 }
 
-.icons {
-  height: 20px;
-  width: 20px;
-  justify-content: center;
-  align-items: center;
-  top: 35%;
-  position: absolute;
-  right: 0;
+.error-message {
+  color: red;
+  margin-top: 16px;
 }
 </style>

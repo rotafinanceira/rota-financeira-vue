@@ -8,6 +8,11 @@ yarn
 npm install
 ```
 
+```bash
+# Instale o Quasar CLI
+npm install -g @quasar/cli
+```
+
 ### Android Studio
 
 Caso não tenha, instale o Android Studio:
