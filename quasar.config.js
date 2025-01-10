@@ -64,7 +64,7 @@ module.exports = configure(function (/* ctx */) {
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
 
-      distDir: 'public', // Define o diretório de saída para 'public'
+      distDir: 'dist/spa', // Use o padrão do Quasar
 
       vitePlugins: [
         [
