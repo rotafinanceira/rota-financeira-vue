@@ -71,7 +71,7 @@ import FiltroComb from '@/assets/FiltroComb.svg';
 import Alinhamento from '@/assets/Alinham.svg';
 import Agua from '@/assets/agua.svg';
 import OilChange from '@/assets/agua.svg';
-import DefaultIcon from '@/assets/default.svg';
+// import DefaultIcon from '@/assets/default.svg';
 import Doc from '@/assets/Doc.svg';
 import Line from '@/assets/Line.svg';
 import VerticalLine from '@/assets/VerticalLine.svg';
@@ -117,7 +117,7 @@ const maintenanceIcons = {
 };
 
 function getMaintenanceIcon(name) {
-  return maintenanceIcons[name] || DefaultIcon;
+  return maintenanceIcons[name] || null;
 }
 </script>
 
