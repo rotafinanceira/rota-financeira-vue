@@ -58,7 +58,6 @@ import Noti from '@/assets/Noti.svg';
 /* Updated style for Olá, Pezzano text to use Headline/H6 Bold */
 .ola-pezzano-text {
   color: var(--Cores-Cinza-900, #0C0D0F);
-  font-family: var(--Tipo-Familia-Headline, Raleway);
   font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
   font-weight: 700; /* Headline/H6 Bold */
