@@ -70,7 +70,7 @@ import AppFooter from 'components/AppFooter.vue';
 import FiltroComb from '@/assets/FiltroComb.svg';
 import Alinhamento from '@/assets/Alinham.svg';
 import Agua from '@/assets/agua.svg';
-import OilChange from '@/assets/oil-change.svg';
+import OilChange from '@/assets/agua.svg';
 import DefaultIcon from '@/assets/default.svg';
 import Doc from '@/assets/Doc.svg';
 import Line from '@/assets/Line.svg';
