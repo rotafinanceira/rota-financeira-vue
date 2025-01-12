@@ -96,6 +96,8 @@ function navigateTo(path) {
 .q-footer {
   background-color: #ffffff;
   color: #000000;
+  width: 100%;
+  height: 72px;
 }
 
 .q-tab {
