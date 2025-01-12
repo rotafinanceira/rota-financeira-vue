@@ -9,21 +9,20 @@
     </div>
 
     <!-- Seção: Manutenções vencidas -->
-    <div class="maintenance-section">
+    <q-card class="maintenance-section">
       <div class="section-header expired-header">
         <div class="section-icon">
-          <!-- Exemplo usando ícone de alerta/warning -->
-          <i class="material-icons text-danger">error</i>
+          <img :src="expiredIcon" alt="Expired Icon" class="section-image" />
         </div>
         <div class="section-title">
           <strong>Manutenções vencidas</strong>
         </div>
       </div>
       <div class="maintenance-items">
-        <div
+        <q-card
           v-for="(item, index) in expiredMaintenances"
           :key="`expired-${index}`"
-          class="maintenance-item"
+          class="maintenance-item no-shadow"
         >
           <div class="maintenance-content">
             <img :src="item.image" alt="Maintenance Image" class="maintenance-image" />
@@ -39,28 +38,25 @@
           <div class="maintenance-progress">
             {{ item.progress }}
           </div>
-        </div>
+        </q-card>
       </div>
-    </div>
-
-    <div class="separator"></div>
+    </q-card>
 
     <!-- Seção: Próximas manutenções -->
-    <div class="maintenance-section">
+    <q-card class="maintenance-section">
       <div class="section-header next-header">
         <div class="section-icon">
-          <!-- Exemplo usando ícone de calendário/próximos -->
-          <i class="material-icons text-info">event_upcoming</i>
+          <img :src="nextIcon" alt="Next Icon" class="section-image" />
         </div>
         <div class="section-title">
           <strong>Próximas manutenções</strong>
         </div>
       </div>
       <div class="maintenance-items">
-        <div
+        <q-card
           v-for="(item, index) in nextMaintenances"
           :key="`next-${index}`"
-          class="maintenance-item"
+          class="maintenance-item no-shadow"
         >
           <div class="maintenance-content">
             <img :src="item.image" alt="Maintenance Image" class="maintenance-image" />
@@ -76,28 +72,27 @@
           <div class="maintenance-progress">
             {{ item.progress }}
           </div>
-        </div>
+        </q-card>
       </div>
-    </div>
+    </q-card>
 
     <div class="separator"></div>
 
     <!-- Seção: Preencher etapas -->
-    <div class="maintenance-section">
+    <q-card class="maintenance-section">
       <div class="section-header fill-steps-header">
         <div class="section-icon">
-          <!-- Exemplo usando ícone para “etapas” -->
-          <i class="material-icons text-primary">assignment</i>
+          <img :src="fillStepsIcon" alt="Fill Steps Icon" class="section-image" />
         </div>
         <div class="section-title">
           <strong>Preencher etapas</strong>
         </div>
       </div>
       <div class="maintenance-items">
-        <div
+        <q-card
           v-for="(item, index) in fillStepsMaintenances"
           :key="`fillsteps-${index}`"
-          class="maintenance-item"
+          class="maintenance-item no-shadow"
         >
           <div class="maintenance-content">
             <img :src="item.image" alt="Maintenance Image" class="maintenance-image" />
@@ -113,28 +108,27 @@
           <div class="maintenance-progress">
             {{ item.progress }}
           </div>
-        </div>
+        </q-card>
       </div>
-    </div>
+    </q-card>
 
     <div class="separator"></div>
 
     <!-- Seção: Concluído -->
-    <div class="maintenance-section">
+    <q-card class="maintenance-section">
       <div class="section-header completed-header">
         <div class="section-icon">
-          <!-- Exemplo usando ícone de check -->
-          <i class="material-icons text-success">check_circle</i>
+          <img :src="completedIcon" alt="Completed Icon" class="section-image" />
         </div>
         <div class="section-title">
           <strong>Concluído</strong>
         </div>
       </div>
       <div class="maintenance-items">
-        <div
+        <q-card
           v-for="(item, index) in completedMaintenances"
           :key="`completed-${index}`"
-          class="maintenance-item"
+          class="maintenance-item no-shadow"
         >
           <div class="maintenance-content">
             <img :src="item.image" alt="Maintenance Image" class="maintenance-image" />
@@ -150,9 +144,10 @@
           <div class="maintenance-progress">
             {{ item.progress }}
           </div>
-        </div>
+          <q-separator v-if="index < completedMaintenances.length - 1" />
+        </q-card>
       </div>
-    </div>
+    </q-card>
 
     <!-- Footer -->
     <AppFooter />
@@ -165,6 +160,10 @@ import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import oilImage from '@/assets/agua.svg';
 import manuIcon from '@/assets/manu.svg';
+import expiredIcon from '@/assets/expired.svg';
+import nextIcon from '@/assets/next.svg';
+import fillStepsIcon from '@/assets/fill-steps.svg';
+import completedIcon from '@/assets/completed.svg';
 // import batteryImage from '@/assets/agua.svg';
 // import filterImage from '@/assets/agua.svg';
 import alignmentImage from '@/assets/Alinham.svg';
@@ -242,18 +241,18 @@ const completedMaintenances = ref<MaintenanceItem[]>([
 .maintenance-page {
   max-width: 600px;
   margin: 0 auto;
-  background-color: #f9f9f9; /* Cor de fundo da tela */
+  background-color: #f9f9f9;
 }
 
-/* Título principal */
 .maintenance-title {
   display: flex;
   align-items: center;
-  gap: 10px; /* Espaçamento entre o ícone e o texto */
-  padding-left: 20px; /* Adicione um espaçamento à esquerda */
+  gap: 10px; 
+  padding-left: 20px;
   margin: 0 auto;
-  margin-top: 24px;
   margin-bottom: 12px;
+  border-top: 100px;
+
 }
 
 .title-icon {
@@ -296,6 +295,11 @@ const completedMaintenances = ref<MaintenanceItem[]>([
   margin-right: 0.5rem;
 }
 
+.section-image {
+  width: 24px;
+  height: 24px;
+}
+
 .expired-header .text-danger {
   color: #e53935; /* Exemplo de cor vermelha */
 }
@@ -323,7 +327,10 @@ const completedMaintenances = ref<MaintenanceItem[]>([
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.maintenance-item.no-shadow {
+  box-shadow: none; /* Remove shadow */
 }
 
 .maintenance-content {
