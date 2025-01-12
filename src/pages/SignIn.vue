@@ -31,21 +31,11 @@
             :path="'/register-1'"
           />
         </div>
-
-        <div class="maintenance-dropdown">
-          <q-select
-            filled
-            v-model="selectedMaintenance"
-            :options="maintenanceOptions"
-            label="Selecione uma manutenção"
-          ></q-select>
-          <q-btn
-            label="Ir para Manutenção"
-            color="primary"
-            @click="navigateToMaintenance"
-            :disable="!selectedMaintenance"
-          ></q-btn>
-        </div>
+        <q-btn
+          label="Ir para Home"
+          color="primary"
+          @click="navigateToHome"
+        ></q-btn>
       </div>
     </div>
     <ModalGenericoAlert
@@ -79,29 +69,6 @@ const isValid = ref(true);
 const email = ref('');
 const password = ref('');
 const errors = ref({});
-
-const selectedMaintenance = ref(null);
-const maintenanceOptions = ref([
-  { label: 'Manutenção de Óleo', value: '/oil-maintenance' },
-  { label: 'Manutenção de Bateria', value: '/battery-maintenance' },
-  {
-    label: 'Manutenção de Filtro de Combustível',
-    value: '/fuel-filter-maintenance',
-  },
-  { label: 'Alinhamento e Balanceamento', value: '/alignment-balancing' },
-  {
-    label: 'Manutenção de Filtro de Ar-Condicionado',
-    value: '/air-conditioner-filter-maintenance',
-  },
-  {
-    label: 'Registrar Veiculo',
-    value: '/registration-vehicle'
-  },
-  {
-    label:'Histórico de manutenção',
-    value: '/maintenance-history',
-  }
-]);
 
 const router = useRouter();
 
@@ -180,11 +147,8 @@ const handleApiError = (statusCode) => {
   }
 };
 
-const navigateToMaintenance = () => {
-  console.log('Selecionado:', selectedMaintenance.value); // Para depuração
-  if (selectedMaintenance.value) {
-    router.push(selectedMaintenance.value.value); // Passando o valor da rota
-  }
+const navigateToHome = () => {
+  router.push('/home');
 };
 </script>
 
@@ -241,9 +205,5 @@ const navigateToMaintenance = () => {
   font-size: 14px;
   margin-top: 5px;
   line-height: 21px;
-}
-
-.maintenance-dropdown {
-  margin-top: 32px; /* Adicione um espaçamento entre a form e o dropdown */
 }
 </style>
