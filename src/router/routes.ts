@@ -58,6 +58,10 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'maintenance-history',
         component: () => import('@/pages/MaintenanceHistory.vue'),
+      },
+      {
+        path: 'profile',
+        component: () => import('@/pages/Profile/ProfilePage.vue'),
       }
     ],
   },
