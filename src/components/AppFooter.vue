@@ -3,8 +3,9 @@
     <q-tabs
       v-model="footerTab"
       align="justify"
-      active-color="primary"
-      indicator-color="primary"
+      active-color="green"
+      indicator-color="green"
+      class="custom-tabs"
     >
       <q-tab
         name="home"
@@ -51,7 +52,7 @@ import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import homeIcon from '@/assets/home.svg';
 import manuIcon from '@/assets/manu.svg';
-import histIcon from '@/assets/hist.svg';
+import histIcon from '@/assets/his.svg';
 import perfIcon from '@/assets/perf.svg';
 
 const footerTab = ref('home');
@@ -92,5 +93,11 @@ function navigateTo(path) {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.custom-tabs .q-tabs__indicator {
+  top: 0;
+  bottom: auto;
+  background-color: green;
 }
 </style>
