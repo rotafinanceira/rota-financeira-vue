@@ -6,6 +6,7 @@
       active-color="green"
       indicator-color="green"
       class="custom-tabs"
+      switch-indicator
     >
       <q-tab
         name="home"
