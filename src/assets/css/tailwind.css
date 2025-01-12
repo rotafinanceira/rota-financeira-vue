@@ -1,0 +1,4 @@
+/* Ensure this file exists and contains your Tailwind CSS styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
