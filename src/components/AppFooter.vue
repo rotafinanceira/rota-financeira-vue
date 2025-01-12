@@ -18,7 +18,7 @@
           <div>Início</div>
         </template>
       </q-tab>
-      <q-tab name="maintenance" @click="navigateTo('/oil-maintenance')">
+      <q-tab name="maintenance" @click="navigateTo('/maintenance')">
         <template v-slot:default>
           <img
             :src="manuIcon"
