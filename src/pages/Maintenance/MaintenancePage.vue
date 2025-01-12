@@ -12,7 +12,7 @@
     <q-card class="maintenance-section">
       <div class="section-header expired-header">
         <div class="section-icon">
-          <img :src="expiredIcon" alt="Expired Icon" class="section-image" />
+          <img :src="manuIcon" alt="Expired Icon" class="section-image" />
         </div>
         <div class="section-title">
           <strong>Manutenções vencidas</strong>
@@ -46,7 +46,7 @@
     <q-card class="maintenance-section">
       <div class="section-header next-header">
         <div class="section-icon">
-          <img :src="nextIcon" alt="Next Icon" class="section-image" />
+          <img :src="manuIcon" alt="Next Icon" class="section-image" />
         </div>
         <div class="section-title">
           <strong>Próximas manutenções</strong>
@@ -82,7 +82,7 @@
     <q-card class="maintenance-section">
       <div class="section-header fill-steps-header">
         <div class="section-icon">
-          <img :src="fillStepsIcon" alt="Fill Steps Icon" class="section-image" />
+          <img :src="manuIcon" alt="Fill Steps Icon" class="section-image" />
         </div>
         <div class="section-title">
           <strong>Preencher etapas</strong>
@@ -118,7 +118,7 @@
     <q-card class="maintenance-section">
       <div class="section-header completed-header">
         <div class="section-icon">
-          <img :src="completedIcon" alt="Completed Icon" class="section-image" />
+          <img :src="manuIcon" alt="Completed Icon" class="section-image" />
         </div>
         <div class="section-title">
           <strong>Concluído</strong>
@@ -160,10 +160,10 @@ import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import oilImage from '@/assets/agua.svg';
 import manuIcon from '@/assets/manu.svg';
-import expiredIcon from '@/assets/expired.svg';
-import nextIcon from '@/assets/next.svg';
-import fillStepsIcon from '@/assets/fill-steps.svg';
-import completedIcon from '@/assets/completed.svg';
+// import expiredIcon from '@/assets/expired.svg';
+// import nextIcon from '@/assets/next.svg';
+// import fillStepsIcon from '@/assets/fill-steps.svg';
+// import completedIcon from '@/assets/completed.svg';
 // import batteryImage from '@/assets/agua.svg';
 // import filterImage from '@/assets/agua.svg';
 import alignmentImage from '@/assets/Alinham.svg';
