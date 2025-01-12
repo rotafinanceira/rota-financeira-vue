@@ -4,7 +4,7 @@
     <q-page-container>
       <q-page class="q-pa-md">
         <div class="title-wrapper">
-          <q-img :src="Doc" class="doc-image" />
+          <img :src="Doc" class="doc-image" />
           <span class="title-text">Histórico mensal</span>
         </div>
         <div>
@@ -23,7 +23,7 @@
                 </div>
               </div>
               <div>
-                <q-img :src="Line" class="line-image" />
+                <img :src="Line" class="line-image" />
               </div>
               <div class="q-mt-sm">
                 <ul class="no-bullets">
@@ -72,7 +72,7 @@ import Alinhamento from '@/assets/Alinham.svg';
 import Agua from '@/assets/agua.svg';
 import OilChange from '@/assets/agua.svg';
 // import DefaultIcon from '@/assets/default.svg';
-import Doc from '@/assets/Doc.svg';
+import Doc from '@/assets/his.svg';
 import Line from '@/assets/Line.svg';
 import VerticalLine from '@/assets/VerticalLine.svg';
 
