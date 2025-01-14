@@ -12,7 +12,7 @@
             v-for="(item, index) in maintenanceHistory"
             :key="index"
             :class="{ 'last-card': index === maintenanceHistory.length - 1 }"
-            class="my-card"
+            class="my-card no-shadow"
           >
             <q-card-section class="custom-padding">
               <div class="text-h6">{{ item.month }}</div>
@@ -158,7 +158,10 @@ function getMaintenanceIcon(name) {
   border-radius: 8px;
   border: 1px solid #ddd;
   background: #ffffff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.my-card.no-shadow {
+  box-shadow: none; 
 }
 
 .my-card:last-child {

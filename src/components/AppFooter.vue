@@ -1,5 +1,5 @@
 <template>
-  <q-footer elevated>
+  <q-footer>
     <q-tabs
       v-model="footerTab"
       align="justify"
@@ -98,6 +98,8 @@ function navigateTo(path) {
   color: #000000;
   width: 100%;
   height: 72px;
+  border: 1px solid #E0E5E7;
+  box-shadow: none; /* Remove shadow */
 }
 
 .q-tab {
