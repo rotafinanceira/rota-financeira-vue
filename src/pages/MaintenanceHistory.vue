@@ -137,7 +137,7 @@ function getMaintenanceIcon(name) {
 .title-wrapper {
   display: flex;
   align-items: center;
-  margin-left: 20px;
+  margin-left: 0px;
   gap: 10px;
 }
 
@@ -152,7 +152,7 @@ function getMaintenanceIcon(name) {
 }
 
 .my-card {
-  width: calc(100% - 40px);
+  width: 100%;
   min-height: 163px;
   margin: 12px auto;
   border-radius: 8px;
@@ -161,7 +161,7 @@ function getMaintenanceIcon(name) {
 }
 
 .my-card.no-shadow {
-  box-shadow: none; 
+  box-shadow: none;
 }
 
 .my-card:last-child {
