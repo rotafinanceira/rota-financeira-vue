@@ -1,6 +1,5 @@
 <template>
   <div class="maintenance-page">
-    <!-- Header -->
     <AppHeader />
 
     <div class="maintenance-title">
@@ -318,7 +317,6 @@ letter-spacing: -0.4px;
   margin-right: 16px;
 }
 
-/* Linha separadora */
 .separator {
   width: 209px;
   height: 1px;
@@ -326,7 +324,6 @@ letter-spacing: -0.4px;
   margin: 0 auto;
 }
 
-/* Cabeçalho da seção */
 .section-header {
   display: flex;
   align-items: center;
@@ -352,28 +349,26 @@ letter-spacing: -0.4px;
 }
 .section-title {
   color: var(--Cores-Secundria-800, #223227);
-  /* Button/Button B2 */
   font-family: var(--Tipo-Familia-Button, Inter);
   font-size: var(--Tipo-Tamanho-Md, 16px);
   font-style: normal;
   font-weight: 600;
-  line-height: 120%; /* 19.2px */
+  line-height: 120%; 
 }
 
 .expired-header .text-danger {
-  color: #e53935; /* Exemplo de cor vermelha */
+  color: #e53935;
 }
 .next-header .text-info {
-  color: #2196f3; /* Exemplo de cor azul */
+  color: #2196f3; 
 }
 .fill-steps-header .text-primary {
-  color: #3f51b5; /* Exemplo de cor roxa/primária */
+  color: #3f51b5; 
 }
 .completed-header .text-success {
-  color: #4caf50; /* Exemplo de cor verde */
+  color: #4caf50; 
 }
 
-/* Itens da manutenção */
 .maintenance-items {
   display: flex;
   flex-direction: column;
@@ -384,7 +379,7 @@ letter-spacing: -0.4px;
 }
 
 .maintenance-item {
-  background-color: #ffffff; /* Cor de fundo dos cards */
+  background-color: #ffffff;
   border-radius: 6px;
   display: flex;
   justify-content: space-between;
@@ -392,7 +387,7 @@ letter-spacing: -0.4px;
 }
 
 .maintenance-item.no-shadow {
-  box-shadow: none; /* Remove shadow */
+  box-shadow: none; 
 }
 
 .maintenance-content {
@@ -403,7 +398,7 @@ letter-spacing: -0.4px;
 
 .maintenance-image-wrapper {
   border-radius: 8px;
-  background: var(--Cores-Cinza-50, #eff3f5); /* Add border */
+  background: var(--Cores-Cinza-50, #eff3f5); 
   padding: 4px;
   margin-right: 0.75rem;
   display: flex;
@@ -425,24 +420,22 @@ letter-spacing: -0.4px;
 .maintenance-name {
   color: var(--Cores-Cinza-800, #33373c);
 
-  /* Tag/Tag T3 */
   font-family: var(--Tipo-Familia-Tag, Inter);
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 500;
-  line-height: 120%; /* 16.8px */
+  line-height: 120%; 
 }
 
 .maintenance-date {
   align-self: stretch;
   color: var(--Cores-Cinza-400, #76828B);
 
-/* Tag/Tag T4 */
 font-family: var(--Tipo-Familia-Tag, Inter);
 font-size: var(--Tipo-Tamanho-Xs, 12px);
 font-style: normal;
 font-weight: 500;
-line-height: 120%; /* 14.4px */
+line-height: 120%; 
 }
 
 .maintenance-progress {
@@ -453,6 +446,6 @@ font-family: var(--Tipo-Familia-Tag, Inter);
 font-size: 10px;
 font-style: normal;
 font-weight: 500;
-line-height: 120%; /* 12px */
+line-height: 120%; 
 }
 </style>
