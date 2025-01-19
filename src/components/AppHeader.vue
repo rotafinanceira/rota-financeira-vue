@@ -12,9 +12,12 @@
 
       <q-space />
 
-      <!-- Colocando o ícone Noti.svg dentro de q-btn -->
+      <!-- Colocando o ícone Noti.svg dentro de q-btn com badge -->
       <q-btn flat round>
-        <q-img :src="Noti" style="width: 24px; height: 24px;" />
+        <div class="notification-wrapper">
+          <q-img :src="Noti" style="width: 24px; height: 24px;" />
+          <q-badge color="red" floating class="notification-badge" />
+        </div>
       </q-btn>
     </q-toolbar>
   </q-header>
@@ -64,6 +67,19 @@ import Noti from '@/assets/Noti.svg';
   font-weight: 700; /* Headline/H6 Bold */
   line-height: 120%; /* 24px */
   letter-spacing: -0.4px;
+}
+
+.notification-wrapper {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
 }
 
 .text-h6 {
