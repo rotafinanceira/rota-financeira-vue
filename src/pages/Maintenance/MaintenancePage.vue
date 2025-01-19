@@ -4,7 +4,7 @@
     <AppHeader />
 
     <div class="maintenance-title">
-      <img :src="manuIcon" alt="Manutenções Icon" class="title-icon" />
+      <img :src="manuIcon2" alt="Manutenções Icon" class="title-icon" />
       <div class="title-text">Manutenções</div>
     </div>
 
@@ -199,7 +199,7 @@ import { ref } from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import oilImage from '@/assets/agua.svg';
-import manuIcon from '@/assets/manu.svg';
+import manuIcon2 from '@/assets/manu2.svg';
 import expiredIcon from '@/assets/manVen.svg';
 import nextIcon from '@/assets/proxMan.svg';
 import fillStepsIcon from '@/assets/preenEtap.svg';
@@ -300,11 +300,14 @@ const completedMaintenances = ref<MaintenanceItem[]>([
 }
 
 .title-text {
-  font-size: 14px;
-  margin: 0;
-  color: #212121; /* Exemplo de cor preta */
-  font-weight: 500;
-  font-family: 'Raleway', sans-serif; /* Aplique a fonte Raleway */
+  color: var(--Cores-Cinza-800, #33373C);
+/* Headline/H6 Bold */
+font-family: var(--Tipo-Familia-Headline, Raleway);
+font-size: var(--Tipo-Tamanho-Xl, 20px);
+font-style: normal;
+font-weight: 700;
+line-height: 120%; /* 24px */
+letter-spacing: -0.4px;
 }
 
 .maintenance-section {
@@ -431,12 +434,25 @@ const completedMaintenances = ref<MaintenanceItem[]>([
 }
 
 .maintenance-date {
-  font-size: 0.9rem;
-  color: #666;
+  align-self: stretch;
+  color: var(--Cores-Cinza-400, #76828B);
+
+/* Tag/Tag T4 */
+font-family: var(--Tipo-Familia-Tag, Inter);
+font-size: var(--Tipo-Tamanho-Xs, 12px);
+font-style: normal;
+font-weight: 500;
+line-height: 120%; /* 14.4px */
 }
 
 .maintenance-progress {
-  font-weight: 500;
-  color: #444;
+  color: var(--Cores-Cinza-300, #9BA7AD);
+leading-trim: both;
+text-edge: cap;
+font-family: var(--Tipo-Familia-Tag, Inter);
+font-size: 10px;
+font-style: normal;
+font-weight: 500;
+line-height: 120%; /* 12px */
 }
 </style>

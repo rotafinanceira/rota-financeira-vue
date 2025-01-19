@@ -8,14 +8,14 @@
       class="custom-tabs"
       switch-indicator
     >
-      <q-tab name="home" @click="navigateTo('/')">
+      <q-tab name="home" @click="navigateTo('/home')">
         <template v-slot:default>
           <img
             :src="homeIcon"
             alt="Início Icon"
             style="width: 24px; height: 24px"
           />
-          <div>Início</div>
+          <div class="tab-text">Início</div>
         </template>
       </q-tab>
       <q-tab name="maintenance" @click="navigateTo('/maintenance')">
@@ -25,7 +25,7 @@
             alt="Manutenções Icon"
             style="width: 24px; height: 24px"
           />
-          <div>Manutenções</div>
+          <div class="tab-text">Manutenções</div>
         </template>
       </q-tab>
       <q-tab name="history" @click="navigateTo('/maintenance-history')">
@@ -35,7 +35,7 @@
             alt="Histórico Icon"
             style="width: 24px; height: 24px"
           />
-          <div>Histórico</div>
+          <div class="tab-text">Histórico</div>
         </template>
       </q-tab>
       <q-tab name="profile" @click="navigateTo('/profile')">
@@ -45,7 +45,7 @@
             alt="Perfis Icon"
             style="width: 24px; height: 24px"
           />
-          <div>Perfis</div>
+          <div class="tab-text">Perfis</div>
         </template>
       </q-tab>
     </q-tabs>
@@ -68,10 +68,10 @@ watch(
   route,
   (newRoute) => {
     switch (newRoute.path) {
-      case '/':
+      case '/home':
         footerTab.value = 'home';
         break;
-      case '/oil-maintenance':
+      case '/maintenance':
         footerTab.value = 'maintenance';
         break;
       case '/maintenance-history':
@@ -112,5 +112,10 @@ function navigateTo(path) {
   top: 0;
   bottom: auto;
   background-color: green;
+}
+
+/* Ensure text is not transformed to uppercase */
+.tab-text {
+  text-transform: none;
 }
 </style>
