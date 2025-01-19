@@ -11,11 +11,13 @@
     <!-- Seção: Manutenções vencidas -->
     <q-card class="maintenance-section">
       <div class="section-header expired-header">
-        <div class="section-icon">
-          <img :src="expiredIcon" alt="Expired Icon" class="section-image" />
-        </div>
-        <div class="section-title">
-          <strong>Manutenções vencidas</strong>
+        <div class="section-icon-wrapper">
+          <div class="section-icon">
+            <img :src="expiredIcon" alt="Expired Icon" class="section-image" />
+          </div>
+          <div class="section-title">
+            <strong>Manutenções vencidas</strong>
+          </div>
         </div>
       </div>
       <div class="maintenance-items">
@@ -25,7 +27,13 @@
           class="maintenance-item no-shadow"
         >
           <div class="maintenance-content">
-            <img :src="item.image" alt="Maintenance Image" class="maintenance-image" />
+            <div class="maintenance-image-wrapper">
+              <img
+                :src="item.image"
+                alt="Maintenance Image"
+                class="maintenance-image"
+              />
+            </div>
             <div class="maintenance-details">
               <div class="maintenance-name">
                 {{ item.title }}
@@ -45,11 +53,13 @@
     <!-- Seção: Próximas manutenções -->
     <q-card class="maintenance-section">
       <div class="section-header next-header">
-        <div class="section-icon">
-          <img :src="nextIcon" alt="Next Icon" class="section-image" />
-        </div>
-        <div class="section-title">
-          <strong>Próximas manutenções</strong>
+        <div class="section-icon-wrapper">
+          <div class="section-icon">
+            <img :src="nextIcon" alt="Next Icon" class="section-image" />
+          </div>
+          <div class="section-title">
+            <strong>Próximas manutenções</strong>
+          </div>
         </div>
       </div>
       <div class="maintenance-items">
@@ -59,7 +69,13 @@
           class="maintenance-item no-shadow"
         >
           <div class="maintenance-content">
-            <img :src="item.image" alt="Maintenance Image" class="maintenance-image" />
+            <div class="maintenance-image-wrapper">
+              <img
+                :src="item.image"
+                alt="Maintenance Image"
+                class="maintenance-image"
+              />
+            </div>
             <div class="maintenance-details">
               <div class="maintenance-name">
                 {{ item.title }}
@@ -81,11 +97,17 @@
     <!-- Seção: Preencher etapas -->
     <q-card class="maintenance-section">
       <div class="section-header fill-steps-header">
-        <div class="section-icon">
-          <img :src="fillStepsIcon" alt="Fill Steps Icon" class="section-image" />
-        </div>
-        <div class="section-title">
-          <strong>Preencher etapas</strong>
+        <div class="section-icon-wrapper">
+          <div class="section-icon">
+            <img
+              :src="fillStepsIcon"
+              alt="Fill Steps Icon"
+              class="section-image"
+            />
+          </div>
+          <div class="section-title">
+            <strong>Preencher etapas</strong>
+          </div>
         </div>
       </div>
       <div class="maintenance-items">
@@ -95,7 +117,13 @@
           class="maintenance-item no-shadow"
         >
           <div class="maintenance-content">
-            <img :src="item.image" alt="Maintenance Image" class="maintenance-image" />
+            <div class="maintenance-image-wrapper">
+              <img
+                :src="item.image"
+                alt="Maintenance Image"
+                class="maintenance-image"
+              />
+            </div>
             <div class="maintenance-details">
               <div class="maintenance-name">
                 {{ item.title }}
@@ -117,11 +145,17 @@
     <!-- Seção: Concluído -->
     <q-card class="maintenance-section">
       <div class="section-header completed-header">
-        <div class="section-icon">
-          <img :src="completedIcon" alt="Completed Icon" class="section-image" />
-        </div>
-        <div class="section-title">
-          <strong>Concluído</strong>
+        <div class="section-icon-wrapper">
+          <div class="section-icon">
+            <img
+              :src="completedIcon"
+              alt="Completed Icon"
+              class="section-image"
+            />
+          </div>
+          <div class="section-title">
+            <strong>Concluído</strong>
+          </div>
         </div>
       </div>
       <div class="maintenance-items">
@@ -131,7 +165,13 @@
           class="maintenance-item no-shadow"
         >
           <div class="maintenance-content">
-            <img :src="item.image" alt="Maintenance Image" class="maintenance-image" />
+            <div class="maintenance-image-wrapper">
+              <img
+                :src="item.image"
+                alt="Maintenance Image"
+                class="maintenance-image"
+              />
+            </div>
             <div class="maintenance-details">
               <div class="maintenance-name">
                 {{ item.title }}
@@ -171,9 +211,9 @@ import alignmentImage from '@/assets/Alinham.svg';
 
 interface MaintenanceItem {
   title: string;
-  date: string;       // pode ser "Venceu dia X", "Vence dia Y", etc.
-  progress: string;   // ex: "6/8"
-  image: string;      // caminho da imagem
+  date: string; // pode ser "Venceu dia X", "Vence dia Y", etc.
+  progress: string; // ex: "6/8"
+  image: string; // caminho da imagem
 }
 
 const expiredMaintenances = ref<MaintenanceItem[]>([
@@ -249,7 +289,7 @@ const completedMaintenances = ref<MaintenanceItem[]>([
   align-items: center;
   gap: 10px;
   padding-left: 20px;
-  padding-top:24px;
+  padding-top: 24px;
   padding-bottom: 12px;
   border-top: 100px;
 }
@@ -291,23 +331,30 @@ const completedMaintenances = ref<MaintenanceItem[]>([
   padding-left: 10px;
 }
 
+.section-icon-wrapper {
+  display: flex;
+  padding: 8px 5px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+}
+
 .section-icon {
   margin-right: 0.5rem;
-  padding: 8px 5px;
 }
 
 .section-image {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
-.section-title{
+.section-title {
   color: var(--Cores-Secundria-800, #223227);
-/* Button/Button B2 */
-font-family: var(--Tipo-Familia-Button, Inter);
-font-size: var(--Tipo-Tamanho-Md, 16px);
-font-style: normal;
-font-weight: 600;
-line-height: 120%; /* 19.2px */
+  /* Button/Button B2 */
+  font-family: var(--Tipo-Familia-Button, Inter);
+  font-size: var(--Tipo-Tamanho-Md, 16px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%; /* 19.2px */
 }
 
 .expired-header .text-danger {
@@ -329,7 +376,7 @@ line-height: 120%; /* 19.2px */
   flex-direction: column;
   gap: 0.75rem;
   padding-bottom: 10px;
-  margin-left:10px;
+  margin-left: 10px;
   padding-right: 10px;
 }
 
@@ -351,10 +398,20 @@ line-height: 120%; /* 19.2px */
   align-items: center;
 }
 
-.maintenance-image {
-  width: 40px;
-  height: 40px;
+.maintenance-image-wrapper {
+  border-radius: 8px;
+  background: var(--Cores-Cinza-50, #eff3f5); /* Add border */
+  padding: 4px;
   margin-right: 0.75rem;
+  display: flex;
+  padding: 5px;
+  align-items: center;
+  gap: 10px;
+}
+
+.maintenance-image {
+  width: 20px;
+  height: 20px;
 }
 
 .maintenance-details {
@@ -363,14 +420,14 @@ line-height: 120%; /* 19.2px */
 }
 
 .maintenance-name {
-  color: var(--Cores-Cinza-800, #33373C);
+  color: var(--Cores-Cinza-800, #33373c);
 
-/* Tag/Tag T3 */
-font-family: var(--Tipo-Familia-Tag, Inter);
-font-size: var(--Tipo-Tamanho-Sm, 14px);
-font-style: normal;
-font-weight: 500;
-line-height: 120%; /* 16.8px */
+  /* Tag/Tag T3 */
+  font-family: var(--Tipo-Familia-Tag, Inter);
+  font-size: var(--Tipo-Tamanho-Sm, 14px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%; /* 16.8px */
 }
 
 .maintenance-date {
