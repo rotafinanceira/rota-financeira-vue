@@ -12,7 +12,7 @@
     <q-card class="maintenance-section">
       <div class="section-header expired-header">
         <div class="section-icon">
-          <img :src="manuIcon" alt="Expired Icon" class="section-image" />
+          <img :src="expiredIcon" alt="Expired Icon" class="section-image" />
         </div>
         <div class="section-title">
           <strong>Manutenções vencidas</strong>
@@ -46,7 +46,7 @@
     <q-card class="maintenance-section">
       <div class="section-header next-header">
         <div class="section-icon">
-          <img :src="manuIcon" alt="Next Icon" class="section-image" />
+          <img :src="nextIcon" alt="Next Icon" class="section-image" />
         </div>
         <div class="section-title">
           <strong>Próximas manutenções</strong>
@@ -82,7 +82,7 @@
     <q-card class="maintenance-section">
       <div class="section-header fill-steps-header">
         <div class="section-icon">
-          <img :src="manuIcon" alt="Fill Steps Icon" class="section-image" />
+          <img :src="fillStepsIcon" alt="Fill Steps Icon" class="section-image" />
         </div>
         <div class="section-title">
           <strong>Preencher etapas</strong>
@@ -118,7 +118,7 @@
     <q-card class="maintenance-section">
       <div class="section-header completed-header">
         <div class="section-icon">
-          <img :src="manuIcon" alt="Completed Icon" class="section-image" />
+          <img :src="completedIcon" alt="Completed Icon" class="section-image" />
         </div>
         <div class="section-title">
           <strong>Concluído</strong>
@@ -160,10 +160,10 @@ import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import oilImage from '@/assets/agua.svg';
 import manuIcon from '@/assets/manu.svg';
-// import expiredIcon from '@/assets/expired.svg';
-// import nextIcon from '@/assets/next.svg';
-// import fillStepsIcon from '@/assets/fill-steps.svg';
-// import completedIcon from '@/assets/completed.svg';
+import expiredIcon from '@/assets/manVen.svg';
+import nextIcon from '@/assets/proxMan.svg';
+import fillStepsIcon from '@/assets/preenEtap.svg';
+import completedIcon from '@/assets/concluido.svg';
 // import batteryImage from '@/assets/agua.svg';
 // import filterImage from '@/assets/agua.svg';
 import alignmentImage from '@/assets/Alinham.svg';
@@ -247,12 +247,11 @@ const completedMaintenances = ref<MaintenanceItem[]>([
 .maintenance-title {
   display: flex;
   align-items: center;
-  gap: 10px; 
+  gap: 10px;
   padding-left: 20px;
-  margin: 0 auto;
-  margin-bottom: 12px;
+  padding-top:24px;
+  padding-bottom: 12px;
   border-top: 100px;
-
 }
 
 .title-icon {
@@ -289,15 +288,26 @@ const completedMaintenances = ref<MaintenanceItem[]>([
   display: flex;
   align-items: center;
   margin-bottom: 0.75rem;
+  padding-left: 10px;
 }
 
 .section-icon {
   margin-right: 0.5rem;
+  padding: 8px 5px;
 }
 
 .section-image {
   width: 24px;
   height: 24px;
+}
+.section-title{
+  color: var(--Cores-Secundria-800, #223227);
+/* Button/Button B2 */
+font-family: var(--Tipo-Familia-Button, Inter);
+font-size: var(--Tipo-Tamanho-Md, 16px);
+font-style: normal;
+font-weight: 600;
+line-height: 120%; /* 19.2px */
 }
 
 .expired-header .text-danger {
@@ -318,12 +328,14 @@ const completedMaintenances = ref<MaintenanceItem[]>([
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  padding-bottom: 10px;
+  margin-left:10px;
+  padding-right: 10px;
 }
 
 .maintenance-item {
   background-color: #ffffff; /* Cor de fundo dos cards */
   border-radius: 6px;
-  padding: 0.75rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -351,8 +363,14 @@ const completedMaintenances = ref<MaintenanceItem[]>([
 }
 
 .maintenance-name {
-  font-weight: 600;
-  margin-bottom: 0.25rem;
+  color: var(--Cores-Cinza-800, #33373C);
+
+/* Tag/Tag T3 */
+font-family: var(--Tipo-Familia-Tag, Inter);
+font-size: var(--Tipo-Tamanho-Sm, 14px);
+font-style: normal;
+font-weight: 500;
+line-height: 120%; /* 16.8px */
 }
 
 .maintenance-date {
