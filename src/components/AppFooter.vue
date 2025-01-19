@@ -99,7 +99,7 @@ function navigateTo(path) {
   width: 100%;
   height: 72px;
   border: 1px solid #E0E5E7;
-  box-shadow: none; /* Remove shadow */
+  box-shadow: none; 
 }
 
 .q-tab {
@@ -114,7 +114,6 @@ function navigateTo(path) {
   background-color: green;
 }
 
-/* Ensure text is not transformed to uppercase */
 .tab-text {
   text-transform: none;
 }

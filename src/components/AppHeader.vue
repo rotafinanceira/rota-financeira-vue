@@ -4,17 +4,17 @@
       <q-img :src="logoRota" style="width: 40px; margin-right: 8px;" />
 
       <div class="column-header">
-        <!-- Updated Jeep Compass style -->
         <div class="jeep-compass-text">Jeep Compass</div>
-        <!-- Updated Olá, Pezzano style -->
         <div class="ola-pezzano-text">Olá, Pezzano!</div>
       </div>
 
       <q-space />
 
-      <!-- Colocando o ícone Noti.svg dentro de q-btn -->
       <q-btn flat round>
-        <q-img :src="Noti" style="width: 24px; height: 24px;" />
+        <div class="notification-wrapper">
+          <q-img :src="Noti" style="width: 24px; height: 24px;" />
+          <q-img :src="elipse" class="notification-badge" />
+        </div>
       </q-btn>
     </q-toolbar>
   </q-header>
@@ -23,6 +23,7 @@
 <script setup>
 import logoRota from '@/assets/logoRota.svg';
 import Noti from '@/assets/Noti.svg';
+import elipse from '@/assets/elipse46.svg';
 </script>
 
 <style scoped>
@@ -46,27 +47,45 @@ import Noti from '@/assets/Noti.svg';
   align-items: flex-start;
 }
 
-/* Style for Jeep Compass text */
 .jeep-compass-text {
   color: var(--Cores-Cinza-400, #76828B);
   font-family: var(--Tipo-Familia-Tag, Inter);
   font-size: var(--Tipo-Tamanho-Xs, 12px);
   font-style: normal;
   font-weight: 500;
-  line-height: 120%; /* 14.4px */
+  line-height: 120%; 
 }
 
-/* Updated style for Olá, Pezzano text to use Headline/H6 Bold */
 .ola-pezzano-text {
   color: var(--Cores-Cinza-900, #0C0D0F);
   font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
-  font-weight: 700; /* Headline/H6 Bold */
-  line-height: 120%; /* 24px */
+  font-weight: 700; 
+  line-height: 120%; 
   letter-spacing: -0.4px;
+}
+
+.notification-wrapper {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  left: 13px;
+  bottom: 11px;
+  width: 12px;
+  height: 11x;
+  flex-shrink: 0;
+  fill: var(--Cores-Error-500, #DA2829);
+  stroke-width: 1.846px;
+  stroke: var(--Cores-Cinza-Branco, #FFF);
 }
 
 .text-h6 {
   margin-bottom: 4px;
+}
+
+.q-toolbar div {
+  text-transform: none;
 }
 </style>
