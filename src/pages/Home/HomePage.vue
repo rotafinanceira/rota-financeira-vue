@@ -225,24 +225,32 @@ const currentNextIndex = ref(0);
 const prevExpiredMaintenance = () => {
   if (currentExpiredIndex.value > 0) {
     currentExpiredIndex.value--;
+  } else {
+    currentExpiredIndex.value = expiredMaintenances.value.length - 1;
   }
 };
 
 const nextExpiredMaintenance = () => {
   if (currentExpiredIndex.value < expiredMaintenances.value.length - 1) {
     currentExpiredIndex.value++;
+  } else {
+    currentExpiredIndex.value = 0;
   }
 };
 
 const prevNextMaintenance = () => {
   if (currentNextIndex.value > 0) {
     currentNextIndex.value--;
+  } else {
+    currentNextIndex.value = nextMaintenances.value.length - 1;
   }
 };
 
 const nextNextMaintenance = () => {
   if (currentNextIndex.value < nextMaintenances.value.length - 1) {
     currentNextIndex.value++;
+  } else {
+    currentNextIndex.value = 0;
   }
 };
 </script>
