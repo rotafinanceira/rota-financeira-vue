@@ -300,14 +300,14 @@ const completedMaintenances = ref<MaintenanceItem[]>([
 }
 
 .title-text {
-  color: var(--Cores-Cinza-800, #33373C);
-/* Headline/H6 Bold */
-font-family: var(--Tipo-Familia-Headline, Raleway);
-font-size: var(--Tipo-Tamanho-Xl, 20px);
-font-style: normal;
-font-weight: 700;
-line-height: 120%; /* 24px */
-letter-spacing: -0.4px;
+  color: var(--Cores-Cinza-800, #33373c);
+  /* Headline/H6 Bold */
+  font-family: var(--Tipo-Familia-Headline, Raleway);
+  font-size: var(--Tipo-Tamanho-Xl, 20px);
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 24px */
+  letter-spacing: -0.4px;
 }
 
 .maintenance-section {
@@ -435,24 +435,22 @@ letter-spacing: -0.4px;
 
 .maintenance-date {
   align-self: stretch;
-  color: var(--Cores-Cinza-400, #76828B);
+  color: var(--Cores-Cinza-400, #76828b);
 
-/* Tag/Tag T4 */
-font-family: var(--Tipo-Familia-Tag, Inter);
-font-size: var(--Tipo-Tamanho-Xs, 12px);
-font-style: normal;
-font-weight: 500;
-line-height: 120%; /* 14.4px */
+  /* Tag/Tag T4 */
+  font-family: var(--Tipo-Familia-Tag, Inter);
+  font-size: var(--Tipo-Tamanho-Xs, 12px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%; /* 14.4px */
 }
 
 .maintenance-progress {
-  color: var(--Cores-Cinza-300, #9BA7AD);
-leading-trim: both;
-text-edge: cap;
-font-family: var(--Tipo-Familia-Tag, Inter);
-font-size: 10px;
-font-style: normal;
-font-weight: 500;
-line-height: 120%; /* 12px */
+  color: var(--Cores-Cinza-300, #9ba7ad);
+  font-family: var(--Tipo-Familia-Tag, Inter);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%; /* 12px */
 }
 </style>
