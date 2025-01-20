@@ -14,7 +14,13 @@
         <div class="info-wrapper">
           <div class="info-text-wrapper">
             <div class="kilometer-title">
-              <span class="km-number">000.000</span>
+              <input
+                type="text"
+                v-model="odometerValue"
+                @input="formatOdometerValue"
+                class="km-number"
+                placeholder="000.000"
+              />
               <span class="km-text">Km</span>
             </div>
             <div>
@@ -158,6 +164,8 @@ const modalDescription = ref<string[]>([
   'O tempo recomendado para troca de óleo é de 6 a 12 meses.',
 ]);
 
+const odometerValue = ref<string>('');
+
 const showHelpModal = (): void => {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
@@ -168,6 +176,11 @@ const showHelpModal = (): void => {
     'Utilize o tipo de óleo e quantidade correta do modelo do seu veículo.',
     'Jamais misture óleos de viscosidades diferentes.',
   ];
+};
+
+const formatOdometerValue = (): void => {
+  const value = odometerValue.value.replace(/\D/g, '');
+  odometerValue.value = Number(value).toLocaleString('pt-BR');
 };
 </script>
 
@@ -268,6 +281,10 @@ const showHelpModal = (): void => {
   font-size: 20px;
   line-height: 26px;
   color: #51785a;
+  border: none;
+  background: transparent;
+  width: 90px;
+  text-align: center;
 }
 
 .km-text {
