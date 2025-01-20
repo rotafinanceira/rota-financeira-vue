@@ -56,29 +56,26 @@
                   <span>Manutenções vencidas</span>
                 </div>
                 <div class="maintenance-expired-count danger">
-                  <span>+2</span>
+                  <span>+3</span>
                 </div>
               </div>
             </div>
           </div>
           <div class="maintenance-content">
-            <div class="arrow">
+            <div class="arrow" @click="prevExpiredMaintenance">
               <img :src="arrow" alt="Back Arrow Image" class="back-arrow" />
             </div>
             <div class="maintenance-content-text">
-              <div class="maintenance-image-wrapper">
-                <img
-                  :src="alignmentImage"
-                  alt="Maintenance Image"
-                  class="maintenance-image"
-                />
-              </div>
-              <div class="maintenance-details">
-                <div class="maintenance-name">Alinhamento e balanceamento</div>
-                <div class="maintenance-date">Terça, 1 out. 2024</div>
+              <div
+                v-for="(item, index) in [expiredMaintenances[currentExpiredIndex]]"
+                :key="`expired-${index}`"
+                class="maintenance-details"
+              >
+                <div class="maintenance-name">{{ item.title }}</div>
+                <div class="maintenance-date">{{ item.date }}</div>
               </div>
             </div>
-            <div class="arrow">
+            <div class="arrow" @click="nextExpiredMaintenance">
               <img :src="arrow" alt="Next Arrow Image" class="next-arrow" />
             </div>
           </div>
@@ -109,23 +106,20 @@
             </div>
           </div>
           <div class="maintenance-content">
-            <div class="arrow">
+            <div class="arrow" @click="prevNextMaintenance">
               <img :src="arrow" alt="Back Arrow Image" class="back-arrow" />
             </div>
             <div class="maintenance-content-text">
-              <div class="maintenance-image-wrapper">
-                <img
-                  :src="batteryIcon"
-                  alt="Battery Image"
-                  class="maintenance-image"
-                />
-              </div>
-              <div class="maintenance-details">
-                <div class="maintenance-name">Troca de Bateria</div>
-                <div class="maintenance-date">Quinta, 31 out. 2024</div>
+              <div
+                v-for="(item, index) in [nextMaintenances[currentNextIndex]]"
+                :key="`next-${index}`"
+                class="maintenance-details"
+              >
+                <div class="maintenance-name">{{ item.title }}</div>
+                <div class="maintenance-date">{{ item.date }}</div>
               </div>
             </div>
-            <div class="arrow">
+            <div class="arrow" @click="nextNextMaintenance">
               <img :src="arrow" alt="Next Arrow Image" class="next-arrow" />
             </div>
           </div>
@@ -181,6 +175,75 @@ const showHelpModal = (): void => {
 const formatOdometerValue = (): void => {
   const value = odometerValue.value.replace(/\D/g, '');
   odometerValue.value = Number(value).toLocaleString('pt-BR');
+};
+
+const expiredMaintenances = ref([
+  {
+    title: 'Alinhamento e balanceamento',
+    date: 'Venceu dia 1 out. 2024',
+    progress: '6/8',
+    image: alignmentImage,
+  },
+  {
+    title: 'Troca de óleo',
+    date: 'Venceu dia 1 out. 2024',
+    progress: '6/8',
+    image: odometer,
+  },
+  {
+    title: 'Troca de bateria',
+    date: 'Venceu dia 1 out. 2024',
+    progress: '6/8',
+    image: batteryIcon,
+  },
+]);
+
+const nextMaintenances = ref([
+  {
+    title: 'Alinhamento e balanceamento',
+    date: 'Vence dia 12 out. 2025',
+    progress: '6/8',
+    image: alignmentImage,
+  },
+  {
+    title: 'Troca de óleo',
+    date: 'Vence dia 1 out. 2025',
+    progress: '6/8',
+    image: odometer,
+  },
+  {
+    title: 'Troca de bateria',
+    date: 'Vence dia 1 out. 2025',
+    progress: '6/8',
+    image: batteryIcon,
+  },
+]);
+
+const currentExpiredIndex = ref(0);
+const currentNextIndex = ref(0);
+
+const prevExpiredMaintenance = () => {
+  if (currentExpiredIndex.value > 0) {
+    currentExpiredIndex.value--;
+  }
+};
+
+const nextExpiredMaintenance = () => {
+  if (currentExpiredIndex.value < expiredMaintenances.value.length - 1) {
+    currentExpiredIndex.value++;
+  }
+};
+
+const prevNextMaintenance = () => {
+  if (currentNextIndex.value > 0) {
+    currentNextIndex.value--;
+  }
+};
+
+const nextNextMaintenance = () => {
+  if (currentNextIndex.value < nextMaintenances.value.length - 1) {
+    currentNextIndex.value++;
+  }
 };
 </script>
 
@@ -285,6 +348,10 @@ const formatOdometerValue = (): void => {
   background: transparent;
   width: 90px;
   text-align: center;
+}
+
+.km-number:focus {
+  outline: none;
 }
 
 .km-text {
