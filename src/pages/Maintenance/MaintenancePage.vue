@@ -299,14 +299,14 @@ const completedMaintenances = ref<MaintenanceItem[]>([
 }
 
 .title-text {
-  color: var(--Cores-Cinza-800, #33373C);
-/* Headline/H6 Bold */
-font-family: var(--Tipo-Familia-Headline, Raleway);
-font-size: var(--Tipo-Tamanho-Xl, 20px);
-font-style: normal;
-font-weight: 700;
-line-height: 120%; /* 24px */
-letter-spacing: -0.4px;
+  color: var(--Cores-Cinza-800, #33373c);
+  /* Headline/H6 Bold */
+  font-family: var(--Tipo-Familia-Headline, Raleway);
+  font-size: var(--Tipo-Tamanho-Xl, 20px);
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 24px */
+  letter-spacing: -0.4px;
 }
 
 .maintenance-section {
@@ -353,20 +353,20 @@ letter-spacing: -0.4px;
   font-size: var(--Tipo-Tamanho-Md, 16px);
   font-style: normal;
   font-weight: 600;
-  line-height: 120%; 
+  line-height: 120%;
 }
 
 .expired-header .text-danger {
   color: #e53935;
 }
 .next-header .text-info {
-  color: #2196f3; 
+  color: #2196f3;
 }
 .fill-steps-header .text-primary {
-  color: #3f51b5; 
+  color: #3f51b5;
 }
 .completed-header .text-success {
-  color: #4caf50; 
+  color: #4caf50;
 }
 
 .maintenance-items {
@@ -387,7 +387,7 @@ letter-spacing: -0.4px;
 }
 
 .maintenance-item.no-shadow {
-  box-shadow: none; 
+  box-shadow: none;
 }
 
 .maintenance-content {
@@ -398,7 +398,7 @@ letter-spacing: -0.4px;
 
 .maintenance-image-wrapper {
   border-radius: 8px;
-  background: var(--Cores-Cinza-50, #eff3f5); 
+  background: var(--Cores-Cinza-50, #eff3f5);
   padding: 4px;
   margin-right: 0.75rem;
   display: flex;
@@ -424,18 +424,18 @@ letter-spacing: -0.4px;
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 500;
-  line-height: 120%; 
+  line-height: 120%;
 }
 
 .maintenance-date {
   align-self: stretch;
-  color: var(--Cores-Cinza-400, #76828B);
+  color: var(--Cores-Cinza-400, #76828b);
 
 font-family: var(--Tipo-Familia-Tag, Inter);
 font-size: var(--Tipo-Tamanho-Xs, 12px);
 font-style: normal;
 font-weight: 500;
-line-height: 120%; 
+line-height: 120%;
 }
 
 .maintenance-progress {
@@ -446,6 +446,6 @@ font-family: var(--Tipo-Familia-Tag, Inter);
 font-size: 10px;
 font-style: normal;
 font-weight: 500;
-line-height: 120%; 
+line-height: 120%;
 }
 </style>
