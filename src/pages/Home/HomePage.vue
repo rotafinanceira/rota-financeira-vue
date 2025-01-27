@@ -26,8 +26,7 @@
             <div>
               <span class="kilometer-text"
                 >Última quilometragem <br />
-                registrada:
-              </span>
+                registrada:</span>
               <span class="kilometer-text-number">123.348</span>
               <span class="kilometer-text"> Km</span>
             </div>
@@ -56,7 +55,7 @@
                   <span>Manutenções vencidas</span>
                 </div>
                 <div class="maintenance-expired-count danger">
-                  <span>+3</span>
+                  <span>+{{ expiredMaintenances.length }}</span>
                 </div>
               </div>
             </div>
@@ -71,8 +70,16 @@
                 :key="`expired-${index}`"
                 class="maintenance-details"
               >
-                <div class="maintenance-name">{{ item.title }}</div>
-                <div class="maintenance-date">{{ item.date }}</div>
+                <div class="maintenance-image-wrapper">
+                  <img
+                  :src="item.image"
+                  alt="Maintenance Image"
+                  class="maintenance-image" />
+                </div>
+                <div>
+                  <div class="maintenance-name">{{ item.title }}</div>
+                  <div class="maintenance-date">{{ item.date }}</div>
+                </div>
               </div>
             </div>
             <div class="arrow" @click="nextExpiredMaintenance">
@@ -100,7 +107,7 @@
                   <span>Próximas manutenções</span>
                 </div>
                 <div class="maintenance-expired-count success">
-                  <span>+3</span>
+                  <span>+{{ nextMaintenances.length }}</span>
                 </div>
               </div>
             </div>
@@ -115,8 +122,17 @@
                 :key="`next-${index}`"
                 class="maintenance-details"
               >
-                <div class="maintenance-name">{{ item.title }}</div>
-                <div class="maintenance-date">{{ item.date }}</div>
+                <div class="maintenance-image-wrapper">
+                  <img
+                    :src="item.image"
+                    alt="Maintenance Image"
+                    class="maintenance-image"
+                  />
+                </div>
+                <div>
+                  <div class="maintenance-name">{{ item.title }}</div>
+                  <div class="maintenance-date">{{ item.date }}</div>
+                </div>
               </div>
             </div>
             <div class="arrow" @click="nextNextMaintenance">
@@ -448,7 +464,7 @@ const nextNextMaintenance = () => {
 
 .maintenance-details {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 2px;
 }
 
