@@ -545,7 +545,9 @@ const nextNextMaintenance = () => {
 }
 
 .maintenance-content-text {
-  display: flex;
+  flex: 1; 
+  text-align: left;
+  margin-left: 8px;
 }
 
 .expired-content {
