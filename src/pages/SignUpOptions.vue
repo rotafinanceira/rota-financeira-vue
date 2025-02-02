@@ -17,7 +17,7 @@
       </button>
       <button class="google-button" @click="continueWithGoogle">
         <img :src="googleIcon" alt="Google Icon" class="google-icon" />
-        Continuar com Google
+        <span class="google-button-text">Continuar com o Google</span>
       </button>
       <div class="login-link" @click="navigateToSignIn">
         <span class="login-text">Já tem uma conta?</span>
@@ -154,17 +154,30 @@ button {
 
 .google-button {
   display: flex;
+  height: 48px;
+  padding: 12px 24px;
   justify-content: center;
   align-items: center;
   gap: 12px;
+  align-self: stretch;
   border-radius: 4px;
   border: 1px solid #c2c9cd;
   background: #f9fcfa;
+  cursor: pointer;
 }
 
 .google-icon {
   width: 20px;
   height: 20px;
+}
+
+.google-button-text {
+  color: var(--Cores-Secundria-700, #293E2F);
+  font-family: var(--Tipo-Familia-Button, Inter);
+  font-size: var(--Tipo-Tamanho-Lg, 18px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%; /* 21.6px */
 }
 
 .login-link {
