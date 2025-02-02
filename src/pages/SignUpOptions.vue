@@ -97,6 +97,8 @@ const continueWithGoogle = () => {
   margin-bottom: 20px;
   margin-left: 20px;
   margin-right: 20px;
+  position: absolute;
+  top: 212px;
 }
 
 .intro-title {
@@ -118,7 +120,7 @@ const continueWithGoogle = () => {
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 400;
-  line-height: 150%; /* 21px */
+  line-height: 150%;
   text-align: left;
 }
 
@@ -128,6 +130,8 @@ const continueWithGoogle = () => {
   align-items: center;
   gap: 16px;
   width: 320px;
+  position: absolute;
+  top: 529px;
 }
 
 button {
