@@ -1,210 +1,148 @@
 <template>
-  <div class="container">
-    <div class="logo-container">
-      <q-img :src="logo" class="logo" />
-    </div>
-    <StepperComponent :step="3" />
-    <div class="container-content">
-      <div class="signup-title">Criar conta</div>
-      <form class="form" @submit.prevent="validateStep">
-        <div class="inputs-wrapper">
-          <div class="input-wrapper">
-            <label class="input-label" for="input-password">Senha*</label>
-            <q-input
-              v-model="password"
-              id="input-password"
-              placeholder="**********"
-              :type="showPassword ? 'text' : 'password'"
-              outlined
-              class="password-input"
-            >
-              <template v-slot:append>
-                <q-icon
-                  :name="showPassword ? 'visibility' : 'visibility_off'"
-                  @click="togglePasswordVisibility"
-                />
-              </template>
-            </q-input>
-          </div>
+  <q-page padding>
+    <div class="container">
+      <div class="logo-container">
+        <q-img :src="logo" class="logo" />
+      </div>
+      <SignUpTitleStepper :step="3" />
+      <div class="container-content">
+        <form class="form" @submit.prevent="createAccount">
+          <div class="inputs-wrapper">
+            <SignUpNameInput v-model="fullName" label="Nome Completo" />
+            <span v-if="nameError" class="error-message">{{ nameError }}</span>
 
-          <div class="input-wrapper">
-            <label class="input-label" for="input-confirm-password"
-              >Confirmar senha*</label
-            >
-            <q-input
-              v-model="confirmPassword"
-              id="input-confirm-password"
-              placeholder="**********"
-              :type="showConfirmPassword ? 'text' : 'password'"
-              outlined
-              class="confirm-password-input"
-            >
-              <template v-slot:append>
-                <q-icon
-                  :name="showConfirmPassword ? 'visibility' : 'visibility_off'"
-                  @click="toggleConfirmPasswordVisibility"
-                />
-              </template>
-            </q-input>
-          </div>
-        </div>
+            <SignUpBirthdateInput
+              v-model="birthdate"
+              label="Data de nascimento"
+            />
+            <span v-if="birthdateError" class="error-message">{{
+              birthdateError
+            }}</span>
 
-        <div class="password-checker">
-          <p>A senha deve ter:</p>
-          <div>
-            <img :src="checkIcon" v-if="hasLowerCase" class="icon" />
-            <img :src="errorIcon" v-else class="icon" />
-            Mínimo de 1 letra minúscula
+            <SignUpPhoneInput v-model="phone" label="Telefone" />
+            <span v-if="phoneError" class="error-message">{{
+              phoneError
+            }}</span>
           </div>
           <div>
-            <img :src="checkIcon" v-if="hasUpperCase" class="icon" />
-            <img :src="errorIcon" v-else class="icon" />
-            Mínimo de 1 letra maiúscula
+            <q-checkbox
+              v-model="acceptTerms"
+              label="Li e concordo com as regras do Termo de Uso e Privacidade"
+              color="#4E4EDD"
+            />
+            <span v-if="formSubmitted && !acceptTerms" class="error-message"
+              >Você deve aceitar os termos</span
+            >
           </div>
-          <div>
-            <img :src="checkIcon" v-if="hasSymbol" class="icon" />
-            <img :src="errorIcon" v-else class="icon" />
-            Mínimo de 1 caractere especial
-          </div>
-          <div>
-            <img :src="checkIcon" v-if="hasNumber" class="icon" />
-            <img :src="errorIcon" v-else class="icon" />
-            Mínimo de 1 número
-          </div>
-          <div>
-            <img :src="checkIcon" v-if="hasMinLength" class="icon" />
-            <img :src="errorIcon" v-else class="icon" />
-            Mínimo de 8 dígitos
-          </div>
-          <div>
-            <img :src="checkIcon" v-if="passwordsMatch" class="icon" />
-            <img :src="errorIcon" v-else class="icon" />
-            As senhas correspondem
-          </div>
-        </div>
-        <q-checkbox
-          v-model="acceptTerms"
-          label="Li e concordo com as regras do Termo de Uso e Privacidade"
-          color="#4E4EDD"
-        />
-        <div class="button-group">
-          <q-btn
-            class="styled-button"
-            label="Cadastrar"
-            type="submit"
-            :disabled="!acceptTerms || !isPasswordValid || !passwordsMatch"
-          />
-        </div>
-      </form>
+        </form>
+      </div>
+      <ButtonComponent
+        label="Finalizar"
+        :isLoading="isLoading"
+        @click="createAccount"
+      />
+      <SignInUpFooter
+        message="Já tem uma conta?"
+        buttonText="Entrar"
+        :path="'/'"
+      />
     </div>
-    <SignInUpFooter
-      message="Já possui conta?"
-      buttonText="Entrar"
-      :path="'/'"
-    />
-  </div>
+  </q-page>
 </template>
 
-<script lang="ts" setup>
-import { ref, computed } from 'vue';
-import logo from '@/assets/logolight.svg';
-import checkIcon from '@/assets/check.svg';
-import errorIcon from '@/assets/x.svg';
+<script setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useRegisterStore } from '@/store/registerStore';
-import { httpClient } from '@/infra/http/httpClient';
-import { AxiosError } from 'axios';
-import StepperComponent from '@/components/StepperComponent.vue';
+import logo from '@/assets/logolight.svg';
 import SignInUpFooter from '@/components/SignInUpFooter.vue';
+import SignUpTitleStepper from '@/components/SignUpTitleStepper.vue';
+import ButtonComponent from '@/components/ButtonComponent.vue';
+import SignUpNameInput from '@/components/SignUpNameInput.vue';
+import SignUpBirthdateInput from '@/components/SignUpBirthdateInput.vue';
+import SignUpPhoneInput from '@/components/SignUpPhoneInput.vue';
 
 const store = useRegisterStore();
 const router = useRouter();
 
-const password = ref(store.password);
-const confirmPassword = ref(store.confirmPassword);
+const isLoading = ref(false);
+const fullName = ref(store.name + (store.lastName ? ` ${store.lastName}` : ''));
+const birthdate = ref(
+  `${store.day}/${store.month}/${store.year}`.replace(/^\/\//, '')
+);
+const phone = ref(store.phone || '');
+const nameError = ref('');
+const birthdateError = ref('');
+const phoneError = ref('');
 const acceptTerms = ref(false);
-const showPassword = ref(false);
-const showConfirmPassword = ref(false);
+const formSubmitted = ref(false); // Novo estado para controlar a validação após a submissão
 
-const hasLowerCase = computed(() => /[a-z]/.test(password.value));
-const hasUpperCase = computed(() => /[A-Z]/.test(password.value));
-const hasNumber = computed(() => /[0-9]/.test(password.value));
-const hasSymbol = computed(() => /[!@#$%^&*()]/.test(password.value));
-const hasMinLength = computed(() => password.value.length >= 8);
+const validateName = () => {
+  if (!fullName.value.trim()) {
+    nameError.value = 'O nome completo é obrigatório';
+    return false;
+  }
+  if (fullName.value.trim().split(' ').length < 2) {
+    nameError.value = 'Digite pelo menos um sobrenome';
+    return false;
+  }
+  nameError.value = '';
+  return true;
+};
 
-const isPasswordValid = computed(() => {
+const validateBirthdate = () => {
+  if (!birthdate.value) {
+    birthdateError.value = 'Data de nascimento é obrigatória';
+    return false;
+  }
+  const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+  if (!regex.test(birthdate.value)) {
+    birthdateError.value = 'Formato inválido. Use dd/mm/aaaa';
+    return false;
+  }
+  const [day, month, year] = birthdate.value.split('/');
+  store.setDay(day);
+  store.setMonth(month);
+  store.setYear(year);
+  birthdateError.value = '';
+  return true;
+};
+
+const validatePhone = () => {
+  if (!phone.value) {
+    phoneError.value = 'O telefone é obrigatório';
+    return false;
+  }
+  const cleanedPhone = phone.value.replace(/\D/g, '');
+  if (cleanedPhone.length !== 11) {
+    phoneError.value = 'O telefone deve conter 11 dígitos';
+    return false;
+  }
+  phoneError.value = '';
+  return true;
+};
+
+const validateAllInfo = () => {
   return (
-    hasLowerCase.value &&
-    hasUpperCase.value &&
-    hasNumber.value &&
-    hasSymbol.value &&
-    hasMinLength.value
+    validateName() &&
+    validateBirthdate() &&
+    validatePhone() &&
+    acceptTerms.value
   );
-});
-
-const passwordsMatch = computed(() => password.value === confirmPassword.value);
-
-const togglePasswordVisibility = () => {
-  showPassword.value = !showPassword.value;
 };
 
-const toggleConfirmPasswordVisibility = () => {
-  showConfirmPassword.value = !showConfirmPassword.value;
-};
+const createAccount = async () => {
+  formSubmitted.value = true;
 
-const validateStep = async () => {
-  if (!isPasswordValid.value) {
-    alert('A senha não atende a todos os critérios.');
-    return;
-  }
-  if (!passwordsMatch.value) {
-    alert('As senhas não correspondem!');
-    return;
-  }
+  if (validateAllInfo()) {
+    store.setName(fullName.value.split(' ')[0]);
+    store.setLastName(fullName.value.split(' ').slice(1).join(' '));
+    // store.setPhone(phone.value);
 
-  store.setPassword(password.value);
-  store.setConfirmPassword(confirmPassword.value);
-
-  // Garantir que os valores sejam números válidos ou definir um valor padrão
-  const day = isNaN(parseInt(store.day, 10)) ? 11 : parseInt(store.day, 10);
-  const month = isNaN(parseInt(store.month, 10)) ? 11 : parseInt(store.month, 10);
-  const year = isNaN(parseInt(store.year, 10)) ? 2000 : parseInt(store.year, 10);
-
-  // Formatar a data como YYYY-MM-DD
-  const formattedDate = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-
-  const payload = {
-    name: store.name,
-    lastName: store.lastName,
-    email: store.email,
-    password: store.password,
-    birthday: formattedDate,
-  };
-
-  try {
-    const response = await httpClient.post('/user', payload);
-
-    if (response.status === 201) {
-      alert('Cadastro realizado com sucesso!');
-      router.push('/');
-    } else {
-      console.error('Erro ao realizar cadastro:', response.data);
-      alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');
-    }
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      console.error('Erro na requisição:', error.response?.data);
-      alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');
-    } else if (error instanceof Error) {
-      console.error('Erro na requisição:', error.message);
-      alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');
-    } else {
-      console.error('Erro desconhecido:', error);
-      alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');
-    }
+    store.resetStore();
+    router.push('/');
   }
 };
-
 </script>
 
 <style scoped>
@@ -229,15 +167,7 @@ const validateStep = async () => {
 .container-content {
   display: flex;
   flex-direction: column;
-}
-
-.signup-title {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 24px;
-  letter-spacing: -0.02em;
-  margin: 32px 0 24px 0;
-  color: #314b39;
+  margin-bottom: 40px;
 }
 
 .form {
@@ -250,79 +180,11 @@ const validateStep = async () => {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 
-.input-label {
-  font-size: 16px;
-  font-weight: 500;
-  color: #33373c;
-}
-
-.password-checker {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 12px;
-  border-top: 1px solid #e0e5e7;
-  margin-bottom: 18px;
-}
-
-.password-checker p {
-  font-weight: bold;
+.error-message {
+  color: red;
   font-size: 14px;
-  font-weight: 600;
-  line-height: 17px;
-  margin: 0;
 }
-
-.password-checker div {
-  display: flex;
-  align-items: center;
-}
-
-.icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
-}
-
-.styled-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 12px 24px;
-  border-radius: 4px;
-  background-color: #8ce95f;
-  color: #314b39;
-  font-weight: 700;
-  text-transform: capitalize;
-  font-size: 18px;
-  margin-top: 38px;
-}
-
-.button-group {
-  display: flex;
-  justify-content: space-between;
-}
-
-/* Comentado temporariamente - aguardar decisão de design */
-/* .back-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 24px;
-  border-radius: 4px;
-  background-color: #ffffff;
-  border: 2px solid #8ce95f;
-  color: #314b39;
-  font-weight: 700;
-  text-transform: capitalize;
-  font-size: 18px;
-}
-
-.back-button:hover {
-  background-color: #f0f0f0;
-} */
 </style>

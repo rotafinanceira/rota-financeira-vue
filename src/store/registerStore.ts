@@ -18,7 +18,7 @@ export const useRegisterStore = defineStore('register', {
     setName(name: string) {
       this.name = name;
     },
-    setlastName(lastName: string) {
+    setLastName(lastName: string) {
       this.lastName = lastName;
     },
     setDay(day: string) {

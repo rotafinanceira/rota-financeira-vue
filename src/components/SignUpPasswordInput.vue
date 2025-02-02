@@ -1,46 +1,44 @@
 <template>
   <div class="input-wrapper">
-    <label
-      :class="['input-label', { 'input-label-error': !!errors.email }]"
-      for="email"
-    >
-      {{ label }}
-    </label>
+    <label class="input-label" for="input-password">{{ props.label }}</label>
     <q-input
-      v-model="internalEmail"
-      id="email"
-      placeholder="exemplo@gmail.com"
-      :error="!!errors.email"
+      :model-value="props.modelValue"
+      @update:model-value="emitValue"
+      id="input-password"
+      placeholder="**********"
+      :type="showPassword ? 'text' : 'password'"
       outlined
       class="styled-input"
       no-border
       hide-bottom-space
-      @blur="alreadyRegistered"
-    />
+    >
+      <template v-slot:append>
+        <q-icon
+          :name="showPassword ? 'visibility' : 'visibility_off'"
+          @click="togglePasswordVisibility"
+        />
+      </template>
+    </q-input>
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 
 const props = defineProps({
   modelValue: String,
-  errors: Object,
   label: String,
-  isRegisterStepOne: Boolean || undefined,
 });
 
-const emits = defineEmits(['update:modelValue']);
-const internalEmail = ref(props.modelValue);
+const emit = defineEmits(['update:modelValue']);
+const showPassword = ref(false);
 
-watch(internalEmail, (newValue) => {
-  emits('update:modelValue', newValue);
-});
+const emitValue = (value) => {
+  emit('update:modelValue', value);
+};
 
-const alreadyRegistered = async () => {
-  if (props.isRegisterStepOne) {
-    // Implementação futura...
-  }
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value;
 };
 </script>
 
