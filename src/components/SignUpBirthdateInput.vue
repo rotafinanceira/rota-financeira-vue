@@ -1,46 +1,32 @@
 <template>
   <div class="input-wrapper">
-    <label
-      :class="['input-label', { 'input-label-error': !!errors.email }]"
-      for="email"
-    >
-      {{ label }}
-    </label>
+    <label class="input-label" for="input-birthdate">{{ props.label }}</label>
     <q-input
-      v-model="internalEmail"
-      id="email"
-      placeholder="exemplo@gmail.com"
-      :error="!!errors.email"
+      :model-value="props.modelValue"
+      @update:model-value="handleInput"
+      id="input-birthdate"
+      placeholder="dd/mm/aaaa"
       outlined
       class="styled-input"
       no-border
       hide-bottom-space
-      @blur="alreadyRegistered"
+      mask="##/##/####"
     />
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
-
 const props = defineProps({
   modelValue: String,
-  errors: Object,
   label: String,
-  isRegisterStepOne: Boolean || undefined,
 });
 
-const emits = defineEmits(['update:modelValue']);
-const internalEmail = ref(props.modelValue);
+const emit = defineEmits(['update:modelValue']);
 
-watch(internalEmail, (newValue) => {
-  emits('update:modelValue', newValue);
-});
+const handleInput = (value) => {
+  const formattedValue = value.replace(/[^0-9/]/g, '');
 
-const alreadyRegistered = async () => {
-  if (props.isRegisterStepOne) {
-    // Implementação futura...
-  }
+  emit('update:modelValue', formattedValue);
 };
 </script>
 

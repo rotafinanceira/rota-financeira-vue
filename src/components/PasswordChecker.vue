@@ -1,76 +1,72 @@
 <template>
   <div class="password-checker">
-    <p>A senha deve ter:</p>
-    <div>
-      <img :src="hasLowerCase ? checkIcon : errorIcon" class="icon" />
-      Mínimo de 1 letra minúscula
-    </div>
-    <div>
-      <img :src="hasUpperCase ? checkIcon : errorIcon" class="icon" />
-      Mínimo de 1 letra maiúscula
-    </div>
-    <div>
-      <img :src="hasSymbol ? checkIcon : errorIcon" class="icon" />
-      Mínimo de 1 caractere especial
-    </div>
-    <div>
-      <img :src="hasNumber ? checkIcon : errorIcon" class="icon" />
-      Mínimo de 1 número
-    </div>
-    <div>
-      <img :src="hasMinLength ? checkIcon : errorIcon" class="icon" />
-      Mínimo 8 caracteres
+    <span class="title-text">A senha deve ter:</span>
+    <div
+      v-for="(rule, index) in passwordRules"
+      :key="index"
+      class="rules-wrapper"
+    >
+      <img :src="rule.valid ? checkIcon : errorIcon" class="icon" />
+      <span class="rule-text">{{ rule.text }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps, computed, watch, defineEmits } from 'vue';
-import checkIcon from '../assets/check.svg';
-import errorIcon from '../assets/x.svg';
+import { computed, defineProps } from 'vue';
+import checkIcon from '@/assets/check.svg';
+import errorIcon from '@/assets/x.svg';
 
 const props = defineProps({
-  password: String
+  password: String,
+  confirmPassword: String,
 });
 
-const emit = defineEmits(['update:password']);
-
-const hasLowerCase = computed(() => /[a-z]/.test(props.password));
-const hasUpperCase = computed(() => /[A-Z]/.test(props.password));
-const hasNumber = computed(() => /[0-9]/.test(props.password));
-const hasSymbol = computed(() => /[!@#$%^&*()]/.test(props.password));
-const hasMinLength = computed(() => props.password.length >= 8);
-
-// Emitir evento com as informações de validação
-watch(() => props.password, (newPassword) => {
-  emit('update:password', {
-    hasLowerCase: /[a-z]/.test(newPassword),
-    hasUpperCase: /[A-Z]/.test(newPassword),
-    hasNumber: /[0-9]/.test(newPassword),
-    hasSymbol: /[!@#$%^&*()]/.test(newPassword),
-    hasMinLength: newPassword.length >= 8
-  });
-});
+const passwordRules = computed(() => [
+  { text: 'Mínimo de 1 letra maiúscula', valid: /[A-Z]/.test(props.password) },
+  { text: 'Mínimo de 1 letra minúscula', valid: /[a-z]/.test(props.password) },
+  {
+    text: 'Mínimo de 1 caractere especial',
+    valid: /[!@#$%^&*()]/.test(props.password),
+  },
+  { text: 'Mínimo de 1 número', valid: /[0-9]/.test(props.password) },
+  { text: 'Mínimo de 8 dígitos', valid: props.password.length >= 8 },
+]);
 </script>
 
 <style scoped>
 .password-checker {
-  margin-top: 16px;
-}
-
-.password-checker p {
-  font-weight: bold;
-}
-
-.password-checker div {
   display: flex;
-  align-items: center;
-  margin-top: 8px;
+  flex-direction: column;
+  padding: 12px;
+  margin-bottom: 75px;
+  font-family: 'Inter', sans-serif;
+}
+
+.title-text {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.rules-wrapper {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.rules-wrapper:last-child {
+  margin-bottom: 0;
 }
 
 .icon {
-  width: 24px;
-  height: 24px;
-  margin-right: 8px;
+  width: 20px;
+  height: 20px;
+}
+
+.rule-text {
+  font-weight: 400;
+  font-size: 12px;
+  color: #485159;
 }
 </style>

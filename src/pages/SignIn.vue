@@ -25,11 +25,15 @@
             :isLoading="isLoading"
             @click="handleSubmit"
           />
-          <SignInUpFooter
-            message="Não possui cadastro?"
-            buttonText="Cadastrar"
-            :path="'/register-1'"
-          />
+          <div class="divider">
+            <div class="line"></div>
+            <span class="divider-text">ou</span>
+            <div class="line"></div>
+          </div>
+          <button class="google-button" @click="continueWithGoogle">
+            <img :src="googleIcon" alt="Google Icon" class="google-icon" />
+            <span class="google-button-text">Entrar com o Google</span>
+          </button>
         </div>
         <q-btn
           label="Ir para Home"
@@ -54,8 +58,8 @@ import InputPassword from '@/components/InputPassword.vue';
 import InputEmail from '@/components/InputEmail.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import ModalGenericoAlert from '@/components/ModalGenericoAlert.vue';
-import SignInUpFooter from '@/components/SignInUpFooter.vue';
 import logo from '@/assets/logolight.svg';
+import googleIcon from '@/assets/googleIcon.svg';
 import { httpClient } from '@/infra/http/httpClient';
 
 const isLoading = ref(false);
@@ -150,6 +154,10 @@ const handleApiError = (statusCode) => {
 const navigateToHome = () => {
   router.push('/home');
 };
+
+const continueWithGoogle = () => {
+  // Implement Google sign-in logic here
+};
 </script>
 
 <style scoped>
@@ -205,5 +213,52 @@ const navigateToHome = () => {
   font-size: 14px;
   margin-top: 5px;
   line-height: 21px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 40px 0;
+}
+
+.divider-text {
+  color: #314b39;
+  font-size: 14px;
+}
+
+.line {
+  flex: 1 0 0;
+  height: 0px;
+  border-top: 1px solid var(--Cores-Secundria-200, #9DB8A1);
+}
+
+.google-button {
+  display: flex;
+  height: 48px;
+  padding: 12px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  border-radius: 4px;
+  border: 1px solid #c2c9cd;
+  background: #f9fcfa;
+  cursor: pointer;
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.google-button-text {
+  color: var(--primary-900, #245017);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 19.2px */
 }
 </style>

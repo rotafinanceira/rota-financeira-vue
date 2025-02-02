@@ -37,18 +37,20 @@ const handleButtonClick = () => {
   flex-direction: row;
   align-items: center;
   font-size: 16px;
-  color: #737578;
+  color: #5b6871;
   justify-content: center;
   margin-top: 12px;
+  font-family: 'Inter', sans-serif;
 }
 
 .button {
   text-transform: capitalize;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 24px;
   color: #4140c2;
   font-weight: 700;
   padding-left: 4px;
+  font-family: 'Inter', sans-serif;
 }
 </style>
