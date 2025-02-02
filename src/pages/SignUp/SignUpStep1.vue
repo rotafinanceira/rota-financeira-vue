@@ -4,16 +4,15 @@
       <div class="logo-container">
         <q-img :src="logo" class="logo" />
       </div>
-      <StepperComponent :step="1" />
+      <SignUpTitleStepper :step="1" />
       <div class="container-content">
-        <p class="signup-title">Criar conta</p>
         <div class="form">
           <div class="inputs-wrapper">
             <div>
               <InputEmail
                 v-model="email"
                 :errors="errors"
-                label="E-mail*"
+                label="E-mail"
                 :is-register-step-one="true"
               />
               <div class="error" v-if="errors.email">{{ errors.email }}</div>
@@ -22,7 +21,7 @@
               <InputEmail
                 v-model="confirmEmail"
                 :errors="errors"
-                label="Confirmar e-mail*"
+                label="Confirmar e-mail"
               />
               <div class="error" v-if="errors.confirmEmail">
                 {{ errors.confirmEmail }}
@@ -35,7 +34,7 @@
             @click="handleSubmit"
           />
           <SignInUpFooter
-            message="Já possui conta?"
+            message="Já tem uma conta?"
             buttonText="Entrar"
             :path="'/'"
           />
@@ -59,7 +58,7 @@ import InputEmail from '@/components/InputEmail.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import SignInUpFooter from '@/components/SignInUpFooter.vue';
 import ModalGenericoAlert from '@/components/ModalGenericoAlert.vue';
-import StepperComponent from '@/components/StepperComponent.vue';
+import SignUpTitleStepper from '@/components/SignUpTitleStepper.vue';
 import { useRegisterStore } from '@/store/registerStore';
 import { httpClient } from '@/infra/http/httpClient';
 
@@ -135,7 +134,6 @@ const handleApiError = (statusCode) => {
 
 const handleSubmit = async () => {
   validateForm();
-
   try {
     const response = await verifyEmail(email.value);
     if (response.status === 200) {
@@ -148,6 +146,7 @@ const handleSubmit = async () => {
   } finally {
     isLoading.value = false;
   }
+  router.push('/register-2');
 };
 </script>
 
@@ -163,21 +162,12 @@ const handleSubmit = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 40px;
+  margin-top: 24px;
+  margin-bottom: 64px;
 }
 
 .logo {
-  width: 230px;
-}
-
-.signup-title {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 24px;
-  letter-spacing: -0.02em;
-  margin-bottom: 24px;
-  margin-top: 80px;
-  color: #314b39;
+  width: 165px;
 }
 
 .container-content {
