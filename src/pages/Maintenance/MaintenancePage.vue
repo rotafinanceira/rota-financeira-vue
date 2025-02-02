@@ -300,17 +300,16 @@ const completedMaintenances = ref<MaintenanceItem[]>([
 
 .title-text {
   color: var(--Cores-Cinza-800, #33373c);
-  /* Headline/H6 Bold */
   font-family: var(--Tipo-Familia-Headline, Raleway);
   font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
   font-weight: 700;
-  line-height: 120%; /* 24px */
+  line-height: 120%;
   letter-spacing: -0.4px;
 }
 
 .maintenance-section {
-  background-color: #ffffff; /* Cor de fundo dos cards */
+  background-color: #ffffff;
   margin-bottom: 1.5rem;
   border-radius: 8px;
   margin-left: 16px;

@@ -13,7 +13,7 @@
     </div>
     <div class="buttons-wrapper">
       <button class="create-account-button" @click="navigateToSignUp">
-        Criar Conta
+        <span class="create-account-text">Criar Conta</span>
       </button>
       <button class="google-button" @click="continueWithGoogle">
         <img :src="googleIcon" alt="Google Icon" class="google-icon" />
@@ -107,7 +107,7 @@ const continueWithGoogle = () => {
   font-size: var(--Tipo-Tamanho-3xl, 28px);
   font-style: normal;
   font-weight: 700;
-  line-height: 120%; /* 33.6px */
+  line-height: 120%;
   letter-spacing: -0.56px;
   margin-bottom: 16px;
 }
@@ -152,6 +152,15 @@ button {
   background: var(--Cores-Primria-200, #8ce95f);
 }
 
+.create-account-text {
+  color: var(--Cores-Secundria-700, #293E2F);
+  font-family: var(--Tipo-Familia-Button, Inter);
+  font-size: var(--Tipo-Tamanho-Lg, 18px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+}
+
 .google-button {
   display: flex;
   height: 48px;
@@ -177,7 +186,7 @@ button {
   font-size: var(--Tipo-Tamanho-Lg, 18px);
   font-style: normal;
   font-weight: 600;
-  line-height: 120%; /* 21.6px */
+  line-height: 120%;
 }
 
 .login-link {
@@ -193,7 +202,7 @@ button {
   font-size: var(--Tipo-Tamanho-Md, 16px);
   font-style: normal;
   font-weight: 500;
-  line-height: 120%; /* 19.2px */
+  line-height: 120%;
 }
 
 .login-link-text {

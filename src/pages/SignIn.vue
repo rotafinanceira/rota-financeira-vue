@@ -259,6 +259,6 @@ const continueWithGoogle = () => {
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
-  line-height: 120%; /* 19.2px */
+  line-height: 120%;
 }
 </style>
