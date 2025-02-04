@@ -1,9 +1,14 @@
 <template>
   <q-page padding>
-    <div class="container">
+    <div class="header-bar">
+      <div @click="navigateBack" class="return-button">
+        <q-img :src="backArrow" />
+      </div>
       <div class="logo-container">
         <q-img :src="logo" class="logo" />
       </div>
+    </div>
+    <div class="container">
       <div class="container-content">
         <div class="title">Olá, entre com e-mail e senha</div>
         <div class="form">
@@ -58,6 +63,7 @@ import InputPassword from '@/components/InputPassword.vue';
 import InputEmail from '@/components/InputEmail.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import ModalGenericoAlert from '@/components/ModalGenericoAlert.vue';
+import backArrow from '@/assets/backarrow.svg';
 import logo from '@/assets/logolight.svg';
 import googleIcon from '@/assets/googleIcon.svg';
 import { httpClient } from '@/infra/http/httpClient';
@@ -75,6 +81,10 @@ const password = ref('');
 const errors = ref({});
 
 const router = useRouter();
+
+const navigateBack = () => {
+  router.push('/');
+};
 
 const resetModal = () => {
   modalContent.value = '';
@@ -161,6 +171,31 @@ const continueWithGoogle = () => {
 </script>
 
 <style scoped>
+.header-bar {
+  display: flex;
+  align-items: center;
+  margin-top: 24px;
+  padding: 6px 20px;
+
+}
+
+.return-button {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.logo {
+  width: 230px;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -168,16 +203,6 @@ const continueWithGoogle = () => {
   gap: 96px;
   padding: 0 20px;
   margin-top: 24px;
-}
-
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.logo {
-  width: 230px;
 }
 
 .container-content {
