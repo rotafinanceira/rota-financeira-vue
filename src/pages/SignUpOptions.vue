@@ -55,7 +55,7 @@ const continueWithGoogle = () => {
   justify-content: center;
   height: 100vh;
   gap: 20px;
-  background-image: url('@/assets/welcomeScreen.jpeg');
+  background-image: url('@/assets/welcomeScreen.png');
   background-size: cover;
   background-position: center;
 }
