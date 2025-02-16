@@ -1,13 +1,13 @@
 <template>
   <q-page padding>
     <div class="header-bar">
-      <div @click="navigateBack" class="return-button">
-        <q-img :src="backArrow" />
+        <div @click="navigateBack" class="return-button">
+          <q-img :src="backArrow" />
+        </div>
+        <div class="logo-container">
+          <q-img :src="logo" class="logo" />
+        </div>
       </div>
-      <div class="logo-container">
-        <q-img :src="logo" class="logo" />
-      </div>
-    </div>
     <div class="container">
       <div class="container-content">
         <div class="title">Olá, entre com e-mail e senha</div>
@@ -176,7 +176,6 @@ const continueWithGoogle = () => {
   align-items: center;
   margin-top: 24px;
   padding: 6px 20px;
-
 }
 
 .return-button {
@@ -193,7 +192,7 @@ const continueWithGoogle = () => {
 }
 
 .logo {
-  width: 230px;
+  width: 165px;
 }
 
 .container {
