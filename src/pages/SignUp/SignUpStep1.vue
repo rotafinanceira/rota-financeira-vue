@@ -1,8 +1,13 @@
 <template>
   <q-page padding>
     <div class="container">
-      <div class="logo-container">
-        <q-img :src="logo" class="logo" />
+      <div class="header-bar">
+        <div @click="navigateBack" class="return-button">
+          <q-img :src="backArrow" />
+        </div>
+        <div class="logo-container">
+          <q-img :src="logo" class="logo" />
+        </div>
       </div>
       <SignUpTitleStepper :step="1" />
       <div class="container-content">
@@ -54,6 +59,7 @@
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import logo from '@/assets/logolight.svg';
+import backArrow from '@/assets/backarrow.svg';
 import InputEmail from '@/components/InputEmail.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import SignInUpFooter from '@/components/SignInUpFooter.vue';
@@ -76,6 +82,10 @@ const confirmEmail = ref(store.confirmEmail);
 const errors = ref({});
 
 const router = useRouter();
+
+const navigateBack = () => {
+  router.push('/');
+};
 
 const validateForm = () => {
   isValidatingForm.value = true;
@@ -158,12 +168,24 @@ const handleSubmit = async () => {
   margin-top: 24px;
 }
 
+.header-bar {
+  display: flex;
+  align-items: center;
+  margin-top: 24px;
+  padding: 6px 20px;
+}
+
+.return-button {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
 .logo-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 24px;
-  margin-bottom: 64px;
+  flex: 1;
 }
 
 .logo {
