@@ -24,8 +24,8 @@ onMounted(() => {
     showPage.value = false;
     setTimeout(() => {
       router.push('/signup-options');
-    }, 2000); // Wait for the fade-out transition to complete
-  }, 3000); // Wait for 3 seconds before starting the transition
+    }, 2000); 
+  }, 3000);
 });
 </script>
 
@@ -45,8 +45,7 @@ onMounted(() => {
   position: absolute;
   top: 343px;
   bottom: 386px;
-  right: 65px;
-  left: 98.21px;
+  left:65px;
 }
 
 .logo img {
