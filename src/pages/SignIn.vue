@@ -1,23 +1,25 @@
 <template>
   <q-page padding>
     <div class="header-bar">
-        <div @click="navigateBack" class="return-button">
-          <q-img :src="backArrow" />
-        </div>
-        <div class="logo-container">
-          <q-img :src="logo" class="logo" />
-        </div>
+      <div @click="navigateBack" class="return-button">
+        <q-img :src="backArrow" />
       </div>
+      <div class="logo-container">
+        <q-img :src="logo" class="logo" />
+      </div>
+    </div>
     <div class="container">
       <div class="container-content">
-        <div class="title">Olá, entre com e-mail e senha</div>
+        <!-- Contêiner exclusivo para o título -->
+        <div class="title-container">
+          <div class="title">Fazer Login</div>
+        </div>
         <div class="form">
           <div class="inputs-wrapper">
             <div>
               <InputEmail v-model="email" :errors="errors" label="E-mail" />
               <div class="error" v-if="errors.email">{{ errors.email }}</div>
             </div>
-
             <div>
               <InputPassword v-model="password" :errors="errors" />
               <div class="error" v-if="errors.password">
@@ -166,7 +168,7 @@ const navigateToHome = () => {
 };
 
 const continueWithGoogle = () => {
-  // Implement Google sign-in logic here
+  // Implemente a lógica para login com o Google aqui
 };
 </script>
 
@@ -196,27 +198,38 @@ const continueWithGoogle = () => {
 }
 
 .container {
+  padding: 0 20px;
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 96px;
-  padding: 0 20px;
-  margin-top: 24px;
 }
 
+/* Agrupamento dos elementos internos com espaçamento consistente */
 .container-content {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 48px;
 }
 
+/* Novo contêiner para o título para isolar seus estilos */
+.title-container {
+  display: flex;
+  justify-content: center;
+  padding: 0 10px;
+  margin-bottom: 20px; /* Espaço entre o título e o restante do conteúdo */
+}
+
 .title {
-  font-weight: 700;
-  font-size: 32px;
-  line-height: 40px;
+  color: var(--Cores-Secundria-600, #314b39);
   text-align: center;
-  padding: 0px 10px;
-  color: #314b39;
+  font-family: var(--Tipo-Familia-Headline, Raleway);
+  font-size: var(--Tipo-Tamanho-Xl, 20px);
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 24px */
+  letter-spacing: -0.4px;
 }
 
 .form {
@@ -254,8 +267,8 @@ const continueWithGoogle = () => {
 
 .line {
   flex: 1 0 0;
-  height: 0px;
-  border-top: 1px solid var(--Cores-Secundria-200, #9DB8A1);
+  height: 0;
+  border-top: 1px solid var(--Cores-Secundria-200, #9db8a1);
 }
 
 .google-button {
@@ -265,7 +278,7 @@ const continueWithGoogle = () => {
   justify-content: center;
   align-items: center;
   gap: 12px;
-  align-self: stretch;
+  width: 100%;
   border-radius: 4px;
   border: 1px solid #c2c9cd;
   background: #f9fcfa;
@@ -279,9 +292,8 @@ const continueWithGoogle = () => {
 
 .google-button-text {
   color: var(--primary-900, #245017);
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 16px;
-  font-style: normal;
   font-weight: 700;
   line-height: 120%;
 }
