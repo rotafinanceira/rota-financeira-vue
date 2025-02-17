@@ -66,6 +66,7 @@ const continueWithGoogle = () => {
   gap: 10px;
   position: absolute;
   top: 26.51px;
+  left: 105px;
 }
 
 .logo img {
@@ -153,7 +154,7 @@ button {
 }
 
 .create-account-text {
-  color: var(--Cores-Secundria-700, #293E2F);
+  color: var(--Cores-Secundria-700, #293e2f);
   font-family: var(--Tipo-Familia-Button, Inter);
   font-size: var(--Tipo-Tamanho-Lg, 18px);
   font-style: normal;
@@ -181,7 +182,7 @@ button {
 }
 
 .google-button-text {
-  color: var(--Cores-Secundria-700, #293E2F);
+  color: var(--Cores-Secundria-700, #293e2f);
   font-family: var(--Tipo-Familia-Button, Inter);
   font-size: var(--Tipo-Tamanho-Lg, 18px);
   font-style: normal;
