@@ -76,6 +76,8 @@ const continueWithGoogle = () => {
 }
 
 .logo-text {
+  display: flex;
+  align-items: center; /* Center vertically */
   color: var(--Cores-Primria-50, #f1fde8);
   font-family: Inter;
   font-size: 18.346px;
