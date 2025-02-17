@@ -1,13 +1,6 @@
 <template>
   <q-page padding>
-    <div class="header-bar">
-      <div @click="navigateBack" class="return-button">
-        <q-img :src="backArrow" />
-      </div>
-      <div class="logo-container">
-        <q-img :src="logo" class="logo" />
-      </div>
-    </div>
+    <HeaderBarWithInfo title="Fazer Login" subtitle="" path="/" />
     <div class="container">
       <div class="container-content">
         <!-- Contêiner exclusivo para o título -->
@@ -65,8 +58,7 @@ import InputPassword from '@/components/InputPassword.vue';
 import InputEmail from '@/components/InputEmail.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import ModalGenericoAlert from '@/components/ModalGenericoAlert.vue';
-import backArrow from '@/assets/backarrow.svg';
-import logo from '@/assets/logolight.svg';
+import HeaderBarWithInfo from '@/components/HeaderBarWithInfo.vue';
 import googleIcon from '@/assets/googleIcon.svg';
 import { httpClient } from '@/infra/http/httpClient';
 
@@ -83,10 +75,6 @@ const password = ref('');
 const errors = ref({});
 
 const router = useRouter();
-
-const navigateBack = () => {
-  router.push('/');
-};
 
 const resetModal = () => {
   modalContent.value = '';

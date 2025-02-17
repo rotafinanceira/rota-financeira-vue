@@ -1,17 +1,7 @@
 <template>
   <q-page padding>
     <div class="container">
-      <div class="header-bar">
-        <div @click="navigateBack" class="return-button">
-          <q-img :src="backArrow" />
-        </div>
-        <div class="logo">
-          <img :src="logo" alt="Logo" />
-          <div class="logo-text">
-            <span class="bold-text">Rota</span>Financeira
-          </div>
-        </div>
-      </div>
+      <HeaderBarWithInfo title="Cadastro - Passo 2" subtitle="" path="/" />
       <SignUpTitleStepper :step="2" />
       <div class="container-content">
         <div class="form" @submit.prevent="validatePassword">
@@ -46,13 +36,12 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useRegisterStore } from '@/store/registerStore';
-import logo from '@/assets/logoRF.svg';
-import backArrow from '@/assets/backarrow.svg';
 import SignInUpFooter from '@/components/SignInUpFooter.vue';
 import SignUpTitleStepper from '@/components/SignUpTitleStepper.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import SignUpPasswordInput from '@/components/SignUpPasswordInput.vue';
 import PasswordChecker from '@/components/PasswordChecker.vue';
+import HeaderBarWithInfo from '@/components/HeaderBarWithInfo.vue';
 
 const store = useRegisterStore();
 const router = useRouter();
@@ -60,10 +49,6 @@ const router = useRouter();
 const isLoading = ref(false);
 const password = ref(store.password);
 const confirmPassword = ref(store.confirmPassword);
-
-const navigateBack = () => {
-  router.push('/');
-};
 
 const validatePassword = () => {
   if (password.value !== confirmPassword.value) {

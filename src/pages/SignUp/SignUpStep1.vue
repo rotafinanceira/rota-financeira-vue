@@ -1,17 +1,7 @@
 <template>
   <q-page padding>
     <div class="container">
-      <div class="header-bar">
-        <div @click="navigateBack" class="return-button">
-          <q-img :src="backArrow" />
-        </div>
-        <div class="logo">
-          <img :src="logo" alt="Logo" />
-          <div class="logo-text">
-            <span class="bold-text">Rota</span>Financeira
-          </div>
-        </div>
-      </div>
+      <HeaderBarWithInfo title="Cadastro - Passo 1" subtitle="" path="/" />
       <SignUpTitleStepper :step="1" />
       <div class="container-content">
         <div class="form">
@@ -61,13 +51,12 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import logo from '@/assets/logoRF.svg';
-import backArrow from '@/assets/backarrow.svg';
 import InputEmail from '@/components/InputEmail.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import SignInUpFooter from '@/components/SignInUpFooter.vue';
 import ModalGenericoAlert from '@/components/ModalGenericoAlert.vue';
 import SignUpTitleStepper from '@/components/SignUpTitleStepper.vue';
+import HeaderBarWithInfo from '@/components/HeaderBarWithInfo.vue';
 import { useRegisterStore } from '@/store/registerStore';
 import { httpClient } from '@/infra/http/httpClient';
 

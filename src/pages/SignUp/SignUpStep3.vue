@@ -1,17 +1,7 @@
 <template>
   <q-page padding>
     <div class="container">
-      <div class="header-bar">
-        <div @click="navigateBack" class="return-button">
-          <q-img :src="backArrow" />
-        </div>
-        <div class="logo">
-          <img :src="logo" alt="Logo" />
-          <div class="logo-text">
-            <span class="bold-text">Rota</span>Financeira
-          </div>
-        </div>
-      </div>
+      <HeaderBarWithInfo title="Cadastro - Passo 3" subtitle="" path="/" />
       <SignUpTitleStepper :step="3" />
       <div class="container-content">
         <form class="form" @submit.prevent="createAccount">
@@ -62,14 +52,13 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useRegisterStore } from '@/store/registerStore';
-import logo from '@/assets/logoRF.svg';
-import backArrow from '@/assets/backarrow.svg';
 import SignInUpFooter from '@/components/SignInUpFooter.vue';
 import SignUpTitleStepper from '@/components/SignUpTitleStepper.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import SignUpNameInput from '@/components/SignUpNameInput.vue';
 import SignUpBirthdateInput from '@/components/SignUpBirthdateInput.vue';
 import SignUpPhoneInput from '@/components/SignUpPhoneInput.vue';
+import HeaderBarWithInfo from '@/components/HeaderBarWithInfo.vue';
 
 const store = useRegisterStore();
 const router = useRouter();
@@ -85,10 +74,6 @@ const birthdateError = ref('');
 const phoneError = ref('');
 const acceptTerms = ref(false);
 const formSubmitted = ref(false); // Novo estado para controlar a validação após a submissão
-
-const navigateBack = () => {
-  router.push('/');
-};
 
 const validateName = () => {
   if (!fullName.value.trim()) {
@@ -164,65 +149,6 @@ const createAccount = async () => {
   flex-direction: column;
   padding: 0 20px;
   margin-top: 24px;
-}
-
-.header-bar {
-  display: flex;
-  align-items: center;
-  margin-top: 24px;
-  padding: 6px 20px;
-  position: relative; /* Ensure relative positioning for alignment */
-}
-
-.return-button {
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-  position: absolute;
-  left: 20px; /* Align with the logo */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Center vertically */
-}
-
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  position: absolute;
-  left: 85px; /* Adjusted to add 65px space from return-button */
-}
-
-.logo-text {
-  display: flex;
-  align-items: center; /* Center vertically */
-  width: 128.344px;
-  height: 13.558px;
-  flex-shrink: 0;
-  color: var(--Cores-Primria-800, #245017);
-  font-family: Inter;
-  font-size: 18.346px;
-  font-style: italic;
-  font-weight: 400;
-  line-height: 13.76px; /* 75% */
-  letter-spacing: -0.202px;
-}
-
-.bold-text {
-  font-weight: 700;
-}
-
-.logo img {
-  width: 19.734px;
-  height: 18px;
-  flex-shrink: 0;
-  fill: var(--Cores-Primria-200, #8ce95f);
 }
 
 .container-content {
