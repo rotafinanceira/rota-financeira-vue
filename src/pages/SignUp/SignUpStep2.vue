@@ -1,9 +1,7 @@
 <template>
   <q-page padding>
+    <HeaderBarWithInfo title="Cadastro - Passo 2" subtitle="" path="/" />
     <div class="container">
-      <div class="logo-container">
-        <q-img :src="logo" class="logo" />
-      </div>
       <SignUpTitleStepper :step="2" />
       <div class="container-content">
         <div class="form" @submit.prevent="validatePassword">
@@ -38,12 +36,12 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useRegisterStore } from '@/store/registerStore';
-import logo from '@/assets/logolight.svg';
 import SignInUpFooter from '@/components/SignInUpFooter.vue';
 import SignUpTitleStepper from '@/components/SignUpTitleStepper.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import SignUpPasswordInput from '@/components/SignUpPasswordInput.vue';
 import PasswordChecker from '@/components/PasswordChecker.vue';
+import HeaderBarWithInfo from '@/components/HeaderBarWithInfo.vue';
 
 const store = useRegisterStore();
 const router = useRouter();
@@ -89,16 +87,63 @@ const handleSubmit = () => {
   margin-top: 24px;
 }
 
+.header-bar {
+  display: flex;
+  align-items: center;
+  margin-top: 24px;
+  padding: 6px 20px;
+  position: relative;
+}
+
+.return-button {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .logo-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 24px;
-  margin-bottom: 64px;
+  flex: 1;
 }
 
 .logo {
-  width: 165px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  left: 85px;
+}
+
+.logo-text {
+  display: flex;
+  align-items: center;
+  width: 128.344px;
+  height: 13.558px;
+  flex-shrink: 0;
+  color: var(--Cores-Primria-800, #245017);
+  font-family: Inter;
+  font-size: 18.346px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 13.76px; 
+  letter-spacing: -0.202px;
+}
+
+.bold-text {
+  font-weight: 700;
+}
+
+.logo img {
+  width: 19.734px;
+  height: 18px;
+  flex-shrink: 0;
+  fill: var(--Cores-Primria-200, #8ce95f);
 }
 
 .container-content {
@@ -117,5 +162,11 @@ const handleSubmit = () => {
   flex-direction: column;
   gap: 20px;
   margin-bottom: 32px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
 }
 </style>

@@ -66,6 +66,7 @@ const continueWithGoogle = () => {
   gap: 10px;
   position: absolute;
   top: 26.51px;
+  left: 105px;
 }
 
 .logo img {
@@ -75,6 +76,8 @@ const continueWithGoogle = () => {
 }
 
 .logo-text {
+  display: flex;
+  align-items: center; /* Center vertically */
   color: var(--Cores-Primria-50, #f1fde8);
   font-family: Inter;
   font-size: 18.346px;
@@ -153,7 +156,7 @@ button {
 }
 
 .create-account-text {
-  color: var(--Cores-Secundria-700, #293E2F);
+  color: var(--Cores-Secundria-700, #293e2f);
   font-family: var(--Tipo-Familia-Button, Inter);
   font-size: var(--Tipo-Tamanho-Lg, 18px);
   font-style: normal;
@@ -181,7 +184,7 @@ button {
 }
 
 .google-button-text {
-  color: var(--Cores-Secundria-700, #293E2F);
+  color: var(--Cores-Secundria-700, #293e2f);
   font-family: var(--Tipo-Familia-Button, Inter);
   font-size: var(--Tipo-Tamanho-Lg, 18px);
   font-style: normal;

@@ -1,9 +1,7 @@
 <template>
   <q-page padding>
+    <HeaderBarWithInfo title="Cadastro - Passo 3" subtitle="" path="/" />
     <div class="container">
-      <div class="logo-container">
-        <q-img :src="logo" class="logo" />
-      </div>
       <SignUpTitleStepper :step="3" />
       <div class="container-content">
         <form class="form" @submit.prevent="createAccount">
@@ -54,13 +52,13 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useRegisterStore } from '@/store/registerStore';
-import logo from '@/assets/logolight.svg';
 import SignInUpFooter from '@/components/SignInUpFooter.vue';
 import SignUpTitleStepper from '@/components/SignUpTitleStepper.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import SignUpNameInput from '@/components/SignUpNameInput.vue';
 import SignUpBirthdateInput from '@/components/SignUpBirthdateInput.vue';
 import SignUpPhoneInput from '@/components/SignUpPhoneInput.vue';
+import HeaderBarWithInfo from '@/components/HeaderBarWithInfo.vue';
 
 const store = useRegisterStore();
 const router = useRouter();
@@ -75,7 +73,7 @@ const nameError = ref('');
 const birthdateError = ref('');
 const phoneError = ref('');
 const acceptTerms = ref(false);
-const formSubmitted = ref(false); // Novo estado para controlar a validação após a submissão
+const formSubmitted = ref(false); 
 
 const validateName = () => {
   if (!fullName.value.trim()) {
@@ -151,17 +149,6 @@ const createAccount = async () => {
   flex-direction: column;
   padding: 0 20px;
   margin-top: 24px;
-}
-
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.logo {
-  width: 230px;
 }
 
 .container-content {
