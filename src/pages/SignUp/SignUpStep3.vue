@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
+    <HeaderBarWithInfo title="Cadastro - Passo 3" subtitle="" path="/" />
     <div class="container">
-      <HeaderBarWithInfo title="Cadastro - Passo 3" subtitle="" path="/" />
       <SignUpTitleStepper :step="3" />
       <div class="container-content">
         <form class="form" @submit.prevent="createAccount">
@@ -73,7 +73,7 @@ const nameError = ref('');
 const birthdateError = ref('');
 const phoneError = ref('');
 const acceptTerms = ref(false);
-const formSubmitted = ref(false); // Novo estado para controlar a validação após a submissão
+const formSubmitted = ref(false); 
 
 const validateName = () => {
   if (!fullName.value.trim()) {

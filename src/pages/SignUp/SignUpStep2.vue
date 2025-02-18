@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
+    <HeaderBarWithInfo title="Cadastro - Passo 2" subtitle="" path="/" />
     <div class="container">
-      <HeaderBarWithInfo title="Cadastro - Passo 2" subtitle="" path="/" />
       <SignUpTitleStepper :step="2" />
       <div class="container-content">
         <div class="form" @submit.prevent="validatePassword">
@@ -92,7 +92,7 @@ const handleSubmit = () => {
   align-items: center;
   margin-top: 24px;
   padding: 6px 20px;
-  position: relative; /* Ensure relative positioning for alignment */
+  position: relative;
 }
 
 .return-button {
@@ -100,9 +100,9 @@ const handleSubmit = () => {
   height: 24px;
   cursor: pointer;
   position: absolute;
-  left: 20px; /* Align with the logo */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Center vertically */
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .logo-container {
@@ -117,12 +117,12 @@ const handleSubmit = () => {
   align-items: center;
   gap: 10px;
   position: absolute;
-  left: 85px; /* Adjusted to add 65px space from return-button */
+  left: 85px;
 }
 
 .logo-text {
   display: flex;
-  align-items: center; /* Center vertically */
+  align-items: center;
   width: 128.344px;
   height: 13.558px;
   flex-shrink: 0;
@@ -131,7 +131,7 @@ const handleSubmit = () => {
   font-size: 18.346px;
   font-style: italic;
   font-weight: 400;
-  line-height: 13.76px; /* 75% */
+  line-height: 13.76px; 
   letter-spacing: -0.202px;
 }
 

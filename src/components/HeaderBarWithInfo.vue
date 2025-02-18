@@ -34,14 +34,15 @@ const navigateBack = () => {
   width: 24px;
   height: 24px;
   cursor: pointer;
+  margin-right: 65px; /* Added margin to adjust distance */
 }
 
 .logo {
   display: flex;
   align-items: center;
   gap: 10px;
-  position: absolute;
-  left: 85px;
+  position: relative;
+  /* left: 85px;  */
 }
 
 .logo img {
