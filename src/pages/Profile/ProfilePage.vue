@@ -40,16 +40,8 @@ import AppFooter from '@/components/AppFooter.vue';
 import MyProfile from '@/pages/Profile/MyProfile/MyProfile.vue';
 import MyVehicle from '@/pages/Profile/MyVehicle/MyVehicle.vue';
 
-interface User {
-  name: string;
-  email: string;
-  phone: string;
-  age: number;
-  photo: string;
-}
-
 const activeTab = ref<'perfil' | 'veiculo'>('perfil');
-const user = ref<User>({
+const user = ref({
   name: 'Bruno Martins Albuquerque',
   email: 'brmartins1984@gmail.com',
   phone: '+55 (11) 9999-9999',

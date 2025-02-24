@@ -1,7 +1,6 @@
 <template>
   <section class="perfil-content">
     <div v-if="!isEditing">
-      <h3>Informações Pessoais</h3>
       <div class="info-pessoais">
         <div class="card">
           <div class="foto-perfil">
@@ -16,24 +15,21 @@
         </div>
       </div>
 
-      <h3>Notificações</h3>
-      <div class="notificacoes-card">
-        <div class="notificacoes">
-          <label class="switch-label">
-            <span>Receber notificações por e-mail</span>
-            <q-toggle
-              :model-value="emailNotificationsEnabled"
-              @update:model-value="$emit('toggleEmailNotifications', $event)"
-            />
-          </label>
-          <label class="switch-label">
-            <span>Receber notificações no celular</span>
-            <q-toggle
-              :model-value="phoneNotificationsEnabled"
-              @update:model-value="$emit('togglePhoneNotifications', $event)"
-            />
-          </label>
-        </div>
+      <div class="notificacoes">
+        <label class="switch-label">
+          <span>Receber notificações por e-mail</span>
+          <q-toggle
+            v-model="localEmailNotificationsEnabled"
+            @update:model-value="updateEmailNotifications"
+          />
+        </label>
+        <label class="switch-label">
+          <span>Receber notificações no celular</span>
+          <q-toggle
+            v-model="localPhoneNotificationsEnabled"
+            @update:model-value="updatePhoneNotifications"
+          />
+        </label>
       </div>
 
       <button class="btn-editar" @click="isEditing = true">
@@ -50,22 +46,33 @@
         <button @click="mudarFoto">Mudar Foto</button>
         <div class="edit-info">
           <h4>Informações Pessoais</h4>
-          <button @click="editarNome">Nome completo</button>
-          <button @click="editarDataNascimento">Data de nascimento</button>
+          <router-link to="/profile/edit-name">
+            <button>Nome completo</button>
+          </router-link>
+          <router-link to="/profile/edit-birthdate">
+            <button>Data de nascimento</button>
+          </router-link>
         </div>
         <div class="edit-account">
           <h4>Conta</h4>
-          <button @click="editarEmail">E-mail</button>
-          <button @click="editarSenha">Senha</button>
+          <router-link to="/profile/edit-email">
+            <button>E-mail</button>
+          </router-link>
+          <router-link to="/profile/edit-password">
+            <button>Senha</button>
+          </router-link>
           <button @click="excluirConta">Excluir Conta</button>
         </div>
+        <button class="btn-cancelar" @click="isEditing = false">
+          Cancelar
+        </button>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref, watch } from 'vue';
 
 interface User {
   name: string;
@@ -73,8 +80,6 @@ interface User {
   phone: string;
   age: number;
   photo: string;
-  birthdate?: string;
-  password?: string;
 }
 
 const props = defineProps<{
@@ -84,31 +89,39 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits([
-  'toggleEmailNotifications',
-  'togglePhoneNotifications',
+  'update:emailNotificationsEnabled',
+  'update:phoneNotificationsEnabled',
   'editarPerfil',
 ]);
 
 const isEditing = ref(false);
+const localEmailNotificationsEnabled = ref(props.emailNotificationsEnabled);
+const localPhoneNotificationsEnabled = ref(props.phoneNotificationsEnabled);
+
+watch(
+  () => props.emailNotificationsEnabled,
+  (newVal) => {
+    localEmailNotificationsEnabled.value = newVal;
+  }
+);
+
+watch(
+  () => props.phoneNotificationsEnabled,
+  (newVal) => {
+    localPhoneNotificationsEnabled.value = newVal;
+  }
+);
+
+function updateEmailNotifications(value: boolean) {
+  emit('update:emailNotificationsEnabled', value);
+}
+
+function updatePhoneNotifications(value: boolean) {
+  emit('update:phoneNotificationsEnabled', value);
+}
 
 function mudarFoto() {
   console.log('Mudar Foto');
-}
-
-function editarNome() {
-  console.log('Editar Nome');
-}
-
-function editarDataNascimento() {
-  console.log('Editar Data de Nascimento');
-}
-
-function editarEmail() {
-  console.log('Editar Email');
-}
-
-function editarSenha() {
-  console.log('Editar Senha');
 }
 
 function excluirConta() {
@@ -125,7 +138,6 @@ function excluirConta() {
 }
 
 .card,
-.notificacoes-card,
 .edit-card {
   display: flex;
   flex-direction: column;
@@ -170,6 +182,7 @@ function excluirConta() {
 }
 
 .notificacoes {
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -181,7 +194,8 @@ function excluirConta() {
   justify-content: space-between;
 }
 
-.btn-editar {
+.btn-editar,
+.btn-cancelar {
   margin: 1rem;
   padding: 0.75rem 1rem;
   background-color: #4caf50;
@@ -189,5 +203,9 @@ function excluirConta() {
   border: none;
   font-weight: bold;
   cursor: pointer;
+}
+
+.btn-cancelar {
+  background-color: #f44336;
 }
 </style>
