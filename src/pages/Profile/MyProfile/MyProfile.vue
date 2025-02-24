@@ -14,8 +14,8 @@
       </div>
     </div>
 
+    <h3>Notificações</h3>
     <div class="notificacoes-card">
-      <h3>Notificações</h3>
       <div class="notificacoes">
         <label class="switch-label">
           <span>Receber notificações por e-mail</span>
