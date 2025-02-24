@@ -1,5 +1,6 @@
 <template>
   <section class="perfil-content">
+    <h3>Informações Pessoais</h3>
     <div class="info-pessoais">
       <div class="card">
         <div class="foto-perfil">
