@@ -19,42 +19,16 @@
       </button>
     </nav>
 
-    <section v-if="activeTab === 'perfil'" class="perfil-content">
-      <div class="info-pessoais">
-        <div class="foto-perfil">
-          <img
-            :src="user.photo"
-            alt="Foto de Perfil"
-            class="foto"
-          />
-        </div>
-        <div class="dados-perfil">
-          <div class="idade">{{ user.age }} anos</div>
-          <h2 class="nome">{{ user.name }}</h2>
-          <p>{{ user.email }}</p>
-          <p>{{ user.phone }}</p>
-        </div>
-      </div>
-
-      <div class="notificacoes">
-        <label class="switch-label">
-          <span>Receber notificações por e-mail</span>
-          <input type="checkbox" v-model="emailNotificationsEnabled" />
-        </label>
-        <label class="switch-label">
-          <span>Receber notificações no celular</span>
-          <input type="checkbox" v-model="phoneNotificationsEnabled" />
-        </label>
-      </div>
-
-      <button class="btn-editar" @click="editarPerfil">
-        Editar perfil
-      </button>
-    </section>
-
-    <section v-else class="veiculo-content">
-      <p>Aqui vão as informações do veículo...</p>
-    </section>
+    <MyProfile
+      v-if="activeTab === 'perfil'"
+      :user="user"
+      :emailNotificationsEnabled="emailNotificationsEnabled"
+      :phoneNotificationsEnabled="phoneNotificationsEnabled"
+      @update:emailNotificationsEnabled="emailNotificationsEnabled = $event"
+      @update:phoneNotificationsEnabled="phoneNotificationsEnabled = $event"
+      @editarPerfil="editarPerfil"
+    />
+    <MyVehicle v-else />
 
     <AppFooter />
   </div>
@@ -63,6 +37,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import AppFooter from '@/components/AppFooter.vue';
+import MyProfile from '@/pages/Profile/MyProfile/MyProfile.vue';
+import MyVehicle from '@/pages/Profile/MyVehicle/MyVehicle.vue';
 
 interface User {
   name: string;
@@ -78,7 +54,7 @@ const user = ref<User>({
   email: 'brmartins1984@gmail.com',
   phone: '+55 (11) 9999-9999',
   age: 36,
-  photo: 'https://via.placeholder.com/120x120.png?text=Foto'
+  photo: 'https://via.placeholder.com/120x120.png?text=Foto',
 });
 const emailNotificationsEnabled = ref(false);
 const phoneNotificationsEnabled = ref(true);
