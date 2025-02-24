@@ -14,23 +14,24 @@
       </div>
     </div>
 
-    <div class="notificacoes">
-      <label class="switch-label">
-        <span>Receber notificações por e-mail</span>
-        <input
-          type="checkbox"
-          :checked="emailNotificationsEnabled"
-          @change="updateEmailNotifications"
-        />
-      </label>
-      <label class="switch-label">
-        <span>Receber notificações no celular</span>
-        <input
-          type="checkbox"
-          :checked="phoneNotificationsEnabled"
-          @change="updatePhoneNotifications"
-        />
-      </label>
+    <div class="notificacoes-card">
+      <h3>Notificações</h3>
+      <div class="notificacoes">
+        <label class="switch-label">
+          <span>Receber notificações por e-mail</span>
+          <q-toggle
+            :model-value="emailNotificationsEnabled"
+            @update:model-value="$emit('toggleEmailNotifications', $event)"
+          />
+        </label>
+        <label class="switch-label">
+          <span>Receber notificações no celular</span>
+          <q-toggle
+            :model-value="phoneNotificationsEnabled"
+            @update:model-value="$emit('togglePhoneNotifications', $event)"
+          />
+        </label>
+      </div>
     </div>
 
     <button class="btn-editar" @click="$emit('editarPerfil')">
@@ -40,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
+import { defineProps } from 'vue';
 
 interface User {
   name: string;
@@ -55,28 +56,6 @@ const props = defineProps<{
   emailNotificationsEnabled: boolean;
   phoneNotificationsEnabled: boolean;
 }>();
-
-const { user, emailNotificationsEnabled, phoneNotificationsEnabled } = props;
-
-const emit = defineEmits([
-  'update:emailNotificationsEnabled',
-  'update:phoneNotificationsEnabled',
-  'editarPerfil',
-]);
-
-function updateEmailNotifications(event: Event) {
-  const target = event.target as HTMLInputElement;
-  if (target) {
-    emit('update:emailNotificationsEnabled', target.checked);
-  }
-}
-
-function updatePhoneNotifications(event: Event) {
-  const target = event.target as HTMLInputElement;
-  if (target) {
-    emit('update:phoneNotificationsEnabled', target.checked);
-  }
-}
 </script>
 
 <style scoped>
@@ -87,7 +66,8 @@ function updatePhoneNotifications(event: Event) {
   padding: 1rem;
 }
 
-.card {
+.card,
+.notificacoes-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -95,6 +75,7 @@ function updatePhoneNotifications(event: Event) {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  margin-bottom: 1rem;
 }
 
 .foto-perfil {
@@ -128,7 +109,6 @@ function updatePhoneNotifications(event: Event) {
 }
 
 .notificacoes {
-  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;

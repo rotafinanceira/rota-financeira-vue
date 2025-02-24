@@ -24,8 +24,8 @@
       :user="user"
       :emailNotificationsEnabled="emailNotificationsEnabled"
       :phoneNotificationsEnabled="phoneNotificationsEnabled"
-      @update:emailNotificationsEnabled="emailNotificationsEnabled = $event"
-      @update:phoneNotificationsEnabled="phoneNotificationsEnabled = $event"
+      @toggleEmailNotifications="toggleEmailNotifications"
+      @togglePhoneNotifications="togglePhoneNotifications"
       @editarPerfil="editarPerfil"
     />
     <MyVehicle v-else />
@@ -61,6 +61,14 @@ const phoneNotificationsEnabled = ref(true);
 
 function editarPerfil() {
   console.log('Editar Perfil');
+}
+
+function toggleEmailNotifications(value: boolean) {
+  emailNotificationsEnabled.value = value;
+}
+
+function togglePhoneNotifications(value: boolean) {
+  phoneNotificationsEnabled.value = value;
 }
 </script>
 
