@@ -1,6 +1,8 @@
 <template>
   <section class="perfil-content">
     <div v-if="!isEditing">
+      <div class="notificacoes-header">Informações Pessoais</div>
+
       <div class="info-pessoais">
         <div class="card">
           <div class="foto-perfil">
@@ -15,21 +17,25 @@
         </div>
       </div>
 
-      <div class="notificacoes">
-        <label class="switch-label">
-          <span>Receber notificações por e-mail</span>
-          <q-toggle
-            v-model="localEmailNotificationsEnabled"
-            @update:model-value="updateEmailNotifications"
-          />
-        </label>
-        <label class="switch-label">
-          <span>Receber notificações no celular</span>
-          <q-toggle
-            v-model="localPhoneNotificationsEnabled"
-            @update:model-value="updatePhoneNotifications"
-          />
-        </label>
+      <div class="notificacoes-header">Notificações</div>
+
+      <div class="card">
+        <div class="notificacoes">
+          <label class="switch-label">
+            <span>Receber notificações por e-mail</span>
+            <q-toggle
+              v-model="localEmailNotificationsEnabled"
+              @update:model-value="updateEmailNotifications"
+            />
+          </label>
+          <label class="switch-label">
+            <span>Receber notificações no celular</span>
+            <q-toggle
+              v-model="localPhoneNotificationsEnabled"
+              @update:model-value="updatePhoneNotifications"
+            />
+          </label>
+        </div>
       </div>
 
       <button class="btn-editar" @click="isEditing = true">
@@ -59,9 +65,6 @@
           <button @click="navigateTo('/profile/edit-password')">Senha</button>
           <button @click="excluirConta">Excluir Conta</button>
         </div>
-        <button class="btn-cancelar" @click="isEditing = false">
-          Cancelar
-        </button>
       </div>
     </div>
   </section>
@@ -180,6 +183,11 @@ function navigateTo(path: string) {
 
 .nome {
   font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.notificacoes-header {
+  font-weight: bold;
   margin-bottom: 0.5rem;
 }
 
