@@ -5,7 +5,10 @@
 
       <div class="info-pessoais">
         <div class="foto-perfil">
-          <img :src="user.photo" alt="Foto de Perfil" class="foto" />
+          <div
+            class="foto"
+            :style="{ backgroundImage: `url(${user.photo || picProfile})` }"
+          ></div>
         </div>
         <div class="dados-perfil">
           <div class="idade">{{ user.age }} anos</div>
@@ -17,6 +20,7 @@
 
       <div class="notificacoes-header">Notificações</div>
 
+      <!-- Apenas a div .card foi alterada -->
       <div class="card">
         <div class="notificacoes">
           <label class="switch-label">
@@ -24,14 +28,32 @@
             <q-toggle
               v-model="localEmailNotificationsEnabled"
               @update:model-value="updateEmailNotifications"
-            />
+              icon-on=""
+              icon-off=""
+            >
+              <template #default>
+                <img
+                  :src="localEmailNotificationsEnabled ? toggleOn : toggleOff"
+                  class="toggle-icon"
+                />
+              </template>
+            </q-toggle>
           </label>
           <label class="switch-label">
             <span>Receber notificações no celular</span>
             <q-toggle
               v-model="localPhoneNotificationsEnabled"
               @update:model-value="updatePhoneNotifications"
-            />
+              icon-on=""
+              icon-off=""
+            >
+              <template #default>
+                <img
+                  :src="localPhoneNotificationsEnabled ? toggleOn : toggleOff"
+                  class="toggle-icon"
+                />
+              </template>
+            </q-toggle>
           </label>
         </div>
       </div>
@@ -45,7 +67,10 @@
       <h3>Editar Perfil</h3>
       <div class="edit-card">
         <div class="foto-perfil">
-          <img :src="user.photo" alt="Foto de Perfil" class="foto" />
+          <div
+            class="foto"
+            :style="{ backgroundImage: `url(${user.photo || picProfile})` }"
+          ></div>
         </div>
         <button @click="mudarFoto">Mudar Foto</button>
         <div class="edit-info">
@@ -71,6 +96,9 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import picProfile from '@/assets/picProfile.svg';
+import toggleOn from '@/assets/toggle-on.svg';
+import toggleOff from '@/assets/toggle-off.svg';
 
 interface User {
   name: string;
@@ -171,9 +199,10 @@ function navigateTo(path: string) {
 }
 
 .foto {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  border-radius: 80px;
+  background: lightgray 50% / cover no-repeat;
 }
 
 .dados-perfil,
@@ -198,7 +227,7 @@ function navigateTo(path: string) {
   font-size: var(--Tipo-Tamanho-Xs, 12px);
   font-style: normal;
   font-weight: 500;
-  line-height: 120%; /* 14.4px */
+  line-height: 120%;
   margin-bottom: 0.5rem;
 }
 
@@ -209,7 +238,7 @@ function navigateTo(path: string) {
   font-size: var(--Tipo-Tamanho-Lg, 18px);
   font-style: normal;
   font-weight: 600;
-  line-height: 120%; /* 21.6px */
+  line-height: 120%;
   flex: 1 0 0;
   margin-bottom: 0.5rem;
 }
@@ -220,7 +249,7 @@ function navigateTo(path: string) {
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 500;
-  line-height: 120%; /* 16.8px */
+  line-height: 120%;
   flex: 1 0 0;
   font-weight: bold;
   margin-bottom: 0.5rem;
@@ -237,6 +266,11 @@ function navigateTo(path: string) {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.toggle-icon {
+  width: 24px;
+  height: 24px;
 }
 
 .btn-editar {
@@ -256,7 +290,7 @@ function navigateTo(path: string) {
   font-size: var(--Tipo-Tamanho-Lg, 18px);
   font-style: normal;
   font-weight: 600;
-  line-height: 120%; /* 21.6px */
+  line-height: 120%;
   cursor: pointer;
 }
 

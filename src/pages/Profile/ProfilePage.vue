@@ -41,6 +41,7 @@ import { ref } from 'vue';
 import AppFooter from '@/components/AppFooter.vue';
 import MyProfile from '@/pages/Profile/MyProfile/MyProfile.vue';
 import MyVehicle from '@/pages/Profile/MyVehicle/MyVehicle.vue';
+import picProfile from '@/assets/picProfile.svg';
 
 const activeTab = ref<'perfil' | 'veiculo'>('perfil');
 const user = ref({
@@ -48,7 +49,7 @@ const user = ref({
   email: 'brmartins1984@gmail.com',
   phone: '+55 (11) 9999-9999',
   age: 36,
-  photo: 'https://via.placeholder.com/120x120.png?text=Foto',
+  photo: picProfile,
 });
 const emailNotificationsEnabled = ref(false);
 const phoneNotificationsEnabled = ref(true);
