@@ -70,32 +70,26 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'profile',
         component: () => import('@/pages/Profile/ProfilePage.vue'),
-        children: [
-          {
-            path: '',
-            component: () => import('@/pages/Profile/MyProfile/MyProfile.vue'),
-          },
-          {
-            path: 'edit-name',
-            component: () =>
-              import('@/pages/Profile/MyProfile/components/EditName.vue'),
-          },
-          {
-            path: 'edit-birthdate',
-            component: () =>
-              import('@/pages/Profile/MyProfile/components/EditBirthdate.vue'),
-          },
-          {
-            path: 'edit-email',
-            component: () =>
-              import('@/pages/Profile/MyProfile/components/EditEmail.vue'),
-          },
-          {
-            path: 'edit-password',
-            component: () =>
-              import('@/pages/Profile/MyProfile/components/EditPassword.vue'),
-          },
-        ],
+      },
+      {
+        path: 'profile/edit-name',
+        component: () =>
+          import('@/pages/Profile/MyProfile/components/EditName.vue'),
+      },
+      {
+        path: 'profile/edit-birthdate',
+        component: () =>
+          import('@/pages/Profile/MyProfile/components/EditBirthdate.vue'),
+      },
+      {
+        path: 'profile/edit-email',
+        component: () =>
+          import('@/pages/Profile/MyProfile/components/EditEmail.vue'),
+      },
+      {
+        path: 'profile/edit-password',
+        component: () =>
+          import('@/pages/Profile/MyProfile/components/EditPassword.vue'),
       },
       {
         path: 'home',

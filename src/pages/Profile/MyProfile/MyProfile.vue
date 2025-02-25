@@ -46,21 +46,17 @@
         <button @click="mudarFoto">Mudar Foto</button>
         <div class="edit-info">
           <h4>Informações Pessoais</h4>
-          <router-link to="/profile/edit-name">
-            <button>Nome completo</button>
-          </router-link>
-          <router-link to="/profile/edit-birthdate">
-            <button>Data de nascimento</button>
-          </router-link>
+          <button @click="navigateTo('/profile/edit-name')">
+            Nome completo
+          </button>
+          <button @click="navigateTo('/profile/edit-birthdate')">
+            Data de nascimento
+          </button>
         </div>
         <div class="edit-account">
           <h4>Conta</h4>
-          <router-link to="/profile/edit-email">
-            <button>E-mail</button>
-          </router-link>
-          <router-link to="/profile/edit-password">
-            <button>Senha</button>
-          </router-link>
+          <button @click="navigateTo('/profile/edit-email')">E-mail</button>
+          <button @click="navigateTo('/profile/edit-password')">Senha</button>
           <button @click="excluirConta">Excluir Conta</button>
         </div>
         <button class="btn-cancelar" @click="isEditing = false">
@@ -73,6 +69,7 @@
 
 <script setup lang="ts">
 import { defineProps, defineEmits, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
 interface User {
   name: string;
@@ -94,6 +91,7 @@ const emit = defineEmits([
   'editarPerfil',
 ]);
 
+const router = useRouter();
 const isEditing = ref(false);
 const localEmailNotificationsEnabled = ref(props.emailNotificationsEnabled);
 const localPhoneNotificationsEnabled = ref(props.phoneNotificationsEnabled);
@@ -126,6 +124,10 @@ function mudarFoto() {
 
 function excluirConta() {
   console.log('Excluir Conta');
+}
+
+function navigateTo(path: string) {
+  router.push(path);
 }
 </script>
 
