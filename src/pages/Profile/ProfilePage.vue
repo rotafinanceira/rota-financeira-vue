@@ -1,19 +1,21 @@
 <template>
   <div class="perfil-page">
     <header class="header">
-      <h1>Perfil</h1>
+      <h1 class="perfil-title">Perfil</h1>
     </header>
 
     <nav class="tabs">
       <button
         :class="{ active: activeTab === 'perfil' }"
         @click="activeTab = 'perfil'"
+        class="perfil-button"
       >
         Meu Perfil
       </button>
       <button
         :class="{ active: activeTab === 'veiculo' }"
         @click="activeTab = 'veiculo'"
+        class="veiculo-button"
       >
         Meu Veículo
       </button>
@@ -69,6 +71,7 @@ function togglePhoneNotifications(value: boolean) {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: var(--Cores-Cinza-Branco, #ffffff);
 }
 
 .header {
@@ -78,11 +81,27 @@ function togglePhoneNotifications(value: boolean) {
   font-weight: bold;
 }
 
+.perfil-title {
+  flex: 1 0 0;
+  color: var(--Cores-Primria-700, #2b5e16);
+  text-align: center;
+  font-family: var(--Tipo-Familia-Headline, Raleway);
+  font-size: var(--Tipo-Tamanho-2xl, 24px);
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 28.8px */
+  letter-spacing: -0.48px;
+}
+
 .tabs {
   display: flex;
-  justify-content: space-around;
-  background-color: #ececec;
-  padding: 0.5rem 0;
+  width: 320px;
+  padding: 6px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--Cores-Cinza-100, #e0e5e7);
+  background: var(--Cores-Secundria-0, #fcf7fc);
 }
 
 .tabs button {
@@ -91,10 +110,40 @@ function togglePhoneNotifications(value: boolean) {
   font-weight: 500;
   cursor: pointer;
   padding: 0.5rem 1rem;
+  border-radius: 4px;
 }
 
 .tabs button.active {
-  border-bottom: 2px solid #4caf50;
+  background: var(--Cores-Primria-700, #2b5e16);
+  color: #fff;
+}
+
+.perfil-button.active {
+  background: var(--Cores-Primria-700, #2b5e16);
+  color: #fff;
+}
+
+.veiculo-button.active {
+  background: var(--Cores-Primria-700, #2b5e16);
+  color: #fff;
+}
+
+.perfil-button {
+  display: flex;
+  padding: 8px 40px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+}
+
+.veiculo-button {
+  display: flex;
+  padding: 8px 40px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
 }
 
 .info-pessoais {

@@ -140,6 +140,7 @@ function navigateTo(path: string) {
   flex-direction: column;
   align-items: center;
   padding: 1rem;
+  background-color: var(--Cores-Cinza-Branco, #ffffff);
 }
 
 .card,
@@ -204,18 +205,34 @@ function navigateTo(path: string) {
   justify-content: space-between;
 }
 
-.btn-editar,
-.btn-cancelar {
-  margin: 1rem;
-  padding: 0.75rem 1rem;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  font-weight: bold;
+.btn-editar {
+  display: flex;
+  width: 320px;
+  height: 48px;
+  padding: 12px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1px solid #8ce95f;
+  background: #8ce95f;
+  color: var(--Botes-Preenchidos-Ativado-Texto, #2b5e16);
+  font-family: var(--Tipo-Familia-Button, Inter);
+  font-size: var(--Tipo-Tamanho-Lg, 18px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%; /* 21.6px */
   cursor: pointer;
 }
 
 .btn-cancelar {
+  margin: 1rem;
+  padding: 0.75rem 1rem;
   background-color: #f44336;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
 }
 </style>
