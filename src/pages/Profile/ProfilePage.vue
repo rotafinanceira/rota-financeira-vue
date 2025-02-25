@@ -95,22 +95,29 @@ function togglePhoneNotifications(value: boolean) {
 
 .tabs {
   display: flex;
-  width: 320px;
+  width: calc(100% - 40px);
   padding: 6px;
   align-items: center;
   gap: 8px;
   border-radius: 8px;
   border: 1px solid var(--Cores-Cinza-100, #e0e5e7);
   background: var(--Cores-Secundria-0, #fcf7fc);
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .tabs button {
   background: none;
   border: none;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   padding: 0.5rem 1rem;
   border-radius: 4px;
+  color: var(--Cores-Primria-700, #2b5e16);
+  font-family: var(--Tipo-Familia-Button, Inter);
+  font-size: var(--Tipo-Tamanho-Sm, 14px);
+  font-style: normal;
+  line-height: 120%; /* 16.8px */
 }
 
 .tabs button.active {
