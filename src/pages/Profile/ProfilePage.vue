@@ -1,60 +1,36 @@
 <template>
   <div class="perfil-page">
     <header class="header">
-      <h1>Perfil</h1>
+      <h1 class="perfil-title">Perfil</h1>
     </header>
 
     <nav class="tabs">
       <button
         :class="{ active: activeTab === 'perfil' }"
         @click="activeTab = 'perfil'"
+        class="perfil-button"
       >
         Meu Perfil
       </button>
       <button
         :class="{ active: activeTab === 'veiculo' }"
         @click="activeTab = 'veiculo'"
+        class="veiculo-button"
       >
         Meu Veículo
       </button>
     </nav>
 
-    <section v-if="activeTab === 'perfil'" class="perfil-content">
-      <div class="info-pessoais">
-        <div class="foto-perfil">
-          <img
-            :src="user.photo"
-            alt="Foto de Perfil"
-            class="foto"
-          />
-        </div>
-        <div class="dados-perfil">
-          <div class="idade">{{ user.age }} anos</div>
-          <h2 class="nome">{{ user.name }}</h2>
-          <p>{{ user.email }}</p>
-          <p>{{ user.phone }}</p>
-        </div>
-      </div>
-
-      <div class="notificacoes">
-        <label class="switch-label">
-          <span>Receber notificações por e-mail</span>
-          <input type="checkbox" v-model="emailNotificationsEnabled" />
-        </label>
-        <label class="switch-label">
-          <span>Receber notificações no celular</span>
-          <input type="checkbox" v-model="phoneNotificationsEnabled" />
-        </label>
-      </div>
-
-      <button class="btn-editar" @click="editarPerfil">
-        Editar perfil
-      </button>
-    </section>
-
-    <section v-else class="veiculo-content">
-      <p>Aqui vão as informações do veículo...</p>
-    </section>
+    <MyProfile
+      v-if="activeTab === 'perfil'"
+      :user="user"
+      :emailNotificationsEnabled="emailNotificationsEnabled"
+      :phoneNotificationsEnabled="phoneNotificationsEnabled"
+      @toggleEmailNotifications="toggleEmailNotifications"
+      @togglePhoneNotifications="togglePhoneNotifications"
+      @editarPerfil="editarPerfil"
+    />
+    <MyVehicle v-else />
 
     <AppFooter />
   </div>
@@ -63,28 +39,31 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import AppFooter from '@/components/AppFooter.vue';
-
-interface User {
-  name: string;
-  email: string;
-  phone: string;
-  age: number;
-  photo: string;
-}
+import MyProfile from '@/pages/Profile/MyProfile/MyProfile.vue';
+import MyVehicle from '@/pages/Profile/MyVehicle/MyVehicle.vue';
+import picProfile from '@/assets/picProfile.svg';
 
 const activeTab = ref<'perfil' | 'veiculo'>('perfil');
-const user = ref<User>({
+const user = ref({
   name: 'Bruno Martins Albuquerque',
   email: 'brmartins1984@gmail.com',
   phone: '+55 (11) 9999-9999',
   age: 36,
-  photo: 'https://via.placeholder.com/120x120.png?text=Foto'
+  photo: picProfile,
 });
 const emailNotificationsEnabled = ref(false);
 const phoneNotificationsEnabled = ref(true);
 
 function editarPerfil() {
   console.log('Editar Perfil');
+}
+
+function toggleEmailNotifications(value: boolean) {
+  emailNotificationsEnabled.value = value;
+}
+
+function togglePhoneNotifications(value: boolean) {
+  phoneNotificationsEnabled.value = value;
 }
 </script>
 
@@ -93,6 +72,7 @@ function editarPerfil() {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: var(--Cores-Cinza-Branco, #ffffff);
 }
 
 .header {
@@ -102,23 +82,76 @@ function editarPerfil() {
   font-weight: bold;
 }
 
+.perfil-title {
+  flex: 1 0 0;
+  color: var(--Cores-Primria-700, #2b5e16);
+  text-align: center;
+  font-family: var(--Tipo-Familia-Headline, Raleway);
+  font-size: var(--Tipo-Tamanho-2xl, 24px);
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 28.8px */
+  letter-spacing: -0.48px;
+}
+
 .tabs {
   display: flex;
-  justify-content: space-around;
-  background-color: #ececec;
-  padding: 0.5rem 0;
+  width: calc(100% - 40px);
+  padding: 6px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--Cores-Cinza-100, #e0e5e7);
+  background: var(--Cores-Secundria-0, #fcf7fc);
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .tabs button {
   background: none;
   border: none;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   padding: 0.5rem 1rem;
+  border-radius: 4px;
+  color: var(--Cores-Primria-700, #2b5e16);
+  font-family: var(--Tipo-Familia-Button, Inter);
+  font-size: var(--Tipo-Tamanho-Sm, 14px);
+  font-style: normal;
+  line-height: 120%; /* 16.8px */
 }
 
 .tabs button.active {
-  border-bottom: 2px solid #4caf50;
+  background: var(--Cores-Primria-700, #2b5e16);
+  color: #fff;
+}
+
+.perfil-button.active {
+  background: var(--Cores-Primria-700, #2b5e16);
+  color: #fff;
+}
+
+.veiculo-button.active {
+  background: var(--Cores-Primria-700, #2b5e16);
+  color: #fff;
+}
+
+.perfil-button {
+  display: flex;
+  padding: 8px 40px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+}
+
+.veiculo-button {
+  display: flex;
+  padding: 8px 40px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
 }
 
 .info-pessoais {
