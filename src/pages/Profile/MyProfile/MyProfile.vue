@@ -20,40 +20,21 @@
 
       <div class="notificacoes-header">Notificações</div>
 
-      <!-- Apenas a div .card foi alterada -->
       <div class="card">
         <div class="notificacoes">
           <label class="switch-label">
             <span>Receber notificações por e-mail</span>
-            <q-toggle
+            <CustomToggle
               v-model="localEmailNotificationsEnabled"
               @update:model-value="updateEmailNotifications"
-              icon-on=""
-              icon-off=""
-            >
-              <template #default>
-                <img
-                  :src="localEmailNotificationsEnabled ? toggleOn : toggleOff"
-                  class="toggle-icon"
-                />
-              </template>
-            </q-toggle>
+            />
           </label>
           <label class="switch-label">
             <span>Receber notificações no celular</span>
-            <q-toggle
+            <CustomToggle
               v-model="localPhoneNotificationsEnabled"
               @update:model-value="updatePhoneNotifications"
-              icon-on=""
-              icon-off=""
-            >
-              <template #default>
-                <img
-                  :src="localPhoneNotificationsEnabled ? toggleOn : toggleOff"
-                  class="toggle-icon"
-                />
-              </template>
-            </q-toggle>
+            />
           </label>
         </div>
       </div>
@@ -97,8 +78,7 @@
 import { defineProps, defineEmits, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import picProfile from '@/assets/picProfile.svg';
-import toggleOn from '@/assets/toggle-on.svg';
-import toggleOff from '@/assets/toggle-off.svg';
+import CustomToggle from '@/components/CustomToggle.vue';
 
 interface User {
   name: string;
