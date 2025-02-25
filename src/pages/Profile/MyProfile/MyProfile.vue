@@ -4,16 +4,14 @@
       <div class="notificacoes-header">Informações Pessoais</div>
 
       <div class="info-pessoais">
-        <div class="card">
-          <div class="foto-perfil">
-            <img :src="user.photo" alt="Foto de Perfil" class="foto" />
-          </div>
-          <div class="dados-perfil">
-            <div class="idade">{{ user.age }} anos</div>
-            <h2 class="nome">{{ user.name }}</h2>
-            <p>{{ user.email }}</p>
-            <p>{{ user.phone }}</p>
-          </div>
+        <div class="foto-perfil">
+          <img :src="user.photo" alt="Foto de Perfil" class="foto" />
+        </div>
+        <div class="dados-perfil">
+          <div class="idade">{{ user.age }} anos</div>
+          <h2 class="nome">{{ user.name }}</h2>
+          <p>{{ user.email }}</p>
+          <p>{{ user.phone }}</p>
         </div>
       </div>
 
@@ -155,6 +153,19 @@ function navigateTo(path: string) {
   margin-bottom: 1rem;
 }
 
+.info-pessoais {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 13px;
+  align-self: stretch;
+  border-radius: 4px;
+  border: 1px solid var(--Cores-Cinza-100, #e0e5e7);
+  background: var(--Cores-Cinza-Branco, #fff);
+}
+
 .foto-perfil {
   margin-bottom: 1rem;
 }
@@ -174,20 +185,43 @@ function navigateTo(path: string) {
 }
 
 .idade {
-  background-color: #4caf50;
-  color: white;
-  border-radius: 12px;
-  padding: 0.2rem 0.5rem;
-  width: fit-content;
+  display: flex;
+  width: 80px;
+  padding: 4px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 54px;
+  background: var(--Cores-Informao-50, #d3f0ff);
+  color: var(--Cores-Informao-600, #1450b7);
+  font-family: var(--Tipo-Familia-Tag, Inter);
+  font-size: var(--Tipo-Tamanho-Xs, 12px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%; /* 14.4px */
   margin-bottom: 0.5rem;
 }
 
 .nome {
-  font-size: 1.2rem;
+  color: var(--Cores-Cinza-900, #0c0d0f);
+  text-align: center;
+  font-family: var(--Tipo-Familia-Button, Inter);
+  font-size: var(--Tipo-Tamanho-Lg, 18px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%; /* 21.6px */
+  flex: 1 0 0;
   margin-bottom: 0.5rem;
 }
 
 .notificacoes-header {
+  color: var(--Cores-Cinza-900, #0c0d0f);
+  font-family: var(--Tipo-Familia-Tag, Inter);
+  font-size: var(--Tipo-Tamanho-Sm, 14px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%; /* 16.8px */
+  flex: 1 0 0;
   font-weight: bold;
   margin-bottom: 0.5rem;
 }
