@@ -13,8 +13,8 @@
         <div class="dados-perfil">
           <div class="idade">{{ user.age }} anos</div>
           <h2 class="nome">{{ user.name }}</h2>
-          <p>{{ user.email }}</p>
-          <p>{{ user.phone }}</p>
+          <p class="contact-info">{{ user.email }}</p>
+          <p class="contact-info">{{ user.phone }}</p>
         </div>
       </div>
 
@@ -165,7 +165,6 @@ function navigateTo(path: string) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 13px;
   align-self: stretch;
   border-radius: 4px;
   border: 1px solid var(--Cores-Cinza-100, #e0e5e7);
@@ -173,7 +172,7 @@ function navigateTo(path: string) {
 }
 
 .foto-perfil {
-  margin-bottom: 1rem;
+  margin-bottom: 12px;
 }
 
 .foto {
@@ -206,7 +205,7 @@ function navigateTo(path: string) {
   font-style: normal;
   font-weight: 500;
   line-height: 120%;
-  margin-bottom: 0.5rem;
+  margin-bottom: 12px;
 }
 
 .nome {
@@ -218,7 +217,15 @@ function navigateTo(path: string) {
   font-weight: 600;
   line-height: 120%;
   flex: 1 0 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: 12px;
+}
+
+.contact-info {
+  color: var(--Cores-Cinza-400, #76828b);
+  width: 288px;
+  height: 21px;
+  margin-bottom: 4px;
+  text-align: center;
 }
 
 .notificacoes-header {
@@ -256,7 +263,7 @@ function navigateTo(path: string) {
   font-weight: 400;
   line-height: 150%;
   flex: 1 0 0;
-  gap: 16px; 
+  gap: 16px;
 }
 
 .toggle-icon {
