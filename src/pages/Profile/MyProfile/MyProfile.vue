@@ -20,23 +20,21 @@
 
       <div class="notificacoes-header">Notificações</div>
 
-      <div class="card">
-        <div class="notificacoes">
-          <label class="switch-label">
-            <span>Receber notificações por e-mail</span>
-            <CustomToggle
-              v-model="localEmailNotificationsEnabled"
-              @update:model-value="updateEmailNotifications"
-            />
-          </label>
-          <label class="switch-label">
-            <span>Receber notificações no celular</span>
-            <CustomToggle
-              v-model="localPhoneNotificationsEnabled"
-              @update:model-value="updatePhoneNotifications"
-            />
-          </label>
-        </div>
+      <div class="notificacoes">
+        <label class="switch-label">
+          <span>Receber notificações por e-mail</span>
+          <CustomToggle
+            v-model="localEmailNotificationsEnabled"
+            @update:model-value="updateEmailNotifications"
+          />
+        </label>
+        <label class="switch-label">
+          <span>Receber notificações no celular</span>
+          <CustomToggle
+            v-model="localPhoneNotificationsEnabled"
+            @update:model-value="updatePhoneNotifications"
+          />
+        </label>
       </div>
 
       <button class="btn-editar" @click="isEditing = true">
@@ -232,7 +230,8 @@ function navigateTo(path: string) {
   line-height: 120%;
   flex: 1 0 0;
   font-weight: bold;
-  margin-bottom: 0.5rem;
+  margin-top: 16px;
+  margin-bottom: 8px;
 }
 
 .notificacoes {
@@ -240,12 +239,24 @@ function navigateTo(path: string) {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  margin-bottom: 46px;
+  border-radius: 4px;
+  border: 1px solid var(--Cores-Cinza-100, #e0e5e7);
+  background: var(--Cores-Cinza-Branco, #fff);
 }
 
 .switch-label {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: var(--Cores-Cinza-700, #3c4349);
+  font-family: var(--Tipo-Familia-Paragrafh, Inter);
+  font-size: var(--Tipo-Tamanho-Sm, 14px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  flex: 1 0 0;
+  gap: 16px; 
 }
 
 .toggle-icon {
