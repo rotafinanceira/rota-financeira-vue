@@ -43,7 +43,6 @@
     </div>
 
     <div v-else>
-      <h3>Editar Perfil</h3>
       <div class="edit-card">
         <div class="foto-perfil">
           <div
@@ -54,18 +53,41 @@
         <button @click="mudarFoto">Mudar Foto</button>
         <div class="edit-info">
           <h4>Informações Pessoais</h4>
-          <button @click="navigateTo('/profile/edit-name')">
-            Nome completo
-          </button>
-          <button @click="navigateTo('/profile/edit-birthdate')">
-            Data de nascimento
-          </button>
+          <div class="personal-info-buttons">
+            <div class="horizontal-layout">
+              <span>Nome completo</span>
+              <button @click="navigateTo('/profile/edit-name')">
+                <span class="icon">></span>
+              </button>
+            </div>
+            <div class="horizontal-layout">
+              <span>Data de nascimento</span>
+              <button @click="navigateTo('/profile/edit-birthdate')">
+                <span class="icon">></span>
+              </button>
+            </div>
+          </div>
         </div>
         <div class="edit-account">
           <h4>Conta</h4>
-          <button @click="navigateTo('/profile/edit-email')">E-mail</button>
-          <button @click="navigateTo('/profile/edit-password')">Senha</button>
-          <button @click="excluirConta">Excluir Conta</button>
+          <div class="horizontal-layout">
+            <span>E-mail</span>
+            <button @click="navigateTo('/profile/edit-email')">
+              <span class="icon">></span>
+            </button>
+          </div>
+          <div class="horizontal-layout">
+            <span>Senha</span>
+            <button @click="navigateTo('/profile/edit-password')">
+              <span class="icon">></span>
+            </button>
+          </div>
+          <div class="horizontal-layout">
+            <span>Excluir Conta</span>
+            <button @click="excluirConta">
+              <span class="icon">></span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -300,5 +322,73 @@ function navigateTo(path: string) {
   border: none;
   font-weight: bold;
   cursor: pointer;
+}
+
+.edit-info h4 {
+  width: 320px;
+  height: 17px;
+  color: var(--Cores-Cinza-900, #0c0d0f);
+
+  /* Tag/Tag T3 */
+  font-family: var(--Tipo-Familia-Tag, Inter);
+  font-size: var(--Tipo-Tamanho-Sm, 14px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%; /* 16.8px */
+}
+
+.edit-account h4 {
+  color: var(--Cores-Cinza-900, #0c0d0f);
+  font-family: var(--Tipo-Familia-Tag, Inter);
+  font-size: var(--Tipo-Tamanho-Sm, 14px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%; /* 16.8px */
+  flex: 1 0 0;
+}
+
+.personal-info-buttons {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  align-self: stretch;
+  border-radius: 8px;
+  border: 1px solid var(--Cores-Cinza-100, #e0e5e7);
+  background: var(--Cores-Cinza-Branco, #fff);
+}
+
+.horizontal-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.horizontal-layout span {
+  flex: 1;
+}
+
+.horizontal-layout button {
+  flex: 0;
+}
+
+.personal-info-buttons button:nth-child(2) {
+  flex: 1 0 0;
+  color: var(--Cores-Cinza-700, #3c4349);
+  font-family: var(--Tipo-Familia-Paragrafh, Inter);
+  font-size: var(--Tipo-Tamanho-Sm, 14px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.personal-info-buttons .icon {
+  margin-left: auto;
 }
 </style>
