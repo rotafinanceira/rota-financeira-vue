@@ -77,7 +77,7 @@ function togglePhoneNotifications(value: boolean) {
 
 .header {
   padding: 1rem;
-  background-color: #f2f2f2;
+  background-color: #ffffff;
   text-align: center;
   font-weight: bold;
 }
