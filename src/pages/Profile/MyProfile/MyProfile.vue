@@ -50,43 +50,60 @@
             :style="{ backgroundImage: `url(${user.photo || picProfile})` }"
           ></div>
         </div>
-        <button @click="mudarFoto">Mudar Foto</button>
+        <button @click="mudarFoto" class="mudar-foto">Mudar Foto</button>
         <div class="edit-info">
           <h4>Informações Pessoais</h4>
           <div class="personal-info-buttons">
             <div class="horizontal-layout">
-              <span>Nome completo</span>
-              <button @click="navigateTo('/profile/edit-name')">
-                <span class="icon">></span>
+              <button
+                @click="navigateTo('/profile/edit-name')"
+                class="full-width-button"
+              >
+                <span>Nome completo</span>
+                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
-              <span>Data de nascimento</span>
-              <button @click="navigateTo('/profile/edit-birthdate')">
-                <span class="icon">></span>
+              <button
+                @click="navigateTo('/profile/edit-birthdate')"
+                class="full-width-button"
+              >
+                <span>Data de nascimento</span>
+                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
             </div>
           </div>
         </div>
         <div class="edit-account">
           <h4>Conta</h4>
-          <div class="horizontal-layout">
-            <span>E-mail</span>
-            <button @click="navigateTo('/profile/edit-email')">
-              <span class="icon">></span>
-            </button>
-          </div>
-          <div class="horizontal-layout">
-            <span>Senha</span>
-            <button @click="navigateTo('/profile/edit-password')">
-              <span class="icon">></span>
-            </button>
-          </div>
-          <div class="horizontal-layout">
-            <span>Excluir Conta</span>
-            <button @click="excluirConta">
-              <span class="icon">></span>
-            </button>
+          <div class="account-info-buttons">
+            <div class="horizontal-layout">
+              <button
+                @click="navigateTo('/profile/edit-email')"
+                class="full-width-button"
+              >
+                <span>E-mail</span>
+                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+              </button>
+            </div>
+            <div class="horizontal-layout">
+              <button
+                @click="navigateTo('/profile/edit-password')"
+                class="full-width-button"
+              >
+                <span>Senha</span>
+                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+              </button>
+            </div>
+            <div class="horizontal-layout">
+              <button
+                @click="excluirConta"
+                class="full-width-button excluir-conta"
+              >
+                <span>Excluir Conta</span>
+                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -176,7 +193,6 @@ function navigateTo(path: string) {
   align-items: center;
   padding: 1rem;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   margin-bottom: 1rem;
 }
@@ -324,12 +340,32 @@ function navigateTo(path: string) {
   cursor: pointer;
 }
 
+.mudar-foto {
+  display: flex;
+  height: 40px;
+  padding: 12px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  color: var(--Botes-Preenchidos-Ativado-Texto, #2b5e16);
+  font-family: var(--Tipo-Familia-Button, Inter);
+  font-size: var(--Tipo-Tamanho-Sm, 14px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  background-color: var(
+    --Cores-Cinza-Branco,
+    #ffffff
+  ); /* Match page background */
+  border: none;
+  border-radius: 4px;
+}
+
 .edit-info h4 {
   width: 320px;
   height: 17px;
   color: var(--Cores-Cinza-900, #0c0d0f);
-
-  /* Tag/Tag T3 */
   font-family: var(--Tipo-Familia-Tag, Inter);
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
@@ -344,10 +380,24 @@ function navigateTo(path: string) {
   font-style: normal;
   font-weight: 500;
   line-height: 120%; /* 16.8px */
-  flex: 1 0 0;
+  text-align: left; /* Align to the left */
+  width: 100%; /* Ensure it spans the full width */
 }
 
 .personal-info-buttons {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  align-self: stretch;
+  border-radius: 8px;
+  border: 1px solid var(--Cores-Cinza-100, #e0e5e7);
+  background: var(--Cores-Cinza-Branco, #fff);
+}
+
+.account-info-buttons {
   display: flex;
   padding: 16px;
   flex-direction: column;
@@ -365,6 +415,7 @@ function navigateTo(path: string) {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  position: relative;
 }
 
 .horizontal-layout span {
@@ -373,6 +424,13 @@ function navigateTo(path: string) {
 
 .horizontal-layout button {
   flex: 0;
+}
+
+.horizontal-layout .icon {
+  position: absolute;
+  right: 0;
+  width: 16px;
+  height: 16px;
 }
 
 .personal-info-buttons button:nth-child(2) {
@@ -390,5 +448,49 @@ function navigateTo(path: string) {
 
 .personal-info-buttons .icon {
   margin-left: auto;
+}
+
+.full-width-button {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  align-self: stretch;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--Cores-Cinza-700, #3c4349);
+  font-family: var(--Tipo-Familia-Paragrafh, Inter);
+  font-size: var(--Tipo-Tamanho-Sm, 14px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  cursor: pointer;
+  width: 288px;
+  height: 21px;
+  white-space: nowrap;
+}
+
+.full-width-button .icon {
+  width: 16px;
+  height: 16px;
+}
+
+.full-width-button.excluir-conta {
+  color: var(--Cores-Error-600, #b72a3e);
+  font-family: var(--Tipo-Familia-Paragrafh, Inter);
+  font-size: var(--Tipo-Tamanho-Sm, 14px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+}
+
+.account-buttons-container {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  align-self: stretch;
 }
 </style>
