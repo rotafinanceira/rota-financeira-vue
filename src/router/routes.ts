@@ -60,10 +60,6 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/Vehicle/RegistrationVehicle.vue'),
       },
       {
-        path: 'test-layout',
-        component: () => import('src/pages/TestLayoutPage.vue'),
-      },
-      {
         path: 'maintenance-history',
         component: () => import('@/pages/MaintenanceHistory.vue'),
       },
@@ -90,6 +86,11 @@ const routes: RouteRecordRaw[] = [
         path: 'profile/edit-password',
         component: () =>
           import('@/pages/Profile/MyProfile/components/EditPassword.vue'),
+      },
+      {
+        path: 'profile/terms-and-privacy',
+        component: () =>
+          import('@/pages/Profile/MyProfile/components/TermsAndPrivacy.vue'),
       },
       {
         path: 'home',
