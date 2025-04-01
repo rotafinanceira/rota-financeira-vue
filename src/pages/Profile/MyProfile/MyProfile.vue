@@ -97,6 +97,15 @@
             </div>
             <div class="horizontal-layout">
               <button
+                @click="navigateTo('/profile/terms-and-privacy')"
+                class="full-width-button"
+              >
+                <span>Termos de uso e política de privacidade</span>
+                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+              </button>
+            </div>
+            <div class="horizontal-layout">
+              <button
                 @click="excluirConta"
                 class="full-width-button excluir-conta"
               >
