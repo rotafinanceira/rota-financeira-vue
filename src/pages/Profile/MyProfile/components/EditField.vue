@@ -1,13 +1,13 @@
 <template>
-  <section class="edit-content">
-    <h2 class="edit-title">{{ title }}</h2>
-    <p class="edit-description">{{ description }}</p>
-    <div class="edit-card">
-      <slot class="edit-field"></slot>
+  <form @submit.prevent="updateValue" class="edit__content">
+    <h2 class="edit__title">{{ title }}</h2>
+    <p class="edit__description">{{ description }}</p>
+    <div class="edit__card">
+      <slot class="edit__field"></slot>
     </div>
     <button class="btn-salvar" @click="updateValue">Salvar</button>
     <AppFooter />
-  </section>
+  </form>
 </template>
 
 <script setup lang="ts">
@@ -16,7 +16,7 @@ import AppFooter from '@/components/AppFooter.vue';
 const { title, description, updateValue } = defineProps<{
   title: string;
   description: string;
-  updateValue: (event: MouseEvent) => void;
+  updateValue: (payload: Event) => void;
 }>();
 </script>
 
