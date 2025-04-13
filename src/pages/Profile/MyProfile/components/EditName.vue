@@ -4,19 +4,19 @@
     description="Digite o nome completo correto em Nome Atual e clique em salvar alterações."
     :updateValue="updateName"
   >
-    <label class="edit-label disabled">
+    <label class="edit__label disabled">
       Nome completo anterior
-        <input
-          class="edit-input disabled"
-          type="text"
-          value="Ana Maria"
-          disabled
-        />
+      <input
+        class="edit__input disabled"
+        type="text"
+        value="Ana Maria"
+        disabled
+      />
     </label>
-    <label class="edit-label">
+    <label class="edit__label">
       Nome completo atual
       <div class="input-wrapper">
-        <input class="edit-input" type="text" v-model="name" />
+        <input class="edit__input" type="text" v-model="name" />
       </div>
     </label>
   </EditField>

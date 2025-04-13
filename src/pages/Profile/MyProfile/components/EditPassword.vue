@@ -4,52 +4,54 @@
     description="Digite a sua senha atual. Depois crie uma nova senha contendo todos os requisitos de senha solicitados e em seguida repita a nova senha abaixo. Para finalizar clique em salvar alterações."
     :updateValue="handleSubmit"
   >
-    <label class="edit-label">
+    <label class="edit__label">
       Senha atual
-      <a href="#" class="edit-password-forgotten">Esqueceu a senha?</a>
+      <a href="#" class="edit__password-forgotten">Esqueceu a senha?</a>
       <div class="input-wrapper">
         <input
-          class="edit-input"
+          class="edit__input"
           type="password"
           v-model="currentPassword"
+          placeholder="Digite a sua senha atual"
         />
       </div>
     </label>
-    <label class="edit-label">
+    <label class="edit__label">
       Nova senha
 
       <div class="input-wrapper">
         <input
-          class="edit-input"
+          class="edit__input"
           type="password"
           v-model="newPassword"
+          placeholder="*******"
         />
       </div>
     </label>
-    <label class="edit-label">
+    <label class="edit__label">
       Repita a nova senha
 
       <div class="input-wrapper">
         <input
-          class="edit-input"
+          class="edit__input"
           type="password"
-          v-model="confirmedPassword"
+          v-model="confirmNewPassword"
+          placeholder="*******"
         />
       </div>
     </label>
-    <div class="edit-password-requirements">
-      <span class="edit-password-musthave">A senha deve ter:</span>
+    <div class="edit__password-requirements">
       <PasswordChecker
-          :password="newPassword"
-          :confirmPassword="confirmNewPassword"
-        />
+        :password="newPassword"
+        :confirmPassword="confirmNewPassword"
+      />
     </div>
   </EditField>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import EditField from './Editfield.vue'
+import EditField from './EditField.vue';
 import PasswordChecker from '@/components/PasswordChecker.vue';
 
 const currentPassword = ref('');
@@ -85,11 +87,11 @@ const handleSubmit = () => {
 </script>
 
 <style scoped lang="scss">
-.edit-label {
+.edit__label {
   position: relative;
 }
 
-.edit-password {
+.edit__password {
   &-forgotten {
     color: #307714;
     margin-left: auto;
@@ -103,12 +105,6 @@ const handleSubmit = () => {
 
   &-requirements {
     margin-top: 1rem;
-  }
-
-  &-musthave {
-    color: #485159;
-    font-size: 0.875rem;
-    font-weight: 600;
   }
 
   &-list {

@@ -4,19 +4,19 @@
     description="Digite um novo e-mail em E-mail atual e clique em salvar alterações."
     :updateValue="updateEmail"
   >
-    <label class="edit-label disabled">
+    <label class="edit__label disabled">
       E-mail anterior
       <input
-        class="edit-input disabled"
+        class="edit__input disabled"
         type="email"
         value="ana.maria@gmail.com"
         disabled
       />
     </label>
-    <label class="edit-label">
+    <label class="edit__label">
       E-mail atual
       <div class="input-wrapper">
-        <input class="edit-input" type="text" v-model="email" />
+        <input class="edit__input" type="text" v-model="email" />
       </div>
     </label>
   </EditField>

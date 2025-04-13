@@ -5,7 +5,7 @@
     <div class="edit__card">
       <slot class="edit__field"></slot>
     </div>
-    <button class="btn-salvar" @click="updateValue">Salvar</button>
+    <button class="edit__button" type="submit">Salvar</button>
     <AppFooter />
   </form>
 </template>
@@ -21,45 +21,58 @@ const { title, description, updateValue } = defineProps<{
 </script>
 
 <style scoped lang="scss">
-
 .edit {
-  &-content {
-    height: 100%;
+  --footer-bar-size: 72px;
+
+  &__content {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    min-height: calc(100svh - 72px);
     padding: 1rem;
   }
 
-  &-title {
-    color: #0C0D0F;
+  &__title {
+    color: #0c0d0f;
     font-size: 0.875rem;
     font-weight: 500;
     margin: 0;
     line-height: normal;
   }
 
-  &-description {
+  &__description {
     color: #485159;
     font-size: 0.75rem;
-    margin-top: .25rem;
+    margin-top: 0.25rem;
   }
 
-  &-card {
+  &__card {
     display: flex;
     flex-direction: column;
+    margin: 1rem 0 0.875rem;
     padding: 1rem;
-    border: 1px solid #E0E5E7;
+    border: 1px solid #e0e5e7;
     border-radius: 8px;
+  }
+
+  &__button {
+    color: #2b5e16;
+    background-color: #8ce95f;
+
+    margin-top: auto;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
   }
 }
 
-:deep(.edit-label) {
+:deep(.edit__label) {
   font-size: 1rem;
   font-weight: 500;
 
   &.disabled {
-    color: #9BA7AD;
+    color: #9ba7ad;
   }
 }
 
@@ -67,15 +80,13 @@ const { title, description, updateValue } = defineProps<{
   position: relative;
 
   &::after {
-    content: "";
+    content: '';
     border-radius: 4px;
     position: absolute;
     transform: scaleX(0.95) scaleY(0.85);
     inset: 0;
     opacity: 0;
-    transition:
-      opacity 150ms ease,
-      transform 150ms ease;
+    transition: opacity 150ms ease, transform 150ms ease;
     box-shadow: 0px 0px 0px 4px rgba(78, 78, 221, 0.24);
   }
 
@@ -85,11 +96,11 @@ const { title, description, updateValue } = defineProps<{
   }
 }
 
-:deep(.edit-input) {
-  color: #5B6871;
+:deep(.edit__input) {
+  color: #5b6871;
   width: 100%;
   border-radius: 4px;
-  border: 1px solid #C2C9CD;
+  border: 1px solid #c2c9cd;
   padding: 0.75rem;
   padding-left: 1rem;
   outline: none;
@@ -100,27 +111,15 @@ const { title, description, updateValue } = defineProps<{
   z-index: 5;
 
   &:focus-within {
-    border: 1px solid #1D6CDB;
+    border: 1px solid #1d6cdb;
   }
 
   &.disabled {
-    color: #9BA7AD;
+    color: #9ba7ad;
   }
 }
 
-:deep(.edit-label + .edit-label) {
+:deep(.edit__label + .edit__label) {
   margin-top: 1.25rem;
-}
-
-.btn-salvar {
-  color: #2B5E16;
-  background-color: #8CE95F;
-
-  margin-top: 5rem;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
 }
 </style>
