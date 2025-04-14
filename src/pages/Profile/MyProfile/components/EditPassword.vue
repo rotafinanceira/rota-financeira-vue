@@ -1,42 +1,59 @@
 <template>
-  <section class="edit-content">
-    <h3>Alterar Senha</h3>
-    <p>
-      Digite a sua senha atual. Depois crie uma nova senha contendo todos os
-      requisitos de senha solicitados e em seguida repita a nova senha abaixo.
-      Para finalizar clique em salvar alterações.
-    </p>
-    <div class="container-content">
-      <div class="form" @submit.prevent="validatePassword">
-        <div class="inputs-wrapper">
-          <SignUpPasswordInput v-model="currentPassword" label="Senha Atual" />
-          <SignUpPasswordInput v-model="newPassword" label="Nova Senha" />
-          <SignUpPasswordInput
-            v-model="confirmNewPassword"
-            label="Confirmar Nova Senha"
-          />
-        </div>
-        <PasswordChecker
-          :password="newPassword"
-          :confirmPassword="confirmNewPassword"
-        />
-        <ButtonComponent
-          label="Salvar alterações"
-          :isLoading="isLoading"
-          @click="handleSubmit"
+  <EditField
+    title="Alterar senha"
+    description="Digite a sua senha atual. Depois crie uma nova senha contendo todos os requisitos de senha solicitados e em seguida repita a nova senha abaixo. Para finalizar clique em salvar alterações."
+    :updateValue="handleSubmit"
+  >
+    <label class="edit__label">
+      Senha atual
+      <a href="#" class="edit__password-forgotten">Esqueceu a senha?</a>
+      <div class="input-wrapper">
+        <input
+          class="edit__input"
+          type="password"
+          v-model="currentPassword"
+          placeholder="Digite a sua senha atual"
         />
       </div>
+    </label>
+    <label class="edit__label">
+      Nova senha
+
+      <div class="input-wrapper">
+        <input
+          class="edit__input"
+          type="password"
+          v-model="newPassword"
+          placeholder="*******"
+        />
+      </div>
+    </label>
+    <label class="edit__label">
+      Repita a nova senha
+
+      <div class="input-wrapper">
+        <input
+          class="edit__input"
+          type="password"
+          v-model="confirmNewPassword"
+          placeholder="*******"
+        />
+      </div>
+    </label>
+    <div class="edit__password-requirements">
+      <PasswordChecker
+        :password="newPassword"
+        :confirmPassword="confirmNewPassword"
+      />
     </div>
-  </section>
+  </EditField>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import SignUpPasswordInput from '@/components/SignUpPasswordInput.vue';
+import EditField from './EditField.vue';
 import PasswordChecker from '@/components/PasswordChecker.vue';
-import ButtonComponent from '@/components/ButtonComponent.vue';
 
-const isLoading = ref(false);
 const currentPassword = ref('');
 const newPassword = ref('');
 const confirmNewPassword = ref('');
@@ -69,49 +86,38 @@ const handleSubmit = () => {
 };
 </script>
 
-<style scoped>
-.edit-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+<style scoped lang="scss">
+.edit__label {
+  position: relative;
 }
 
-.container-content {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 400px;
-  margin-top: 24px;
-}
+.edit__password {
+  &-forgotten {
+    color: #307714;
+    margin-left: auto;
+    font-size: 0.875rem;
+    position: absolute;
+    right: 0;
 
-.form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
+    text-decoration: none;
+    font-weight: 500;
+  }
 
-.inputs-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-bottom: 32px;
-}
+  &-requirements {
+    margin-top: 1rem;
+  }
 
-.btn-salvar {
-  margin-top: 20px;
-  padding: 0.75rem 1rem;
-  background-color: var(--Cores-Primria-800, #245017);
-  color: #fff;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  width: 100%;
-  text-align: center;
-  border-radius: 4px;
-}
+  &-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 0.5rem;
 
-.btn-salvar:hover {
-  background-color: var(--Cores-Primria-600, #1e4014);
+    color: #485159;
+    font-size: 0.75rem;
+  }
 }
 </style>

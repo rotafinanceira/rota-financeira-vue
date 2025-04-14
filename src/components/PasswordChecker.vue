@@ -39,14 +39,14 @@ const passwordRules = computed(() => [
   display: flex;
   flex-direction: column;
   padding: 12px;
-  margin-bottom: 75px;
   font-family: 'Inter', sans-serif;
 }
 
 .title-text {
+  color: #485159;
+  font-size: 0.875rem;
   font-weight: 600;
-  font-size: 14px;
-  margin-bottom: 6px;
+  margin-bottom: .5rem;
 }
 
 .rules-wrapper {
@@ -60,8 +60,9 @@ const passwordRules = computed(() => [
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
+  --size: 16px;
+  width: var(--size);
+  height: var(--size);
 }
 
 .rule-text {
