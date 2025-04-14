@@ -8,45 +8,18 @@
       class="custom-tabs"
       switch-indicator
     >
-      <q-tab name="home" @click="navigateTo('/home')">
-        <template v-slot:default>
-          <img
-            :src="homeIcon"
-            alt="Início Icon"
-            style="width: 24px; height: 24px"
-          />
-          <div class="tab-text">Início</div>
-        </template>
-      </q-tab>
-      <q-tab name="maintenance" @click="navigateTo('/maintenance')">
-        <template v-slot:default>
-          <img
-            :src="manuIcon"
-            alt="Manutenções Icon"
-            style="width: 24px; height: 24px"
-          />
-          <div class="tab-text">Manutenções</div>
-        </template>
-      </q-tab>
-      <q-tab name="history" @click="navigateTo('/maintenance-history')">
-        <template v-slot:default>
-          <img
-            :src="histIcon"
-            alt="Histórico Icon"
-            style="width: 24px; height: 24px"
-          />
-          <div class="tab-text">Histórico</div>
-        </template>
-      </q-tab>
-      <q-tab name="profile" @click="navigateTo('/profile')">
-        <template v-slot:default>
-          <img
-            :src="perfIcon"
-            alt="Perfis Icon"
-            style="width: 24px; height: 24px"
-          />
-          <div class="tab-text">Perfis</div>
-        </template>
+      <q-tab
+        v-for="tab in tabs"
+        :key="tab.name"
+        :name="tab.name"
+        @click="navigateTo(tab.path)"
+      >
+        <div class="tab-container">
+          <img :src="tab.icon" :alt="tab.label + ' Icon'" class="tab-icon" />
+          <div :class="['tab-text', { 'active-tab': footerTab === tab.name }]">
+            {{ tab.label }}
+          </div>
+        </div>
       </q-tab>
     </q-tabs>
   </q-footer>
@@ -60,46 +33,49 @@ import manuIcon from '@/assets/manu.svg';
 import histIcon from '@/assets/his.svg';
 import perfIcon from '@/assets/perf.svg';
 
-const footerTab = ref('home');
 const router = useRouter();
 const route = useRoute();
 
+const tabs = [
+  { name: 'home', path: '/home', icon: homeIcon, label: 'Início' },
+  {
+    name: 'maintenance',
+    path: '/maintenance',
+    icon: manuIcon,
+    label: 'Manutenções',
+  },
+  {
+    name: 'history',
+    path: '/maintenance-history',
+    icon: histIcon,
+    label: 'Relatórios',
+  },
+  { name: 'profile', path: '/profile', icon: perfIcon, label: 'Perfil' },
+];
+
+const footerTab = ref('home');
+
 watch(
-  route,
-  (newRoute) => {
-    switch (newRoute.path) {
-      case '/home':
-        footerTab.value = 'home';
-        break;
-      case '/maintenance':
-        footerTab.value = 'maintenance';
-        break;
-      case '/maintenance-history':
-        footerTab.value = 'history';
-        break;
-      case '/profile':
-        footerTab.value = 'profile';
-        break;
-      default:
-        footerTab.value = 'home';
-    }
+  () => route.path,
+  (newPath) => {
+    footerTab.value = tabs.find((tab) => tab.path === newPath)?.name || 'home';
   },
   { immediate: true }
 );
 
 function navigateTo(path) {
-  router.push(path);
+  router.push(path).then(() => {
+    footerTab.value = tabs.find((tab) => tab.path === path)?.name || 'home';
+  });
 }
 </script>
 
 <style scoped>
 .q-footer {
   background-color: #ffffff;
-  color: #000000;
   width: 100%;
   height: 72px;
-  border: 1px solid #E0E5E7;
-  box-shadow: none; 
+  border-top: 1px solid #e0e5e7;
 }
 
 .q-tab {
@@ -114,7 +90,28 @@ function navigateTo(path) {
   background-color: green;
 }
 
+.tab-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding-top: 17px;
+}
+
+.tab-icon {
+  width: 20px;
+  height: 20px;
+}
+
 .tab-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  color: #9ba7ad;
   text-transform: none;
+}
+
+.active-tab {
+  color: #307714;
 }
 </style>
