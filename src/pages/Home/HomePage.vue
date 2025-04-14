@@ -26,7 +26,8 @@
             <div>
               <span class="kilometer-text"
                 >Última quilometragem <br />
-                registrada:</span>
+                registrada:</span
+              >
               <span class="kilometer-text-number">123.348</span>
               <span class="kilometer-text"> Km</span>
             </div>
@@ -66,15 +67,18 @@
             </div>
             <div class="maintenance-content-text">
               <div
-                v-for="(item, index) in [expiredMaintenances[currentExpiredIndex]]"
+                v-for="(item, index) in [
+                  expiredMaintenances[currentExpiredIndex],
+                ]"
                 :key="`expired-${index}`"
                 class="maintenance-details"
               >
                 <div class="maintenance-image-wrapper">
                   <img
-                  :src="item.image"
-                  alt="Maintenance Image"
-                  class="maintenance-image" />
+                    :src="item.image"
+                    alt="Maintenance Image"
+                    class="maintenance-image"
+                  />
                 </div>
                 <div>
                   <div class="maintenance-name">{{ item.title }}</div>
@@ -276,7 +280,7 @@ const nextNextMaintenance = () => {
   display: flex;
   flex-direction: column;
   background-color: #eff3f5;
-  height: 100vh;
+  min-height: 100vh;
   padding: 24px 20px;
   gap: 32px;
 }
@@ -545,7 +549,7 @@ const nextNextMaintenance = () => {
 }
 
 .maintenance-content-text {
-  flex: 1; 
+  flex: 1;
   text-align: left;
   margin-left: 8px;
 }
