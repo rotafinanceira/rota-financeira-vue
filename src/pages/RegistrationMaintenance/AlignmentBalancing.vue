@@ -327,29 +327,29 @@ const workshop = ref<string>('');
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 400;
-  line-height: 150%; /* 21px */
+  line-height: 150%; 
 }
 
 .title-wrapper {
   display: flex;
-  width: 100%; /* Garante que ocupa toda a largura do card */
+  width: 100%;
   height: 20px;
   padding: 24px;
-  justify-content: flex-start; /* Alinha à esquerda */
+  justify-content: flex-start; 
   align-items: center;
   gap: 10px;
   background-color: var(
     --Cores-Cinza-100,
     #eff3f5
-  ); /* Fundo cinza igual ao fundo da tela */
-  color: var(--Cores-Cinza-800, #33373c); /* Cor especificada */
-  font-family: var(--Tipo-Familia-Headline, Raleway); /* Fonte especificada */
-  font-size: var(--Tipo-Tamanho-Xl, 20px); /* Tamanho da fonte */
+  ); 
+  color: var(--Cores-Cinza-800, #33373c); 
+  font-family: var(--Tipo-Familia-Headline, Raleway); 
+  font-size: var(--Tipo-Tamanho-Xl, 20px); 
   font-style: normal;
-  font-weight: 700; /* Peso da fonte */
-  line-height: 120%; /* 24px */
-  letter-spacing: -0.4px; /* Espaçamento entre letras */
-  box-sizing: border-box; /* Inclui padding no cálculo da largura */
+  font-weight: 700; 
+  line-height: 120%; 
+  letter-spacing: -0.4px; 
+  box-sizing: border-box; 
 }
 
 .title-icon {
@@ -363,12 +363,12 @@ const workshop = ref<string>('');
 }
 
 .title-text {
-  color: var(--Cores-Cinza-800, #33373c); /* Cor especificada */
-  font-family: var(--Tipo-Familia-Headline, Raleway); /* Fonte especificada */
-  font-size: var(--Tipo-Tamanho-Xl, 20px); /* Tamanho da fonte aumentado */
+  color: var(--Cores-Cinza-800, #33373c);
+  font-family: var(--Tipo-Familia-Headline, Raleway); 
+  font-size: var(--Tipo-Tamanho-Xl, 20px); 
   font-style: normal;
-  font-weight: 700; /* Peso da fonte */
-  line-height: 120%; /* 24px */
-  letter-spacing: -0.4px; /* Espaçamento entre letras */
+  font-weight: 700; 
+  line-height: 120%; 
+  letter-spacing: -0.4px; 
 }
 </style>
