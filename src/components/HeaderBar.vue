@@ -7,19 +7,6 @@
       </div>
       <div class="title">{{ title }}</div>
     </div>
-    <div v-if="showInfoCar" class="info-car">
-      <div class="car-image-wrapper">
-        <img
-          src="src/assets/Ellipse53.png"
-          alt="Brand Icon"
-          class="car-image"
-        />
-      </div>
-      <div class="car-details">
-        <div class="car-label">Meu carro</div>
-        <div class="car-name">Jeep Compass</div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -29,14 +16,10 @@ import { useRouter } from 'vue-router';
 import backArrow from '../assets/backarrow.svg';
 
 const router = useRouter();
-const { title, subtitle, path, showInfoCar } = defineProps({
+const { title, subtitle, path } = defineProps({
   title: String,
   subtitle: String,
   path: String,
-  showInfoCar: {
-    type: Boolean,
-    default: true,
-  },
 });
 
 const handleButtonClick = () => {
@@ -52,12 +35,15 @@ const handleButtonClick = () => {
 }
 
 .subtitle {
-  padding: 6px 10px;
+  color: var(--Cores-Primria-700, #2b5e16);
+  font-family: var(--Tipo-Familia-Headline, Raleway);
+  font-size: var(--Tipo-Tamanho-Xl, 20px);
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 24px */
+  letter-spacing: -0.4px;
   text-align: center;
-  color: #5b6871;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
+  padding: 6px 10px;
 }
 
 .wrapperTitle {
@@ -91,22 +77,5 @@ const handleButtonClick = () => {
   width: 50px;
   height: 50px;
   margin-right: 15px;
-}
-
-.car-image {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-}
-
-.car-label {
-  font-size: 14px;
-  color: #5b6871;
-}
-
-.car-name {
-  font-size: 18px;
-  font-weight: 700;
-  color: #314b39;
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
   <q-page>
-    <HeaderBar
-      title="Alinhamento e Balanceamento"
-      subtitle="Cadastro de Manutenção"
-      :path="'/'"
-    />
+    <HeaderBar title="Manutenções" :path="'/'" />
+    <div class="title-wrapper">
+      <img :src="alignmentIcon" alt="Ícone" class="title-icon" />
+      <span class="title-text">Alinhamento e Balanceamento</span>
+    </div>
     <div class="main-content">
       <div class="card-wrapper">
         <!-- <SelectVehicle @vehicle-selected="setCarId" /> -->
@@ -158,6 +158,7 @@ import HeaderBar from '@/components/HeaderBar.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import ModalPositive from '@/components/ModalSucess.vue';
 import helpIcon from '@/assets/helpIcon.svg';
+import alignmentIcon from '@/assets/Alinham.svg';
 import { date as quasarDate } from 'quasar';
 
 const showDatePicker = ref<boolean>(false);
@@ -327,5 +328,47 @@ const workshop = ref<string>('');
   font-style: normal;
   font-weight: 400;
   line-height: 150%; /* 21px */
+}
+
+.title-wrapper {
+  display: flex;
+  width: 100%; /* Garante que ocupa toda a largura do card */
+  height: 20px;
+  padding: 24px;
+  justify-content: flex-start; /* Alinha à esquerda */
+  align-items: center;
+  gap: 10px;
+  background-color: var(
+    --Cores-Cinza-100,
+    #eff3f5
+  ); /* Fundo cinza igual ao fundo da tela */
+  color: var(--Cores-Cinza-800, #33373c); /* Cor especificada */
+  font-family: var(--Tipo-Familia-Headline, Raleway); /* Fonte especificada */
+  font-size: var(--Tipo-Tamanho-Xl, 20px); /* Tamanho da fonte */
+  font-style: normal;
+  font-weight: 700; /* Peso da fonte */
+  line-height: 120%; /* 24px */
+  letter-spacing: -0.4px; /* Espaçamento entre letras */
+  box-sizing: border-box; /* Inclui padding no cálculo da largura */
+}
+
+.title-icon {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.title-text {
+  color: var(--Cores-Cinza-800, #33373c); /* Cor especificada */
+  font-family: var(--Tipo-Familia-Headline, Raleway); /* Fonte especificada */
+  font-size: var(--Tipo-Tamanho-Xl, 20px); /* Tamanho da fonte aumentado */
+  font-style: normal;
+  font-weight: 700; /* Peso da fonte */
+  line-height: 120%; /* 24px */
+  letter-spacing: -0.4px; /* Espaçamento entre letras */
 }
 </style>
