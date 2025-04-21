@@ -10,7 +10,7 @@
             <q-toolbar-title class="toolbar-title">Notificações</q-toolbar-title>
         </q-toolbar>
         
-        <q-list bordered separator class="q-mt-md">
+        <q-list separator class="q-mt-md">
             <div class="notification-card">
                 <q-item
                     v-for="notification in notifications" :key="notification.id"
@@ -24,9 +24,9 @@
                         class="full-width"
                     >
                         <q-card-section horizontal> 
-                            <q-icon
+                            <component
                                 class="col-2"
-                                :name="notification.icon"
+                                :is="notification.icon"
                                 size="2.5em"
                                 color="primary" 
                             />
@@ -44,15 +44,16 @@
         <AppFooter />
     </q-page>
 </template>
-<script setup>
+<script setup="ts">
 
 import AppFooter from 'components/AppFooter.vue';
+import carro from '@/assets/carroNotification.svg';
 
 const notifications = [
     {
         id: 1,
         description: 'Atenção! A vida útil da sua bateria está chegando ao fim, marque sua revisão.',
-        icon: 'train',
+        icon: carro,
         priority: 'alta'
     },
     {
