@@ -1,6 +1,10 @@
 <template>
   <div>
-    <AppHeader title="Notificações" path="/home" />
+    <HeaderBar
+      title="Notificações"
+      path="/home"
+      :showBackButton="true"
+    />
     <q-page class="notification-page">
       <q-item
         v-for="notification in notifications"
@@ -34,12 +38,12 @@
   </div>
 </template>
 <script setup="ts">
-import AppHeader from 'components/HeaderBarNotification.vue';
 import AppFooter from 'components/AppFooter.vue';
 import carro from '@/assets/CarroPerfil.svg';
 import bateria from '@/assets/Bateria.svg';
 import alinhamento from '@/assets/Alinhamento.svg';
 import oleo from '@/assets/Oleo.svg';
+import HeaderBar from '@/components/HeaderBar.vue';
 
 const notifications = [
   {
@@ -114,7 +118,7 @@ function getNotificationIcon(name) {
   display: flex;
   flex-direction: column;
   min-height: 80px;
-  min-width: 100%; 
+  min-width: 100%;
 }
 
 .notification-letter {
