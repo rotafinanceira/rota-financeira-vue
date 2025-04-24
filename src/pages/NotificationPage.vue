@@ -21,14 +21,12 @@
         >
           <q-card-section horizontal class="notification-card-section">
             <q-img
-              :src="getNotificationIcon(notification.name)"
+              :src="notificationIcons[notification.name]"
               alt="Notification Icon"
               class="notification-img"
             />
             <q-card-section>
-              <span class="notification-letter">{{
-                notification.description
-              }}</span>
+              <p class="notification-letter">{{ notification.description }}</p>
             </q-card-section>
           </q-card-section>
         </q-card>
@@ -38,12 +36,12 @@
   </div>
 </template>
 <script setup="ts">
+import HeaderBar from '@/components/HeaderBar.vue';
 import AppFooter from 'components/AppFooter.vue';
 import carro from '@/assets/CarroPerfil.svg';
 import bateria from '@/assets/Bateria.svg';
 import alinhamento from '@/assets/Alinhamento.svg';
 import oleo from '@/assets/Oleo.svg';
-import HeaderBar from '@/components/HeaderBar.vue';
 
 const notifications = [
   {
@@ -96,10 +94,6 @@ const notificationIcons = {
   Óleo: oleo,
 };
 
-function getNotificationIcon(name) {
-  return notificationIcons[name] || null;
-}
-
 // function getNotification() {
 //     const notification = api.get('/notification')
 //         .then((response) => {
@@ -118,7 +112,6 @@ function getNotificationIcon(name) {
   display: flex;
   flex-direction: column;
   min-height: 80px;
-  min-width: 100%;
 }
 
 .notification-letter {
