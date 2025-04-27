@@ -62,7 +62,8 @@ const vehicle = ref({
   model: 'Toyota Corolla',
   plate: 'ABC-1234',
   year: 2020,
-  photo: '', // Add a default photo URL or leave empty
+  color: 'Grey',
+  photo: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537', // Add a default photo URL or leave empty
 });
 
 const maintenanceNotificationsEnabled = ref(true);
