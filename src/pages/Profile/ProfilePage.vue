@@ -116,8 +116,7 @@ function togglePhoneNotifications(value: boolean) {
   border-radius: 8px;
   border: 1px solid var(--Cores-Cinza-100, #e0e5e7);
   background: var(--Cores-Secundria-0, #fcf7fc);
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-inline: auto;
 }
 
 .tabs button {
