@@ -27,7 +27,7 @@ const { title, description, updateValue } = defineProps<{
   &__content {
     display: flex;
     flex-direction: column;
-    min-height: calc(100svh - 72px);
+    min-height: calc(100svh - var(--footer-bar-size));
     padding: 1rem;
   }
 
