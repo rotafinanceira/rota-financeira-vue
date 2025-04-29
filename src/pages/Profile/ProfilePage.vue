@@ -30,11 +30,7 @@
       @togglePhoneNotifications="togglePhoneNotifications"
       @editarPerfil="editarPerfil"
     />
-    <MyVehicle
-      v-else
-      :vehicle="vehicle"
-      :maintenanceNotificationsEnabled="maintenanceNotificationsEnabled"
-    />
+    <MyVehicle v-else />
 
     <AppFooter />
   </div>
@@ -57,16 +53,6 @@ const user = ref({
 });
 const emailNotificationsEnabled = ref(false);
 const phoneNotificationsEnabled = ref(true);
-
-const vehicle = ref({
-  model: 'Toyota Corolla',
-  plate: 'ABC-1234',
-  year: 2020,
-  color: 'Grey',
-  photo: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537', // Add a default photo URL or leave empty
-});
-
-const maintenanceNotificationsEnabled = ref(true);
 
 function editarPerfil() {
   console.log('Editar Perfil');
