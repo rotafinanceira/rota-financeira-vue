@@ -12,22 +12,17 @@
         class="notification-item"
       >
         <q-card
-          :class="{
-            'notification-card--priority-alta':
-              notification.priority === 'alta',
-            'notification-card--priority-baixa':
-              notification.priority === 'baixa',
-          }"
+          :class="['notification-card', {
+              'notification-card--priority-high': notification.priority === 'high',
+              'notification-card--priority-low': notification.priority === 'low',
+            }]"
         >
           <q-card-section horizontal class="notification-card-section">
-            <q-img
-              :src="notificationIcons[notification.name]"
-              alt="Notification Icon"
-              class="notification-img"
-            />
-            <q-card-section>
-              <p class="notification-letter">{{ notification.description }}</p>
-            </q-card-section>
+            <div class="notification-box-img">
+              <q-img :src="notificationIcons[notification.name]" class="notification-img"/>
+            </div>
+            
+            <p class="notification-text">{{ notification.description }}</p>
           </q-card-section>
         </q-card>
       </q-item>
@@ -49,41 +44,41 @@ const notifications = [
     description:
       'Atenção! A vida útil da sua bateria está chegando ao fim, marque sua revisão.',
     name: 'Bateria',
-    priority: 'alta',
+    priority: 'high',
   },
   {
     id: 2,
     description:
       'Atenção! A troca de óleo do seu veiculo esta atrasada. Mantenha seu veículo bem cuidado!',
     name: 'Óleo',
-    priority: 'baixa',
+    priority: 'low',
   },
   {
     id: 3,
     description:
       'Atenção! Você trocou os pneus e precisa fazer o seu alinhamento e balanceamento.',
     name: 'Alinhamento',
-    priority: 'alta',
+    priority: 'high',
   },
   {
     id: 4,
     description:
       'Atenção! O prazo para fazer o alinhamento e balanceamento do seu carro expirou.',
     name: 'Alinhamento',
-    priority: 'baixa',
+    priority: 'low',
   },
   {
     id: 5,
     description: 'Não se esqueça de atualizar a sua quilometragem!',
     name: 'Alinhamento',
-    priority: 'baixa',
+    priority: 'low',
   },
   {
     id: 6,
     description:
       'Está chegando a hora da revisão de fábrica do seu carro! 🚗Programe-se com antecedência para não ser pego de surpresa!',
     name: 'Carro',
-    priority: 'alta',
+    priority: 'high',
   },
 ];
 
@@ -106,47 +101,75 @@ const notificationIcons = {
 </script>
 
 <style scoped>
+
 .notification-page {
   background-color: #f5f5f5;
   font-size: 14px;
   display: flex;
   flex-direction: column;
   min-height: 80px;
+  width: 321;
+  height: 75;
+  gap: 12px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-top-width: 4px;
+  padding-top: 14px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
 }
 
-.notification-letter {
-  color: var(--Botes-Preenchidos-Ativado-Texto, #2b5e16);
+.notification-item {
+  padding: 0px;
 }
 
-.notification-card--priority-alta {
+.notification-card-section {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  width: 301;
+  height: 51;
+  gap: 8px;
+}
+
+.notification-text {
+  color: #2b5e16;
+  width: 255;
+  height: 51;
+  gap: 9px;
+}
+
+.notification-card--priority-high {
   border-top: 4px solid red;
+  margin: 0 1rem;
 }
 
-.notification-card--priority-baixa {
+.notification-card--priority-low {
   border-top: 4px solid green;
+  margin: 0 1rem;
 }
 
 .notification-icon {
   font-size: 1.5em;
 }
 
-.notification-card-section {
-  display: flex;
-  align-items: center;
-}
-
 .notification-description {
   font-size: 1.5em;
+}
+
+.notification-box-img {
+  width: 38px;
+  height: 38px;
+  gap: 10px;
+  padding: 5px;
+  border-radius: 8px;
+  background-color: #eff3f5;
 }
 
 .notification-img {
   width: 28px;
   height: 28px;
-  margin-left: 10px;
-  background-color: #eff3f5;
 }
 
-.notification-item {
-  padding: 0px;
-}
 </style>
