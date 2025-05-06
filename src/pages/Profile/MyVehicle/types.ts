@@ -6,13 +6,6 @@ export type Vehicle = {
   photo: string;
 }
 
-export type Maintenance = {
-  id: number;
-  description: string;
-  date: string;
-  cost: number;
-}
-
 export type vehicleEditRoutes = {
   path: string;
   title: string;
