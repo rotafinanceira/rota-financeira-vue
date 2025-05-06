@@ -14,22 +14,19 @@
         </RouterLink>
       </div>
     </div>
-    <!-- TODO: Ainda falta revisar e formatar essa parte do código pra baixo -->
-    <div class="edit-account">
-      <div class="flex-between vehicle__header">
-        <h2 class="vehicle__header">{{ maintenanceText }}</h2>
-        <p>{{ maintenanceCount }}<span class="total">/10</span></p>
-      </div>
-      <div class="manutencoes-list">
-        <div
-          v-for="maintenance in maintenances"
-          :key="maintenance.id"
-          class="manutencao-item"
-        >
-          <p>{{ maintenance.description }}</p>
-        </div>
-      </div>
+    <div class="flex-between vehicle__header">
+      <h2 class="vehicle__header">{{ maintenanceText }}</h2>
+      <p>{{ maintenanceCount }}<span class="total">/10</span></p>
     </div>
+    <div class="maintenances__list">
+      <MaintenanceItem
+        v-for="{ title, icon } in maintenances"
+        :key="icon"
+        :title="title"
+        :icon="icon"
+      />
+    </div>
+
     <h2 class="vehicle__header">Notificações</h2>
     <div class="notificacao-revisao">
       <div class="notificacoes">
@@ -48,27 +45,20 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { RouterLink } from 'vue-router';
-import { type vehicleEditRoutes, type Maintenance } from '../../types';
+import { type vehicleEditRoutes } from '../../types';
 import CustomToggle from '@/components/CustomToggle.vue';
+import MaintenanceItem, {
+  type MaintenanceItemProps,
+} from '@/components/MaintenanceItem.vue';
 
 const maintenanceNotificationsEnabled = ref(true);
-const maintenances = ref<Maintenance[]>([
-  { id: 1, description: 'Troca de óleo', date: '2023-09-01', cost: 150 },
-  {
-    id: 2,
-    description: 'Alinhamento e balanceamento',
-    date: '2023-08-15',
-    cost: 200,
-  },
-  {
-    id: 3,
-    description: 'Substituição de pastilhas de freio',
-    date: '2023-07-20',
-    cost: 300,
-  },
+const maintenances = ref<MaintenanceItemProps[]>([
+  { title: 'Alinhamento e balanceamento', icon: 'wheel' },
+  { title: 'Troca de bateria', icon: 'battery' },
+  { title: 'Troca de óleo', icon: 'oil' },
 ]);
 
-const maintenanceCount = ref(5);
+const maintenanceCount = ref(maintenances.value.length);
 const maintenanceText = computed(() =>
   maintenanceCount.value === 1
     ? 'Manutenção Cadastrada'
@@ -99,4 +89,6 @@ const vehicleEditRoutes: vehicleEditRoutes[] = [
 ];
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+@import '../../vehicles';
+</style>
