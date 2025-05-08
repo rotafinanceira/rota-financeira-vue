@@ -1,7 +1,7 @@
 <template>
   <q-header elevated>
     <q-toolbar class="custom-toolbar">
-      <q-img :src="logoRota" style="width: 40px; margin-right: 8px;" />
+      <img :src="logoRota" style="width: 40px; margin-right: 8px" />
 
       <div class="column-header">
         <div class="jeep-compass-text">Jeep Compass</div>
@@ -12,8 +12,8 @@
 
       <q-btn flat round>
         <div class="notification-wrapper">
-          <q-img :src="Noti" style="width: 24px; height: 24px;" />
-          <q-img :src="elipse" class="notification-badge" />
+          <img :src="Noti" style="width: 24px; height: 24px" />
+          <img :src="elipse" class="notification-badge" />
         </div>
       </q-btn>
     </q-toolbar>
@@ -48,20 +48,20 @@ import elipse from '@/assets/elipse46.svg';
 }
 
 .jeep-compass-text {
-  color: var(--Cores-Cinza-400, #76828B);
+  color: var(--Cores-Cinza-400, #76828b);
   font-family: var(--Tipo-Familia-Tag, Inter);
   font-size: var(--Tipo-Tamanho-Xs, 12px);
   font-style: normal;
   font-weight: 500;
-  line-height: 120%; 
+  line-height: 120%;
 }
 
 .ola-pezzano-text {
-  color: var(--Cores-Cinza-900, #0C0D0F);
+  color: var(--Cores-Cinza-900, #0c0d0f);
   font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
-  font-weight: 700; 
-  line-height: 120%; 
+  font-weight: 700;
+  line-height: 120%;
   letter-spacing: -0.4px;
 }
 
@@ -76,9 +76,9 @@ import elipse from '@/assets/elipse46.svg';
   width: 12px;
   height: 11x;
   flex-shrink: 0;
-  fill: var(--Cores-Error-500, #DA2829);
+  fill: var(--Cores-Error-500, #da2829);
   stroke-width: 1.846px;
-  stroke: var(--Cores-Cinza-Branco, #FFF);
+  stroke: var(--Cores-Cinza-Branco, #fff);
 }
 
 .text-h6 {
