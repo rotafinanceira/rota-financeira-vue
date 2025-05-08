@@ -15,7 +15,7 @@
         @click="navigateTo(tab.path)"
       >
         <div class="tab-container">
-          <img :src="tab.icon" :alt="tab.label + ' Icon'" class="tab-icon" />
+          <img :src="tab.icon" alt="" class="tab-icon" />
           <div :class="['tab-text', { 'active-tab': footerTab === tab.name }]">
             {{ tab.label }}
           </div>
