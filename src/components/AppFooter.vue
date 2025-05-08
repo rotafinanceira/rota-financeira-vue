@@ -58,7 +58,7 @@ const footerTab = ref('home');
 watch(
   () => route.path,
   (newPath) => {
-    footerTab.value = tabs.find((tab) => tab.path === newPath)?.name || 'home';
+    footerTab.value = tabs.find((tab) => newPath.includes(tab.path))?.name || 'home';
   },
   { immediate: true }
 );
