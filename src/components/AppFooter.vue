@@ -106,7 +106,6 @@ function navigateTo(path: string) {
 .tab-icon {
   width: 20px;
   height: 20px;
-
 }
 
 .tab-text {
