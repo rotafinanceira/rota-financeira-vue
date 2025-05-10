@@ -35,14 +35,11 @@
       :vehicle="vehicle"
       :maintenanceNotificationsEnabled="maintenanceNotificationsEnabled"
     />
-
-    <AppFooter />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import AppFooter from '@/components/AppFooter.vue';
 import MyProfile from '@/pages/Profile/MyProfile/MyProfile.vue';
 import MyVehicle from '@/pages/Profile/MyVehicle/MyVehicle.vue';
 import picProfile from '@/assets/picProfile.svg';

@@ -60,13 +60,11 @@
         </div>
       </q-page>
     </q-page-container>
-    <AppFooter />
   </q-layout>
 </template>
 
 <script setup>
 import AppHeader from 'components/AppHeader.vue';
-import AppFooter from 'components/AppFooter.vue';
 import FiltroComb from '@/assets/FiltroComb.svg';
 import Alinhamento from '@/assets/Alinham.svg';
 import Agua from '@/assets/agua.svg';
