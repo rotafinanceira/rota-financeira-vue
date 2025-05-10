@@ -25,7 +25,7 @@
   </q-footer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import homeIcon from '@/assets/home.svg';
@@ -46,26 +46,34 @@ const tabs = [
   },
   {
     name: 'history',
-    path: '/maintenance-history',
+    path: '/history',
     icon: histIcon,
     label: 'Relatórios',
   },
   { name: 'profile', path: '/profile', icon: perfIcon, label: 'Perfil' },
 ];
 
+type Tab = (typeof tabs)[0];
+
 const footerTab = ref('home');
+
+const getActiveTab = (tabs: Tab[], path: string) => {
+  const currentActiveTab = tabs.find((tab) => path.includes(tab.path))?.name;
+
+  return currentActiveTab;
+};
 
 watch(
   () => route.path,
   (newPath) => {
-    footerTab.value = tabs.find((tab) => newPath.includes(tab.path))?.name || 'home';
+    footerTab.value = getActiveTab(tabs, newPath) || 'home';
   },
   { immediate: true }
 );
 
-function navigateTo(path) {
+function navigateTo(path: string) {
   router.push(path).then(() => {
-    footerTab.value = tabs.find((tab) => tab.path === path)?.name || 'home';
+    footerTab.value = getActiveTab(tabs, path) || 'home';
   });
 }
 </script>
