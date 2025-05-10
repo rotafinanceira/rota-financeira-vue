@@ -15,10 +15,10 @@
         @click="navigateTo(tab.path)"
       >
         <div class="tab-container">
-          <img :src="tab.icon" alt="" class="tab-icon" />
-          <div :class="['tab-text', { 'active-tab': footerTab === tab.name }]">
+          <img :src="footerTab === tab.name ? tab.icon.enabled : tab.icon.disabled" alt="" class="tab-icon" />
+          <p :class="['tab-text', { 'active-tab': footerTab === tab.name }]">
             {{ tab.label }}
-          </div>
+          </p>
         </div>
       </q-tab>
     </q-tabs>
@@ -28,34 +28,31 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import homeIcon from '@/assets/home.svg';
-import manuIcon from '@/assets/manu.svg';
-import histIcon from '@/assets/his.svg';
-import perfIcon from '@/assets/perf.svg';
+import { navbar } from '@/assets/navbar';
 
+const footerTab = ref('home');
 const router = useRouter();
 const route = useRoute();
 
 const tabs = [
-  { name: 'home', path: '/home', icon: homeIcon, label: 'Início' },
+  { name: 'home', path: '/home', icon: navbar.home, label: 'Início' },
   {
     name: 'maintenance',
     path: '/maintenance',
-    icon: manuIcon,
+    icon: navbar.maintenance,
     label: 'Manutenções',
   },
   {
     name: 'history',
     path: '/history',
-    icon: histIcon,
+    icon: navbar.history,
     label: 'Relatórios',
   },
-  { name: 'profile', path: '/profile', icon: perfIcon, label: 'Perfil' },
+  { name: 'profile', path: '/profile', icon: navbar.profile, label: 'Perfil' },
 ];
 
 type Tab = (typeof tabs)[0];
 
-const footerTab = ref('home');
 
 const getActiveTab = (tabs: Tab[], path: string) => {
   const currentActiveTab = tabs.find((tab) => path.includes(tab.path))?.name;
@@ -109,6 +106,7 @@ function navigateTo(path: string) {
 .tab-icon {
   width: 20px;
   height: 20px;
+
 }
 
 .tab-text {
