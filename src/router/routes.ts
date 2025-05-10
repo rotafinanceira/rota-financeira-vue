@@ -31,6 +31,22 @@ const routes: RouteRecordRaw[] = [
         component: () => import('src/pages/SignUp/SignUpStep3.vue'),
       },
       {
+        path: 'home',
+        component: () => import('@/pages/Home/HomePage.vue'),
+      },
+      {
+        path: 'maintenance',
+        component: () => import('@/pages/Maintenance/MaintenancePage.vue'),
+      },
+      {
+        path: 'history',
+        component: () => import('@/pages/MaintenanceHistory.vue'),
+      },
+      {
+        path: 'profile',
+        component: () => import('@/pages/Profile/ProfilePage.vue'),
+      },
+      {
         path: 'oil-maintenance',
         component: () =>
           import('@/pages/RegistrationMaintenance/OilMaintenance.vue'),
@@ -60,14 +76,6 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/Vehicle/RegistrationVehicle.vue'),
       },
       {
-        path: 'history',
-        component: () => import('@/pages/MaintenanceHistory.vue'),
-      },
-      {
-        path: 'profile',
-        component: () => import('@/pages/Profile/ProfilePage.vue'),
-      },
-      {
         path: 'profile/edit-name',
         component: () =>
           import('@/pages/Profile/MyProfile/components/EditName.vue'),
@@ -91,14 +99,6 @@ const routes: RouteRecordRaw[] = [
         path: 'profile/terms-and-privacy',
         component: () =>
           import('@/pages/Profile/MyProfile/components/TermsAndPrivacy.vue'),
-      },
-      {
-        path: 'home',
-        component: () => import('@/pages/Home/HomePage.vue'),
-      },
-      {
-        path: 'maintenance',
-        component: () => import('@/pages/Maintenance/MaintenancePage.vue'),
       },
     ],
   },
