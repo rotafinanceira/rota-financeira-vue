@@ -60,6 +60,10 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/Vehicle/RegistrationVehicle.vue'),
       },
       {
+        path: 'maintenance',
+        component: () => import('@/pages/Maintenance/MaintenancePage.vue'),
+      },
+      {
         path: 'maintenance-history',
         component: () => import('@/pages/MaintenanceHistory.vue'),
       },
