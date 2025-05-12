@@ -31,6 +31,22 @@ const routes: RouteRecordRaw[] = [
         component: () => import('src/pages/SignUp/SignUpStep3.vue'),
       },
       {
+        path: 'home',
+        component: () => import('@/pages/Home/HomePage.vue'),
+      },
+      {
+        path: 'maintenance',
+        component: () => import('@/pages/Maintenance/MaintenancePage.vue'),
+      },
+      {
+        path: 'history',
+        component: () => import('@/pages/MaintenanceHistory.vue'),
+      },
+      {
+        path: 'profile',
+        component: () => import('@/pages/Profile/ProfilePage.vue'),
+      },
+      {
         path: 'oil-maintenance',
         component: () =>
           import('@/pages/RegistrationMaintenance/OilMaintenance.vue'),
@@ -58,10 +74,6 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'registration-vehicle',
         component: () => import('@/pages/Vehicle/RegistrationVehicle.vue'),
-      },
-      {
-        path: 'maintenance',
-        component: () => import('@/pages/Maintenance/MaintenancePage.vue'),
       },
       {
         path: 'maintenance-history',
