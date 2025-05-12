@@ -114,6 +114,8 @@ function navigateTo(path: string) {
   font-size: 12px;
   color: #9ba7ad;
   text-transform: none;
+
+  transition: color 300ms ease;
 }
 
 .active-tab {

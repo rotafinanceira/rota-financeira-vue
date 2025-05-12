@@ -187,16 +187,12 @@
         </q-card>
       </div>
     </q-card>
-
-    <!-- Footer -->
-    <AppFooter />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
-import AppFooter from '@/components/AppFooter.vue';
 import oilImage from '@/assets/agua.svg';
 import manuIcon2 from '@/assets/manu2.svg';
 import expiredIcon from '@/assets/manVen.svg';
@@ -398,7 +394,6 @@ const completedMaintenances = ref<MaintenanceItem[]>([
 .maintenance-image-wrapper {
   border-radius: 8px;
   background: var(--Cores-Cinza-50, #eff3f5);
-  padding: 4px;
   margin-right: 0.75rem;
   display: flex;
   padding: 5px;
@@ -430,21 +425,19 @@ const completedMaintenances = ref<MaintenanceItem[]>([
   align-self: stretch;
   color: var(--Cores-Cinza-400, #76828b);
 
-font-family: var(--Tipo-Familia-Tag, Inter);
-font-size: var(--Tipo-Tamanho-Xs, 12px);
-font-style: normal;
-font-weight: 500;
-line-height: 120%;
+  font-family: var(--Tipo-Familia-Tag, Inter);
+  font-size: var(--Tipo-Tamanho-Xs, 12px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%;
 }
 
 .maintenance-progress {
-  color: var(--Cores-Cinza-300, #9BA7AD);
-leading-trim: both;
-text-edge: cap;
-font-family: var(--Tipo-Familia-Tag, Inter);
-font-size: 10px;
-font-style: normal;
-font-weight: 500;
-line-height: 120%;
+  color: var(--Cores-Cinza-300, #9ba7ad);
+  font-family: var(--Tipo-Familia-Tag, Inter);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%;
 }
 </style>

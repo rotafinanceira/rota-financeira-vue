@@ -31,14 +31,11 @@
       @editarPerfil="editarPerfil"
     />
     <MyVehicle v-else />
-
-    <AppFooter />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import AppFooter from '@/components/AppFooter.vue';
 import MyProfile from '@/pages/Profile/MyProfile/MyProfile.vue';
 import MyVehicle from '@/pages/Profile/MyVehicle/MyVehicle.vue';
 import picProfile from '@/assets/picProfile.svg';

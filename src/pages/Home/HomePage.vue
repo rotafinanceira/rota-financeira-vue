@@ -149,7 +149,6 @@
         </div>
       </div>
     </div>
-    <AppFooter />
   </div>
   <ModalGenerico
     :title="modalContent"
@@ -161,7 +160,6 @@
 
 <script setup lang="ts">
 import AppHeader from '@/components/AppHeader.vue';
-import AppFooter from '@/components/AppFooter.vue';
 import ModalGenerico from '@/components/ModalGenerico.vue';
 import helpIcon from '@/assets/helpIcon.svg';
 import odometer from '@/assets/odometer.svg';
@@ -451,7 +449,6 @@ const nextNextMaintenance = () => {
 .maintenance-image-wrapper {
   border-radius: 8px;
   background: var(--Cores-Cinza-50, #eff3f5);
-  padding: 4px;
   margin-right: 0.75rem;
   display: flex;
   padding: 5px;
