@@ -22,12 +22,12 @@ const { title, description, updateValue } = defineProps<{
 
 <style scoped lang="scss">
 .edit {
-  --footer-bar-size: 72px;
 
   &__content {
+    --footer-bar-size: 72px;
     display: flex;
     flex-direction: column;
-    min-height: calc(100svh - 72px);
+    min-height: calc(100svh - var(--footer-bar-size));
     padding: 1rem;
   }
 

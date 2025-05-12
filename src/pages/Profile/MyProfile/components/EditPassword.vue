@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import EditField from './EditField.vue';
+import EditField from '../../components/EditField.vue';
 import PasswordChecker from '@/components/PasswordChecker.vue';
 
 const currentPassword = ref('');

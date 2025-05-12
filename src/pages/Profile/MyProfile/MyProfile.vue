@@ -283,7 +283,6 @@ function navigateTo(path: string) {
   font-weight: 500;
   line-height: 120%;
   flex: 1 0 0;
-  font-weight: bold;
   margin-top: 16px;
   margin-bottom: 8px;
 }
