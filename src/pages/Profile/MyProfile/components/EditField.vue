@@ -6,12 +6,10 @@
       <slot class="edit__field"></slot>
     </div>
     <button class="edit__button" type="submit">Salvar</button>
-    <AppFooter />
   </form>
 </template>
 
 <script setup lang="ts">
-import AppFooter from '@/components/AppFooter.vue';
 
 const { title, description, updateValue } = defineProps<{
   title: string;
