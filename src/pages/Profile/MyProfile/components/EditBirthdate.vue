@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import EditField from './EditField.vue';
+import EditField from '../../components/EditField.vue';
 
 const birthdate = ref('');
 
