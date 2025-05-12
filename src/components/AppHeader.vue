@@ -1,7 +1,7 @@
 <template>
   <q-header elevated>
     <q-toolbar class="custom-toolbar">
-      <q-img :src="logoRota" style="width: 40px; margin-right: 8px;" />
+      <img :src="logoRota" style="width: 40px; margin-right: 8px;" />
 
       <div class="column-header">
         <div class="jeep-compass-text">Jeep Compass</div>
@@ -12,8 +12,8 @@
 
       <q-btn flat round>
         <div class="notification-wrapper">
-          <q-img :src="Noti" style="width: 24px; height: 24px;" />
-          <q-img :src="elipse" class="notification-badge" />
+          <img :src="Noti" style="width: 24px; height: 24px;" />
+          <img :src="elipse" class="notification-badge" />
         </div>
       </q-btn>
     </q-toolbar>
@@ -53,19 +53,22 @@ import elipse from '@/assets/elipse46.svg';
   font-size: var(--Tipo-Tamanho-Xs, 12px);
   font-style: normal;
   font-weight: 500;
-  line-height: 120%; 
+  line-height: 120%;
 }
 
 .ola-pezzano-text {
   color: var(--Cores-Cinza-900, #0C0D0F);
   font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
-  font-weight: 700; 
-  line-height: 120%; 
+  font-weight: 700;
+  line-height: 120%;
   letter-spacing: -0.4px;
 }
 
 .notification-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
 }
 
