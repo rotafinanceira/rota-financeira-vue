@@ -4,7 +4,7 @@
     <q-page-container>
       <q-page class="q-pa-md">
         <div class="title-wrapper">
-          <img :src="Doc" class="doc-image" />
+          <img :src="navbar.history.disabled" class="doc-image" />
           <span class="title-text">Histórico mensal</span>
         </div>
         <div>
@@ -60,19 +60,17 @@
         </div>
       </q-page>
     </q-page-container>
-    <AppFooter />
   </q-layout>
 </template>
 
 <script setup>
 import AppHeader from 'components/AppHeader.vue';
-import AppFooter from 'components/AppFooter.vue';
 import FiltroComb from '@/assets/FiltroComb.svg';
 import Alinhamento from '@/assets/Alinham.svg';
 import Agua from '@/assets/agua.svg';
 import OilChange from '@/assets/agua.svg';
 // import DefaultIcon from '@/assets/default.svg';
-import Doc from '@/assets/his.svg';
+import { navbar } from '@/assets/navbar';
 import Line from '@/assets/Line.svg';
 import VerticalLine from '@/assets/VerticalLine.svg';
 
