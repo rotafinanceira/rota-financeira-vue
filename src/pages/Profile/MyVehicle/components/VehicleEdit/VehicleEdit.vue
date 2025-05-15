@@ -67,23 +67,23 @@ const maintenanceText = computed(() =>
 
 const vehicleEditRoutes: vehicleEditRoutes[] = [
   {
-    path: '/vehicle/edit-model',
+    path: '/profile/edit-model',
     title: 'Modelo',
   },
   {
-    path: '/vehicle/edit-brand',
+    path: '/profile/edit-brand',
     title: 'Marca',
   },
   {
-    path: '/vehicle/edit-year',
+    path: '/profile/edit-year',
     title: 'Ano',
   },
   {
-    path: '/vehicle/edit-plate',
+    path: '/profile/edit-plate',
     title: 'Placa',
   },
   {
-    path: '/vehicle/edit-color',
+    path: '/profile/edit-color',
     title: 'Cor',
   },
 ];

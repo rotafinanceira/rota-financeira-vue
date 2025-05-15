@@ -105,23 +105,23 @@ const routes: RouteRecordRaw[] = [
             component: () => import('@/pages/Vehicle/RegistrationVehicle.vue'),
           },
           {
-            path: 'vehicle/edit-model',
+            path: 'profile/edit-model',
             component: () => import('@/pages/Profile/MyVehicle/components/VehicleEdit/EditModel.vue'),
           },
           {
-            path: 'vehicle/edit-brand',
+            path: 'profile/edit-brand',
             component: () => import('@/pages/Profile/MyVehicle/components/VehicleEdit/EditBrand.vue'),
           },
           {
-            path: 'vehicle/edit-year',
+            path: 'profile/edit-year',
             component: () => import('@/pages/Profile/MyVehicle/components/VehicleEdit/EditYear.vue'),
           },
           {
-            path: 'vehicle/edit-plate',
+            path: 'profile/edit-plate',
             component: () => import('@/pages/Profile/MyVehicle/components/VehicleEdit/EditPlate.vue'),
           },
           {
-            path: 'vehicle/edit-color',
+            path: 'profile/edit-color',
             component: () => import('@/pages/Profile/MyVehicle/components/VehicleEdit/EditColor.vue'),
           }
         ]
