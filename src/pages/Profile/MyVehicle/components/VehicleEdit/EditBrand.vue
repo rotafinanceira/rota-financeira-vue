@@ -1,4 +1,7 @@
 <template>
+  <div class="header">
+    <AppHeader />
+  </div>
   <EditField
     title="Marca"
     description="Digite a marca completa correta em Marca Atual e clique em salvar alterações."
@@ -6,12 +9,7 @@
   >
     <label class="edit__label disabled">
       Marca anterior
-      <input
-        class="edit__input disabled"
-        type="text"
-        value="Toyota"
-        disabled
-      />
+      <input class="edit__input disabled" type="text" value="Toyota" disabled />
     </label>
     <label class="edit__label">
       Marca atual
@@ -25,6 +23,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditField from '@/pages/Profile/components/EditField.vue';
+import AppHeader from '@/components/AppHeader.vue';
 
 const brand = ref('');
 
@@ -32,3 +31,12 @@ function updateBrand() {
   console.log('Update brand');
 }
 </script>
+
+<style scoped>
+.header {
+  padding: 1rem;
+  background-color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+}
+</style>

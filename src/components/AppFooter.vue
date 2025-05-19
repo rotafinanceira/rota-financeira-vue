@@ -15,7 +15,20 @@
         @click="navigateTo(tab.path)"
       >
         <div class="tab-container">
-          <img :src="footerTab === tab.name ? tab.icon.enabled : tab.icon.disabled" alt="" class="tab-icon" />
+          <q-badge
+            class="q-badge"
+            v-if="tab.notification && tab.notification > 0"
+            rounded
+            color="red"
+            text-color="white"
+            floating
+            >{{ tab.notification }}</q-badge
+          >
+          <img
+            :src="footerTab === tab.name ? tab.icon.enabled : tab.icon.disabled"
+            alt=""
+            class="tab-icon"
+          />
           <p :class="['tab-text', { 'active-tab': footerTab === tab.name }]">
             {{ tab.label }}
           </p>
@@ -26,6 +39,17 @@
 </template>
 
 <script setup lang="ts">
+type Tabs = {
+  name: string;
+  path: string;
+  icon: {
+    enabled: string;
+    disabled: string;
+  };
+  label: string;
+  notification?: number;
+};
+
 import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { navbar } from '@/assets/navbar';
@@ -34,25 +58,31 @@ const footerTab = ref('home');
 const router = useRouter();
 const route = useRoute();
 
-const tabs = [
+const tabs: Array<Tabs> = [
   { name: 'home', path: '/home', icon: navbar.home, label: 'Início' },
   {
     name: 'maintenance',
     path: '/maintenance',
     icon: navbar.maintenance,
     label: 'Manutenções',
+    notification: 3,
   },
   {
     name: 'history',
     path: '/history',
     icon: navbar.history,
     label: 'Relatórios',
+    notification: 0,
   },
-  { name: 'profile', path: '/profile', icon: navbar.profile, label: 'Perfil' },
+  {
+    name: 'profile',
+    path: '/profile',
+    icon: navbar.profile,
+    label: 'Perfil',
+  },
 ];
 
 type Tab = (typeof tabs)[0];
-
 
 const getActiveTab = (tabs: Tab[], path: string) => {
   const currentActiveTab = tabs.find((tab) => path.includes(tab.path))?.name;
@@ -81,6 +111,11 @@ function navigateTo(path: string) {
   width: 100%;
   height: 72px;
   border-top: 1px solid #e0e5e7;
+}
+
+.q-badge {
+  margin-top: 4px;
+  margin-right: 25px;
 }
 
 .q-tab {

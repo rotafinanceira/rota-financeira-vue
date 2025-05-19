@@ -1,4 +1,7 @@
 <template>
+  <div class="header">
+    <AppHeader />
+  </div>
   <EditField
     title="Alterar nome"
     description="Digite o nome completo correto em Nome Atual e clique em salvar alterações."
@@ -25,6 +28,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditField from '../../components/EditField.vue';
+import AppHeader from '@/components/AppHeader.vue';
 
 const name = ref('');
 
@@ -32,3 +36,12 @@ function updateName() {
   console.log('Update name');
 }
 </script>
+
+<style scoped>
+.header {
+  padding: 1rem;
+  background-color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+}
+</style>

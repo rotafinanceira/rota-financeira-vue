@@ -1,4 +1,7 @@
 <template>
+  <div class="header">
+    <AppHeader />
+  </div>
   <EditField
     title="Alterar e-mail"
     description="Digite um novo e-mail em E-mail atual e clique em salvar alterações."
@@ -25,6 +28,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditField from '../../components/EditField.vue';
+import AppHeader from '@/components/AppHeader.vue';
 
 const email = ref('');
 
@@ -32,3 +36,12 @@ function updateEmail() {
   console.log('Update E-mail');
 }
 </script>
+
+<style scoped>
+.header {
+  padding: 1rem;
+  background-color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+}
+</style>

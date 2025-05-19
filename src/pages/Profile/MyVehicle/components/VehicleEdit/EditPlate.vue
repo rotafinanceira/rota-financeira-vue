@@ -1,4 +1,7 @@
 <template>
+  <div class="header">
+    <AppHeader />
+  </div>
   <EditField
     title="Placa"
     description="Digite a placa correta em Placa Atual e clique em salvar alterações."
@@ -25,6 +28,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditField from '@/pages/Profile/components/EditField.vue';
+import AppHeader from '@/components/AppHeader.vue';
 
 const plate = ref('');
 
@@ -32,3 +36,12 @@ function updatePlate() {
   console.log('Update plate');
 }
 </script>
+
+<style scoped>
+.header {
+  padding: 1rem;
+  background-color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+}
+</style>

@@ -1,4 +1,7 @@
 <template>
+  <div class="header">
+    <AppHeader />
+  </div>
   <section class="terms-content">
     <h3>Termos de Uso e Privacidade</h3>
     <div class="terms-card">
@@ -82,6 +85,7 @@
 </template>
 
 <script setup lang="ts">
+import AppHeader from '@/components/AppHeader.vue';
 // No additional logic is required for this static page.
 </script>
 
@@ -133,5 +137,11 @@ h3 {
   font-weight: 700;
   line-height: 120%; /* 24px */
   letter-spacing: -0.4px;
+}
+.header {
+  padding: 1rem;
+  background-color: #ffffff;
+  text-align: center;
+  font-weight: bold;
 }
 </style>
