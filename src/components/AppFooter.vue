@@ -15,7 +15,11 @@
         @click="navigateTo(tab.path)"
       >
         <div class="tab-container">
-          <img :src="footerTab === tab.name ? tab.icon.enabled : tab.icon.disabled" alt="" class="tab-icon" />
+          <img
+            :src="footerTab === tab.name ? tab.icon.enabled : tab.icon.disabled"
+            alt=""
+            class="tab-icon"
+          />
           <p :class="['tab-text', { 'active-tab': footerTab === tab.name }]">
             {{ tab.label }}
           </p>
@@ -53,7 +57,6 @@ const tabs = [
 
 type Tab = (typeof tabs)[0];
 
-
 const getActiveTab = (tabs: Tab[], path: string) => {
   const currentActiveTab = tabs.find((tab) => path.includes(tab.path))?.name;
 
@@ -87,6 +90,8 @@ function navigateTo(path: string) {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 !important;
+  flex: 1 0 0;
 }
 
 .custom-tabs .q-tabs__indicator {
