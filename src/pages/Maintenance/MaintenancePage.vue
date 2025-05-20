@@ -1,278 +1,111 @@
 <template>
-  <div class="maintenance-page">
-    <AppHeader />
-
-    <div class="maintenance-title">
-      <img :src="manuIcon2" alt="Manutenções Icon" class="title-icon" />
-      <div class="title-text">Manutenções</div>
+  <AppHeader />
+  <div class="maintenance">
+    <div class="maintenance__wrapper">
+      <MaintenanceItem icon="wheel" title="Alinhamento" variant="card" />
+      <MaintenanceItem icon="wheel" title="Alinhamento" variant="card" />
     </div>
-
-    <!-- Seção: Manutenções vencidas -->
-    <q-card class="maintenance-section">
-      <div class="section-header expired-header">
-        <div class="section-icon-wrapper">
-          <div class="section-icon">
-            <img :src="expiredIcon" alt="Expired Icon" class="section-image" />
-          </div>
-          <div class="section-title">
-            <strong>Manutenções vencidas</strong>
-          </div>
-        </div>
-      </div>
-      <div class="maintenance-items">
-        <q-card
-          v-for="(item, index) in expiredMaintenances"
-          :key="`expired-${index}`"
-          class="maintenance-item no-shadow"
-        >
-          <div class="maintenance-content">
-            <div class="maintenance-image-wrapper">
-              <img
-                :src="item.image"
-                alt="Maintenance Image"
-                class="maintenance-image"
-              />
-            </div>
-            <div class="maintenance-details">
-              <div class="maintenance-name">
-                {{ item.title }}
-              </div>
-              <div class="maintenance-date">
-                {{ item.date }}
-              </div>
-            </div>
-          </div>
-          <div class="maintenance-progress">
-            {{ item.progress }}
-          </div>
-        </q-card>
-      </div>
-    </q-card>
-
-    <!-- Seção: Próximas manutenções -->
-    <q-card class="maintenance-section">
-      <div class="section-header next-header">
-        <div class="section-icon-wrapper">
-          <div class="section-icon">
-            <img :src="nextIcon" alt="Next Icon" class="section-image" />
-          </div>
-          <div class="section-title">
-            <strong>Próximas manutenções</strong>
-          </div>
-        </div>
-      </div>
-      <div class="maintenance-items">
-        <q-card
-          v-for="(item, index) in nextMaintenances"
-          :key="`next-${index}`"
-          class="maintenance-item no-shadow"
-        >
-          <div class="maintenance-content">
-            <div class="maintenance-image-wrapper">
-              <img
-                :src="item.image"
-                alt="Maintenance Image"
-                class="maintenance-image"
-              />
-            </div>
-            <div class="maintenance-details">
-              <div class="maintenance-name">
-                {{ item.title }}
-              </div>
-              <div class="maintenance-date">
-                {{ item.date }}
-              </div>
-            </div>
-          </div>
-          <div class="maintenance-progress">
-            {{ item.progress }}
-          </div>
-        </q-card>
-      </div>
-    </q-card>
-
-    <div class="separator"></div>
-
-    <!-- Seção: Preencher etapas -->
-    <q-card class="maintenance-section">
-      <div class="section-header fill-steps-header">
-        <div class="section-icon-wrapper">
-          <div class="section-icon">
-            <img
-              :src="fillStepsIcon"
-              alt="Fill Steps Icon"
-              class="section-image"
-            />
-          </div>
-          <div class="section-title">
-            <strong>Preencher etapas</strong>
-          </div>
-        </div>
-      </div>
-      <div class="maintenance-items">
-        <q-card
-          v-for="(item, index) in fillStepsMaintenances"
-          :key="`fillsteps-${index}`"
-          class="maintenance-item no-shadow"
-        >
-          <div class="maintenance-content">
-            <div class="maintenance-image-wrapper">
-              <img
-                :src="item.image"
-                alt="Maintenance Image"
-                class="maintenance-image"
-              />
-            </div>
-            <div class="maintenance-details">
-              <div class="maintenance-name">
-                {{ item.title }}
-              </div>
-              <div class="maintenance-date">
-                {{ item.date }}
-              </div>
-            </div>
-          </div>
-          <div class="maintenance-progress">
-            {{ item.progress }}
-          </div>
-        </q-card>
-      </div>
-    </q-card>
-
-    <div class="separator"></div>
-
-    <!-- Seção: Concluído -->
-    <q-card class="maintenance-section">
-      <div class="section-header completed-header">
-        <div class="section-icon-wrapper">
-          <div class="section-icon">
-            <img
-              :src="completedIcon"
-              alt="Completed Icon"
-              class="section-image"
-            />
-          </div>
-          <div class="section-title">
-            <strong>Concluído</strong>
-          </div>
-        </div>
-      </div>
-      <div class="maintenance-items">
-        <q-card
-          v-for="(item, index) in completedMaintenances"
-          :key="`completed-${index}`"
-          class="maintenance-item no-shadow"
-        >
-          <div class="maintenance-content">
-            <div class="maintenance-image-wrapper">
-              <img
-                :src="item.image"
-                alt="Maintenance Image"
-                class="maintenance-image"
-              />
-            </div>
-            <div class="maintenance-details">
-              <div class="maintenance-name">
-                {{ item.title }}
-              </div>
-              <div class="maintenance-date">
-                {{ item.date }}
-              </div>
-            </div>
-          </div>
-          <div class="maintenance-progress">
-            {{ item.progress }}
-          </div>
-          <q-separator v-if="index < completedMaintenances.length - 1" />
-        </q-card>
-      </div>
-    </q-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
-import oilImage from '@/assets/agua.svg';
-import manuIcon2 from '@/assets/manu2.svg';
-import expiredIcon from '@/assets/manVen.svg';
-import nextIcon from '@/assets/proxMan.svg';
-import fillStepsIcon from '@/assets/preenEtap.svg';
-import completedIcon from '@/assets/concluido.svg';
+import MaintenanceItem from '@/components/MaintenanceItem.vue';
+// import oilImage from '@/assets/agua.svg';
+// import manuIcon2 from '@/assets/manu2.svg';
+// import expiredIcon from '@/assets/manVen.svg';
+// import nextIcon from '@/assets/proxMan.svg';
+// import fillStepsIcon from '@/assets/preenEtap.svg';
+// import completedIcon from '@/assets/concluido.svg';
 // import batteryImage from '@/assets/agua.svg';
 // import filterImage from '@/assets/agua.svg';
-import alignmentImage from '@/assets/Alinham.svg';
+// import alignmentImage from '@/assets/Alinham.svg';
 // import airConditionerImage from '@/assets/agua.svg';
-import type { IMaintenanceItem } from '@/interfaces/IMaintenanceItem';
+// import type { IMaintenanceItem } from '@/interfaces/IMaintenanceItem';
 
 
 
-const expiredMaintenances = ref<IMaintenanceItem[]>([
-  {
-    title: 'Alinhamento e balanceamento',
-    date: 'Venceu dia 1 out. 2024',
-    progress: '6/8',
-    image: alignmentImage,
-  },
-  {
-    title: 'Troca de óleo',
-    date: 'Venceu dia 1 out. 2024',
-    progress: '6/8',
-    image: oilImage,
-  },
-]);
+// const expiredMaintenances = ref<IMaintenanceItem[]>([
+//   {
+//     title: 'Alinhamento e balanceamento',
+//     date: 'Venceu dia 1 out. 2024',
+//     progress: '6/8',
+//     image: alignmentImage,
+//   },
+//   {
+//     title: 'Troca de óleo',
+//     date: 'Venceu dia 1 out. 2024',
+//     progress: '6/8',
+//     image: oilImage,
+//   },
+// ]);
 
-const nextMaintenances = ref<IMaintenanceItem[]>([
-  {
-    title: 'Alinhamento e balanceamento',
-    date: 'Vence dia 12 out. 2025',
-    progress: '6/8',
-    image: alignmentImage,
-  },
-  {
-    title: 'Troca de óleo',
-    date: 'Vence dia 1 out. 2025',
-    progress: '6/8',
-    image: oilImage,
-  },
-]);
+// const nextMaintenances = ref<IMaintenanceItem[]>([
+//   {
+//     title: 'Alinhamento e balanceamento',
+//     date: 'Vence dia 12 out. 2025',
+//     progress: '6/8',
+//     image: alignmentImage,
+//   },
+//   {
+//     title: 'Troca de óleo',
+//     date: 'Vence dia 1 out. 2025',
+//     progress: '6/8',
+//     image: oilImage,
+//   },
+// ]);
 
-const fillStepsMaintenances = ref<IMaintenanceItem[]>([
-  {
-    title: 'Alinhamento e balanceamento',
-    date: '',
-    progress: '2/5',
-    image: alignmentImage,
-  },
-  {
-    title: 'Troca de óleo',
-    date: '',
-    progress: '3/5',
-    image: oilImage,
-  },
-]);
+// const fillStepsMaintenances = ref<IMaintenanceItem[]>([
+//   {
+//     title: 'Alinhamento e balanceamento',
+//     date: '',
+//     progress: '2/5',
+//     image: alignmentImage,
+//   },
+//   {
+//     title: 'Troca de óleo',
+//     date: '',
+//     progress: '3/5',
+//     image: oilImage,
+//   },
+// ]);
 
-const completedMaintenances = ref<IMaintenanceItem[]>([
-  {
-    title: 'Alinhamento e balanceamento',
-    date: '',
-    progress: ' ',
-    image: alignmentImage,
-  },
-  {
-    title: 'Troca de óleo',
-    date: '',
-    progress: ' ',
-    image: oilImage,
-  },
-]);
+// const completedMaintenances = ref<IMaintenanceItem[]>([
+//   {
+//     title: 'Alinhamento e balanceamento',
+//     date: '',
+//     progress: ' ',
+//     image: alignmentImage,
+//   },
+//   {
+//     title: 'Troca de óleo',
+//     date: '',
+//     progress: ' ',
+//     image: oilImage,
+//   },
+// ]);
+
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.maintenance {
+  min-height: calc(100svh - 130px);
+  background-color: #EFF3F5;
+
+  &__wrapper {
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: calc(100% - 2.5rem);
+    margin-inline: auto;
+  }
+}
 .maintenance-page {
   max-width: 600px;
   margin: 0 auto;
   background-color: #f9f9f9;
+  margin-top: 1rem;
 }
 
 .maintenance-title {
