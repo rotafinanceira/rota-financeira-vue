@@ -4,14 +4,19 @@ import maintenance from '@/assets/maintenance';
 export type MaintenanceItemProps = {
   icon: keyof typeof maintenance;
   title: string;
+  variant?: 'card' | 'simple';
 };
 
-defineProps<MaintenanceItemProps>();
+withDefaults(defineProps<MaintenanceItemProps>(), {
+  variant: 'simple'
+});
 </script>
 
 <template>
   <!-- FIXME: A depender da ação que ocorrerá, há de se decidir se deve ser um button ou a -->
-  <div class="maintenances__item">
+  <div :class="['maintenances__item', {
+    'is-card': variant === 'card'
+  }]">
     <div class="item__wrapper">
       <img :src="maintenance[icon]" alt="" class="item__icon" />
     </div>
@@ -48,6 +53,18 @@ defineProps<MaintenanceItemProps>();
     font-size: 0.875rem;
     font-weight: 500;
     color: #2b5e16;
+  }
+}
+
+.is-card {
+  background-color: #fff;
+  padding: .625rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.145);
+
+  .item__text {
+    color: #33373C;
+    font-family: "Inter";
   }
 }
 </style>
