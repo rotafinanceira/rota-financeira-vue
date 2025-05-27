@@ -73,7 +73,7 @@ const nameError = ref('');
 const birthdateError = ref('');
 const phoneError = ref('');
 const acceptTerms = ref(false);
-const formSubmitted = ref(false); 
+const formSubmitted = ref(false);
 
 const validateName = () => {
   if (!fullName.value.trim()) {

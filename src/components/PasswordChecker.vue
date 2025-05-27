@@ -46,7 +46,7 @@ const passwordRules = computed(() => [
   color: #485159;
   font-size: 0.875rem;
   font-weight: 600;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .rules-wrapper {

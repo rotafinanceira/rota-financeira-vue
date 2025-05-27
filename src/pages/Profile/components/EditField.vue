@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-
 const { title, description, updateValue } = defineProps<{
   title: string;
   description: string;
@@ -20,7 +19,6 @@ const { title, description, updateValue } = defineProps<{
 
 <style scoped lang="scss">
 .edit {
-
   &__content {
     --footer-bar-size: 72px;
     display: flex;

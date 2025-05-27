@@ -6,12 +6,7 @@
   >
     <label class="edit__label disabled">
       Cor anterior
-      <input
-        class="edit__input disabled"
-        type="text"
-        value="Cinza"
-        disabled
-      />
+      <input class="edit__input disabled" type="text" value="Cinza" disabled />
     </label>
     <label class="edit__label">
       Cor atual

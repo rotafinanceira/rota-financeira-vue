@@ -6,12 +6,7 @@
   >
     <label class="edit__label disabled">
       Ano anterior
-      <input
-        class="edit__input disabled"
-        type="text"
-        value="2020"
-        disabled
-      />
+      <input class="edit__input disabled" type="text" value="2020" disabled />
     </label>
     <label class="edit__label">
       Ano atual
