@@ -203,15 +203,11 @@ import completedIcon from '@/assets/concluido.svg';
 // import filterImage from '@/assets/agua.svg';
 import alignmentImage from '@/assets/Alinham.svg';
 // import airConditionerImage from '@/assets/agua.svg';
+import type { IMaintenanceItem } from '@/interfaces/IMaintenanceItem';
 
-interface MaintenanceItem {
-  title: string;
-  date: string; // pode ser "Venceu dia X", "Vence dia Y", etc.
-  progress: string; // ex: "6/8"
-  image: string; // caminho da imagem
-}
 
-const expiredMaintenances = ref<MaintenanceItem[]>([
+
+const expiredMaintenances = ref<IMaintenanceItem[]>([
   {
     title: 'Alinhamento e balanceamento',
     date: 'Venceu dia 1 out. 2024',
@@ -226,7 +222,7 @@ const expiredMaintenances = ref<MaintenanceItem[]>([
   },
 ]);
 
-const nextMaintenances = ref<MaintenanceItem[]>([
+const nextMaintenances = ref<IMaintenanceItem[]>([
   {
     title: 'Alinhamento e balanceamento',
     date: 'Vence dia 12 out. 2025',
@@ -241,7 +237,7 @@ const nextMaintenances = ref<MaintenanceItem[]>([
   },
 ]);
 
-const fillStepsMaintenances = ref<MaintenanceItem[]>([
+const fillStepsMaintenances = ref<IMaintenanceItem[]>([
   {
     title: 'Alinhamento e balanceamento',
     date: '',
@@ -256,7 +252,7 @@ const fillStepsMaintenances = ref<MaintenanceItem[]>([
   },
 ]);
 
-const completedMaintenances = ref<MaintenanceItem[]>([
+const completedMaintenances = ref<IMaintenanceItem[]>([
   {
     title: 'Alinhamento e balanceamento',
     date: '',
