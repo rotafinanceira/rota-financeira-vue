@@ -1,32 +1,42 @@
 <script setup lang="ts">
-import maintenance from '@/assets/maintenance';
+import { arrowRight } from '@/assets';
+import maintenanceIcons from '@/assets/maintenance';
 
 export type MaintenanceItemProps = {
-  icon: keyof typeof maintenance;
+  icon: keyof typeof maintenanceIcons;
   title: string;
   variant?: 'card' | 'simple';
 };
 
 withDefaults(defineProps<MaintenanceItemProps>(), {
-  variant: 'simple'
+  variant: 'simple',
 });
 </script>
 
 <template>
-  <!-- FIXME: A depender da ação que ocorrerá, há de se decidir se deve ser um button ou a -->
-  <div :class="['maintenances__item', {
-    'is-card': variant === 'card'
-  }]">
-    <div class="item__wrapper">
-      <img :src="maintenance[icon]" alt="" class="item__icon" />
+  <!-- FIXME: A depender da ação que ocorrerá, há de se decidir se deve ser um button ou um link -->
+  <div
+    :class="[
+      'maintenances__item',
+      {
+        'is-card': variant === 'card',
+      },
+    ]"
+  >
+    <div class="item__flex">
+      <div class="item__wrapper">
+        <img :src="maintenanceIcons[icon]" alt="" class="item__icon" />
+      </div>
+      <p class="item__text">{{ title }}</p>
     </div>
-    <p class="item__text">{{ title }}</p>
+    <img :src="arrowRight" alt="" class="item__arrow" />
   </div>
 </template>
 
 <style scoped lang="scss">
 .maintenances__item {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
   border-radius: 4px;
@@ -54,17 +64,27 @@ withDefaults(defineProps<MaintenanceItemProps>(), {
     font-weight: 500;
     color: #2b5e16;
   }
+
+  &__flex {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  &__arrow {
+    margin-right: 6px;
+  }
 }
 
 .is-card {
   background-color: #fff;
-  padding: .625rem;
+  padding: 0.625rem;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.145);
 
   .item__text {
-    color: #33373C;
-    font-family: "Inter";
+    color: #33373c;
+    font-family: 'Inter';
   }
 }
 </style>
