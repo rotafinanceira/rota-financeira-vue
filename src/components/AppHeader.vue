@@ -1,12 +1,8 @@
 <template>
   <q-header elevated>
     <q-toolbar class="custom-toolbar">
-      <q-btn flat round>
-        <img
-          @click="navigateToHome"
-          :src="logoRota"
-          style="width: 40px; margin-right: 8px"
-        />
+      <q-btn flat round @click="navigateToHome">
+        <img :src="logoRota" style="width: 40px; margin-right: 8px" />
       </q-btn>
 
       <div class="column-header">

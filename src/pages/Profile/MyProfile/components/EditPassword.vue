@@ -1,8 +1,7 @@
 <template>
-  <div class="header">
-    <AppHeader />
-  </div>
+  <AppHeader />
   <EditField
+    class="margin-header"
     title="Alterar senha"
     description="Digite a sua senha atual. Depois crie uma nova senha contendo todos os requisitos de senha solicitados e em seguida repita a nova senha abaixo. Para finalizar clique em salvar alterações."
     :updateValue="handleSubmit"
@@ -91,17 +90,13 @@ const handleSubmit = () => {
 </script>
 
 <style scoped lang="scss">
+.margin-header {
+  margin-top: 1.5rem;
+}
+
 .edit__label {
   position: relative;
 }
-
-.header {
-  padding: 1rem;
-  background-color: #ffffff;
-  text-align: center;
-  font-weight: bold;
-}
-
 .edit__password {
   &-forgotten {
     color: #307714;

@@ -1,8 +1,7 @@
 <template>
-  <div class="header">
-    <AppHeader />
-  </div>
+  <AppHeader />
   <EditField
+    class="margin-header"
     title="Ano"
     description="Digite o ano completo correto em Ano Atual e clique em salvar alterações."
     :updateValue="updateYear"
@@ -32,11 +31,8 @@ function updateYear() {
 }
 </script>
 
-<style scoped>
-.header {
-  padding: 1rem;
-  background-color: #ffffff;
-  text-align: center;
-  font-weight: bold;
+<style scoped lang="scss">
+.margin-header {
+  margin-top: 1.5rem;
 }
 </style>

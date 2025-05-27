@@ -1,7 +1,5 @@
 <template>
-  <div class="header">
-    <AppHeader />
-  </div>
+  <AppHeader />
   <section class="terms-content">
     <h3>Termos de Uso e Privacidade</h3>
     <div class="terms-card">
@@ -91,6 +89,7 @@ import AppHeader from '@/components/AppHeader.vue';
 
 <style scoped>
 .terms-content {
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;

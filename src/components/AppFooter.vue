@@ -18,11 +18,8 @@
           <q-badge
             class="q-badge"
             v-if="tab.notification && tab.notification > 0"
-            rounded
-            color="red"
-            text-color="white"
             floating
-            >{{ tab.notification }}</q-badge
+            >+{{ tab.notification }}</q-badge
           >
           <img
             :src="footerTab === tab.name ? tab.icon.enabled : tab.icon.disabled"
@@ -39,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-type Tabs = {
+type Tab = {
   name: string;
   path: string;
   icon: {
@@ -58,7 +55,7 @@ const footerTab = ref('home');
 const router = useRouter();
 const route = useRoute();
 
-const tabs: Array<Tabs> = [
+const tabs: Array<Tab> = [
   { name: 'home', path: '/home', icon: navbar.home, label: 'Início' },
   {
     name: 'maintenance',
@@ -81,8 +78,6 @@ const tabs: Array<Tabs> = [
     label: 'Perfil',
   },
 ];
-
-type Tab = (typeof tabs)[0];
 
 const getActiveTab = (tabs: Tab[], path: string) => {
   const currentActiveTab = tabs.find((tab) => path.includes(tab.path))?.name;
@@ -114,8 +109,17 @@ function navigateTo(path: string) {
 }
 
 .q-badge {
-  margin-top: 4px;
-  margin-right: 25px;
+  inset: 10px 11px auto auto;
+  background-color: #db3d46;
+  font-family: 'Inter', sans-serif;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  padding: 3px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
 }
 
 .q-tab {
