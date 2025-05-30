@@ -89,13 +89,16 @@ import AppHeader from '@/components/AppHeader.vue';
 
 <style scoped>
 .terms-content {
-  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
+  margin: 1.5rem 1rem 1rem;
   height: 599px;
   align-self: stretch;
+
+  & :first-child {
+    margin-top: 0;
+  }
 }
 
 .terms-card {

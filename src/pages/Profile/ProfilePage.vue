@@ -1,9 +1,6 @@
 <template>
+  <AppHeader />
   <div class="perfil-page">
-    <div class="header">
-      <AppHeader />
-    </div>
-
     <nav class="tabs">
       <button
         :class="{ active: activeTab === 'perfil' }"
@@ -71,6 +68,7 @@ function togglePhoneNotifications(value: boolean) {
   flex-direction: column;
   height: 100%;
   background-color: var(--Cores-Cinza-Branco, #ffffff);
+  margin-top: 1.5rem;
 }
 
 .header {

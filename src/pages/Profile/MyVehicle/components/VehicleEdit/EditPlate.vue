@@ -1,7 +1,6 @@
 <template>
   <AppHeader />
   <EditField
-    class="margin-header"
     title="Placa"
     description="Digite a placa correta em Placa Atual e clique em salvar alterações."
     :updateValue="updatePlate"
@@ -35,9 +34,3 @@ function updatePlate() {
   console.log('Update plate');
 }
 </script>
-
-<style scoped lang="scss">
-.margin-header {
-  margin-top: 1.5rem;
-}
-</style>

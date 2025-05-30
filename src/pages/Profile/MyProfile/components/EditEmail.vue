@@ -1,7 +1,6 @@
 <template>
   <AppHeader />
   <EditField
-    class="margin-header"
     title="Alterar e-mail"
     description="Digite um novo e-mail em E-mail atual e clique em salvar alterações."
     :updateValue="updateEmail"
@@ -35,9 +34,3 @@ function updateEmail() {
   console.log('Update E-mail');
 }
 </script>
-
-<style scoped lang="scss">
-.margin-header {
-  margin-top: 1.5rem;
-}
-</style>

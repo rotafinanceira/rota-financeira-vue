@@ -1,7 +1,6 @@
 <template>
   <AppHeader />
   <EditField
-    class="margin-header"
     title="Alterar nome"
     description="Digite o nome completo correto em Nome Atual e clique em salvar alterações."
     :updateValue="updateName"
@@ -35,9 +34,3 @@ function updateName() {
   console.log('Update name');
 }
 </script>
-
-<style scoped lang="scss">
-.margin-header {
-  margin-top: 1.5rem;
-}
-</style>

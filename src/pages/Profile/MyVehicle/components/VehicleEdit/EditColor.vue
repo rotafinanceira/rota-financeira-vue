@@ -1,7 +1,6 @@
 <template>
   <AppHeader />
   <EditField
-    class="margin-header"
     title="Cor"
     description="Digite a cor correta em Cor Atual e clique em salvar alterações."
     :updateValue="updateColor"
@@ -30,9 +29,3 @@ function updateColor() {
   console.log('Update color');
 }
 </script>
-
-<style scoped lang="scss">
-.margin-header {
-  margin-top: 1.5rem;
-}
-</style>

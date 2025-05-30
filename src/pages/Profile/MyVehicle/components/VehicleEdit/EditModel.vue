@@ -1,7 +1,6 @@
 <template>
   <AppHeader />
   <EditField
-    class="margin-header"
     title="Modelo"
     description="Digite o modelo completo correto em Modelo Atual e clique em salvar alterações."
     :updateValue="updateModel"
@@ -35,9 +34,3 @@ function updateModel() {
   console.log('Update model');
 }
 </script>
-
-<style scoped lang="scss">
-.margin-header {
-  margin-top: 1.5rem;
-}
-</style>

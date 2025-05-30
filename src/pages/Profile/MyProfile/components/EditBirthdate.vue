@@ -1,7 +1,6 @@
 <template>
   <AppHeader />
   <EditField
-    class="margin-header"
     title="Alterar data de nascimento"
     description="Digite a data de nascimento correta em Data de Nascimento Atual e clique em salvar alterações."
     :updateValue="updateBirthdate"
@@ -35,9 +34,3 @@ function updateBirthdate() {
   console.log('Update birthdate');
 }
 </script>
-
-<style scoped lang="scss">
-.margin-header {
-  margin-top: 1.5rem;
-}
-</style>

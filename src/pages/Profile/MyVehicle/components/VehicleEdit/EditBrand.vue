@@ -1,7 +1,6 @@
 <template>
   <AppHeader />
   <EditField
-    class="margin-header"
     title="Marca"
     description="Digite a marca completa correta em Marca Atual e clique em salvar alterações."
     :updateValue="updateBrand"
@@ -30,9 +29,3 @@ function updateBrand() {
   console.log('Update brand');
 }
 </script>
-
-<style scoped lang="scss">
-.margin-header {
-  margin-top: 1.5rem;
-}
-</style>
