@@ -1,9 +1,6 @@
 <template>
+  <AppHeader />
   <div class="perfil-page">
-    <header class="header">
-      <h1 class="perfil-title">Perfil</h1>
-    </header>
-
     <nav class="tabs">
       <button
         :class="{ active: activeTab === 'perfil' }"
@@ -39,6 +36,7 @@ import { ref } from 'vue';
 import MyProfile from '@/pages/Profile/MyProfile/MyProfile.vue';
 import MyVehicle from '@/pages/Profile/MyVehicle/MyVehicle.vue';
 import picProfile from '@/assets/picProfile.svg';
+import AppHeader from '@/components/AppHeader.vue';
 
 const activeTab = ref<'perfil' | 'veiculo'>('perfil');
 const user = ref({
@@ -70,6 +68,7 @@ function togglePhoneNotifications(value: boolean) {
   flex-direction: column;
   height: 100%;
   background-color: var(--Cores-Cinza-Branco, #ffffff);
+  margin-top: 1.5rem;
 }
 
 .header {

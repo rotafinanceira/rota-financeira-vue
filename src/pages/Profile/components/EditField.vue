@@ -20,13 +20,15 @@ const { title, description, updateValue } = defineProps<{
 
 <style scoped lang="scss">
 .edit {
-
   &__content {
-    --footer-bar-size: 72px;
+    --footerheader-bar-size: 130px;
+    --top-margin: 1.5rem;
+
     display: flex;
     flex-direction: column;
-    min-height: calc(100svh - var(--footer-bar-size));
-    padding: 1rem;
+    min-height: calc(100svh - var(--footerheader-bar-size) - var(--top-margin));
+    padding: 0 1rem 1rem;
+    margin-top: var(--top-margin);
   }
 
   &__title {

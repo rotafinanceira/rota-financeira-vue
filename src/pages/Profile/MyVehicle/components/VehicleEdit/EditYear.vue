@@ -1,4 +1,8 @@
 <template>
+    <HeaderBar
+      title="Perfil"
+      :path="'/profile'"
+    />
   <EditField
     title="Ano"
     description="Digite o ano completo correto em Ano Atual e clique em salvar alterações."
@@ -6,12 +10,7 @@
   >
     <label class="edit__label disabled">
       Ano anterior
-      <input
-        class="edit__input disabled"
-        type="text"
-        value="2020"
-        disabled
-      />
+      <input class="edit__input disabled" type="text" value="2020" disabled />
     </label>
     <label class="edit__label">
       Ano atual
@@ -25,6 +24,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditField from '@/pages/Profile/components/EditField.vue';
+import HeaderBar from '@/components/HeaderBar.vue';
 
 const year = ref('');
 
