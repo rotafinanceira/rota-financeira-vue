@@ -109,6 +109,49 @@ type MaintenanceItem = {
   createdAt: Date;
   pendingRegistration: number;
 };
+
+const maintenancesData = [
+  {
+    type: 'Oil Change',
+    data: {
+      date: '2023-11-20T00:00:00.000Z',
+      status: 'expired',
+    },
+    pendingRegistration: 2,
+  },
+  {
+    type: 'Wheel Alignment',
+    data: {
+      date: '2024-10-29T22:13:35.723Z',
+      status: 'pending',
+    },
+    pendingRegistration: 2,
+  },
+  {
+    type: 'Battery Change',
+    data: {
+      date: '2025-05-31T13:07:50.791Z',
+      status: 'unregistered',
+    },
+    pendingRegistration: 0,
+  },
+  {
+    type: 'Air Filter Change',
+    data: {
+      date: '2025-05-31T13:07:50.791Z',
+      status: 'unregistered',
+    },
+    pendingRegistration: 0,
+  },
+  {
+    type: 'Oil Filter Change',
+    data: {
+      date: '2023-11-20T00:00:00.000Z',
+      status: 'pending',
+    },
+    pendingRegistration: 1,
+  },
+];
 </script>
 
 <style lang="scss" scoped>
