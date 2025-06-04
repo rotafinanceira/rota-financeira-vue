@@ -173,7 +173,6 @@ function navigateTo(path: string) {
 .perfil-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 1rem;
   background-color: var(--Cores-Cinza-Branco, #ffffff);
 }
@@ -247,6 +246,7 @@ function navigateTo(path: string) {
   font-weight: 600;
   line-height: 120%;
   flex: 1 0 0;
+  margin-top: 0;
   margin-bottom: 12px;
 }
 
@@ -302,15 +302,15 @@ function navigateTo(path: string) {
 
 .btn-editar {
   display: flex;
-  width: 320px;
-  height: 48px;
-  padding: 12px 24px;
+  width: 100%;
+  padding: 0.75rem;
+  margin: 1.5rem 0;
   justify-content: center;
   align-items: center;
   gap: 12px;
   flex-shrink: 0;
-  border-radius: 4px;
-  border: 1px solid #8ce95f;
+  border-radius: 0.5rem;
+  border: none;
   background: #8ce95f;
   color: var(--Botes-Preenchidos-Ativado-Texto, #2b5e16);
   font-family: var(--Tipo-Familia-Button, Inter);
