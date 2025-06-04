@@ -73,7 +73,7 @@
             </div>
             <div class="horizontal-layout">
               <button @click="navigateTo('/profile/terms-and-privacy')" class="full-width-button">
-                <span>Termos de uso e política de privacidade</span>
+                <span>Termos de uso e privacidade</span>
                 <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
             </div>
@@ -365,6 +365,7 @@ function navigateTo(path: string) {
 }
 
 .edit-account h4 {
+  width: 320px;
   color: var(--Cores-Cinza-900, #0c0d0f);
   font-family: var(--Tipo-Familia-Tag, Inter);
   font-size: var(--Tipo-Tamanho-Sm, 14px);
@@ -374,7 +375,7 @@ function navigateTo(path: string) {
   /* 16.8px */
   text-align: left;
   /* Align to the left */
-  width: 100%;
+  ;
   /* Ensure it spans the full width */
 }
 
@@ -412,20 +413,8 @@ function navigateTo(path: string) {
   position: relative;
 }
 
-.horizontal-layout span {
-  flex: 1;
-}
 
-.horizontal-layout button {
-  flex: 0;
-}
 
-.horizontal-layout .icon {
-  position: absolute;
-  right: 0;
-  width: 16px;
-  height: 16px;
-}
 
 .personal-info-buttons button:nth-child(2) {
   flex: 1 0 0;
@@ -447,28 +436,25 @@ function navigateTo(path: string) {
 
 .full-width-button {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 16px;
-  align-self: stretch;
+  width: 100%;
   background: none;
   border: none;
-  padding: 0;
   color: var(--Cores-Cinza-700, #3c4349);
   font-family: var(--Tipo-Familia-Paragrafh, Inter);
   font-size: var(--Tipo-Tamanho-Sm, 14px);
-  font-style: normal;
   font-weight: 400;
-  line-height: 150%;
   cursor: pointer;
-  width: 288px;
-  height: 21px;
   white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .full-width-button .icon {
   width: 16px;
   height: 16px;
 }
+
 
 .full-width-button.excluir-conta {
   color: var(--Cores-Error-600, #b72a3e);
