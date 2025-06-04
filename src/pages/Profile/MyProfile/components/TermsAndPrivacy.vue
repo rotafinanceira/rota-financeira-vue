@@ -1,5 +1,9 @@
 <template>
-  <AppHeader />
+    <HeaderBar
+      class="header"
+      title="Perfil"
+      :path="'/profile'"
+    />
   <section class="terms-content">
     <h3>Termos de Uso e Privacidade</h3>
     <div class="terms-card">
@@ -83,7 +87,8 @@
 </template>
 
 <script setup lang="ts">
-import AppHeader from '@/components/AppHeader.vue';
+import HeaderBar from '@/components/HeaderBar.vue';
+
 // No additional logic is required for this static page.
 </script>
 

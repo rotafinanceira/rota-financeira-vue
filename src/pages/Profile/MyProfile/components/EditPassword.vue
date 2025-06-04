@@ -1,5 +1,8 @@
 <template>
-  <AppHeader />
+    <HeaderBar
+      title="Perfil"
+      :path="'/profile'"
+    />
   <EditField
     title="Alterar senha"
     description="Digite a sua senha atual. Depois crie uma nova senha contendo todos os requisitos de senha solicitados e em seguida repita a nova senha abaixo. Para finalizar clique em salvar alterações."
@@ -54,7 +57,6 @@
 import { ref } from 'vue';
 import EditField from '../../components/EditField.vue';
 import PasswordChecker from '@/components/PasswordChecker.vue';
-import AppHeader from '@/components/AppHeader.vue';
 
 const currentPassword = ref('');
 const newPassword = ref('');

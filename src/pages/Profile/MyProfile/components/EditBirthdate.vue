@@ -1,5 +1,8 @@
 <template>
-  <AppHeader />
+    <HeaderBar
+      title="Perfil"
+      :path="'/profile'"
+    />
   <EditField
     title="Alterar data de nascimento"
     description="Digite a data de nascimento correta em Data de Nascimento Atual e clique em salvar alterações."
@@ -26,7 +29,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditField from '../../components/EditField.vue';
-import AppHeader from '@/components/AppHeader.vue';
+import HeaderBar from '@/components/HeaderBar.vue';
 
 const birthdate = ref('');
 

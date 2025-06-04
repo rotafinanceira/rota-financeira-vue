@@ -1,5 +1,8 @@
 <template>
-  <AppHeader />
+    <HeaderBar
+      title="Perfil"
+      :path="'/profile'"
+    />
   <EditField
     title="Placa"
     description="Digite a placa correta em Placa Atual e clique em salvar alterações."
@@ -26,7 +29,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditField from '@/pages/Profile/components/EditField.vue';
-import AppHeader from '@/components/AppHeader.vue';
 
 const plate = ref('');
 
