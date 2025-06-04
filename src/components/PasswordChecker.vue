@@ -1,11 +1,7 @@
 <template>
   <div class="password-checker">
     <span class="title-text">A senha deve ter:</span>
-    <div
-      v-for="(rule, index) in passwordRules"
-      :key="index"
-      class="rules-wrapper"
-    >
+    <div v-for="(rule, index) in passwordRules" :key="index" class="rules-wrapper">
       <img :src="rule.valid ? checkIcon : errorIcon" class="icon" />
       <span class="rule-text">{{ rule.text }}</span>
     </div>
@@ -14,8 +10,8 @@
 
 <script setup>
 import { computed, defineProps } from 'vue';
-import checkIcon from '@/assets/check.svg';
-import errorIcon from '@/assets/x.svg';
+import checkIcon from '@/assets/check-valid.svg';
+import errorIcon from '@/assets/check-invalid.svg';
 
 const props = defineProps({
   password: String,
