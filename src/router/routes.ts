@@ -147,6 +147,10 @@ const routes: RouteRecordRaw[] = [
           },
         ],
       },
+      {
+        path: 'notification',
+        component: () => import('@/pages/NotificationPage.vue'),
+      },
     ],
   },
 

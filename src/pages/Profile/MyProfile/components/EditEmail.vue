@@ -1,4 +1,8 @@
 <template>
+  <HeaderBar
+    title="Perfil"
+    :path="'/profile'"
+  />
   <EditField
     title="Alterar e-mail"
     description="Digite um novo e-mail em E-mail atual e clique em salvar alterações."
@@ -25,6 +29,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditField from '../../components/EditField.vue';
+import HeaderBar from '@/components/HeaderBar.vue';
 
 const email = ref('');
 
