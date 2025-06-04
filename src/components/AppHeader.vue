@@ -1,7 +1,9 @@
 <template>
   <q-header elevated>
     <q-toolbar class="custom-toolbar">
-      <img :src="logoRota" style="width: 40px; margin-right: 8px;" />
+      <q-btn flat round @click="navigateToHome">
+        <img :src="logoRota" style="width: 40px; margin-right: 8px" />
+      </q-btn>
 
       <div class="column-header">
         <div class="jeep-compass-text">Jeep Compass</div>
@@ -16,7 +18,7 @@
         :to="{ path: 'notification' }"
       >
         <div class="notification-wrapper">
-          <img :src="Noti" style="width: 24px; height: 24px;" />
+          <img :src="Noti" style="width: 24px; height: 24px" />
           <img :src="elipse" class="notification-badge" />
         </div>
       </q-btn>
@@ -28,6 +30,13 @@
 import logoRota from '@/assets/logoRota.svg';
 import Noti from '@/assets/Noti.svg';
 import elipse from '@/assets/elipse46.svg';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const navigateToHome = () => {
+  router.push('/home');
+};
 </script>
 
 <style scoped>
@@ -52,7 +61,7 @@ import elipse from '@/assets/elipse46.svg';
 }
 
 .jeep-compass-text {
-  color: var(--Cores-Cinza-400, #76828B);
+  color: var(--Cores-Cinza-400, #76828b);
   font-family: var(--Tipo-Familia-Tag, Inter);
   font-size: var(--Tipo-Tamanho-Xs, 12px);
   font-style: normal;
@@ -61,7 +70,7 @@ import elipse from '@/assets/elipse46.svg';
 }
 
 .ola-pezzano-text {
-  color: var(--Cores-Cinza-900, #0C0D0F);
+  color: var(--Cores-Cinza-900, #0c0d0f);
   font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
   font-weight: 700;
@@ -83,9 +92,9 @@ import elipse from '@/assets/elipse46.svg';
   width: 12px;
   height: 11x;
   flex-shrink: 0;
-  fill: var(--Cores-Error-500, #DA2829);
+  fill: var(--Cores-Error-500, #da2829);
   stroke-width: 1.846px;
-  stroke: var(--Cores-Cinza-Branco, #FFF);
+  stroke: var(--Cores-Cinza-Branco, #fff);
 }
 
 .text-h6 {

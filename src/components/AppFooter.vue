@@ -5,7 +5,7 @@
       align="justify"
       active-color="green"
       indicator-color="green"
-      class="custom-tabs"
+      class="navbar"
       switch-indicator
     >
       <q-tab
@@ -13,14 +13,21 @@
         :key="tab.name"
         :name="tab.name"
         @click="navigateTo(tab.path)"
+        class="navbar__tab"
       >
-        <div class="tab-container">
+        <div class="tab__container">
+          <div
+            class="navbar__notifications"
+            v-if="tab.notification && tab.notification > 0"
+            floating
+          >
+            <span> +{{ tab.notification }} </span>
+          </div>
           <img
             :src="footerTab === tab.name ? tab.icon.enabled : tab.icon.disabled"
             alt=""
-            class="tab-icon"
           />
-          <p :class="['tab-text', { 'active-tab': footerTab === tab.name }]">
+          <p :class="['tab__text', { 'tab__is-active': footerTab === tab.name }]">
             {{ tab.label }}
           </p>
         </div>
@@ -30,6 +37,17 @@
 </template>
 
 <script setup lang="ts">
+type Tab = {
+  name: string;
+  path: string;
+  icon: {
+    enabled: string;
+    disabled: string;
+  };
+  label: string;
+  notification?: number;
+};
+
 import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { navbar } from '@/assets/navbar';
@@ -38,24 +56,29 @@ const footerTab = ref('home');
 const router = useRouter();
 const route = useRoute();
 
-const tabs = [
+const tabs: Tab[] = [
   { name: 'home', path: '/home', icon: navbar.home, label: 'Início' },
   {
     name: 'maintenance',
     path: '/maintenance',
     icon: navbar.maintenance,
     label: 'Manutenções',
+    notification: 3,
   },
   {
     name: 'history',
     path: '/history',
     icon: navbar.history,
     label: 'Relatórios',
+    notification: 0,
   },
-  { name: 'profile', path: '/profile', icon: navbar.profile, label: 'Perfil' },
+  {
+    name: 'profile',
+    path: '/profile',
+    icon: navbar.profile,
+    label: 'Perfil',
+  },
 ];
-
-type Tab = (typeof tabs)[0];
 
 const getActiveTab = (tabs: Tab[], path: string) => {
   const currentActiveTab = tabs.find((tab) => path.includes(tab.path))?.name;
@@ -78,7 +101,7 @@ function navigateTo(path: string) {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .q-footer {
   background-color: #ffffff;
   width: 100%;
@@ -86,44 +109,69 @@ function navigateTo(path: string) {
   border-top: 1px solid #e0e5e7;
 }
 
-.q-tab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 !important;
-  flex: 1 0 0;
+.navbar {
+  height: 100%;
+
+  &__tab {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 0;
+    flex: 1;
+  }
+
+  &__notifications {
+    --size: 16px;
+    display: grid;
+    place-items: center;
+    position: absolute;
+
+    width: var(--size);
+    height: var(--size);
+
+    color: white;
+    background-color: #db3d46;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.5rem;
+
+    border-radius: 99px;
+    inset: -2.5px 11px auto auto;
+
+    > :first-of-type {
+      position: absolute;
+      left: 2.5px;
+    }
+  }
+
+  .q-tabs__indicator {
+    top: 0;
+    bottom: auto;
+    background-color: green;
+  }
 }
 
-.custom-tabs .q-tabs__indicator {
-  top: 0;
-  bottom: auto;
-  background-color: green;
+.tab {
+  &__container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  &__text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: #9ba7ad;
+    text-transform: none;
+
+    transition: color 300ms ease;
+  }
+
+  &__is-active {
+    color: #307714;
+  }
 }
 
-.tab-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding-top: 17px;
-}
-
-.tab-icon {
-  width: 20px;
-  height: 20px;
-}
-
-.tab-text {
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 12px;
-  color: #9ba7ad;
-  text-transform: none;
-
-  transition: color 300ms ease;
-}
-
-.active-tab {
-  color: #307714;
-}
 </style>

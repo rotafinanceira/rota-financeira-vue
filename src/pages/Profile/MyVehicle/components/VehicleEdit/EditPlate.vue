@@ -1,4 +1,8 @@
 <template>
+    <HeaderBar
+      title="Perfil"
+      :path="'/profile'"
+    />
   <EditField
     title="Placa"
     description="Digite a placa correta em Placa Atual e clique em salvar alterações."

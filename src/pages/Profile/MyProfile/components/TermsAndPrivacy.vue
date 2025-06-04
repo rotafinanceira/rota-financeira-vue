@@ -1,4 +1,9 @@
 <template>
+    <HeaderBar
+      class="header"
+      title="Perfil"
+      :path="'/profile'"
+    />
   <section class="terms-content">
     <h3>Termos de Uso e Privacidade</h3>
     <div class="terms-card">
@@ -82,6 +87,8 @@
 </template>
 
 <script setup lang="ts">
+import HeaderBar from '@/components/HeaderBar.vue';
+
 // No additional logic is required for this static page.
 </script>
 
@@ -90,9 +97,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
+  margin: 1.5rem 1rem 1rem;
   height: 599px;
   align-self: stretch;
+
+  & :first-child {
+    margin-top: 0;
+  }
 }
 
 .terms-card {
@@ -133,5 +144,11 @@ h3 {
   font-weight: 700;
   line-height: 120%; /* 24px */
   letter-spacing: -0.4px;
+}
+.header {
+  padding: 1rem;
+  background-color: #ffffff;
+  text-align: center;
+  font-weight: bold;
 }
 </style>

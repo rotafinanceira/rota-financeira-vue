@@ -1,4 +1,8 @@
 <template>
+    <HeaderBar
+      title="Perfil"
+      :path="'/profile'"
+    />
   <EditField
     title="Alterar senha"
     description="Digite a sua senha atual. Depois crie uma nova senha contendo todos os requisitos de senha solicitados e em seguida repita a nova senha abaixo. Para finalizar clique em salvar alterações."
