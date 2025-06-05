@@ -32,6 +32,7 @@ import AppHeader from '@/components/AppHeader.vue';
 import MaintenanceItem, {
   MaintenanceItemProps,
 } from '@/components/MaintenanceItem.vue';
+import { MaintenanceStatus, MaintenanceTypes } from './types';
 
 // import oilImage from '@/assets/agua.svg';
 // import manuIcon2 from '@/assets/manu2.svg';
@@ -86,17 +87,6 @@ const openSettings = () => {
 
 // ---
 // TODO: transferir para o shared types quando for criado
-type MaintenanceTypes =
-  | 'engine'
-  | 'battery'
-  | 'oil'
-  | 'air filter'
-  | 'wheel'
-  | 'alignment and balancing'
-  | 'fuel levels'
-  | 'fluid levels';
-
-type MaintenanceStatus = 'unregistered' | 'pending' | 'expired';
 // ---
 
 // WIP
@@ -152,6 +142,8 @@ const maintenancesData = [
     pendingRegistration: 1,
   },
 ];
+
+console.log(maintenancesData);
 </script>
 
 <style lang="scss" scoped>
