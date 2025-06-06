@@ -65,7 +65,7 @@ const maintenanceItems: MaintenanceItemCardProps[] = [
     title: 'Filtro de combustível',
     icon: 'fuelFilter',
     maintenanceData: {
-      status: 'registered'
+      status: 'unregistered'
     }
   },
   {

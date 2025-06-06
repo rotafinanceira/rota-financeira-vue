@@ -20,7 +20,7 @@ defineProps<MaintenanceData & {
     'is-expired': status === 'expired'
   }]">
     <!-- Neutral -->
-    <p class="badge__text" v-if="status === 'registered'">Sem pendências</p>
+    <p class="badge__text" v-if="status === 'unregistered'">Sem pendências</p>
     <p class="badge__text" v-if="status === 'pending'">Preencher 3 etapas</p>
     <p class="badge__text" v-if="status === 'expired'">Vencido há 3 meses</p>
   </div>
