@@ -24,12 +24,12 @@ defineProps<MaintenanceItemCardProps>();
       </div>
       <img :src="arrowRight" alt="" class="item__arrow" />
     </div>
-      <template v-if="maintenanceData?.status">
-        <hr />
-        <div class="badges">
-          <StatusBadge v-bind="maintenanceData" />
-        </div>
-      </template>
+    <template v-if="maintenanceData?.status">
+      <hr />
+      <div class="badges">
+        <StatusBadge v-bind="maintenanceData" />
+      </div>
+    </template>
   </RouterLink>
 </template>
 
