@@ -15,11 +15,9 @@
           <img :src="settings" alt="settings button" />
         </button>
       </header>
-      <MaintenanceItem
+      <MaintenanceItemCard
         v-for="item in maintenanceItems"
-        :title="item.title"
-        :icon="item.icon"
-        variant="card"
+        v-bind="item"
         :key="item.title"
       />
     </div>
@@ -29,10 +27,9 @@
 <script setup lang="ts">
 import { gearWrench, settings } from '@/assets';
 import AppHeader from '@/components/AppHeader.vue';
-import MaintenanceItem, {
-  MaintenanceItemProps,
-} from '@/components/MaintenanceItem.vue';
-import { MaintenanceStatus, MaintenanceTypes } from './types';
+import MaintenanceItemCard, {
+  MaintenanceItemCardProps,
+} from '@/components/MaintenanceItemCard.vue';
 
 // import oilImage from '@/assets/agua.svg';
 // import manuIcon2 from '@/assets/manu2.svg';
@@ -44,12 +41,14 @@ import { MaintenanceStatus, MaintenanceTypes } from './types';
 // import filterImage from '@/assets/agua.svg';
 // import alignmentImage from '@/assets/Alinham.svg';
 // import airConditionerImage from '@/assets/agua.svg';
-// import type { IMaintenanceItem } from '@/interfaces/IMaintenanceItem';
 
-const maintenanceItems: MaintenanceItemProps[] = [
+const maintenanceItems: MaintenanceItemCardProps[] = [
   {
     title: 'Alinhamento e balanceamento',
     icon: 'wheel',
+    maintenanceData: {
+      status: 'pending',
+    },
   },
   {
     title: 'Bateria',
@@ -58,10 +57,16 @@ const maintenanceItems: MaintenanceItemProps[] = [
   {
     title: 'Filtro de ar-condicionado',
     icon: 'airFilter',
+    maintenanceData: {
+      status: 'expired',
+    },
   },
   {
     title: 'Filtro de combustível',
     icon: 'fuelFilter',
+    maintenanceData: {
+      status: 'registered'
+    }
   },
   {
     title: 'Nível de fluidos',
@@ -83,21 +88,6 @@ const maintenanceItems: MaintenanceItemProps[] = [
 
 const openSettings = () => {
   console.log('open settings');
-};
-
-// ---
-// TODO: transferir para o shared types quando for criado
-// ---
-
-// WIP
-type MaintenanceItem = {
-  id: string;
-  maintenanceId: string;
-  maintenanceType: MaintenanceTypes;
-  currentKm: number;
-  status: MaintenanceStatus;
-  createdAt: Date;
-  pendingRegistration: number;
 };
 
 const maintenancesData = [
@@ -150,6 +140,7 @@ console.log(maintenancesData);
 .maintenance {
   min-height: calc(100svh - 130px);
   background-color: #eff3f5;
+  padding-bottom: 1rem;
 
   &__wrapper {
     width: calc(100% - 2.5rem);
