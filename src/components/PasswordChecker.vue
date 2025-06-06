@@ -19,14 +19,16 @@ const props = defineProps({
 });
 
 const passwordRules = computed(() => [
-  { text: 'Mínimo de 1 letra maiúscula', valid: /[A-Z]/.test(props.password) },
-  { text: 'Mínimo de 1 letra minúscula', valid: /[a-z]/.test(props.password) },
+  { text: 'Mínimo de 8 caracteres', valid: props.password.length >= 8 },
+  { text: 'Letra maiúscula', valid: /[A-Z]/.test(props.password) },
+  { text: 'Letra minúscula', valid: /[a-z]/.test(props.password) },
+  { text: 'Número', valid: /[0-9]/.test(props.password) },
   {
-    text: 'Mínimo de 1 caractere especial',
+    text: 'Caractere especial (ex: @!%#)',
     valid: /[!@#$%^&*()]/.test(props.password),
   },
-  { text: 'Mínimo de 1 número', valid: /[0-9]/.test(props.password) },
-  { text: 'Mínimo de 8 dígitos', valid: props.password.length >= 8 },
+
+
 ]);
 </script>
 
@@ -49,6 +51,7 @@ const passwordRules = computed(() => [
   display: flex;
   gap: 8px;
   margin-bottom: 6px;
+  align-items: center;
 }
 
 .rules-wrapper:last-child {
