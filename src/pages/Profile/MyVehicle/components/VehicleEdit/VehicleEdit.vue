@@ -3,12 +3,8 @@
     <div class="edit-info">
       <h2 class="vehicle__header">Informações do Veículo</h2>
       <div class="vehicle__edit-pages">
-        <RouterLink
-          v-for="editPage in vehicleEditRoutes"
-          :to="editPage.path"
-          :key="editPage.path"
-          class="vehicle__edit-page"
-        >
+        <RouterLink v-for="editPage in vehicleEditRoutes" :to="editPage.path" :key="editPage.path"
+          class="vehicle__edit-page">
           <span>{{ editPage.title }}</span>
           <img src="@/assets/arrowR.svg" alt="Arrow Right" />
         </RouterLink>
@@ -19,20 +15,15 @@
       <p>{{ maintenanceCount }}<span class="total">/10</span></p>
     </div>
     <div class="maintenances__list">
-      <MaintenanceItem
-        v-for="{ title, icon } in maintenances"
-        :key="icon"
-        :title="title"
-        :icon="icon"
-      />
+      <MaintenanceItem v-for="{ title, icon } in maintenances" :key="icon" :title="title" :icon="icon" />
     </div>
 
     <h2 class="vehicle__header">Notificações</h2>
     <div class="notificacao-revisao">
       <div class="notificacoes">
-        <label class="switch-label">
+        <label class="switch-label" @click="toggleMaintenanceNotifications">
           <span>Habilitar notificações sobre revisão do meu veículo</span>
-          <CustomToggle v-model="maintenanceNotificationsEnabled" />
+          <CustomToggle :modelValue="maintenanceNotificationsEnabled" />
         </label>
       </div>
     </div>
@@ -64,6 +55,11 @@ const maintenanceText = computed(() =>
     ? 'Manutenção Cadastrada'
     : 'Manutenções Cadastradas'
 );
+
+function toggleMaintenanceNotifications() {
+  const newValue = !maintenanceNotificationsEnabled.value;
+  maintenanceNotificationsEnabled.value = newValue;
+}
 
 const vehicleEditRoutes: vehicleEditRoutes[] = [
   {
