@@ -59,7 +59,7 @@ const passwordRules = computed(() => [
 }
 
 .icon {
-  --size: 16px;
+  --size: 20px;
   width: var(--size);
   height: var(--size);
 }
