@@ -20,11 +20,11 @@
       <div class="notificacoes">
         <label class="switch-label" @click="toggleEmailNotifications">
           <span>Receber notificações por e-mail</span>
-          <ToggleButton :modelValue="localEmailNotificationsEnabled" />
+          <CustomToggle :modelValue="localEmailNotificationsEnabled" />
         </label>
         <label class="switch-label" @click="togglePhoneNotifications">
           <span>Receber notificações no celular</span>
-          <ToggleButton :modelValue="localPhoneNotificationsEnabled" />
+          <CustomToggle :modelValue="localPhoneNotificationsEnabled" />
         </label>
       </div>
 
@@ -94,8 +94,7 @@
 import { defineProps, defineEmits, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import picProfile from '@/assets/picProfile.svg';
-//import CustomToggle from '@/components/CustomToggle.vue';
-import ToggleButton from './components/ToggleButton.vue';
+import CustomToggle from '@/components/CustomToggle.vue';
 
 function toggleEmailNotifications() {
   const newValue = !localEmailNotificationsEnabled.value;
