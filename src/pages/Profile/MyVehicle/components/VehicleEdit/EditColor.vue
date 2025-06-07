@@ -1,9 +1,5 @@
 <template>
-    <HeaderBar
-      class="header"
-      title="Perfil"
-      :path="'/profile'"
-    />
+  <HeaderBar class="header" title="Perfil" :path="'/profile'" />
   <EditField
     title="Cor"
     description="Digite a cor correta em Cor Atual e clique em salvar alterações."
