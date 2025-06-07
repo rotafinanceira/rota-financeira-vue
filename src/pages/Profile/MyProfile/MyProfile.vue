@@ -5,10 +5,7 @@
 
       <div class="info-pessoais">
         <div class="foto-perfil">
-          <div
-            class="foto"
-            :style="{ backgroundImage: `url(${user.photo || picProfile})` }"
-          ></div>
+          <div class="foto" :style="{ backgroundImage: `url(${user.photo || picProfile})` }"></div>
         </div>
         <div class="dados-perfil">
           <div class="idade">{{ user.age }} anos</div>
@@ -21,19 +18,13 @@
       <div class="notificacoes-header">Notificações</div>
 
       <div class="notificacoes">
-        <label class="switch-label">
+        <label class="switch-label" @click="toggleEmailNotifications">
           <span>Receber notificações por e-mail</span>
-          <CustomToggle
-            v-model="localEmailNotificationsEnabled"
-            @update:model-value="updateEmailNotifications"
-          />
+          <ToggleButton :modelValue="localEmailNotificationsEnabled" />
         </label>
-        <label class="switch-label">
+        <label class="switch-label" @click="togglePhoneNotifications">
           <span>Receber notificações no celular</span>
-          <CustomToggle
-            v-model="localPhoneNotificationsEnabled"
-            @update:model-value="updatePhoneNotifications"
-          />
+          <ToggleButton :modelValue="localPhoneNotificationsEnabled" />
         </label>
       </div>
 
@@ -45,29 +36,20 @@
     <div v-else>
       <div class="edit-card">
         <div class="foto-perfil">
-          <div
-            class="foto"
-            :style="{ backgroundImage: `url(${user.photo || picProfile})` }"
-          ></div>
+          <div class="foto" :style="{ backgroundImage: `url(${user.photo || picProfile})` }"></div>
         </div>
         <button @click="mudarFoto" class="mudar-foto">Mudar Foto</button>
         <div class="edit-info">
           <h4>Informações Pessoais</h4>
           <div class="personal-info-buttons">
             <div class="horizontal-layout">
-              <button
-                @click="navigateTo('/profile/edit-name')"
-                class="full-width-button"
-              >
+              <button @click="navigateTo('/profile/edit-name')" class="full-width-button">
                 <span>Nome completo</span>
                 <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
-              <button
-                @click="navigateTo('/profile/edit-birthdate')"
-                class="full-width-button"
-              >
+              <button @click="navigateTo('/profile/edit-birthdate')" class="full-width-button">
                 <span>Data de nascimento</span>
                 <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
@@ -78,37 +60,25 @@
           <h4>Conta</h4>
           <div class="account-info-buttons">
             <div class="horizontal-layout">
-              <button
-                @click="navigateTo('/profile/edit-email')"
-                class="full-width-button"
-              >
+              <button @click="navigateTo('/profile/edit-email')" class="full-width-button">
                 <span>E-mail</span>
                 <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
-              <button
-                @click="navigateTo('/profile/edit-password')"
-                class="full-width-button"
-              >
+              <button @click="navigateTo('/profile/edit-password')" class="full-width-button">
                 <span>Senha</span>
                 <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
-              <button
-                @click="navigateTo('/profile/terms-and-privacy')"
-                class="full-width-button"
-              >
-                <span>Termos de uso e política de privacidade</span>
+              <button @click="navigateTo('/profile/terms-and-privacy')" class="full-width-button">
+                <span>Termos de uso e privacidade</span>
                 <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
-              <button
-                @click="excluirConta"
-                class="full-width-button excluir-conta"
-              >
+              <button @click="excluirConta" class="full-width-button excluir-conta">
                 <span>Excluir Conta</span>
                 <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
@@ -124,7 +94,19 @@
 import { defineProps, defineEmits, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import picProfile from '@/assets/picProfile.svg';
-import CustomToggle from '@/components/CustomToggle.vue';
+import ToggleButton from '@/components/ToggleButton.vue';
+
+function toggleEmailNotifications() {
+  const newValue = !localEmailNotificationsEnabled.value;
+  localEmailNotificationsEnabled.value = newValue;
+  updateEmailNotifications(newValue);
+}
+
+function togglePhoneNotifications() {
+  const newValue = !localPhoneNotificationsEnabled.value;
+  localPhoneNotificationsEnabled.value = newValue;
+  updatePhoneNotifications(newValue);
+}
 
 interface User {
   name: string;
@@ -190,7 +172,6 @@ function navigateTo(path: string) {
 .perfil-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 1rem;
   background-color: var(--Cores-Cinza-Branco, #ffffff);
 }
@@ -264,6 +245,7 @@ function navigateTo(path: string) {
   font-weight: 600;
   line-height: 120%;
   flex: 1 0 0;
+  margin-top: 0;
   margin-bottom: 12px;
 }
 
@@ -319,15 +301,15 @@ function navigateTo(path: string) {
 
 .btn-editar {
   display: flex;
-  width: 320px;
-  height: 48px;
-  padding: 12px 24px;
+  width: 100%;
+  padding: 0.75rem;
+  margin: 1.5rem 0;
   justify-content: center;
   align-items: center;
   gap: 12px;
   flex-shrink: 0;
-  border-radius: 4px;
-  border: 1px solid #8ce95f;
+  border-radius: 0.5rem;
+  border: none;
   background: #8ce95f;
   color: var(--Botes-Preenchidos-Ativado-Texto, #2b5e16);
   font-family: var(--Tipo-Familia-Button, Inter);
@@ -362,10 +344,9 @@ function navigateTo(path: string) {
   font-style: normal;
   font-weight: 600;
   line-height: 120%;
-  background-color: var(
-    --Cores-Cinza-Branco,
-    #ffffff
-  ); /* Match page background */
+  background-color: var(--Cores-Cinza-Branco,
+      #ffffff);
+  /* Match page background */
   border: none;
   border-radius: 4px;
 }
@@ -378,18 +359,23 @@ function navigateTo(path: string) {
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 500;
-  line-height: 120%; /* 16.8px */
+  line-height: 120%;
+  /* 16.8px */
 }
 
 .edit-account h4 {
+  width: 320px;
   color: var(--Cores-Cinza-900, #0c0d0f);
   font-family: var(--Tipo-Familia-Tag, Inter);
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 500;
-  line-height: 120%; /* 16.8px */
-  text-align: left; /* Align to the left */
-  width: 100%; /* Ensure it spans the full width */
+  line-height: 120%;
+  /* 16.8px */
+  text-align: left;
+  /* Align to the left */
+  ;
+  /* Ensure it spans the full width */
 }
 
 .personal-info-buttons {
@@ -426,20 +412,8 @@ function navigateTo(path: string) {
   position: relative;
 }
 
-.horizontal-layout span {
-  flex: 1;
-}
 
-.horizontal-layout button {
-  flex: 0;
-}
 
-.horizontal-layout .icon {
-  position: absolute;
-  right: 0;
-  width: 16px;
-  height: 16px;
-}
 
 .personal-info-buttons button:nth-child(2) {
   flex: 1 0 0;
@@ -448,7 +422,8 @@ function navigateTo(path: string) {
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 400;
-  line-height: 150%; /* 21px */
+  line-height: 150%;
+  /* 21px */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -460,22 +435,18 @@ function navigateTo(path: string) {
 
 .full-width-button {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 16px;
-  align-self: stretch;
+  width: 100%;
   background: none;
   border: none;
-  padding: 0;
   color: var(--Cores-Cinza-700, #3c4349);
   font-family: var(--Tipo-Familia-Paragrafh, Inter);
   font-size: var(--Tipo-Tamanho-Sm, 14px);
-  font-style: normal;
   font-weight: 400;
-  line-height: 150%;
   cursor: pointer;
-  width: 288px;
-  height: 21px;
   white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .full-width-button .icon {
@@ -483,13 +454,15 @@ function navigateTo(path: string) {
   height: 16px;
 }
 
+
 .full-width-button.excluir-conta {
   color: var(--Cores-Error-600, #b72a3e);
   font-family: var(--Tipo-Familia-Paragrafh, Inter);
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 400;
-  line-height: 150%; /* 21px */
+  line-height: 150%;
+  /* 21px */
 }
 
 .account-buttons-container {
