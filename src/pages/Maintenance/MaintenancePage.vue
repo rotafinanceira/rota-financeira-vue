@@ -15,7 +15,7 @@
           <img :src="settings" alt="settings button" />
         </button>
       </header>
-      <MaintenanceItemCard
+      <MaintenanceCard
         v-for="item in maintenanceItems"
         v-bind="item"
         :key="item.title"
@@ -27,11 +27,11 @@
 <script setup lang="ts">
 import { gearWrench, settings } from '@/assets';
 import AppHeader from '@/components/AppHeader.vue';
-import MaintenanceItemCard, {
-  MaintenanceItemCardProps,
-} from '@/components/MaintenanceItemCard.vue';
+import MaintenanceCard, {
+  MaintenanceCardProps,
+} from '@/components/MaintenanceCard.vue';
 
-const maintenanceItems: MaintenanceItemCardProps[] = [
+const maintenanceItems: MaintenanceCardProps[] = [
   {
     title: 'Alinhamento e balanceamento',
     icon: 'wheel',

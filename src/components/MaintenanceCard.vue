@@ -4,13 +4,13 @@ import maintenanceIcons from '@/assets/maintenance';
 import StatusBadge, { MaintenanceData } from './StatusBadge.vue';
 import { RouterLink } from 'vue-router';
 
-export type MaintenanceItemCardProps = {
+export type MaintenanceCardProps = {
   title: string;
   icon: keyof typeof maintenanceIcons;
   maintenanceData?: MaintenanceData;
 };
 
-defineProps<MaintenanceItemCardProps>();
+defineProps<MaintenanceCardProps>();
 </script>
 
 <template>
