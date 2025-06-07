@@ -12,11 +12,7 @@
 
       <q-space />
 
-      <q-btn 
-        flat
-        round
-        :to="{ path: 'notification' }"
-      >
+      <q-btn flat round :to="{ path: 'notification' }">
         <div class="notification-wrapper">
           <img :src="Noti" style="width: 24px; height: 24px" />
           <img :src="elipse" class="notification-badge" />

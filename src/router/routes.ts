@@ -73,7 +73,9 @@ const routes: RouteRecordRaw[] = [
           {
             path: 'profile/terms-and-privacy',
             component: () =>
-              import('@/pages/Profile/MyProfile/components/TermsAndPrivacy.vue'),
+              import(
+                '@/pages/Profile/MyProfile/components/TermsAndPrivacy.vue'
+              ),
           },
           {
             path: 'oil-maintenance',
@@ -88,7 +90,9 @@ const routes: RouteRecordRaw[] = [
           {
             path: 'fuel-filter-maintenance',
             component: () =>
-              import('@/pages/RegistrationMaintenance/FuelFilterMaintenance.vue'),
+              import(
+                '@/pages/RegistrationMaintenance/FuelFilterMaintenance.vue'
+              ),
           },
           {
             path: 'alignment-balancing',
@@ -98,7 +102,9 @@ const routes: RouteRecordRaw[] = [
           {
             path: 'air-conditioner-filter-maintenance',
             component: () =>
-              import('@/pages/RegistrationMaintenance/AirConditioningFilter.vue'),
+              import(
+                '@/pages/RegistrationMaintenance/AirConditioningFilter.vue'
+              ),
           },
           {
             path: 'registration-vehicle',
@@ -106,25 +112,40 @@ const routes: RouteRecordRaw[] = [
           },
           {
             path: 'profile/edit-model',
-            component: () => import('@/pages/Profile/MyVehicle/components/VehicleEdit/EditModel.vue'),
+            component: () =>
+              import(
+                '@/pages/Profile/MyVehicle/components/VehicleEdit/EditModel.vue'
+              ),
           },
           {
             path: 'profile/edit-brand',
-            component: () => import('@/pages/Profile/MyVehicle/components/VehicleEdit/EditBrand.vue'),
+            component: () =>
+              import(
+                '@/pages/Profile/MyVehicle/components/VehicleEdit/EditBrand.vue'
+              ),
           },
           {
             path: 'profile/edit-year',
-            component: () => import('@/pages/Profile/MyVehicle/components/VehicleEdit/EditYear.vue'),
+            component: () =>
+              import(
+                '@/pages/Profile/MyVehicle/components/VehicleEdit/EditYear.vue'
+              ),
           },
           {
             path: 'profile/edit-plate',
-            component: () => import('@/pages/Profile/MyVehicle/components/VehicleEdit/EditPlate.vue'),
+            component: () =>
+              import(
+                '@/pages/Profile/MyVehicle/components/VehicleEdit/EditPlate.vue'
+              ),
           },
           {
             path: 'profile/edit-color',
-            component: () => import('@/pages/Profile/MyVehicle/components/VehicleEdit/EditColor.vue'),
-          }
-        ]
+            component: () =>
+              import(
+                '@/pages/Profile/MyVehicle/components/VehicleEdit/EditColor.vue'
+              ),
+          },
+        ],
       },
       {
         path: 'notification',

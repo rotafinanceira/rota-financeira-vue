@@ -2,10 +2,14 @@
   <div class="card">
     <div class="wrapper-title">
       <h3 class="title">Selecione o veículo</h3>
-      <span class="subtitle">Escolha o carro para o qual deseja cadastrar a manutenção</span>
+      <span class="subtitle"
+        >Escolha o carro para o qual deseja cadastrar a manutenção</span
+      >
     </div>
     <div class="input-wrapper">
-      <label for="select-vehicle" class="select-vehicle-label">Placa do veículo*</label>
+      <label for="select-vehicle" class="select-vehicle-label"
+        >Placa do veículo*</label
+      >
       <q-select
         id="select-vehicle"
         v-model="selectedVehicle"
@@ -56,7 +60,7 @@ const selectedVehicle = ref('');
   font-weight: 400;
   line-height: 21px;
   font-size: 14px;
-  color: #5B6871
+  color: #5b6871;
 }
 
 .input-wrapper {

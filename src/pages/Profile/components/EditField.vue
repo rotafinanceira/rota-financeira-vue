@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-
 const { title, description, updateValue } = defineProps<{
   title: string;
   description: string;

@@ -1,8 +1,5 @@
 <template>
-    <HeaderBar
-      title="Perfil"
-      :path="'/profile'"
-    />
+  <HeaderBar title="Perfil" :path="'/profile'" />
   <EditField
     title="Alterar nome"
     description="Digite o nome completo correto em Nome Atual e clique em salvar alterações."

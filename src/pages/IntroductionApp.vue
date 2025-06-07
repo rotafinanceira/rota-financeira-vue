@@ -24,7 +24,7 @@ onMounted(() => {
     showPage.value = false;
     setTimeout(() => {
       router.push('/signup-options');
-    }, 2000); 
+    }, 2000);
   }, 3000);
 });
 </script>
@@ -45,7 +45,7 @@ onMounted(() => {
   position: absolute;
   top: 343px;
   bottom: 386px;
-  left:65px;
+  left: 65px;
 }
 
 .logo img {
@@ -71,11 +71,13 @@ onMounted(() => {
   font-weight: bold;
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.5s;
 }
 
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 </style>

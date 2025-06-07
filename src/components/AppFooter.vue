@@ -27,7 +27,9 @@
             :src="footerTab === tab.name ? tab.icon.enabled : tab.icon.disabled"
             alt=""
           />
-          <p :class="['tab__text', { 'tab__is-active': footerTab === tab.name }]">
+          <p
+            :class="['tab__text', { 'tab__is-active': footerTab === tab.name }]"
+          >
             {{ tab.label }}
           </p>
         </div>
@@ -173,5 +175,4 @@ function navigateTo(path: string) {
     color: #307714;
   }
 }
-
 </style>

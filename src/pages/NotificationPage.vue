@@ -1,10 +1,6 @@
 <template>
   <div>
-    <HeaderBar
-      title="Notificações"
-      path="/home"
-      :showBackButton="true"
-    />
+    <HeaderBar title="Notificações" path="/home" :showBackButton="true" />
     <q-page class="notification-page">
       <q-item
         v-for="notification in notifications"
@@ -12,16 +8,24 @@
         class="notification-item"
       >
         <q-card
-          :class="['notification-card', {
-              'notification-card--priority-high': notification.priority === 'high',
-              'notification-card--priority-low': notification.priority === 'low',
-            }]"
+          :class="[
+            'notification-card',
+            {
+              'notification-card--priority-high':
+                notification.priority === 'high',
+              'notification-card--priority-low':
+                notification.priority === 'low',
+            },
+          ]"
         >
           <q-card-section horizontal class="notification-card-section">
             <div class="notification-box-img">
-              <q-img :src="notificationIcons[notification.name]" class="notification-img"/>
+              <q-img
+                :src="notificationIcons[notification.name]"
+                class="notification-img"
+              />
             </div>
-            
+
             <p class="notification-text">{{ notification.description }}</p>
           </q-card-section>
         </q-card>
@@ -101,7 +105,6 @@ const notificationIcons = {
 </script>
 
 <style scoped>
-
 .notification-page {
   background-color: #f5f5f5;
   font-size: 14px;
@@ -171,5 +174,4 @@ const notificationIcons = {
   width: 28px;
   height: 28px;
 }
-
 </style>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import maintenance from '@/assets/maintenance';
+import maintenanceIcons from '@/assets/maintenance';
 
 export type MaintenanceItemProps = {
-  icon: keyof typeof maintenance;
+  icon: keyof typeof maintenanceIcons;
   title: string;
 };
 
@@ -10,17 +10,17 @@ defineProps<MaintenanceItemProps>();
 </script>
 
 <template>
-  <!-- FIXME: A depender da ação que ocorrerá, há de se decidir se deve ser um button ou a -->
-  <div class="maintenances__item">
+  <!-- FIXME: A depender da ação que ocorrerá, há de se decidir se deve ser um button ou um link -->
+  <div class="maintenance__item">
     <div class="item__wrapper">
-      <img :src="maintenance[icon]" alt="" class="item__icon" />
+      <img :src="maintenanceIcons[icon]" alt="" class="item__icon" />
     </div>
     <p class="item__text">{{ title }}</p>
   </div>
 </template>
 
 <style scoped lang="scss">
-.maintenances__item {
+.maintenance__item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -48,6 +48,12 @@ defineProps<MaintenanceItemProps>();
     font-size: 0.875rem;
     font-weight: 500;
     color: #2b5e16;
+  }
+
+  &__flex {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
   }
 }
 </style>

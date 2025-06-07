@@ -13,7 +13,6 @@ export const useExemploStore = defineStore('ex', () => {
     }
   }
 
-
   return {
     kkk,
   };

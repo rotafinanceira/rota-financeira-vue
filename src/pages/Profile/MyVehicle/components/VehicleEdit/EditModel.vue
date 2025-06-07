@@ -1,8 +1,5 @@
 <template>
-    <HeaderBar
-      title="Perfil"
-      :path="'/profile'"
-    />
+  <HeaderBar title="Perfil" :path="'/profile'" />
   <EditField
     title="Modelo"
     description="Digite o modelo completo correto em Modelo Atual e clique em salvar alterações."

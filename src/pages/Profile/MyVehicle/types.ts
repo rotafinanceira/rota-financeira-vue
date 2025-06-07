@@ -4,9 +4,9 @@ export type Vehicle = {
   year: number;
   color: string;
   photo: string;
-}
+};
 
 export type vehicleEditRoutes = {
   path: string;
   title: string;
-}
+};

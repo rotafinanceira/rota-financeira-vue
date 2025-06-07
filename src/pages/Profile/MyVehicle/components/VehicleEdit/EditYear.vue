@@ -1,8 +1,5 @@
 <template>
-    <HeaderBar
-      title="Perfil"
-      :path="'/profile'"
-    />
+  <HeaderBar title="Perfil" :path="'/profile'" />
   <EditField
     title="Ano"
     description="Digite o ano completo correto em Ano Atual e clique em salvar alterações."
