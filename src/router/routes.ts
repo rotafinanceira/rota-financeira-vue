@@ -123,12 +123,12 @@ const routes: RouteRecordRaw[] = [
           {
             path: 'profile/edit-color',
             component: () => import('@/pages/Profile/MyVehicle/components/VehicleEdit/EditColor.vue'),
-          }
+          },
+          {
+            path: 'notification',
+            component: () => import('@/pages/Notification/NotificationPage.vue'),
+          },
         ]
-      },
-      {
-        path: 'notification',
-        component: () => import('@/pages/NotificationPage.vue'),
       },
     ],
   },
