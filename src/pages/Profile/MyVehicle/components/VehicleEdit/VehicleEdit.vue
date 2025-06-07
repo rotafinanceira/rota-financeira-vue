@@ -23,7 +23,7 @@
       <div class="notificacoes">
         <label class="switch-label" @click="toggleMaintenanceNotifications">
           <span>Habilitar notificações sobre revisão do meu veículo</span>
-          <CustomToggle :modelValue="maintenanceNotificationsEnabled" />
+          <ToggleButton :modelValue="maintenanceNotificationsEnabled" />
         </label>
       </div>
     </div>
@@ -37,7 +37,7 @@
 import { computed, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { type vehicleEditRoutes } from '../../types';
-import CustomToggle from '@/components/CustomToggle.vue';
+import ToggleButton from '@/components/ToggleButton.vue';
 import MaintenanceItem, {
   type MaintenanceItemProps,
 } from '@/components/MaintenanceItem.vue';
