@@ -131,7 +131,7 @@ const handleSubmit = () => {
   font-size: 18.346px;
   font-style: italic;
   font-weight: 400;
-  line-height: 13.76px; 
+  line-height: 13.76px;
   letter-spacing: -0.202px;
 }
 

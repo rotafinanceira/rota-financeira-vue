@@ -31,7 +31,7 @@ const props = defineProps({
   open: Boolean,
   description: {
     type: [Array, String],
-    required: true
+    required: true,
   },
 });
 
@@ -53,7 +53,7 @@ watch(isOpen, (newVal) => {
 });
 
 const closeModal = () => {
-  isOpen.value = false; 
+  isOpen.value = false;
 };
 </script>
 

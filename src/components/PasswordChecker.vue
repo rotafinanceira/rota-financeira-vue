@@ -1,11 +1,7 @@
 <template>
   <div class="password-checker">
     <span class="title-text">A senha deve ter:</span>
-    <div
-      v-for="(rule, index) in passwordRules"
-      :key="index"
-      class="rules-wrapper"
-    >
+    <div v-for="(rule, index) in passwordRules" :key="index" class="rules-wrapper">
       <img :src="rule.valid ? checkIcon : errorIcon" class="icon" />
       <span class="rule-text">{{ rule.text }}</span>
     </div>
@@ -14,8 +10,8 @@
 
 <script setup>
 import { computed, defineProps } from 'vue';
-import checkIcon from '@/assets/check.svg';
-import errorIcon from '@/assets/x.svg';
+import checkIcon from '@/assets/check-valid.svg';
+import errorIcon from '@/assets/check-invalid.svg';
 
 const props = defineProps({
   password: String,
@@ -23,14 +19,16 @@ const props = defineProps({
 });
 
 const passwordRules = computed(() => [
-  { text: 'Mínimo de 1 letra maiúscula', valid: /[A-Z]/.test(props.password) },
-  { text: 'Mínimo de 1 letra minúscula', valid: /[a-z]/.test(props.password) },
+  { text: 'Mínimo de 8 caracteres', valid: props.password.length >= 8 },
+  { text: 'Letra maiúscula', valid: /[A-Z]/.test(props.password) },
+  { text: 'Letra minúscula', valid: /[a-z]/.test(props.password) },
+  { text: 'Número', valid: /[0-9]/.test(props.password) },
   {
-    text: 'Mínimo de 1 caractere especial',
+    text: 'Caractere especial (ex: @!%#)',
     valid: /[!@#$%^&*()]/.test(props.password),
   },
-  { text: 'Mínimo de 1 número', valid: /[0-9]/.test(props.password) },
-  { text: 'Mínimo de 8 dígitos', valid: props.password.length >= 8 },
+
+
 ]);
 </script>
 
@@ -46,13 +44,14 @@ const passwordRules = computed(() => [
   color: #485159;
   font-size: 0.875rem;
   font-weight: 600;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .rules-wrapper {
   display: flex;
   gap: 8px;
   margin-bottom: 6px;
+  align-items: center;
 }
 
 .rules-wrapper:last-child {
@@ -60,7 +59,7 @@ const passwordRules = computed(() => [
 }
 
 .icon {
-  --size: 16px;
+  --size: 20px;
   width: var(--size);
   height: var(--size);
 }

@@ -14,7 +14,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const handleLogout = () => {
-  router.push({ path: '/' }); 
+  router.push({ path: '/' });
 };
 </script>
 
