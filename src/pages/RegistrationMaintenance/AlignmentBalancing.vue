@@ -327,7 +327,7 @@ const workshop = ref<string>('');
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 400;
-  line-height: 150%; 
+  line-height: 150%;
 }
 
 .title-wrapper {
@@ -336,21 +336,18 @@ const workshop = ref<string>('');
   height: 20px;
   padding-top: 24px;
   padding-left: 20px;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   align-items: center;
   gap: 10px;
-  background-color: var(
-    --Cores-Cinza-100,
-    #eff3f5
-  ); 
-  color: var(--Cores-Cinza-800, #33373c); 
-  font-family: var(--Tipo-Familia-Headline, Raleway); 
-  font-size: var(--Tipo-Tamanho-Xl, 20px); 
+  background-color: var(--Cores-Cinza-100, #eff3f5);
+  color: var(--Cores-Cinza-800, #33373c);
+  font-family: var(--Tipo-Familia-Headline, Raleway);
+  font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
-  font-weight: 700; 
-  line-height: 120%; 
-  letter-spacing: -0.4px; 
-  box-sizing: border-box; 
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: -0.4px;
+  box-sizing: border-box;
 }
 
 .title-icon {
@@ -365,11 +362,11 @@ const workshop = ref<string>('');
 
 .title-text {
   color: var(--Cores-Cinza-800, #33373c);
-  font-family: var(--Tipo-Familia-Headline, Raleway); 
-  font-size: var(--Tipo-Tamanho-Xl, 20px); 
+  font-family: var(--Tipo-Familia-Headline, Raleway);
+  font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
-  font-weight: 700; 
-  line-height: 120%; 
-  letter-spacing: -0.4px; 
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: -0.4px;
 }
 </style>

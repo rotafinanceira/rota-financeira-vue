@@ -205,8 +205,6 @@ import alignmentImage from '@/assets/Alinham.svg';
 // import airConditionerImage from '@/assets/agua.svg';
 import type { IMaintenanceItem } from '@/interfaces/IMaintenanceItem';
 
-
-
 const expiredMaintenances = ref<IMaintenanceItem[]>([
   {
     title: 'Alinhamento e balanceamento',

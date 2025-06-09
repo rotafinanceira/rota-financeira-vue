@@ -5,7 +5,10 @@
 
       <div class="info-pessoais">
         <div class="foto-perfil">
-          <div class="foto" :style="{ backgroundImage: `url(${user.photo || picProfile})` }"></div>
+          <div
+            class="foto"
+            :style="{ backgroundImage: `url(${user.photo || picProfile})` }"
+          ></div>
         </div>
         <div class="dados-perfil">
           <div class="idade">{{ user.age }} anos</div>
@@ -36,20 +39,29 @@
     <div v-else>
       <div class="edit-card">
         <div class="foto-perfil">
-          <div class="foto" :style="{ backgroundImage: `url(${user.photo || picProfile})` }"></div>
+          <div
+            class="foto"
+            :style="{ backgroundImage: `url(${user.photo || picProfile})` }"
+          ></div>
         </div>
         <button @click="mudarFoto" class="mudar-foto">Mudar Foto</button>
         <div class="edit-info">
           <h4>Informações Pessoais</h4>
           <div class="personal-info-buttons">
             <div class="horizontal-layout">
-              <button @click="navigateTo('/profile/edit-name')" class="full-width-button">
+              <button
+                @click="navigateTo('/profile/edit-name')"
+                class="full-width-button"
+              >
                 <span>Nome completo</span>
                 <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
-              <button @click="navigateTo('/profile/edit-birthdate')" class="full-width-button">
+              <button
+                @click="navigateTo('/profile/edit-birthdate')"
+                class="full-width-button"
+              >
                 <span>Data de nascimento</span>
                 <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
@@ -60,25 +72,37 @@
           <h4>Conta</h4>
           <div class="account-info-buttons">
             <div class="horizontal-layout">
-              <button @click="navigateTo('/profile/edit-email')" class="full-width-button">
+              <button
+                @click="navigateTo('/profile/edit-email')"
+                class="full-width-button"
+              >
                 <span>E-mail</span>
                 <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
-              <button @click="navigateTo('/profile/edit-password')" class="full-width-button">
+              <button
+                @click="navigateTo('/profile/edit-password')"
+                class="full-width-button"
+              >
                 <span>Senha</span>
                 <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
-              <button @click="navigateTo('/profile/terms-and-privacy')" class="full-width-button">
+              <button
+                @click="navigateTo('/profile/terms-and-privacy')"
+                class="full-width-button"
+              >
                 <span>Termos de uso e privacidade</span>
                 <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
-              <button @click="excluirConta" class="full-width-button excluir-conta">
+              <button
+                @click="excluirConta"
+                class="full-width-button excluir-conta"
+              >
                 <span>Excluir Conta</span>
                 <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
               </button>
@@ -344,8 +368,7 @@ function navigateTo(path: string) {
   font-style: normal;
   font-weight: 600;
   line-height: 120%;
-  background-color: var(--Cores-Cinza-Branco,
-      #ffffff);
+  background-color: var(--Cores-Cinza-Branco, #ffffff);
   /* Match page background */
   border: none;
   border-radius: 4px;
@@ -374,7 +397,6 @@ function navigateTo(path: string) {
   /* 16.8px */
   text-align: left;
   /* Align to the left */
-  ;
   /* Ensure it spans the full width */
 }
 
@@ -411,9 +433,6 @@ function navigateTo(path: string) {
   width: 100%;
   position: relative;
 }
-
-
-
 
 .personal-info-buttons button:nth-child(2) {
   flex: 1 0 0;
@@ -453,7 +472,6 @@ function navigateTo(path: string) {
   width: 16px;
   height: 16px;
 }
-
 
 .full-width-button.excluir-conta {
   color: var(--Cores-Error-600, #b72a3e);

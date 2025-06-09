@@ -1,7 +1,11 @@
 <template>
   <div class="password-checker">
     <span class="title-text">A senha deve ter:</span>
-    <div v-for="(rule, index) in passwordRules" :key="index" class="rules-wrapper">
+    <div
+      v-for="(rule, index) in passwordRules"
+      :key="index"
+      class="rules-wrapper"
+    >
       <img :src="rule.valid ? checkIcon : errorIcon" class="icon" />
       <span class="rule-text">{{ rule.text }}</span>
     </div>
@@ -27,8 +31,6 @@ const passwordRules = computed(() => [
     text: 'Caractere especial (ex: @!%#)',
     valid: /[!@#$%^&*()]/.test(props.password),
   },
-
-
 ]);
 </script>
 
@@ -44,7 +46,7 @@ const passwordRules = computed(() => [
   color: #485159;
   font-size: 0.875rem;
   font-weight: 600;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .rules-wrapper {

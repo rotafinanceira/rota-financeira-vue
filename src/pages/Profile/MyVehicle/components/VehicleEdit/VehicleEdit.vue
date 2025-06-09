@@ -3,8 +3,12 @@
     <div class="edit-info">
       <h2 class="vehicle__header">Informações do Veículo</h2>
       <div class="vehicle__edit-pages">
-        <RouterLink v-for="editPage in vehicleEditRoutes" :to="editPage.path" :key="editPage.path"
-          class="vehicle__edit-page">
+        <RouterLink
+          v-for="editPage in vehicleEditRoutes"
+          :to="editPage.path"
+          :key="editPage.path"
+          class="vehicle__edit-page"
+        >
           <span>{{ editPage.title }}</span>
           <img src="@/assets/arrowR.svg" alt="Arrow Right" />
         </RouterLink>
@@ -15,7 +19,12 @@
       <p>{{ maintenanceCount }}<span class="total">/10</span></p>
     </div>
     <div class="maintenances__list">
-      <MaintenanceItem v-for="{ title, icon } in maintenances" :key="icon" :title="title" :icon="icon" />
+      <MaintenanceItem
+        v-for="{ title, icon } in maintenances"
+        :key="icon"
+        :title="title"
+        :icon="icon"
+      />
     </div>
 
     <h2 class="vehicle__header">Notificações</h2>

@@ -14,7 +14,7 @@
       "@/*": ["src/*"]
     },
     "types": ["node"],
-    "lib": ["esnext", "dom"],
+    "lib": ["esnext", "dom"]
   },
   "exclude": [
     "./dist",
