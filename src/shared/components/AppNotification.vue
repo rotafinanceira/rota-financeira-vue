@@ -10,7 +10,6 @@ defineProps<Notification>();
     :class="[
       'notification',
       {
-        'is-seen': seen,
         'is-danger': status === 'danger',
         'is-warning': status === 'warning',
       },
@@ -54,14 +53,6 @@ defineProps<Notification>();
     font-size: 0.875rem;
     font-family: 'Inter';
     color: #2b5e16;
-  }
-
-  // mensagens lidas
-  &.is-seen::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-color: oklch(0.1 0.2 210 / 0.1);
   }
 
   &.is-danger {
