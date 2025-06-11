@@ -1,5 +1,7 @@
+import piniaPluginPersistedState from 'pinia-plugin-persistedstate';
 // import { store } from 'quasar/wrappers';
 // import { createPinia } from 'pinia';
+import { createPinia } from 'pinia';
 import { Router } from 'vue-router';
 // import piniaPluginPersistedState from 'pinia-plugin-persistedstate';
 
@@ -22,13 +24,14 @@ declare module 'pinia' {
  * async/await or return a Promise which resolves
  * with the Store instance.
  */
+ const store = ((/* { ssrContext } */) => {
+  const pinia = createPinia();
+  pinia.use(piniaPluginPersistedState);
 
-// export default store((/* { ssrContext } */) => {
-//   const pinia = createPinia();
-//   pinia.use(piniaPluginPersistedState);
+  // You can add Pinia plugins here
+  // pinia.use(SomePiniaPlugin)
 
-//   // You can add Pinia plugins here
-//   // pinia.use(SomePiniaPlugin)
+  return pinia;
+});
 
-//   return pinia;
-// });
+export default store;
