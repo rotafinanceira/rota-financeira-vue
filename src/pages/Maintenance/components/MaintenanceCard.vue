@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { ArrowIcon } from '@/shared/assets/icons';
-import { AirFilterIcon, BatteryIcon, ChartIcon, EngineIcon, FuelFilterIcon, OilIcon, WheelIcon } from '@/shared/assets/icons';
+import {
+  AirFilterIcon,
+  BatteryIcon,
+  ChartIcon,
+  EngineIcon,
+  FuelFilterIcon,
+  OilIcon,
+  WheelIcon,
+} from '@/shared/assets/icons';
 import { RouterLink } from 'vue-router';
 import { MaintenanceCardProps } from '../types';
 import StatusTag from './StatusTag.vue';

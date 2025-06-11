@@ -8,9 +8,9 @@
           <h1 class="maintenance__title">Manutenções</h1>
         </div>
         <button
-        class="maintenance__settings"
-        type="button"
-        :onclick="openSettings"
+          class="maintenance__settings"
+          type="button"
+          :onclick="openSettings"
         >
           <img :src="FilterControlsIcon" alt="filter icon" />
         </button>

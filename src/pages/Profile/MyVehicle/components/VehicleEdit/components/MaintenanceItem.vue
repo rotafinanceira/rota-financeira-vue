@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { AirFilterIcon, BatteryIcon, ChartIcon, EngineIcon, FuelFilterIcon, OilIcon, WheelIcon } from '@/shared/assets/icons';
+import {
+  AirFilterIcon,
+  BatteryIcon,
+  ChartIcon,
+  EngineIcon,
+  FuelFilterIcon,
+  OilIcon,
+  WheelIcon,
+} from '@/shared/assets/icons';
 import { MaintenanceItemProps } from '../types';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
 

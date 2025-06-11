@@ -8,5 +8,4 @@ defineOptions({
 });
 </script>
 
-<style>
-</style>
+<style></style>

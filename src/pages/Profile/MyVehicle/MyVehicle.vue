@@ -17,7 +17,8 @@ const vehicle = ref<Vehicle>({
   plate: 'ABC-1234',
   year: 2020,
   color: 'Cinza',
-  photo: 'https://images.unsplash.com/photo-1531420853064-43de9aa4366b?q=80&w=512'
+  photo:
+    'https://images.unsplash.com/photo-1531420853064-43de9aa4366b?q=80&w=512',
 });
 
 const isEditing = ref<boolean>(false);

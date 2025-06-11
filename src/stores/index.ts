@@ -24,7 +24,7 @@ declare module 'pinia' {
  * async/await or return a Promise which resolves
  * with the Store instance.
  */
- const store = ((/* { ssrContext } */) => {
+const store = (/* { ssrContext } */) => {
   const pinia = createPinia();
   pinia.use(piniaPluginPersistedState);
 
@@ -32,6 +32,6 @@ declare module 'pinia' {
   // pinia.use(SomePiniaPlugin)
 
   return pinia;
-});
+};
 
 export default store;
