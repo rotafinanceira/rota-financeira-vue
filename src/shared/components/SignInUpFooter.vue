@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { useRegisterStore } from '@/store/registerStore'; // Importar o store
+import { useRegisterStore } from '@/stores/registerStore'; // Importar o store
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

@@ -35,7 +35,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useRegisterStore } from '@/store/registerStore';
+import { useRegisterStore } from '@/stores/registerStore';
 import SignInUpFooter from '@/shared/components/SignInUpFooter.vue';
 import SignUpTitleStepper from '@/shared/components/SignUpTitleStepper.vue';
 import ButtonComponent from '@/shared/components/ButtonComponent.vue';

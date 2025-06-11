@@ -57,7 +57,7 @@ import SignInUpFooter from '@/shared/components/SignInUpFooter.vue';
 import ModalGenericoAlert from '@/shared/components/ModalGenericoAlert.vue';
 import SignUpTitleStepper from '@/shared/components/SignUpTitleStepper.vue';
 import HeaderBarWithInfo from '@/shared/components/HeaderBarWithInfo.vue';
-import { useRegisterStore } from '@/store/registerStore';
+import { useRegisterStore } from '@/stores/registerStore';
 import { httpClient } from '@/infra/http/httpClient';
 
 const store = useRegisterStore();
