@@ -108,7 +108,7 @@ const closeModal = () => {
   font-weight: 600;
   font-size: 18px;
   color: var(--Texto-Texto-Primrio, #0c0d0f);
-  font-family: var(--Tipo-Familia-Button, Inter);
+
   line-height: 120%;
   white-space: nowrap;
   overflow: hidden;

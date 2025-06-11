@@ -51,6 +51,7 @@ const { title, description, updateValue } = defineProps<{
     padding: 1rem;
     border: 1px solid #e0e5e7;
     border-radius: 8px;
+    background-color: #fff;
   }
 
   &__button {

@@ -127,7 +127,6 @@ const handleSubmit = () => {
   height: 13.558px;
   flex-shrink: 0;
   color: var(--Cores-Primria-800, #245017);
-  font-family: Inter;
   font-size: 18.346px;
   font-style: italic;
   font-weight: 400;

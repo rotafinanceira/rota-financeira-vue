@@ -40,6 +40,7 @@ defineProps<Notification>();
     background-color: #eff3f5;
     padding: 0.3125rem;
     border-radius: 0.5rem;
+    flex-shrink: 0;
 
     img {
       --size: 28px;
@@ -51,7 +52,6 @@ defineProps<Notification>();
 
   &__message {
     font-size: 0.875rem;
-    font-family: 'Inter';
     color: #2b5e16;
   }
 

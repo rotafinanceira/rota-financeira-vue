@@ -40,7 +40,6 @@ const handleButtonClick = () => {
   color: #5b6871;
   justify-content: center;
   margin-top: 12px;
-  font-family: 'Inter', sans-serif;
 }
 
 .button {
@@ -51,6 +50,5 @@ const handleButtonClick = () => {
   color: #4140c2;
   font-weight: 700;
   padding-left: 4px;
-  font-family: 'Inter', sans-serif;
 }
 </style>

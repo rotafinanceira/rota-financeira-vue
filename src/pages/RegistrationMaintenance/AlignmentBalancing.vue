@@ -323,7 +323,7 @@ const workshop = ref<string>('');
 
 .subtitle {
   color: var(--Cores-Cinza-500, #5b6871);
-  font-family: var(--Tipo-Familia-Paragrafh, Inter);
+
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 400;
@@ -341,7 +341,7 @@ const workshop = ref<string>('');
   gap: 10px;
   background-color: var(--Cores-Cinza-100, #eff3f5);
   color: var(--Cores-Cinza-800, #33373c);
-  font-family: var(--Tipo-Familia-Headline, Raleway);
+
   font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
   font-weight: 700;
@@ -362,7 +362,7 @@ const workshop = ref<string>('');
 
 .title-text {
   color: var(--Cores-Cinza-800, #33373c);
-  font-family: var(--Tipo-Familia-Headline, Raleway);
+
   font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
   font-weight: 700;

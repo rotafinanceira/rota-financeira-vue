@@ -39,7 +39,6 @@ const passwordRules = computed(() => [
   display: flex;
   flex-direction: column;
   padding: 12px;
-  font-family: 'Inter', sans-serif;
 }
 
 .title-text {

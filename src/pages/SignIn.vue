@@ -212,7 +212,7 @@ const continueWithGoogle = () => {
 .title {
   color: var(--Cores-Secundria-600, #314b39);
   text-align: center;
-  font-family: var(--Tipo-Familia-Headline, Raleway);
+
   font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
   font-weight: 700;
@@ -280,7 +280,6 @@ const continueWithGoogle = () => {
 
 .google-button-text {
   color: var(--primary-900, #245017);
-  font-family: Inter, sans-serif;
   font-size: 16px;
   font-weight: 700;
   line-height: 120%;

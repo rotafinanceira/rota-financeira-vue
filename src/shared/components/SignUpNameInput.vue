@@ -38,7 +38,6 @@ const emitValue = (value) => {
   font-size: 16px;
   font-weight: 500;
   color: #33373c;
-  font-family: 'Inter', sans-serif;
 }
 
 .input-label-error {
@@ -54,7 +53,7 @@ const emitValue = (value) => {
   padding-left: 10px;
   font-weight: 500;
   font-size: 16px;
-  font-family: 'Inter', sans-serif;
+
   color: #33373c;
 }
 </style>

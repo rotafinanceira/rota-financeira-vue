@@ -29,13 +29,11 @@ defineProps({
   font-weight: bold;
   font-size: 20px;
   color: #314b39;
-  font-family: 'Raleway', sans-serif;
 }
 
 .subtitle-text {
   font-weight: 500;
   font-size: 12px;
   color: #9db8a1;
-  font-family: 'Inter', sans-serif;
 }
 </style>

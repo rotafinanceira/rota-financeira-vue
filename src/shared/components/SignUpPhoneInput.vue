@@ -39,7 +39,6 @@ const handleInput = (value) => {
   font-size: 16px;
   font-weight: 500;
   color: #33373c;
-  font-family: 'Inter', sans-serif;
 }
 
 .styled-input :deep(.q-field__native::placeholder) {
@@ -51,7 +50,7 @@ const handleInput = (value) => {
   padding-left: 10px;
   font-weight: 500;
   font-size: 16px;
-  font-family: 'Inter', sans-serif;
+
   color: #33373c;
 }
 </style>

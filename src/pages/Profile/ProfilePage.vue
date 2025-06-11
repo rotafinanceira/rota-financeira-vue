@@ -67,7 +67,6 @@ function togglePhoneNotifications(value: boolean) {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: var(--Cores-Cinza-Branco, #ffffff);
   margin-top: 1.5rem;
 }
 
@@ -82,7 +81,7 @@ function togglePhoneNotifications(value: boolean) {
   flex: 1 0 0;
   color: var(--Cores-Primria-700, #2b5e16);
   text-align: center;
-  font-family: var(--Tipo-Familia-Headline, Raleway);
+
   font-size: var(--Tipo-Tamanho-2xl, 24px);
   font-style: normal;
   font-weight: 700;
@@ -110,7 +109,7 @@ function togglePhoneNotifications(value: boolean) {
   padding: 0.5rem 1rem;
   border-radius: 4px;
   color: var(--Cores-Primria-700, #2b5e16);
-  font-family: var(--Tipo-Familia-Button, Inter);
+
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   line-height: 120%; /* 16.8px */

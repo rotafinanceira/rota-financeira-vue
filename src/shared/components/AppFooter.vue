@@ -133,7 +133,7 @@ function navigateTo(path: string) {
 
     color: white;
     background-color: #db3d46;
-    font-family: 'Inter', sans-serif;
+
     font-size: 0.5rem;
 
     border-radius: 99px;
@@ -162,7 +162,6 @@ function navigateTo(path: string) {
   }
 
   &__text {
-    font-family: 'Inter', sans-serif;
     font-weight: 500;
     font-size: 12px;
     color: #9ba7ad;

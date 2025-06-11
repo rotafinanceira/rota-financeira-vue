@@ -35,7 +35,6 @@ defineProps<
 
 <style scoped lang="scss">
 .badge {
-  font-family: 'Inter';
   color: #5b6871;
   background-color: #eff3f5;
   padding: 0.25rem 0.5rem;

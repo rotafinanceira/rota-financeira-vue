@@ -28,5 +28,5 @@ const onEditing = () => {
 </script>
 
 <style scoped lang="scss">
-@import './vehicles';
+@import './_vehicles';
 </style>

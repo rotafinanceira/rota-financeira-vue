@@ -58,7 +58,7 @@ const navigateToHome = () => {
 
 .jeep-compass-text {
   color: var(--Cores-Cinza-400, #76828b);
-  font-family: var(--Tipo-Familia-Tag, Inter);
+
   font-size: var(--Tipo-Tamanho-Xs, 12px);
   font-style: normal;
   font-weight: 500;

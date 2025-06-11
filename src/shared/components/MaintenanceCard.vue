@@ -67,7 +67,6 @@ defineProps<MaintenanceCardProps>();
   &__text {
     color: #33373c;
     font-size: 0.875rem;
-    font-family: 'Inter';
     font-weight: 500;
   }
 

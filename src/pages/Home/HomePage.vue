@@ -277,7 +277,6 @@ const nextNextMaintenance = () => {
 .home-page {
   display: flex;
   flex-direction: column;
-  background-color: #eff3f5;
   min-height: 100vh;
   padding: 24px 20px;
   gap: 32px;
@@ -396,7 +395,6 @@ const nextNextMaintenance = () => {
 .kilometer-text-number {
   font-weight: 500;
   font-size: 14px;
-  font-family: 'Inter';
 }
 
 .section-header {
@@ -433,7 +431,6 @@ const nextNextMaintenance = () => {
 
 .section-title {
   color: #440b0b;
-  font-family: 'Inter';
   font-size: 16px;
   font-weight: 600;
 }
@@ -506,7 +503,6 @@ const nextNextMaintenance = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Inter';
   color: #ffffff;
   font-size: 12px;
   font-weight: 500;

@@ -95,5 +95,5 @@ const vehicleEditRoutes: vehicleEditRoutes[] = [
 </script>
 
 <style scoped lang="scss">
-@import '../../vehicles';
+@import '../../_vehicles';
 </style>

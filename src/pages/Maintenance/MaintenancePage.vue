@@ -83,7 +83,6 @@ const openSettings = () => {
 <style lang="scss" scoped>
 .maintenance {
   min-height: calc(100svh - 130px);
-  background-color: #eff3f5;
   padding-bottom: 1rem;
 
   &__wrapper {
@@ -105,7 +104,6 @@ const openSettings = () => {
   &__title {
     font-size: 1.25rem;
     font-weight: 700;
-    font-family: 'Inter';
     line-height: normal;
     margin: 0;
   }

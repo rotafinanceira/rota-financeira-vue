@@ -26,7 +26,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import downArrow from '../assets/downarrow.svg';
+import downArrow from '@/assets/downarrow.svg';
 
 const options = ['Fusca', 'HB20', 'Polo', 'Ferrari', 'IX35'];
 const selectedVehicle = ref('');

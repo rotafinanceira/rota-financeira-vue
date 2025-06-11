@@ -56,7 +56,6 @@ onMounted(() => {
 
 .logo-text {
   color: var(--Cores-Primria-800, #245017);
-  font-family: Inter;
   font-size: 28.131px;
   font-style: italic;
   font-weight: 400;

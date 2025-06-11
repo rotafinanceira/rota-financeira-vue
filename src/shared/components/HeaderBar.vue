@@ -35,7 +35,7 @@ const handleButtonClick = () => {
 
 .subtitle {
   color: var(--Cores-Primria-700, #2b5e16);
-  font-family: var(--Tipo-Familia-Headline, Raleway);
+
   font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
   font-weight: 700;
