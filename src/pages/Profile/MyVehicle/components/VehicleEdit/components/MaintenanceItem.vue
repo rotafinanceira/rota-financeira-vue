@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import maintenanceIcons from '@/assets/maintenance';
+import { MaintenanceItemProps } from '../types';
 
-export type MaintenanceItemProps = {
-  icon: keyof typeof maintenanceIcons;
-  title: string;
-};
+
 
 defineProps<MaintenanceItemProps>();
 </script>

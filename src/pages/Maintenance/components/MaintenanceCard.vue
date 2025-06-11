@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { arrowRight } from '@/assets';
 import maintenanceIcons from '@/assets/maintenance';
-import StatusBadge, { MaintenanceData } from './StatusBadge.vue';
 import { RouterLink } from 'vue-router';
-
-export type MaintenanceCardProps = {
-  title: string;
-  icon: keyof typeof maintenanceIcons;
-  maintenanceData?: MaintenanceData;
-};
+import { MaintenanceCardProps } from '../types';
+import StatusTag from './StatusTag.vue';
 
 defineProps<MaintenanceCardProps>();
 </script>
@@ -27,7 +22,7 @@ defineProps<MaintenanceCardProps>();
     <template v-if="maintenanceData?.status">
       <hr />
       <div class="badges">
-        <StatusBadge v-bind="maintenanceData" />
+        <StatusTag v-bind="maintenanceData" />
       </div>
     </template>
   </RouterLink>

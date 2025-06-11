@@ -53,7 +53,6 @@ const selectedVehicle = ref('');
   font-size: 18px;
   color: #0c0d0f;
   line-height: 22px;
-  font-weight: bold;
 }
 
 .subtitle {

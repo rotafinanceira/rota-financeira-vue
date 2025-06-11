@@ -114,35 +114,35 @@ const routes: RouteRecordRaw[] = [
             path: 'profile/edit-model',
             component: () =>
               import(
-                '@/pages/Profile/MyVehicle/components/VehicleEdit/EditModel.vue'
+                '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditModel.vue'
               ),
           },
           {
             path: 'profile/edit-brand',
             component: () =>
               import(
-                '@/pages/Profile/MyVehicle/components/VehicleEdit/EditBrand.vue'
+                '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditBrand.vue'
               ),
           },
           {
             path: 'profile/edit-year',
             component: () =>
               import(
-                '@/pages/Profile/MyVehicle/components/VehicleEdit/EditYear.vue'
+                '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditYear.vue'
               ),
           },
           {
             path: 'profile/edit-plate',
             component: () =>
               import(
-                '@/pages/Profile/MyVehicle/components/VehicleEdit/EditPlate.vue'
+                '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditPlate.vue'
               ),
           },
           {
             path: 'profile/edit-color',
             component: () =>
               import(
-                '@/pages/Profile/MyVehicle/components/VehicleEdit/EditColor.vue'
+                '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditColor.vue'
               ),
           },
           {

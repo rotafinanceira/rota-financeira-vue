@@ -47,9 +47,8 @@ import { computed, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { type vehicleEditRoutes } from '../../types';
 import ToggleButton from '@/shared/components/ToggleButton.vue';
-import MaintenanceItem, {
-  type MaintenanceItemProps,
-} from '@/shared/components/MaintenanceItem.vue';
+import { MaintenanceItemProps } from './types';
+import MaintenanceItem from './components/MaintenanceItem.vue';
 
 const maintenanceNotificationsEnabled = ref(true);
 const maintenances = ref<MaintenanceItemProps[]>([

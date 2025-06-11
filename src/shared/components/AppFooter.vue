@@ -39,20 +39,10 @@
 </template>
 
 <script setup lang="ts">
-type Tab = {
-  name: string;
-  path: string;
-  icon: {
-    enabled: string;
-    disabled: string;
-  };
-  label: string;
-  notification?: number;
-};
-
 import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { navbar } from '@/assets/navbar';
+import { Tab } from '../types/NavBar';
 
 const footerTab = ref('home');
 const router = useRouter();

@@ -27,9 +27,8 @@
 <script setup lang="ts">
 import { gearWrench, settings } from '@/assets';
 import AppHeader from '@/shared/components/AppHeader.vue';
-import MaintenanceCard, {
-  MaintenanceCardProps,
-} from '@/shared/components/MaintenanceCard.vue';
+import MaintenanceCard from './components/MaintenanceCard.vue';
+import { MaintenanceCardProps } from './types';
 
 const maintenanceItems: MaintenanceCardProps[] = [
   {

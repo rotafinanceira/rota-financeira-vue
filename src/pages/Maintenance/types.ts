@@ -1,3 +1,12 @@
+import maintenanceIcons from '@/assets/maintenance';
+import { MaintenanceData } from './components/StatusTag.vue';
+
+export type MaintenanceCardProps = {
+  title: string;
+  icon: keyof typeof maintenanceIcons;
+  maintenanceData?: MaintenanceData;
+};
+
 export type MaintenanceTypes =
   | 'engine'
   | 'battery'

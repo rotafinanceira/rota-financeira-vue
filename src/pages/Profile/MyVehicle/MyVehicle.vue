@@ -23,7 +23,6 @@ const vehicle = ref<Vehicle>({
 const isEditing = ref<boolean>(false);
 const onEditing = () => {
   isEditing.value = !isEditing.value;
-  console.log(isEditing.value);
 };
 </script>
 
