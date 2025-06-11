@@ -54,11 +54,11 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import InputPassword from '@/components/InputPassword.vue';
-import InputEmail from '@/components/InputEmail.vue';
-import ButtonComponent from '@/components/ButtonComponent.vue';
-import ModalGenericoAlert from '@/components/ModalGenericoAlert.vue';
-import HeaderBarWithInfo from '@/components/HeaderBarWithInfo.vue';
+import InputPassword from '@/shared/components/InputPassword.vue';
+import InputEmail from '@/shared/components/InputEmail.vue';
+import ButtonComponent from '@/shared/components/ButtonComponent.vue';
+import ModalGenericoAlert from '@/shared/components/ModalGenericoAlert.vue';
+import HeaderBarWithInfo from '@/shared/components/HeaderBarWithInfo.vue';
 import googleIcon from '@/assets/googleIcon.svg';
 import { httpClient } from '@/infra/http/httpClient';
 

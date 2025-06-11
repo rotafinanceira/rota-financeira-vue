@@ -51,12 +51,12 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import InputEmail from '@/components/InputEmail.vue';
-import ButtonComponent from '@/components/ButtonComponent.vue';
-import SignInUpFooter from '@/components/SignInUpFooter.vue';
-import ModalGenericoAlert from '@/components/ModalGenericoAlert.vue';
-import SignUpTitleStepper from '@/components/SignUpTitleStepper.vue';
-import HeaderBarWithInfo from '@/components/HeaderBarWithInfo.vue';
+import InputEmail from '@/shared/components/InputEmail.vue';
+import ButtonComponent from '@/shared/components/ButtonComponent.vue';
+import SignInUpFooter from '@/shared/components/SignInUpFooter.vue';
+import ModalGenericoAlert from '@/shared/components/ModalGenericoAlert.vue';
+import SignUpTitleStepper from '@/shared/components/SignUpTitleStepper.vue';
+import HeaderBarWithInfo from '@/shared/components/HeaderBarWithInfo.vue';
 import { useRegisterStore } from '@/store/registerStore';
 import { httpClient } from '@/infra/http/httpClient';
 

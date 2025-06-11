@@ -153,11 +153,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import ButtonComponent from '@/components/ButtonComponent.vue';
-import HeaderBar from '@/components/HeaderBar.vue';
-import SelectVehicle from '@/components/SelectVehicleModel.vue';
-import ModalGenerico from '@/components/ModalGenerico.vue';
-import ModalPositive from '@/components/ModalSucess.vue';
+import ButtonComponent from '@/shared/components/ButtonComponent.vue';
+import HeaderBar from '@/shared/components/HeaderBar.vue';
+import SelectVehicle from '@/shared/components/SelectVehicleModel.vue';
+import ModalGenerico from '@/shared/components/ModalGenerico.vue';
+import ModalPositive from '@/shared/components/ModalSucess.vue';
 import dateIcon from '@/assets/dateIcon.svg';
 import carIcon from '@/assets/carIcon.svg';
 import colorIcon from '@/assets/colorIcon.svg';

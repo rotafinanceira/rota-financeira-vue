@@ -64,7 +64,7 @@
 </template>
 
 <script setup>
-import AppHeader from 'components/AppHeader.vue';
+import AppHeader from '@/shared/components/AppHeader.vue';
 import FiltroComb from '@/assets/FiltroComb.svg';
 import Alinhamento from '@/assets/Alinham.svg';
 import Agua from '@/assets/agua.svg';

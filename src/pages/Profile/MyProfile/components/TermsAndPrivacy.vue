@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import HeaderBar from '@/components/HeaderBar.vue';
+import HeaderBar from '@/shared/components/HeaderBar.vue';
 
 // No additional logic is required for this static page.
 </script>

@@ -5,8 +5,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import HeaderBar from '@/components/HeaderBar.vue';
-import AppNotification from '@/shared/components/AppNotification.vue';
+import HeaderBar from '@/shared/components/HeaderBar.vue';
+import AppNotification from './components/AppNotification.vue';
 import { Notification } from './types';
 
 const notifications: Notification[] = [

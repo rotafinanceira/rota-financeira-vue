@@ -118,7 +118,7 @@
 import { defineProps, defineEmits, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import picProfile from '@/assets/picProfile.svg';
-import ToggleButton from '@/components/ToggleButton.vue';
+import ToggleButton from '@/shared/components/ToggleButton.vue';
 
 function toggleEmailNotifications() {
   const newValue = !localEmailNotificationsEnabled.value;

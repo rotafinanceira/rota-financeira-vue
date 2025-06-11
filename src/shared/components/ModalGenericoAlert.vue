@@ -21,7 +21,8 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import errorIcon from '../assets/warning-error.svg';
+import errorIcon from '@/assets/warning-error.svg';
+
 
 const props = defineProps({
   title: String,

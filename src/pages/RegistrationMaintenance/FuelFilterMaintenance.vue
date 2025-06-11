@@ -129,14 +129,14 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import ButtonComponent from '@/components/ButtonComponent.vue';
-import HeaderBar from '@/components/HeaderBar.vue';
-import SelectVehicle from '@/components/SelectVehiclePlate.vue';
+import ButtonComponent from '@/shared/components/ButtonComponent.vue';
+import HeaderBar from '@/shared/components/HeaderBar.vue';
+import SelectVehicle from '@/shared/components/SelectVehiclePlate.vue';
 import helpIcon from '@/assets/helpIcon.svg';
-import ModalGenerico from '@/components/ModalGenerico.vue';
+import ModalGenerico from '@/shared/components/ModalGenerico.vue';
 import filterIcon from '@/assets/filterIcon.svg';
 import RMarcaFiltroIcon from '@/assets/RMarcaFiltroIcon.svg';
-import ModalPositive from '@/components/ModalSucess.vue';
+import ModalPositive from '@/shared/components/ModalSucess.vue';
 
 const date = ref<string>('');
 const showDatePicker = ref<boolean>(false);

@@ -159,8 +159,8 @@
 </template>
 
 <script setup lang="ts">
-import AppHeader from '@/components/AppHeader.vue';
-import ModalGenerico from '@/components/ModalGenerico.vue';
+import AppHeader from '@/shared/components/AppHeader.vue';
+import ModalGenerico from '@/shared/components/ModalGenerico.vue';
 import helpIcon from '@/assets/helpIcon.svg';
 import odometer from '@/assets/odometer.svg';
 import expiredIcon from '@/assets/manVen.svg';

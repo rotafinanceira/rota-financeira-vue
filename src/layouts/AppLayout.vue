@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppFooter from '@/components/AppFooter.vue';
+import AppFooter from '@/shared/components/AppFooter.vue';
 import { RouterView } from 'vue-router';
 </script>
 

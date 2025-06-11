@@ -12,8 +12,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-
-import backArrow from '../assets/backarrow.svg';
+import backArrow from '@/assets/backarrow.svg';
 
 const router = useRouter();
 const { title, subtitle, path } = defineProps({
