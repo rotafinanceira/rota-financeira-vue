@@ -8,11 +8,11 @@
           <h1 class="maintenance__title">Manutenções</h1>
         </div>
         <button
-          class="maintenance__settings"
-          type="button"
-          :onclick="openSettings"
+        class="maintenance__settings"
+        type="button"
+        :onclick="openSettings"
         >
-          <img :src="FilterControlsIcon" alt="settings button" />
+          <img :src="FilterControlsIcon" alt="filter icon" />
         </button>
       </header>
       <MaintenanceCard
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { FilterControlsIcon, CarWrenchIcon } from '@/shared/assets/icons';
+import { CarWrenchIcon, FilterControlsIcon } from '@/shared/assets/icons';
 import AppHeader from '@/shared/components/AppHeader.vue';
 import MaintenanceCard from './components/MaintenanceCard.vue';
 import { MaintenanceCardProps } from './types';
