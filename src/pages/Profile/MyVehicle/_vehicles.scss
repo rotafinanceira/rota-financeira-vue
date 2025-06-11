@@ -180,6 +180,10 @@ $header-margin: 1.5rem 0 0.5rem;
     color: #3c4349;
     font-size: 0.875rem;
 
+    img {
+      transform: rotate(90deg);
+    }
+
     &:first-child {
       padding-top: 0;
     }

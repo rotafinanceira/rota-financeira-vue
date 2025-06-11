@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import logo from '@/assets/logoRF.svg';
+import logo from '@/shared/assets/logos/logo.svg';
 
 const router = useRouter();
 const showPage = ref(true);

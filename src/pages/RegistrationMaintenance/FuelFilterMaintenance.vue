@@ -132,10 +132,10 @@ import { ref } from 'vue';
 import ButtonComponent from '@/shared/components/ButtonComponent.vue';
 import HeaderBar from '@/shared/components/HeaderBar.vue';
 import SelectVehicle from '@/shared/components/SelectVehiclePlate.vue';
-import helpIcon from '@/assets/helpIcon.svg';
+import helpIcon from '@/shared/assets/helpIcon.svg';
 import ModalGenerico from '@/shared/components/ModalGenerico.vue';
-import filterIcon from '@/assets/filterIcon.svg';
-import RMarcaFiltroIcon from '@/assets/RMarcaFiltroIcon.svg';
+import filterIcon from '@/shared/assets/icons/battery.svg';
+import RMarcaFiltroIcon from '@/shared/assets/icons/battery.svg';
 import ModalPositive from '@/shared/components/ModalSucess.vue';
 
 const date = ref<string>('');

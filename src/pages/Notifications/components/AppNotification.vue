@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import maintenance from '@/assets/maintenance';
+import { BatteryIcon } from '@/shared/assets/icons';
 import { Notification } from '@/pages/Notifications/types';
 
 defineProps<Notification>();
@@ -16,7 +16,7 @@ defineProps<Notification>();
     ]"
   >
     <div class="notification__icon">
-      <img :src="maintenance.battery" alt="" />
+      <img :src="BatteryIcon" alt="" />
     </div>
     <p class="notification__message">{{ message }}</p>
   </div>

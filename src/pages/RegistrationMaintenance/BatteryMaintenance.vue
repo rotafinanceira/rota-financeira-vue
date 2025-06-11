@@ -134,8 +134,8 @@ import HeaderBar from '@/shared/components/HeaderBar.vue';
 import SelectVehicle from '@/shared/components/SelectVehiclePlate.vue';
 import ModalGenerico from '@/shared/components/ModalGenerico.vue';
 import ModalPositive from '@/shared/components/ModalSucess.vue';
-import helpIcon from '@/assets/helpIcon.svg';
-import batteryIcon from '@/assets/batteryIcon.svg';
+import helpIcon from '@/shared/assets/helpIcon.svg';
+import batteryIcon from '@/shared/assets/icons/battery.svg';
 
 const showDatePicker = ref<boolean>(false);
 const isLoading = ref<boolean>(false);

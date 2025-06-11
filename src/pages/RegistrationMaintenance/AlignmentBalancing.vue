@@ -157,8 +157,8 @@ import HeaderBar from '@/shared/components/HeaderBar.vue';
 // import SelectVehicle from '@/components/SelectVehiclePlate.vue';
 import ModalGenerico from '@/shared/components/ModalGenerico.vue';
 import ModalPositive from '@/shared/components/ModalSucess.vue';
-import helpIcon from '@/assets/helpIcon.svg';
-import alignmentIcon from '@/assets/Alinham.svg';
+import helpIcon from '@/shared/assets/helpIcon.svg';
+import alignmentIcon from '@/shared/assets/icons/battery.svg';
 import { date as quasarDate } from 'quasar';
 
 const showDatePicker = ref<boolean>(false);

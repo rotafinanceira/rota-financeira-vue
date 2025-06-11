@@ -10,7 +10,7 @@
           class="vehicle__edit-page"
         >
           <span>{{ editPage.title }}</span>
-          <img src="@/assets/arrowR.svg" alt="Arrow Right" />
+          <img :src="ArrowIcon" alt="" />
         </RouterLink>
       </div>
     </div>
@@ -49,6 +49,7 @@ import { type vehicleEditRoutes } from '../../types';
 import ToggleButton from '@/shared/components/ToggleButton.vue';
 import { MaintenanceItemProps } from './types';
 import MaintenanceItem from './components/MaintenanceItem.vue';
+import { ArrowIcon } from '@/shared/assets/icons';
 
 const maintenanceNotificationsEnabled = ref(true);
 const maintenances = ref<MaintenanceItemProps[]>([

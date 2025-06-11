@@ -1,6 +1,6 @@
-import type maintenanceIcons from '@/assets/maintenance';
+import { MaintenanceIcons } from '@/shared/types/maintenance';
 
 export type MaintenanceItemProps = {
-  icon: keyof typeof maintenanceIcons;
+  icon: keyof MaintenanceIcons;
   title: string;
 };

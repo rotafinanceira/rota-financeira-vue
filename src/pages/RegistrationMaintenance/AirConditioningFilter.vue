@@ -124,7 +124,7 @@ import HeaderBar from '@/shared/components/HeaderBar.vue';
 import SelectVehicle from '@/shared/components/SelectVehiclePlate.vue';
 import ModalGenerico from '@/shared/components/ModalGenerico.vue';
 import ModalPositive from '@/shared/components/ModalSucess.vue';
-import helpIcon from '@/assets/helpIcon.svg';
+import helpIcon from '@/shared/assets/helpIcon.svg';
 
 const showDatePicker = ref<boolean>(false);
 const showDatePickerCleaning = ref<boolean>(false);

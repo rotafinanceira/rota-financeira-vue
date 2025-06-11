@@ -19,7 +19,7 @@
         input-class="custom-padding"
       >
         <template v-slot:dropdown-icon>
-          <img :src="downArrow" alt="Down Arrow" />
+          <img :src="ArrowIcon" alt="Down Arrow" />
         </template>
       </q-select>
     </div>
@@ -28,7 +28,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import downArrow from '@/assets/downarrow.svg';
+import { ArrowIcon } from '../assets/icons';
 
 const options = ['NAM-3630', 'NAH-6708', 'ITV-8559', 'NET-2557', 'KDM-9934'];
 const selectedVehicle = ref('');

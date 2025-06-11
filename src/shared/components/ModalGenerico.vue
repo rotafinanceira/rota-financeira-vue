@@ -24,7 +24,7 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import closeIcon from '@/assets/closeIcon.svg';
+import closeIcon from '@/shared/assets/check-invalid.svg';
 
 const props = defineProps({
   title: String,

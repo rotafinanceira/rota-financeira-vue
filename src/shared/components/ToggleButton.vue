@@ -6,8 +6,8 @@
 
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue';
-import toggleOn from '@/assets/toggle-on.svg';
-import toggleOff from '@/assets/toggle-off.svg';
+import toggleOn from '@/shared/assets/toggle-on.svg';
+import toggleOff from '@/shared/assets/toggle-off.svg';
 
 const props = defineProps<{
   modelValue: boolean;
@@ -23,6 +23,7 @@ function toggle() {
 <style scoped>
 .custom-toggle {
   cursor: pointer;
+  user-select: none;
 }
 
 .toggle-icon {

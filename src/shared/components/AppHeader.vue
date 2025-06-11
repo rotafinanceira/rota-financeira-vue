@@ -2,7 +2,7 @@
   <q-header elevated>
     <q-toolbar class="custom-toolbar">
       <q-btn flat round @click="navigateToHome">
-        <img :src="logoRota" style="width: 40px; margin-right: 8px" />
+        <img :src="logo" style="width: 40px; margin-right: 8px" />
       </q-btn>
 
       <div class="column-header">
@@ -14,7 +14,7 @@
 
       <q-btn flat round :to="{ path: 'notifications' }">
         <div class="notification-wrapper">
-          <img :src="Noti" style="width: 24px; height: 24px" />
+          <img :src="BellIcon" style="width: 24px; height: 24px" />
           <img :src="elipse" class="notification-badge" />
         </div>
       </q-btn>
@@ -23,10 +23,10 @@
 </template>
 
 <script setup>
-import logoRota from '@/assets/logoRota.svg';
-import Noti from '@/assets/Noti.svg';
-import elipse from '@/assets/elipse46.svg';
+import logo from '@/shared/assets/logos/logo.svg';
+import elipse from '@/shared/assets/elipse46.svg';
 import { useRouter } from 'vue-router';
+import { BellIcon } from '../assets/icons';
 
 const router = useRouter();
 

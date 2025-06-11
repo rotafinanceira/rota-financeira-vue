@@ -35,7 +35,6 @@
 import { ref } from 'vue';
 import MyProfile from '@/pages/Profile/MyProfile/MyProfile.vue';
 import MyVehicle from '@/pages/Profile/MyVehicle/MyVehicle.vue';
-import picProfile from '@/assets/picProfile.svg';
 import AppHeader from '@/shared/components/AppHeader.vue';
 
 const activeTab = ref<'perfil' | 'veiculo'>('perfil');
@@ -44,7 +43,8 @@ const user = ref({
   email: 'brmartins1984@gmail.com',
   phone: '+55 (11) 9999-9999',
   age: 36,
-  photo: picProfile,
+  photo:
+    'https://images.unsplash.com/photo-1619895862022-09114b41f16f?q=80&w=532',
 });
 const emailNotificationsEnabled = ref(false);
 const phoneNotificationsEnabled = ref(true);

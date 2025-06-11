@@ -29,8 +29,8 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import logo from '@/assets/logoRF.svg';
-import googleIcon from '@/assets/googleIcon.svg';
+import logo from '@/shared/assets/logos/logo.svg';
+import googleIcon from '@/shared/assets/googleIcon.svg';
 
 const router = useRouter();
 
@@ -55,7 +55,7 @@ const continueWithGoogle = () => {
   justify-content: center;
   height: 100vh;
   gap: 20px;
-  background-image: url('@/assets/welcomeScreen.png');
+  background-image: url('@/shared/assets/welcomeScreen.png');
   background-size: cover;
   background-position: center;
 }

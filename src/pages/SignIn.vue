@@ -59,7 +59,7 @@ import InputEmail from '@/shared/components/InputEmail.vue';
 import ButtonComponent from '@/shared/components/ButtonComponent.vue';
 import ModalGenericoAlert from '@/shared/components/ModalGenericoAlert.vue';
 import HeaderBarWithInfo from '@/shared/components/HeaderBarWithInfo.vue';
-import googleIcon from '@/assets/googleIcon.svg';
+import googleIcon from '@/shared/assets/googleIcon.svg';
 import { httpClient } from '@/infra/http/httpClient';
 
 const isLoading = ref(false);

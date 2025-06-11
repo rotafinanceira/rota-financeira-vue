@@ -7,7 +7,7 @@
         <div class="foto-perfil">
           <div
             class="foto"
-            :style="{ backgroundImage: `url(${user.photo || picProfile})` }"
+            :style="{ backgroundImage: `url(${user.photo})` }"
           ></div>
         </div>
         <div class="dados-perfil">
@@ -41,7 +41,7 @@
         <div class="foto-perfil">
           <div
             class="foto"
-            :style="{ backgroundImage: `url(${user.photo || picProfile})` }"
+            :style="{ backgroundImage: `url(${user.photo})` }"
           ></div>
         </div>
         <button @click="mudarFoto" class="mudar-foto">Mudar Foto</button>
@@ -54,7 +54,7 @@
                 class="full-width-button"
               >
                 <span>Nome completo</span>
-                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+                <img :src="ArrowIcon" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
@@ -63,7 +63,7 @@
                 class="full-width-button"
               >
                 <span>Data de nascimento</span>
-                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+                <img :src="ArrowIcon" alt="Arrow Right" class="icon" />
               </button>
             </div>
           </div>
@@ -77,7 +77,7 @@
                 class="full-width-button"
               >
                 <span>E-mail</span>
-                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+                <img :src="ArrowIcon" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
@@ -86,7 +86,7 @@
                 class="full-width-button"
               >
                 <span>Senha</span>
-                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+                <img :src="ArrowIcon" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
@@ -95,7 +95,7 @@
                 class="full-width-button"
               >
                 <span>Termos de uso e privacidade</span>
-                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+                <img :src="ArrowIcon" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
@@ -104,7 +104,7 @@
                 class="full-width-button excluir-conta"
               >
                 <span>Excluir Conta</span>
-                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+                <img :src="ArrowIcon" alt="Arrow Right" class="icon" />
               </button>
             </div>
           </div>
@@ -117,8 +117,8 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import picProfile from '@/assets/picProfile.svg';
 import ToggleButton from '@/shared/components/ToggleButton.vue';
+import { ArrowIcon } from '@/shared/assets/icons';
 
 function toggleEmailNotifications() {
   const newValue = !localEmailNotificationsEnabled.value;
@@ -471,6 +471,7 @@ function navigateTo(path: string) {
 .full-width-button .icon {
   width: 16px;
   height: 16px;
+  transform: rotate(90deg);
 }
 
 .full-width-button.excluir-conta {

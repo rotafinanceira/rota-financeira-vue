@@ -158,9 +158,9 @@ import HeaderBar from '@/shared/components/HeaderBar.vue';
 import SelectVehicle from '@/shared/components/SelectVehicleModel.vue';
 import ModalGenerico from '@/shared/components/ModalGenerico.vue';
 import ModalPositive from '@/shared/components/ModalSucess.vue';
-import dateIcon from '@/assets/dateIcon.svg';
-import carIcon from '@/assets/carIcon.svg';
-import colorIcon from '@/assets/colorIcon.svg';
+import dateIcon from '@/shared/assets/icons/battery.svg';
+import carIcon from '@/shared/assets/icons/battery.svg';
+import colorIcon from '@/shared/assets/icons/battery.svg';
 
 const isLoading = ref<boolean>(false);
 const date = ref<string>('');

@@ -1,7 +1,7 @@
 <template>
   <div class="header-bar">
     <div @click="navigateBack" class="return-button">
-      <q-img :src="backArrow" />
+      <q-img :src="ArrowIcon" />
     </div>
     <div class="logo">
       <img :src="logo" alt="Logo" />
@@ -12,8 +12,8 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import backArrow from '@/assets/backarrow.svg';
-import logo from '@/assets/logoRF.svg';
+import { ArrowIcon } from '../assets/icons';
+import logo from '@/shared/assets/logos/logo.svg';
 
 const router = useRouter();
 
@@ -35,6 +35,7 @@ const navigateBack = () => {
   height: 24px;
   cursor: pointer;
   margin-right: 65px; /* Added margin to adjust distance */
+  transform: rotate(-90deg);
 }
 
 .logo {

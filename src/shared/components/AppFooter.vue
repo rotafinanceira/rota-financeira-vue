@@ -41,8 +41,8 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { navbar } from '@/assets/navbar';
-import { Tab } from '../types/NavBar';
+import { navbar } from '@/shared/assets/navbar';
+import { Tab } from '../types/navbar';
 
 const footerTab = ref('home');
 const router = useRouter();

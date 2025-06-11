@@ -3,7 +3,7 @@
     <div class="subtitle">{{ subtitle }}</div>
     <div class="wrapperTitle">
       <div @click="handleButtonClick" class="returnButton">
-        <q-img :src="backArrow" />
+        <q-img :src="ArrowIcon" />
       </div>
       <div class="title">{{ title }}</div>
     </div>
@@ -12,7 +12,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import backArrow from '@/assets/backarrow.svg';
+import { ArrowIcon } from '../assets/icons';
 
 const router = useRouter();
 const { title, subtitle, path } = defineProps({
@@ -55,6 +55,8 @@ const handleButtonClick = () => {
   width: 24px;
   height: 24px;
   margin-top: 2px;
+
+  transform: rotate(-90deg);
 }
 
 .title {

@@ -1,9 +1,9 @@
-import maintenanceIcons from '@/assets/maintenance';
+import { MaintenanceIcons } from '@/shared/types/maintenance';
 import { MaintenanceData } from './components/StatusTag.vue';
 
 export type MaintenanceCardProps = {
   title: string;
-  icon: keyof typeof maintenanceIcons;
+  icon: keyof MaintenanceIcons;
   maintenanceData?: MaintenanceData;
 };
 

@@ -14,8 +14,8 @@
 
 <script setup>
 import { computed, defineProps } from 'vue';
-import checkIcon from '@/assets/check-valid.svg';
-import errorIcon from '@/assets/check-invalid.svg';
+import checkIcon from '@/shared/assets/check-valid.svg';
+import errorIcon from '@/shared/assets/check-invalid.svg';
 
 const props = defineProps({
   password: String,

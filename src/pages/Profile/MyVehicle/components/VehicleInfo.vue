@@ -14,7 +14,7 @@
       <h2 class="vehicle__header">Manutenções</h2>
       <div class="maintenances">
         <div class="maintenances__icon__wrapper">
-          <img :src="wrenchcar" alt="" />
+          <img :src="CarWrenchIcon" alt="" />
         </div>
         <p class="maintenances__text">
           {{ maintenanceCount }} {{ maintenanceText }}
@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { Vehicle } from '../types';
-import wrenchcar from '@/assets/maintenance-wrenchcar.svg';
+import { CarWrenchIcon } from '@/shared/assets/icons';
 
 const { vehicle } = defineProps<{
   vehicle: Vehicle;

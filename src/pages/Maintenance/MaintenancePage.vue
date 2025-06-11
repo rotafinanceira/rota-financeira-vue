@@ -4,7 +4,7 @@
     <div class="maintenance__wrapper">
       <header class="maintenance__header">
         <div class="flex">
-          <img :src="gearWrench" alt="" />
+          <img :src="CarWrenchIcon" alt="" />
           <h1 class="maintenance__title">Manutenções</h1>
         </div>
         <button
@@ -12,7 +12,7 @@
           type="button"
           :onclick="openSettings"
         >
-          <img :src="settings" alt="settings button" />
+          <img :src="FilterControlsIcon" alt="settings button" />
         </button>
       </header>
       <MaintenanceCard
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { gearWrench, settings } from '@/assets';
+import { FilterControlsIcon, CarWrenchIcon } from '@/shared/assets/icons';
 import AppHeader from '@/shared/components/AppHeader.vue';
 import MaintenanceCard from './components/MaintenanceCard.vue';
 import { MaintenanceCardProps } from './types';
@@ -75,7 +75,7 @@ const maintenanceItems: MaintenanceCardProps[] = [
 ];
 
 const openSettings = () => {
-  console.log('open settings');
+  console.log('open filters');
 };
 </script>
 

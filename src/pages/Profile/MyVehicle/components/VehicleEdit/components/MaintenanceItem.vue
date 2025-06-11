@@ -1,8 +1,17 @@
 <script setup lang="ts">
-import maintenanceIcons from '@/assets/maintenance';
+import { AirFilterIcon, BatteryIcon, ChartIcon, EngineIcon, FuelFilterIcon, OilIcon, WheelIcon } from '@/shared/assets/icons';
 import { MaintenanceItemProps } from '../types';
+import { MaintenanceIcons } from '@/shared/types/maintenance';
 
-
+const maintenanceIcons: MaintenanceIcons = {
+  wheel: WheelIcon,
+  oil: OilIcon,
+  battery: BatteryIcon,
+  engine: EngineIcon,
+  fuelFilter: FuelFilterIcon,
+  airFilter: AirFilterIcon,
+  fluidLevel: ChartIcon,
+};
 
 defineProps<MaintenanceItemProps>();
 </script>

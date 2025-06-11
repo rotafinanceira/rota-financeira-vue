@@ -1,9 +1,20 @@
 <script setup lang="ts">
-import { arrowRight } from '@/assets';
-import maintenanceIcons from '@/assets/maintenance';
+import { ArrowIcon } from '@/shared/assets/icons';
+import { AirFilterIcon, BatteryIcon, ChartIcon, EngineIcon, FuelFilterIcon, OilIcon, WheelIcon } from '@/shared/assets/icons';
 import { RouterLink } from 'vue-router';
 import { MaintenanceCardProps } from '../types';
 import StatusTag from './StatusTag.vue';
+import { MaintenanceIcons } from '@/shared/types/maintenance';
+
+const maintenanceIcons: MaintenanceIcons = {
+  wheel: WheelIcon,
+  oil: OilIcon,
+  battery: BatteryIcon,
+  engine: EngineIcon,
+  fuelFilter: FuelFilterIcon,
+  airFilter: AirFilterIcon,
+  fluidLevel: ChartIcon,
+};
 
 defineProps<MaintenanceCardProps>();
 </script>
@@ -17,7 +28,7 @@ defineProps<MaintenanceCardProps>();
         </div>
         <p class="item__text">{{ title }}</p>
       </div>
-      <img :src="arrowRight" alt="" class="item__arrow" />
+      <img :src="ArrowIcon" alt="" class="item__arrow" />
     </div>
     <template v-if="maintenanceData?.status">
       <hr />
@@ -74,6 +85,7 @@ defineProps<MaintenanceCardProps>();
 
   &__arrow {
     margin-right: 6px;
+    transform: rotate(90deg);
   }
 }
 
