@@ -21,7 +21,7 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import sucessIcon from '../assets/sucessIcon.svg';
+import sucessIcon from '@/assets/sucessIcon.svg';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

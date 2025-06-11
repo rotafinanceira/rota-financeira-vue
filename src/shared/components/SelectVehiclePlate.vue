@@ -28,7 +28,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import downArrow from '../assets/downarrow.svg';
+import downArrow from '@/assets/downarrow.svg';
 
 const options = ['NAM-3630', 'NAH-6708', 'ITV-8559', 'NET-2557', 'KDM-9934'];
 const selectedVehicle = ref('');
