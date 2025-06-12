@@ -51,14 +51,14 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useRegisterStore } from '@/store/registerStore';
-import SignInUpFooter from '@/components/SignInUpFooter.vue';
-import SignUpTitleStepper from '@/components/SignUpTitleStepper.vue';
-import ButtonComponent from '@/components/ButtonComponent.vue';
-import SignUpNameInput from '@/components/SignUpNameInput.vue';
-import SignUpBirthdateInput from '@/components/SignUpBirthdateInput.vue';
-import SignUpPhoneInput from '@/components/SignUpPhoneInput.vue';
-import HeaderBarWithInfo from '@/components/HeaderBarWithInfo.vue';
+import { useRegisterStore } from '@/stores/registerStore';
+import SignInUpFooter from '@/shared/components/SignInUpFooter.vue';
+import SignUpTitleStepper from '@/shared/components/SignUpTitleStepper.vue';
+import ButtonComponent from '@/shared/components/ButtonComponent.vue';
+import SignUpNameInput from '@/shared/components/SignUpNameInput.vue';
+import SignUpBirthdateInput from '@/shared/components/SignUpBirthdateInput.vue';
+import SignUpPhoneInput from '@/shared/components/SignUpPhoneInput.vue';
+import HeaderBarWithInfo from '@/shared/components/HeaderBarWithInfo.vue';
 
 const store = useRegisterStore();
 const router = useRouter();

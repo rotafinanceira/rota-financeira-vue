@@ -17,16 +17,16 @@ const vehicle = ref<Vehicle>({
   plate: 'ABC-1234',
   year: 2020,
   color: 'Cinza',
-  photo: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537', // Add a default photo URL or leave empty
+  photo:
+    'https://images.unsplash.com/photo-1531420853064-43de9aa4366b?q=80&w=512',
 });
 
 const isEditing = ref<boolean>(false);
 const onEditing = () => {
   isEditing.value = !isEditing.value;
-  console.log(isEditing.value);
 };
 </script>
 
 <style scoped lang="scss">
-@import './vehicles';
+@import './_vehicles';
 </style>

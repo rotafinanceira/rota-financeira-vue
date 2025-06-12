@@ -22,9 +22,6 @@
                   <span class="km-label">Km do dia</span> {{ item.km }}km
                 </div>
               </div>
-              <div>
-                <img :src="Line" class="line-image" />
-              </div>
               <div class="q-mt-sm">
                 <ul class="no-bullets">
                   <li
@@ -64,15 +61,11 @@
 </template>
 
 <script setup>
-import AppHeader from 'components/AppHeader.vue';
-import FiltroComb from '@/assets/FiltroComb.svg';
-import Alinhamento from '@/assets/Alinham.svg';
-import Agua from '@/assets/agua.svg';
-import OilChange from '@/assets/agua.svg';
-// import DefaultIcon from '@/assets/default.svg';
-import { navbar } from '@/assets/navbar';
-import Line from '@/assets/Line.svg';
-import VerticalLine from '@/assets/VerticalLine.svg';
+import AppHeader from '@/shared/components/AppHeader.vue';
+import FiltroComb from '@/shared/assets/icons/battery.svg';
+import Alinhamento from '@/shared/assets/icons/battery.svg';
+import { navbar } from '@/shared/assets/navbar';
+import VerticalLine from '@/shared/assets/VerticalLine.svg';
 
 const maintenanceHistory = [
   {
@@ -110,8 +103,8 @@ const maintenanceHistory = [
 const maintenanceIcons = {
   'Troca de filtro de combustível': FiltroComb,
   'Alinhamento e Balanceamento': Alinhamento,
-  'Troca de água': Agua,
-  'Troca de óleo': OilChange,
+  'Troca de água': 'Agua',
+  'Troca de óleo': 'OilChange',
 };
 
 function getMaintenanceIcon(name) {

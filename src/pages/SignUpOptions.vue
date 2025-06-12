@@ -29,8 +29,8 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import logo from '@/assets/logoRF.svg';
-import googleIcon from '@/assets/googleIcon.svg';
+import logo from '@/shared/assets/logos/logo.svg';
+import googleIcon from '@/shared/assets/googleIcon.svg';
 
 const router = useRouter();
 
@@ -55,7 +55,7 @@ const continueWithGoogle = () => {
   justify-content: center;
   height: 100vh;
   gap: 20px;
-  background-image: url('@/assets/welcomeScreen.png');
+  background-image: url('@/shared/assets/images/welcomeScreen.png');
   background-size: cover;
   background-position: center;
 }
@@ -79,7 +79,6 @@ const continueWithGoogle = () => {
   display: flex;
   align-items: center; /* Center vertically */
   color: var(--Cores-Primria-50, #f1fde8);
-  font-family: Inter;
   font-size: 18.346px;
   font-style: italic;
   font-weight: 400;
@@ -106,7 +105,7 @@ const continueWithGoogle = () => {
 
 .intro-title {
   color: var(--Cores-Primria-0, #fafdf8);
-  font-family: var(--Tipo-Familia-Headline, Raleway);
+
   font-size: var(--Tipo-Tamanho-3xl, 28px);
   font-style: normal;
   font-weight: 700;
@@ -119,7 +118,7 @@ const continueWithGoogle = () => {
   width: calc(100% - 40px);
   height: 68px;
   color: var(--Cores-Primria-0, #fafdf8);
-  font-family: var(--Tipo-Familia-Paragrafh, Inter);
+
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 400;
@@ -157,7 +156,7 @@ button {
 
 .create-account-text {
   color: var(--Cores-Secundria-700, #293e2f);
-  font-family: var(--Tipo-Familia-Button, Inter);
+
   font-size: var(--Tipo-Tamanho-Lg, 18px);
   font-style: normal;
   font-weight: 600;
@@ -185,7 +184,7 @@ button {
 
 .google-button-text {
   color: var(--Cores-Secundria-700, #293e2f);
-  font-family: var(--Tipo-Familia-Button, Inter);
+
   font-size: var(--Tipo-Tamanho-Lg, 18px);
   font-style: normal;
   font-weight: 600;
@@ -201,7 +200,7 @@ button {
 .login-text {
   color: var(--Cores-Primria-0, #fafdf8);
   text-align: left;
-  font-family: var(--Tipo-Familia-Tag, Inter);
+
   font-size: var(--Tipo-Tamanho-Md, 16px);
   font-style: normal;
   font-weight: 500;
@@ -210,7 +209,7 @@ button {
 
 .login-link-text {
   color: var(--Cores-Primria-100, #bff4a2);
-  font-family: var(--Tipo-Familia-Tag, Inter);
+
   font-size: var(--Tipo-Tamanho-Md, 16px);
   font-style: normal;
   font-weight: 500;

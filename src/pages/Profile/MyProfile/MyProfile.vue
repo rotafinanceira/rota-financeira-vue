@@ -5,7 +5,10 @@
 
       <div class="info-pessoais">
         <div class="foto-perfil">
-          <div class="foto" :style="{ backgroundImage: `url(${user.photo || picProfile})` }"></div>
+          <div
+            class="foto"
+            :style="{ backgroundImage: `url(${user.photo})` }"
+          ></div>
         </div>
         <div class="dados-perfil">
           <div class="idade">{{ user.age }} anos</div>
@@ -36,22 +39,31 @@
     <div v-else>
       <div class="edit-card">
         <div class="foto-perfil">
-          <div class="foto" :style="{ backgroundImage: `url(${user.photo || picProfile})` }"></div>
+          <div
+            class="foto"
+            :style="{ backgroundImage: `url(${user.photo})` }"
+          ></div>
         </div>
         <button @click="mudarFoto" class="mudar-foto">Mudar Foto</button>
         <div class="edit-info">
           <h4>Informações Pessoais</h4>
           <div class="personal-info-buttons">
             <div class="horizontal-layout">
-              <button @click="navigateTo('/profile/edit-name')" class="full-width-button">
+              <button
+                @click="navigateTo('/profile/edit-name')"
+                class="full-width-button"
+              >
                 <span>Nome completo</span>
-                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+                <img :src="ArrowIcon" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
-              <button @click="navigateTo('/profile/edit-birthdate')" class="full-width-button">
+              <button
+                @click="navigateTo('/profile/edit-birthdate')"
+                class="full-width-button"
+              >
                 <span>Data de nascimento</span>
-                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+                <img :src="ArrowIcon" alt="Arrow Right" class="icon" />
               </button>
             </div>
           </div>
@@ -60,27 +72,39 @@
           <h4>Conta</h4>
           <div class="account-info-buttons">
             <div class="horizontal-layout">
-              <button @click="navigateTo('/profile/edit-email')" class="full-width-button">
+              <button
+                @click="navigateTo('/profile/edit-email')"
+                class="full-width-button"
+              >
                 <span>E-mail</span>
-                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+                <img :src="ArrowIcon" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
-              <button @click="navigateTo('/profile/edit-password')" class="full-width-button">
+              <button
+                @click="navigateTo('/profile/edit-password')"
+                class="full-width-button"
+              >
                 <span>Senha</span>
-                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+                <img :src="ArrowIcon" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
-              <button @click="navigateTo('/profile/terms-and-privacy')" class="full-width-button">
+              <button
+                @click="navigateTo('/profile/terms-and-privacy')"
+                class="full-width-button"
+              >
                 <span>Termos de uso e privacidade</span>
-                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+                <img :src="ArrowIcon" alt="Arrow Right" class="icon" />
               </button>
             </div>
             <div class="horizontal-layout">
-              <button @click="excluirConta" class="full-width-button excluir-conta">
+              <button
+                @click="excluirConta"
+                class="full-width-button excluir-conta"
+              >
                 <span>Excluir Conta</span>
-                <img src="@/assets/arrowR.svg" alt="Arrow Right" class="icon" />
+                <img :src="ArrowIcon" alt="Arrow Right" class="icon" />
               </button>
             </div>
           </div>
@@ -93,8 +117,8 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import picProfile from '@/assets/picProfile.svg';
-import ToggleButton from '@/components/ToggleButton.vue';
+import ToggleButton from '@/shared/components/ToggleButton.vue';
+import { ArrowIcon } from '@/shared/assets/icons';
 
 function toggleEmailNotifications() {
   const newValue = !localEmailNotificationsEnabled.value;
@@ -172,8 +196,8 @@ function navigateTo(path: string) {
 .perfil-content {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  background-color: var(--Cores-Cinza-Branco, #ffffff);
+  padding: 0 1rem;
+  margin-block: 1rem;
 }
 
 .card,
@@ -228,7 +252,7 @@ function navigateTo(path: string) {
   border-radius: 54px;
   background: var(--Cores-Informao-50, #d3f0ff);
   color: var(--Cores-Informao-600, #1450b7);
-  font-family: var(--Tipo-Familia-Tag, Inter);
+
   font-size: var(--Tipo-Tamanho-Xs, 12px);
   font-style: normal;
   font-weight: 500;
@@ -239,7 +263,7 @@ function navigateTo(path: string) {
 .nome {
   color: var(--Cores-Cinza-900, #0c0d0f);
   text-align: center;
-  font-family: var(--Tipo-Familia-Button, Inter);
+
   font-size: var(--Tipo-Tamanho-Lg, 18px);
   font-style: normal;
   font-weight: 600;
@@ -259,7 +283,7 @@ function navigateTo(path: string) {
 
 .notificacoes-header {
   color: var(--Cores-Cinza-900, #0c0d0f);
-  font-family: var(--Tipo-Familia-Tag, Inter);
+
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 500;
@@ -285,7 +309,7 @@ function navigateTo(path: string) {
   align-items: center;
   justify-content: space-between;
   color: var(--Cores-Cinza-700, #3c4349);
-  font-family: var(--Tipo-Familia-Paragrafh, Inter);
+
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 400;
@@ -312,7 +336,7 @@ function navigateTo(path: string) {
   border: none;
   background: #8ce95f;
   color: var(--Botes-Preenchidos-Ativado-Texto, #2b5e16);
-  font-family: var(--Tipo-Familia-Button, Inter);
+
   font-size: var(--Tipo-Tamanho-Lg, 18px);
   font-style: normal;
   font-weight: 600;
@@ -339,13 +363,12 @@ function navigateTo(path: string) {
   gap: 12px;
   align-self: stretch;
   color: var(--Botes-Preenchidos-Ativado-Texto, #2b5e16);
-  font-family: var(--Tipo-Familia-Button, Inter);
+
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 600;
   line-height: 120%;
-  background-color: var(--Cores-Cinza-Branco,
-      #ffffff);
+  background-color: var(--Cores-Cinza-Branco, #ffffff);
   /* Match page background */
   border: none;
   border-radius: 4px;
@@ -355,7 +378,7 @@ function navigateTo(path: string) {
   width: 320px;
   height: 17px;
   color: var(--Cores-Cinza-900, #0c0d0f);
-  font-family: var(--Tipo-Familia-Tag, Inter);
+
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 500;
@@ -366,7 +389,7 @@ function navigateTo(path: string) {
 .edit-account h4 {
   width: 320px;
   color: var(--Cores-Cinza-900, #0c0d0f);
-  font-family: var(--Tipo-Familia-Tag, Inter);
+
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 500;
@@ -374,7 +397,6 @@ function navigateTo(path: string) {
   /* 16.8px */
   text-align: left;
   /* Align to the left */
-  ;
   /* Ensure it spans the full width */
 }
 
@@ -412,13 +434,10 @@ function navigateTo(path: string) {
   position: relative;
 }
 
-
-
-
 .personal-info-buttons button:nth-child(2) {
   flex: 1 0 0;
   color: var(--Cores-Cinza-700, #3c4349);
-  font-family: var(--Tipo-Familia-Paragrafh, Inter);
+
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 400;
@@ -441,7 +460,7 @@ function navigateTo(path: string) {
   background: none;
   border: none;
   color: var(--Cores-Cinza-700, #3c4349);
-  font-family: var(--Tipo-Familia-Paragrafh, Inter);
+
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-weight: 400;
   cursor: pointer;
@@ -452,12 +471,12 @@ function navigateTo(path: string) {
 .full-width-button .icon {
   width: 16px;
   height: 16px;
+  transform: rotate(90deg);
 }
-
 
 .full-width-button.excluir-conta {
   color: var(--Cores-Error-600, #b72a3e);
-  font-family: var(--Tipo-Familia-Paragrafh, Inter);
+
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 400;

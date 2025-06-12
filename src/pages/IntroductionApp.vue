@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import logo from '@/assets/logoRF.svg';
+import logo from '@/shared/assets/logos/logo.svg';
 
 const router = useRouter();
 const showPage = ref(true);
@@ -56,7 +56,6 @@ onMounted(() => {
 
 .logo-text {
   color: var(--Cores-Primria-800, #245017);
-  font-family: Inter;
   font-size: 28.131px;
   font-style: italic;
   font-weight: 400;

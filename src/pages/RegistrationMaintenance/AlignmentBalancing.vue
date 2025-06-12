@@ -152,13 +152,13 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import ButtonComponent from '@/components/ButtonComponent.vue';
-import HeaderBar from '@/components/HeaderBar.vue';
+import ButtonComponent from '@/shared/components/ButtonComponent.vue';
+import HeaderBar from '@/shared/components/HeaderBar.vue';
 // import SelectVehicle from '@/components/SelectVehiclePlate.vue';
-import ModalGenerico from '@/components/ModalGenerico.vue';
-import ModalPositive from '@/components/ModalSucess.vue';
-import helpIcon from '@/assets/helpIcon.svg';
-import alignmentIcon from '@/assets/Alinham.svg';
+import ModalGenerico from '@/shared/components/ModalGenerico.vue';
+import ModalPositive from '@/shared/components/ModalSucess.vue';
+import helpIcon from '@/shared/assets/helpIcon.svg';
+import alignmentIcon from '@/shared/assets/icons/battery.svg';
 import { date as quasarDate } from 'quasar';
 
 const showDatePicker = ref<boolean>(false);
@@ -323,7 +323,7 @@ const workshop = ref<string>('');
 
 .subtitle {
   color: var(--Cores-Cinza-500, #5b6871);
-  font-family: var(--Tipo-Familia-Paragrafh, Inter);
+
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   font-weight: 400;
@@ -341,7 +341,7 @@ const workshop = ref<string>('');
   gap: 10px;
   background-color: var(--Cores-Cinza-100, #eff3f5);
   color: var(--Cores-Cinza-800, #33373c);
-  font-family: var(--Tipo-Familia-Headline, Raleway);
+
   font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
   font-weight: 700;
@@ -362,7 +362,7 @@ const workshop = ref<string>('');
 
 .title-text {
   color: var(--Cores-Cinza-800, #33373c);
-  font-family: var(--Tipo-Familia-Headline, Raleway);
+
   font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
   font-weight: 700;
