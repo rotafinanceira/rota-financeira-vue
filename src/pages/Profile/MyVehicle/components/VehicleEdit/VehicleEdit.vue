@@ -3,10 +3,14 @@
     <div class="edit-info">
       <h2 class="vehicle__header">Informações do Veículo</h2>
       <div class="vehicle__edit-pages">
-        <RouterLink v-for="editPage in vehicleEditRoutes" :to="editPage.path" :key="editPage.path"
-          class="vehicle__edit-page">
+        <RouterLink
+          v-for="editPage in vehicleEditRoutes"
+          :to="editPage.path"
+          :key="editPage.path"
+          class="vehicle__edit-page"
+        >
           <span>{{ editPage.title }}</span>
-          <img src="@/assets/arrowR.svg" alt="Arrow Right" />
+          <img :src="ArrowIcon" alt="" />
         </RouterLink>
       </div>
     </div>
@@ -15,7 +19,12 @@
       <p>{{ maintenanceCount }}<span class="total">/10</span></p>
     </div>
     <div class="maintenances__list">
-      <MaintenanceItem v-for="{ title, icon } in maintenances" :key="icon" :title="title" :icon="icon" />
+      <MaintenanceItem
+        v-for="{ title, icon } in maintenances"
+        :key="icon"
+        :title="title"
+        :icon="icon"
+      />
     </div>
 
     <h2 class="vehicle__header">Notificações</h2>
@@ -37,10 +46,10 @@
 import { computed, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { type vehicleEditRoutes } from '../../types';
-import ToggleButton from '@/components/ToggleButton.vue';
-import MaintenanceItem, {
-  type MaintenanceItemProps,
-} from '@/components/MaintenanceItem.vue';
+import ToggleButton from '@/shared/components/ToggleButton.vue';
+import { MaintenanceItemProps } from './types';
+import MaintenanceItem from './components/MaintenanceItem.vue';
+import { ArrowIcon } from '@/shared/assets/icons';
 
 const maintenanceNotificationsEnabled = ref(true);
 const maintenances = ref<MaintenanceItemProps[]>([
@@ -86,5 +95,5 @@ const vehicleEditRoutes: vehicleEditRoutes[] = [
 </script>
 
 <style scoped lang="scss">
-@import '../../vehicles';
+@import '../../_vehicles';
 </style>

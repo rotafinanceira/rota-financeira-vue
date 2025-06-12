@@ -35,13 +35,13 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useRegisterStore } from '@/store/registerStore';
-import SignInUpFooter from '@/components/SignInUpFooter.vue';
-import SignUpTitleStepper from '@/components/SignUpTitleStepper.vue';
-import ButtonComponent from '@/components/ButtonComponent.vue';
-import SignUpPasswordInput from '@/components/SignUpPasswordInput.vue';
-import PasswordChecker from '@/components/PasswordChecker.vue';
-import HeaderBarWithInfo from '@/components/HeaderBarWithInfo.vue';
+import { useRegisterStore } from '@/stores/registerStore';
+import SignInUpFooter from '@/shared/components/SignInUpFooter.vue';
+import SignUpTitleStepper from '@/shared/components/SignUpTitleStepper.vue';
+import ButtonComponent from '@/shared/components/ButtonComponent.vue';
+import SignUpPasswordInput from '@/shared/components/SignUpPasswordInput.vue';
+import PasswordChecker from '@/shared/components/PasswordChecker.vue';
+import HeaderBarWithInfo from '@/shared/components/HeaderBarWithInfo.vue';
 
 const store = useRegisterStore();
 const router = useRouter();
@@ -127,7 +127,6 @@ const handleSubmit = () => {
   height: 13.558px;
   flex-shrink: 0;
   color: var(--Cores-Primria-800, #245017);
-  font-family: Inter;
   font-size: 18.346px;
   font-style: italic;
   font-weight: 400;

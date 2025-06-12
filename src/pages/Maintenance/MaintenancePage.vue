@@ -4,7 +4,7 @@
     <div class="maintenance__wrapper">
       <header class="maintenance__header">
         <div class="flex">
-          <img :src="gearWrench" alt="" />
+          <img :src="CarWrenchIcon" alt="" />
           <h1 class="maintenance__title">Manutenções</h1>
         </div>
         <button
@@ -12,7 +12,7 @@
           type="button"
           :onclick="openSettings"
         >
-          <img :src="settings" alt="settings button" />
+          <img :src="FilterControlsIcon" alt="filter icon" />
         </button>
       </header>
       <MaintenanceCard
@@ -25,11 +25,10 @@
 </template>
 
 <script setup lang="ts">
-import { gearWrench, settings } from '@/assets';
-import AppHeader from '@/components/AppHeader.vue';
-import MaintenanceCard, {
-  MaintenanceCardProps,
-} from '@/components/MaintenanceCard.vue';
+import { CarWrenchIcon, FilterControlsIcon } from '@/shared/assets/icons';
+import AppHeader from '@/shared/components/AppHeader.vue';
+import MaintenanceCard from './components/MaintenanceCard.vue';
+import { MaintenanceCardProps } from './types';
 
 const maintenanceItems: MaintenanceCardProps[] = [
   {
@@ -76,14 +75,13 @@ const maintenanceItems: MaintenanceCardProps[] = [
 ];
 
 const openSettings = () => {
-  console.log('open settings');
+  console.log('open filters');
 };
 </script>
 
 <style lang="scss" scoped>
 .maintenance {
   min-height: calc(100svh - 130px);
-  background-color: #eff3f5;
   padding-bottom: 1rem;
 
   &__wrapper {
@@ -105,7 +103,6 @@ const openSettings = () => {
   &__title {
     font-size: 1.25rem;
     font-weight: 700;
-    font-family: 'Inter';
     line-height: normal;
     margin: 0;
   }

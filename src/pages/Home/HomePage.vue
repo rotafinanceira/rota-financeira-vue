@@ -63,7 +63,7 @@
           </div>
           <div class="maintenance-content">
             <div class="arrow" @click="prevExpiredMaintenance">
-              <img :src="arrow" alt="Back Arrow Image" class="back-arrow" />
+              <img :src="ArrowIcon" alt="Back Arrow Image" class="back-arrow" />
             </div>
             <div class="maintenance-content-text">
               <div
@@ -87,7 +87,7 @@
               </div>
             </div>
             <div class="arrow" @click="nextExpiredMaintenance">
-              <img :src="arrow" alt="Next Arrow Image" class="next-arrow" />
+              <img :src="ArrowIcon" alt="Next Arrow Image" class="next-arrow" />
             </div>
           </div>
           <div class="see-all-content">
@@ -118,7 +118,7 @@
           </div>
           <div class="maintenance-content">
             <div class="arrow" @click="prevNextMaintenance">
-              <img :src="arrow" alt="Back Arrow Image" class="back-arrow" />
+              <img :src="ArrowIcon" alt="Back Arrow Image" class="back-arrow" />
             </div>
             <div class="maintenance-content-text">
               <div
@@ -140,7 +140,7 @@
               </div>
             </div>
             <div class="arrow" @click="nextNextMaintenance">
-              <img :src="arrow" alt="Next Arrow Image" class="next-arrow" />
+              <img :src="ArrowIcon" alt="Next Arrow Image" class="next-arrow" />
             </div>
           </div>
           <div class="see-all-content">
@@ -159,15 +159,15 @@
 </template>
 
 <script setup lang="ts">
-import AppHeader from '@/components/AppHeader.vue';
-import ModalGenerico from '@/components/ModalGenerico.vue';
-import helpIcon from '@/assets/helpIcon.svg';
-import odometer from '@/assets/odometer.svg';
-import expiredIcon from '@/assets/manVen.svg';
-import alignmentImage from '@/assets/Alinham.svg';
-import arrow from '@/assets/backarrow.svg';
-import batteryIcon from '@/assets/batteryIcon.svg';
-import dateIcon from '@/assets/dateIcon.svg';
+import AppHeader from '@/shared/components/AppHeader.vue';
+import ModalGenerico from '@/shared/components/ModalGenerico.vue';
+import helpIcon from '@/shared/assets/helpIcon.svg';
+import odometer from '@/shared/assets/illustrations/odometer.svg';
+import expiredIcon from '@/shared/assets/manVen.svg';
+import alignmentImage from '@/shared/assets/icons/battery.svg';
+import { ArrowIcon } from '@/shared/assets/icons';
+import batteryIcon from '@/shared/assets/icons/battery.svg';
+import dateIcon from '@/shared/assets/icons/battery.svg';
 import { ref } from 'vue';
 
 const isOpen = ref<boolean>(false);
@@ -277,7 +277,6 @@ const nextNextMaintenance = () => {
 .home-page {
   display: flex;
   flex-direction: column;
-  background-color: #eff3f5;
   min-height: 100vh;
   padding: 24px 20px;
   gap: 32px;
@@ -396,7 +395,6 @@ const nextNextMaintenance = () => {
 .kilometer-text-number {
   font-weight: 500;
   font-size: 14px;
-  font-family: 'Inter';
 }
 
 .section-header {
@@ -433,7 +431,6 @@ const nextNextMaintenance = () => {
 
 .section-title {
   color: #440b0b;
-  font-family: 'Inter';
   font-size: 16px;
   font-weight: 600;
 }
@@ -489,14 +486,19 @@ const nextNextMaintenance = () => {
 }
 
 .back-arrow {
-  width: 16px;
-  height: 16px;
+  --size: 20px;
+  width: var(--size);
+  height: var(--size);
+
+  transform: rotate(-90deg);
 }
 
 .next-arrow {
-  transform: rotate(180deg);
-  width: 16px;
-  height: 16px;
+  --size: 20px;
+  width: var(--size);
+  height: var(--size);
+
+  transform: rotate(90deg);
 }
 
 .maintenance-expired-count {
@@ -506,7 +508,6 @@ const nextNextMaintenance = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Inter';
   color: #ffffff;
   font-size: 12px;
   font-weight: 500;

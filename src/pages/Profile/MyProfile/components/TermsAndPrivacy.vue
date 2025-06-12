@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import HeaderBar from '@/components/HeaderBar.vue';
+import HeaderBar from '@/shared/components/HeaderBar.vue';
 
 // No additional logic is required for this static page.
 </script>
@@ -134,7 +134,7 @@ h3 {
   align-self: stretch;
   color: var(--Cores-Cinza-800, #33373c);
   text-align: center;
-  font-family: var(--Tipo-Familia-Headline, Raleway);
+
   font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
   font-weight: 700;

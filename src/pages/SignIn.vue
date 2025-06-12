@@ -54,12 +54,12 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import InputPassword from '@/components/InputPassword.vue';
-import InputEmail from '@/components/InputEmail.vue';
-import ButtonComponent from '@/components/ButtonComponent.vue';
-import ModalGenericoAlert from '@/components/ModalGenericoAlert.vue';
-import HeaderBarWithInfo from '@/components/HeaderBarWithInfo.vue';
-import googleIcon from '@/assets/googleIcon.svg';
+import InputPassword from '@/shared/components/InputPassword.vue';
+import InputEmail from '@/shared/components/InputEmail.vue';
+import ButtonComponent from '@/shared/components/ButtonComponent.vue';
+import ModalGenericoAlert from '@/shared/components/ModalGenericoAlert.vue';
+import HeaderBarWithInfo from '@/shared/components/HeaderBarWithInfo.vue';
+import googleIcon from '@/shared/assets/googleIcon.svg';
 import { httpClient } from '@/infra/http/httpClient';
 
 const isLoading = ref(false);
@@ -212,7 +212,7 @@ const continueWithGoogle = () => {
 .title {
   color: var(--Cores-Secundria-600, #314b39);
   text-align: center;
-  font-family: var(--Tipo-Familia-Headline, Raleway);
+
   font-size: var(--Tipo-Tamanho-Xl, 20px);
   font-style: normal;
   font-weight: 700;
@@ -280,7 +280,6 @@ const continueWithGoogle = () => {
 
 .google-button-text {
   color: var(--primary-900, #245017);
-  font-family: Inter, sans-serif;
   font-size: 16px;
   font-weight: 700;
   line-height: 120%;

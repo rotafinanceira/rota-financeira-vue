@@ -53,7 +53,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditField from '../../components/EditField.vue';
-import PasswordChecker from '@/components/PasswordChecker.vue';
+import PasswordChecker from '@/shared/components/PasswordChecker.vue';
 
 const currentPassword = ref('');
 const newPassword = ref('');

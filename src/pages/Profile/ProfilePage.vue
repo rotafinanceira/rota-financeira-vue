@@ -35,8 +35,7 @@
 import { ref } from 'vue';
 import MyProfile from '@/pages/Profile/MyProfile/MyProfile.vue';
 import MyVehicle from '@/pages/Profile/MyVehicle/MyVehicle.vue';
-import picProfile from '@/assets/picProfile.svg';
-import AppHeader from '@/components/AppHeader.vue';
+import AppHeader from '@/shared/components/AppHeader.vue';
 
 const activeTab = ref<'perfil' | 'veiculo'>('perfil');
 const user = ref({
@@ -44,7 +43,8 @@ const user = ref({
   email: 'brmartins1984@gmail.com',
   phone: '+55 (11) 9999-9999',
   age: 36,
-  photo: picProfile,
+  photo:
+    'https://images.unsplash.com/photo-1619895862022-09114b41f16f?q=80&w=532',
 });
 const emailNotificationsEnabled = ref(false);
 const phoneNotificationsEnabled = ref(true);
@@ -67,7 +67,6 @@ function togglePhoneNotifications(value: boolean) {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: var(--Cores-Cinza-Branco, #ffffff);
   margin-top: 1.5rem;
 }
 
@@ -82,7 +81,7 @@ function togglePhoneNotifications(value: boolean) {
   flex: 1 0 0;
   color: var(--Cores-Primria-700, #2b5e16);
   text-align: center;
-  font-family: var(--Tipo-Familia-Headline, Raleway);
+
   font-size: var(--Tipo-Tamanho-2xl, 24px);
   font-style: normal;
   font-weight: 700;
@@ -110,7 +109,7 @@ function togglePhoneNotifications(value: boolean) {
   padding: 0.5rem 1rem;
   border-radius: 4px;
   color: var(--Cores-Primria-700, #2b5e16);
-  font-family: var(--Tipo-Familia-Button, Inter);
+
   font-size: var(--Tipo-Tamanho-Sm, 14px);
   font-style: normal;
   line-height: 120%; /* 16.8px */
