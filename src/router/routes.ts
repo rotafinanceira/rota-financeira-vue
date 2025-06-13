@@ -150,6 +150,10 @@ const routes: RouteRecordRaw[] = [
             component: () =>
               import('@/pages/Notifications/NotificationPage.vue'),
           },
+          {
+            path: 'finance',
+            component: () => import('@/pages/Finance/FinanceMain.vue'),
+          },
         ],
       },
     ],
