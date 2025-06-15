@@ -6,18 +6,23 @@
       <h1>Finanças</h1>
     </div>
 
-    <div class="finances__card">
-      <div class="card__container">
-        <h2 class="card__title">
-          Quanto guardar por dia?
-          <img :src="InterrogationCircleIcon" alt="" />
-        </h2>
-        <div class="card__info">
-          <span class="card__text">Valor Recomendado</span>
-          <span class="card__value">R$ 20,00</span>
+    <div>
+      <div class="finances__card">
+        <div class="card__container">
+          <h2 class="card__title">
+            Quanto guardar por dia?
+            <img :src="InterrogationCircleIcon" alt="" />
+          </h2>
+          <div class="card__info">
+            <span class="card__text">Valor Recomendado</span>
+            <span class="card__value">R$ 20,00</span>
+          </div>
         </div>
       </div>
-      <button class="card__button" @click="navigateTo('/finances/store-money')">
+      <button
+        class="card__button store"
+        @click="navigateTo('/finances/store-money')"
+      >
         Guardar dinheiro
       </button>
     </div>
