@@ -2,7 +2,7 @@
   <AppHeader />
   <div class="finances">
     <div class="finances__header">
-      <img :src="MoneyCircleIcon" alt="Ícone de Finanças" />
+      <img :src="MoneyCircleIcon" alt="" />
       <h1>Finanças</h1>
     </div>
 
@@ -10,7 +10,7 @@
       <div class="card__container">
         <h2 class="card__title">
           Quanto guardar por dia?
-          <img :src="InterrogationCircleIcon" alt="Ícone de Interrogação" />
+          <img :src="InterrogationCircleIcon" alt="" />
         </h2>
         <div class="card__info">
           <span class="card__text">Valor Recomendado</span>
@@ -27,13 +27,18 @@
         <h2 class="card__title">Reserva de manutenção</h2>
         <div class="card__info">
           <span class="card__value-medium">R$ 200,00</span>
-          <a class="card__link" href="#">Editar valor</a>
+          <a class="card__link" href="#/finances/edit-value">Editar valor</a>
         </div>
-        <div class="card__info">
-          <span class="card__text light">Progresso da última semana: </span>
+        <div>
           <div>
-            <span class="card__arrow">↑</span>
-            <span class="card__text light">100,00</span>
+            <hr class="separator" />
+            <div class="card__info">
+              <span class="card__text light">Progresso da última semana: </span>
+              <div>
+                <span class="card__arrow">↑</span>
+                <span class="card__text light">100,00</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -46,6 +51,9 @@
           Deposite um valor na sua reserva de manutenção para completar seu
           check-in de hoje!
         </p>
+        <div>
+          <hr />
+        </div>
         <div class="card__circles">
           <div
             v-for="(status, index) in checkinStatus"
@@ -53,9 +61,11 @@
             class="circle"
             :class="status ? 'positive' : 'negative'"
           >
-            <span class="circle__text">
-              {{ status ? '✔' : '✖' }}
-            </span>
+            <img
+              :src="status ? CheckIcon : XIcon"
+              alt=""
+              class="circle__icon"
+            />
           </div>
         </div>
       </div>
@@ -68,11 +78,13 @@ import AppHeader from '@/shared/components/AppHeader.vue';
 import {
   MoneyCircleIcon,
   InterrogationCircleIcon,
+  CheckIcon,
+  XIcon,
 } from '@/shared/assets/icons';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const checkinStatus = [true, false, true, false, false];
+const checkinStatus = [true, true, false, false, true, true, false];
 
 function navigateTo(path: string) {
   router.push(path);

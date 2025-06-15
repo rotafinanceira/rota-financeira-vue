@@ -97,11 +97,6 @@
     font-size: 0.875rem;
   }
 
-  &__checkin-list {
-    display: flex;
-    gap: 11px;
-  }
-
   &__button {
     width: 100%;
     height: 48px;
@@ -121,7 +116,13 @@
 
 .card__circles {
   display: flex;
-  gap: 11px;
+  justify-content: space-between;
+}
+
+.circle__icon {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) invert(1);
 }
 
 .circle {
@@ -132,12 +133,6 @@
   align-items: center;
   justify-content: center;
 
-  &__text {
-    color: white;
-    font-size: 1rem;
-    font-weight: bold;
-  }
-
   &.positive {
     background-color: #2ecc71;
   }
@@ -147,23 +142,28 @@
   }
 }
 
-.store {
+.edit {
   margin: 24px 20px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
   &__card {
     display: flex;
     flex-direction: column;
     background: #fff;
     padding: 16px;
     gap: 16px;
+    margin-top: 24px;
+    margin-bottom: 16px;
   }
+}
 
-  h2 {
-    text-align: justify;
-    line-height: 120%;
-    letter-spacing: 0;
-    word-spacing: -1.5px;
-  }
+hr {
+  width: 100%;
+  border: none;
+  border-top: 1px solid #e0e5e7;
+  margin: 0;
+}
+
+.separator {
+  margin-bottom: 8px;
 }
