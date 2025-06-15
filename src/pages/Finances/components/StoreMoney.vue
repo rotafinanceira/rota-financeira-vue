@@ -1,11 +1,11 @@
 <template>
   <AppHeader />
-  <div class="store">
+  <div class="edit">
     <div class="finances__header">
       <img :src="MoneyCircleIcon" alt="Ícone de Finanças" />
       <h1>Guardar dinheiro</h1>
     </div>
-    <div class="store__card">
+    <div class="edit__card">
       <h2 class="card__title">
         Qual valor deseja guardar na reserva de manutenção?
       </h2>
