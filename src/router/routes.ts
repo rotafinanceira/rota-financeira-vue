@@ -159,6 +159,11 @@ const routes: RouteRecordRaw[] = [
             component: () =>
               import('@/pages/Finances/components/StoreMoney.vue'),
           },
+          {
+            path: 'finances/edit-value',
+            component: () =>
+              import('@/pages/Finances/components/EditValue.vue'),
+          },
         ],
       },
     ],
