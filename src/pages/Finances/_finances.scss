@@ -49,8 +49,8 @@
     align-items: center;
 
     img {
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
     }
   }
 
@@ -72,6 +72,7 @@
     .card__arrow {
       color: #307714;
       padding-right: 0.2rem;
+      font-size: 0.75rem;
     }
 
     .card__value {
@@ -152,7 +153,8 @@
   &__card {
     display: flex;
     flex-direction: column;
-    background: #fff;
+    background-color: #ffffff;
+    border-radius: 8px;
     border: 1px solid #e0e5e7;
     padding: 16px;
     gap: 16px;
