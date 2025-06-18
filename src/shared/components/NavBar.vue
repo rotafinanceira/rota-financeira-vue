@@ -3,9 +3,7 @@
     <q-tabs
       v-model="navbarTab"
       align="justify"
-      active-color="green"
-      indicator-color="green"
-      class="navbar"
+      class="navbar custom-tabs"
       switch-indicator
     >
       <q-tab
@@ -61,14 +59,14 @@ const tabs: Tab[] = [
     name: 'history',
     path: '/history',
     icon: navbar.history,
-    label: 'Relatórios',
+    label: 'Histórico',
     notification: 0,
   },
   {
-    name: 'profile',
-    path: '/profile',
+    name: 'finances',
+    path: '/finances',
     icon: navbar.profile,
-    label: 'Perfil',
+    label: 'Finanças',
   },
 ];
 
@@ -138,7 +136,7 @@ function navigateTo(path: string) {
   .q-tabs__indicator {
     top: 0;
     bottom: auto;
-    background-color: green;
+    background-color: #307714;
   }
 }
 
@@ -162,6 +160,16 @@ function navigateTo(path: string) {
 
   &__is-active {
     color: #307714;
+  }
+}
+
+.custom-tabs {
+  .q-tab--active {
+    color: #307714 !important;
+  }
+
+  .q-tabs__indicator {
+    background-color: #307714 !important;
   }
 }
 </style>
