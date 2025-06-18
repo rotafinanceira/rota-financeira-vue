@@ -7,8 +7,8 @@ import historyDisabled from './history-disabled.svg';
 import maintenanceEnabled from './maintenance-enabled.svg';
 import maintenanceDisabled from './maintenance-disabled.svg';
 
-import profileEnabled from './profile-enabled.svg';
-import profileDisabled from './profile-disabled.svg';
+import financesEnabled from './finances-enabled.svg';
+import financesDisabled from './finances-disabled.svg';
 
 export const navbar = {
   home: {
@@ -24,7 +24,7 @@ export const navbar = {
     disabled: maintenanceDisabled,
   },
   profile: {
-    enabled: profileEnabled,
-    disabled: profileDisabled,
+    enabled: financesEnabled,
+    disabled: financesDisabled,
   },
 };
