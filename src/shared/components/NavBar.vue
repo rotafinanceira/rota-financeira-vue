@@ -1,7 +1,7 @@
 <template>
   <q-footer>
     <q-tabs
-      v-model="footerTab"
+      v-model="navbarTab"
       align="justify"
       active-color="green"
       indicator-color="green"
@@ -24,11 +24,11 @@
             <span> +{{ tab.notification }} </span>
           </div>
           <img
-            :src="footerTab === tab.name ? tab.icon.enabled : tab.icon.disabled"
+            :src="navbarTab === tab.name ? tab.icon.enabled : tab.icon.disabled"
             alt=""
           />
           <p
-            :class="['tab__text', { 'tab__is-active': footerTab === tab.name }]"
+            :class="['tab__text', { 'tab__is-active': navbarTab === tab.name }]"
           >
             {{ tab.label }}
           </p>
@@ -44,7 +44,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { navbar } from '@/shared/assets/navbar';
 import { Tab } from '../types/navbar';
 
-const footerTab = ref('home');
+const navbarTab = ref('home');
 const router = useRouter();
 const route = useRoute();
 
@@ -81,14 +81,14 @@ const getActiveTab = (tabs: Tab[], path: string) => {
 watch(
   () => route.path,
   (newPath) => {
-    footerTab.value = getActiveTab(tabs, newPath) || 'home';
+    navbarTab.value = getActiveTab(tabs, newPath) || 'home';
   },
   { immediate: true }
 );
 
 function navigateTo(path: string) {
   router.push(path).then(() => {
-    footerTab.value = getActiveTab(tabs, path) || 'home';
+    navbarTab.value = getActiveTab(tabs, path) || 'home';
   });
 }
 </script>
