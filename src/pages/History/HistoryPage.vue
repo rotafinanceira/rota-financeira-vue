@@ -113,7 +113,7 @@ const isThereNoMaintenances = maintenanceHistory
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   &__title {
@@ -134,7 +134,7 @@ const isThereNoMaintenances = maintenanceHistory
   &__main {
     display: grid;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
     min-height: calc(100svh - 219px);
   }
 
