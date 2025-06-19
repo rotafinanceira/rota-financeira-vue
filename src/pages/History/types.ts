@@ -5,5 +5,5 @@ export type HistoryCardProps = {
   month: string;
   date: string;
   km: string;
-  maintenances: MaintenanceItemProps[]
+  maintenances: MaintenanceItemProps[];
 };

@@ -36,7 +36,7 @@ defineProps<MaintenanceItemProps>();
         <p v-if="description" class="item__description">{{ description }}</p>
       </div>
     </div>
-    <img v-if="hasArrow" class="item__arrow" :src="ArrowIcon" alt="">
+    <img v-if="hasArrow" class="item__arrow" :src="ArrowIcon" alt="" />
   </div>
 </template>
 
@@ -79,7 +79,7 @@ defineProps<MaintenanceItemProps>();
 
   &__description {
     color: #485159;
-    font-size: .75rem;
+    font-size: 0.75rem;
   }
 
   &__arrow {

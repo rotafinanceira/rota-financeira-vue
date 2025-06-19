@@ -15,10 +15,7 @@ defineProps<HistoryCardProps>();
     </div>
     <BaseDivider class="divider" />
     <div class="card__maintenances">
-      <MaintenanceItem v-for="m in maintenances"
-        v-bind="m"
-        :key="m.icon"
-      />
+      <MaintenanceItem v-for="m in maintenances" v-bind="m" :key="m.icon" />
     </div>
   </div>
 </template>
