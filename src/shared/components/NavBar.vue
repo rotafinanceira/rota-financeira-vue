@@ -1,11 +1,6 @@
 <template>
   <q-footer>
-    <q-tabs
-      v-model="navbarTab"
-      align="justify"
-      class="navbar custom-tabs"
-      switch-indicator
-    >
+    <q-tabs v-model="navbarTab" align="justify" class="navbar" switch-indicator>
       <q-tab
         v-for="tab in tabs"
         :key="tab.name"
@@ -65,7 +60,7 @@ const tabs: Tab[] = [
   {
     name: 'finances',
     path: '/finances',
-    icon: navbar.profile,
+    icon: navbar.finances,
     label: 'Finanças',
   },
 ];
@@ -101,6 +96,7 @@ function navigateTo(path: string) {
 
 .navbar {
   height: 100%;
+  color: #307714;
 
   &__tab {
     display: flex;
@@ -132,12 +128,6 @@ function navigateTo(path: string) {
       left: 2.5px;
     }
   }
-
-  .q-tabs__indicator {
-    top: 0;
-    bottom: auto;
-    background-color: #307714;
-  }
 }
 
 .tab {
@@ -163,13 +153,7 @@ function navigateTo(path: string) {
   }
 }
 
-.custom-tabs {
-  .q-tab--active {
-    color: #307714 !important;
-  }
-
-  .q-tabs__indicator {
-    background-color: #307714 !important;
-  }
-}
+/* .custom-tabs {
+  
+} */
 </style>
