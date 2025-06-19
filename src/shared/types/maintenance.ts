@@ -12,4 +12,5 @@ export type MaintenanceItemProps = {
   icon: keyof MaintenanceIcons;
   title: string;
   description?: string;
+  hasArrow?: boolean;
 };
