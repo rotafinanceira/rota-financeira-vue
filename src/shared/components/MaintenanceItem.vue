@@ -8,8 +8,9 @@ import {
   OilIcon,
   WheelIcon,
 } from '@/shared/assets/icons';
-import { MaintenanceItemProps } from '../types';
+import { MaintenanceItemProps } from '../types/maintenance';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
+import { LineVertical } from '../assets/decorations';
 
 const maintenanceIcons: MaintenanceIcons = {
   wheel: WheelIcon,
@@ -27,10 +28,12 @@ defineProps<MaintenanceItemProps>();
 <template>
   <!-- FIXME: A depender da ação que ocorrerá, há de se decidir se deve ser um button ou um link -->
   <div class="maintenance__item">
-    <div class="item__wrapper">
-      <img :src="maintenanceIcons[icon]" alt="" class="item__icon" />
+    <img :src="maintenanceIcons[icon]" alt="" class="item__icon" />
+    <img :src="LineVertical" alt="">
+    <div class="item__content">
+      <p class="item__text">{{ title }}</p>
+      <p v-if="description" class="item__description">{{ description }}</p>
     </div>
-    <p class="item__text">{{ title }}</p>
   </div>
 </template>
 
@@ -62,7 +65,7 @@ defineProps<MaintenanceItemProps>();
   &__text {
     font-size: 0.875rem;
     font-weight: 500;
-    color: #2b5e16;
+    color: #0C0D0F;
   }
 
   &__flex {
