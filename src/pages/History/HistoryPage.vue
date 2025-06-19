@@ -3,6 +3,7 @@ import { FilterControlsIcon, PageIcon } from '@/shared/assets/icons';
 import AppHeader from '@/shared/components/AppHeader.vue';
 import HistoryCard from './components/HistoryCard.vue';
 import { HistoryCardProps } from './types';
+import { BrokenCar } from '@/shared/assets/illustrations';
 
 const maintenanceHistory: HistoryCardProps[] = [
   {
@@ -69,7 +70,11 @@ const maintenanceHistory: HistoryCardProps[] = [
   },
 ];
 
-
+const isThereNoMaintenances = maintenanceHistory
+  ? maintenanceHistory.length === 0
+    ? true
+    : false
+  : true;
 </script>
 
 <template>
@@ -85,7 +90,16 @@ const maintenanceHistory: HistoryCardProps[] = [
       </button>
     </header>
     <main class="history__main">
-      <HistoryCard v-for="history in maintenanceHistory" v-bind="history" :key="history.id" />
+      <section class="history__no-maintenances" v-if="isThereNoMaintenances">
+        <img :src="BrokenCar" alt="" />
+        <p class="">Você ainda não possui manutenções cadastradas!</p>
+      </section>
+      <HistoryCard
+        v-else
+        v-for="history in maintenanceHistory"
+        v-bind="history"
+        :key="history.id"
+      />
     </main>
   </div>
 </template>
@@ -119,13 +133,28 @@ const maintenanceHistory: HistoryCardProps[] = [
 
   &__main {
     display: grid;
+    align-items: center;
     gap: 1rem;
+    min-height: calc(100svh - 219px);
+  }
+
+  &__no-maintenances {
+    display: grid;
+    place-items: center;
+    gap: 1.5rem;
+
+    p {
+      font-size: 1.125rem;
+      font-weight: 500;
+      text-align: center;
+      max-width: 15rem;
+    }
   }
 }
 
 .flex {
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 </style>
