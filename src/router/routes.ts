@@ -44,7 +44,7 @@ const routes: RouteRecordRaw[] = [
           },
           {
             path: 'history',
-            component: () => import('@/pages/MaintenanceHistory.vue'),
+            component: () => import('@/pages/History/HistoryPage.vue'),
           },
           {
             path: 'profile',
@@ -149,6 +149,20 @@ const routes: RouteRecordRaw[] = [
             path: 'notifications',
             component: () =>
               import('@/pages/Notifications/NotificationPage.vue'),
+          },
+          {
+            path: 'finances',
+            component: () => import('@/pages/Finances/FinancesPage.vue'),
+          },
+          {
+            path: 'finances/store-money',
+            component: () =>
+              import('@/pages/Finances/components/StoreMoney.vue'),
+          },
+          {
+            path: 'finances/edit-value',
+            component: () =>
+              import('@/pages/Finances/components/EditValue.vue'),
           },
         ],
       },

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   AirFilterIcon,
+  ArrowIcon,
   BatteryIcon,
   ChartIcon,
   EngineIcon,
@@ -8,8 +9,9 @@ import {
   OilIcon,
   WheelIcon,
 } from '@/shared/assets/icons';
-import { MaintenanceItemProps } from '../types';
+import { MaintenanceItemProps } from '../types/maintenance';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
+import { LineVertical } from '../assets/decorations';
 
 const maintenanceIcons: MaintenanceIcons = {
   wheel: WheelIcon,
@@ -25,12 +27,16 @@ defineProps<MaintenanceItemProps>();
 </script>
 
 <template>
-  <!-- FIXME: A depender da ação que ocorrerá, há de se decidir se deve ser um button ou um link -->
-  <div class="maintenance__item">
-    <div class="item__wrapper">
+  <div class="flex">
+    <div class="maintenance__item">
       <img :src="maintenanceIcons[icon]" alt="" class="item__icon" />
+      <img :src="LineVertical" alt="" />
+      <div class="item__content">
+        <p class="item__title">{{ title }}</p>
+        <p v-if="description" class="item__description">{{ description }}</p>
+      </div>
     </div>
-    <p class="item__text">{{ title }}</p>
+    <img v-if="hasArrow" class="item__arrow" :src="ArrowIcon" alt="" />
   </div>
 </template>
 
@@ -59,10 +65,10 @@ defineProps<MaintenanceItemProps>();
     background-color: #eff3f5;
   }
 
-  &__text {
+  &__title {
     font-size: 0.875rem;
     font-weight: 500;
-    color: #2b5e16;
+    color: #0c0d0f;
   }
 
   &__flex {
@@ -70,5 +76,24 @@ defineProps<MaintenanceItemProps>();
     align-items: center;
     gap: 0.25rem;
   }
+
+  &__description {
+    color: #485159;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  &__arrow {
+    --size: 20px;
+    width: var(--size);
+    height: var(--size);
+    transform: rotate(90deg);
+  }
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
