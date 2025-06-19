@@ -23,7 +23,7 @@ export const navbar = {
     enabled: maintenanceEnabled,
     disabled: maintenanceDisabled,
   },
-  profile: {
+  finances: {
     enabled: financesEnabled,
     disabled: financesDisabled,
   },
