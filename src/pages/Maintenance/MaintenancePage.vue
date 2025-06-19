@@ -87,7 +87,7 @@ const openSettings = () => {
   &__wrapper {
     width: calc(100% - 2.5rem);
     margin-inline: auto;
-    padding-top: 1.5rem;
+    margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
