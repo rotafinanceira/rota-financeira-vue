@@ -15,12 +15,12 @@ const maintenanceHistory: HistoryCardProps[] = [
       {
         icon: 'fuelFilter',
         title: 'Troca de filtro de combustível',
-        description: 'Custo: R$ 400,00',
+        description: 'R$ 400,00',
       },
       {
         icon: 'wheel',
         title: 'Alinhamento e Balanceamento',
-        description: 'Custo: R$ 400,00',
+        description: 'R$ 250,00',
       },
     ],
   },
@@ -33,7 +33,7 @@ const maintenanceHistory: HistoryCardProps[] = [
       {
         icon: 'fluidLevel',
         title: 'Troca de água',
-        description: 'Custo: R$ 400,00',
+        description: 'R$ 400,00',
       },
     ],
   },
@@ -46,12 +46,12 @@ const maintenanceHistory: HistoryCardProps[] = [
       {
         icon: 'fuelFilter',
         title: 'Troca de filtro de combustível',
-        description: 'Custo: R$ 400,00',
+        description: 'R$ 400,00',
       },
       {
         icon: 'wheel',
         title: 'Alinhamento e Balanceamento',
-        description: 'Custo: R$ 400,00',
+        description: 'R$ 400,00',
       },
     ],
   },
@@ -64,7 +64,7 @@ const maintenanceHistory: HistoryCardProps[] = [
       {
         icon: 'oil',
         title: 'Troca de óleo',
-        description: 'Custo: R$ 300,00',
+        description: 'R$ 300,00',
       },
     ],
   },

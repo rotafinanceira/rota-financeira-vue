@@ -80,6 +80,7 @@ defineProps<MaintenanceItemProps>();
   &__description {
     color: #485159;
     font-size: 0.75rem;
+    font-weight: 500;
   }
 
   &__arrow {
