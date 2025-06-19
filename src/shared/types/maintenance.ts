@@ -7,3 +7,10 @@ export type MaintenanceIcons = {
   airFilter: string;
   fluidLevel: string;
 };
+
+export type MaintenanceItemProps = {
+  icon: keyof MaintenanceIcons;
+  title: string;
+  description?: string;
+  hasArrow?: boolean;
+};

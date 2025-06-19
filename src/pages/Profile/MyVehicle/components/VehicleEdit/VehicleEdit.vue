@@ -47,8 +47,8 @@ import { computed, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { type vehicleEditRoutes } from '../../types';
 import ToggleButton from '@/shared/components/ToggleButton.vue';
-import { MaintenanceItemProps } from './types';
-import MaintenanceItem from './components/MaintenanceItem.vue';
+import { MaintenanceItemProps } from '@/shared/types/maintenance';
+import MaintenanceItem from '@/shared/components/MaintenanceItem.vue';
 import { ArrowIcon } from '@/shared/assets/icons';
 
 const maintenanceNotificationsEnabled = ref(true);

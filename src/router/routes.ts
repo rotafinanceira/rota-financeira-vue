@@ -44,7 +44,7 @@ const routes: RouteRecordRaw[] = [
           },
           {
             path: 'history',
-            component: () => import('@/pages/MaintenanceHistory.vue'),
+            component: () => import('@/pages/History/HistoryPage.vue'),
           },
           {
             path: 'profile',
