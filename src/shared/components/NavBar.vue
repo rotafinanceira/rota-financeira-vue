@@ -152,8 +152,4 @@ function navigateTo(path: string) {
     color: #307714;
   }
 }
-
-/* .custom-tabs {
-  
-} */
 </style>
