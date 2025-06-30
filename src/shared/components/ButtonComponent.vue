@@ -1,7 +1,7 @@
 <template>
   <button
     :class="['custom-button', sizeClass, variantClass]"
-    :disabled="isDisabled"
+    :disabled="props.isDisabled"
     @click="handleClick"
   >
     <slot />
@@ -14,28 +14,31 @@ import { computed } from 'vue';
 type Variant = 'primary' | 'secondary' | 'tertiary' | 'danger';
 type Size = 'large' | 'default' | 'small';
 
-const props = defineProps<{
-  variant?: Variant;
-  size?: Size;
-  isDisabled?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    variant?: Variant;
+    size?: Size;
+    isDisabled?: boolean;
+  }>(),
+  {
+    variant: 'primary',
+    size: 'default',
+    isDisabled: false,
+  }
+);
 
 const emit = defineEmits<{
   (e: 'click'): void;
 }>();
 
-const variant = props.variant ?? 'primary';
-const size = props.size ?? 'default';
-const isDisabled = props.isDisabled ?? false;
-
 const handleClick = () => {
-  if (!isDisabled) {
+  if (!props.isDisabled) {
     emit('click');
   }
 };
 
-const sizeClass = computed(() => `btn--${size}`);
-const variantClass = computed(() => `btn--${variant}`);
+const sizeClass = computed(() => `btn--${props.size}`);
+const variantClass = computed(() => `btn--${props.variant}`);
 </script>
 
 <style scoped>
@@ -50,11 +53,13 @@ const variantClass = computed(() => `btn--${variant}`);
   white-space: nowrap;
   padding: 12px 24px;
   gap: 12px;
+  border: none;
 }
 
 .custom-button:disabled {
   background-color: #e0e5e7;
   color: #485159;
+  cursor: not-allowed;
 }
 
 /* Tamanhos */
@@ -69,7 +74,7 @@ const variantClass = computed(() => `btn--${variant}`);
 }
 
 .btn--small {
-  font-size: 0.938rem;
+  font-size: 0.875rem;
   height: 2.5rem;
 }
 
@@ -80,7 +85,7 @@ const variantClass = computed(() => `btn--${variant}`);
 }
 
 .btn--secondary {
-  background-color: #ffffff;
+  background-color: transparent;
   color: #307714;
   border: 2px solid #307714;
 }
