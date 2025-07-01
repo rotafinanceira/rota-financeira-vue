@@ -2,7 +2,6 @@
   <button
     :class="['custom-button', sizeClass, variantClass]"
     :disabled="props.disabled"
-    @click="handleClick"
     type="button"
   >
     <slot />
@@ -29,16 +28,6 @@ const props = withDefaults(
     disabled: false,
   }
 );
-
-const emit = defineEmits<{
-  (e: 'click'): void;
-}>();
-
-const handleClick = () => {
-  if (!props.disabled) {
-    emit('click');
-  }
-};
 
 const sizeClass = computed(() => `btn--${props.size}`);
 const variantClass = computed(() => `btn--${props.variant}`);
