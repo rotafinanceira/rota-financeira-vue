@@ -1,11 +1,9 @@
 <template>
-  <HeaderBar title="Notificações" path="/home" :showBackButton="true" />
   <div class="notifications">
     <AppNotification v-for="n in notifications" v-bind="n" :key="n.id" />
   </div>
 </template>
 <script setup lang="ts">
-import HeaderBar from '@/shared/components/HeaderBar.vue';
 import AppNotification from './components/AppNotification.vue';
 import { Notification } from './types';
 
