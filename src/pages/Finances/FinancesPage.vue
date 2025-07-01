@@ -1,5 +1,4 @@
 <template>
-  <AppHeader />
   <div class="finances">
     <div class="finances__header">
       <img :src="MoneyCircleIcon" alt="" />
@@ -79,7 +78,6 @@
 </template>
 
 <script setup lang="ts">
-import AppHeader from '@/shared/components/AppHeader.vue';
 import {
   MoneyCircleIcon,
   InterrogationCircleIcon,
