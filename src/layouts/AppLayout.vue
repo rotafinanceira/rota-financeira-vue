@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import AppFooter from '@/shared/components/AppFooter.vue';
+import NavBar from '@/shared/components/NavBar.vue';
 import { RouterView } from 'vue-router';
 </script>
 
 <template>
   <router-view />
-  <AppFooter />
+  <NavBar />
 </template>
 
 <style scoped lang="scss"></style>
