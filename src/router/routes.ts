@@ -1,5 +1,6 @@
 import { h } from 'vue';
 import { RouteRecordRaw, RouterView } from 'vue-router';
+import { ROUTES } from './paths';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -21,7 +22,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'register',
-        component: () => h(RouterView),
+        component: { render: () => h(RouterView) },
         children: [
           {
             path: '',
@@ -60,12 +61,18 @@ const routes: RouteRecordRaw[] = [
           },
           {
             path: 'maintenance',
-            component: () => h(RouterView),
+            component: { render: () => h(RouterView) },
+            meta: {
+              title: 'Manutenções',
+            },
             children: [
               {
                 path: '',
                 component: () =>
                   import('@/pages/Maintenance/MaintenancePage.vue'),
+                meta: {
+                  title: undefined,
+                },
               },
               {
                 path: 'oil',
@@ -112,7 +119,7 @@ const routes: RouteRecordRaw[] = [
           },
           {
             path: 'profile',
-            component: () => h(RouterView),
+            component: { render: () => h(RouterView) },
             children: [
               {
                 path: '',
@@ -187,8 +194,8 @@ const routes: RouteRecordRaw[] = [
             ],
           },
           {
-            path: 'finances',
-            component: () => h(RouterView),
+            path: ROUTES.FINANCES.ROOT,
+            component: { render: () => h(RouterView) },
             meta: {
               title: 'Finanças',
             },
@@ -196,9 +203,12 @@ const routes: RouteRecordRaw[] = [
               {
                 path: '',
                 component: () => import('@/pages/Finances/FinancesPage.vue'),
+                meta: {
+                  title: undefined,
+                },
               },
               {
-                path: 'store-money',
+                path: ROUTES.FINANCES.STORE_MONEY,
                 component: () =>
                   import('@/pages/Finances/components/StoreMoney.vue'),
               },
