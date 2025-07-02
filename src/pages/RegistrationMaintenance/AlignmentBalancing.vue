@@ -1,6 +1,5 @@
 <template>
   <q-page>
-    <HeaderBar title="Manutenções" :path="'/'" />
     <div class="title-wrapper">
       <img :src="alignmentIcon" alt="Ícone" class="title-icon" />
       <span class="title-text">Alinhamento e Balanceamento</span>
@@ -153,7 +152,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import ButtonComponent from '@/shared/components/ButtonComponent.vue';
-import HeaderBar from '@/shared/components/HeaderBar.vue';
+
 // import SelectVehicle from '@/components/SelectVehiclePlate.vue';
 import ModalGenerico from '@/shared/components/ModalGenerico.vue';
 import ModalPositive from '@/shared/components/ModalSucess.vue';

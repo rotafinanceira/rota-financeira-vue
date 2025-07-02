@@ -25,7 +25,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditField from '../../components/EditField.vue';
-import HeaderBar from '@/shared/components/HeaderBar.vue';
 
 const email = ref('');
 

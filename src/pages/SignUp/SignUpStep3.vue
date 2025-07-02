@@ -1,6 +1,5 @@
 <template>
   <q-page padding>
-    <HeaderBarWithInfo title="Cadastro - Passo 3" subtitle="" path="/" />
     <div class="container">
       <SignUpTitleStepper :step="3" />
       <div class="container-content">
@@ -58,7 +57,6 @@ import ButtonComponent from '@/shared/components/ButtonComponent.vue';
 import SignUpNameInput from '@/shared/components/SignUpNameInput.vue';
 import SignUpBirthdateInput from '@/shared/components/SignUpBirthdateInput.vue';
 import SignUpPhoneInput from '@/shared/components/SignUpPhoneInput.vue';
-import HeaderBarWithInfo from '@/shared/components/HeaderBarWithInfo.vue';
 
 const store = useRegisterStore();
 const router = useRouter();

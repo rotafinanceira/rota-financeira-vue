@@ -1,5 +1,4 @@
 <template>
-  <HeaderBar class="header" title="Perfil" :path="'/profile'" />
   <EditField
     title="Marca"
     description="Digite a marca completa correta em Marca Atual e clique em salvar alterações."
