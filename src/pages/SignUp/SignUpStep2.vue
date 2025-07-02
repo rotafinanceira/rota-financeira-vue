@@ -72,7 +72,7 @@ const handleSubmit = () => {
   if (validatePassword()) {
     store.setPassword(password.value);
     store.setConfirmPassword(confirmPassword.value);
-    router.push('/register-3');
+    router.push('/register/step-3');
   }
 };
 </script>
