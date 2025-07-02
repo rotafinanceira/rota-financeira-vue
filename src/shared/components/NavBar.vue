@@ -1,13 +1,6 @@
 <template>
   <q-footer>
-    <q-tabs
-      v-model="footerTab"
-      align="justify"
-      active-color="green"
-      indicator-color="green"
-      class="navbar"
-      switch-indicator
-    >
+    <q-tabs v-model="navbarTab" align="justify" class="navbar" switch-indicator>
       <q-tab
         v-for="tab in tabs"
         :key="tab.name"
@@ -24,11 +17,11 @@
             <span> +{{ tab.notification }} </span>
           </div>
           <img
-            :src="footerTab === tab.name ? tab.icon.enabled : tab.icon.disabled"
+            :src="navbarTab === tab.name ? tab.icon.enabled : tab.icon.disabled"
             alt=""
           />
           <p
-            :class="['tab__text', { 'tab__is-active': footerTab === tab.name }]"
+            :class="['tab__text', { 'tab__is-active': navbarTab === tab.name }]"
           >
             {{ tab.label }}
           </p>
@@ -44,7 +37,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { navbar } from '@/shared/assets/navbar';
 import { Tab } from '../types/navbar';
 
-const footerTab = ref('home');
+const navbarTab = ref('home');
 const router = useRouter();
 const route = useRoute();
 
@@ -61,14 +54,14 @@ const tabs: Tab[] = [
     name: 'history',
     path: '/history',
     icon: navbar.history,
-    label: 'Relatórios',
+    label: 'Histórico',
     notification: 0,
   },
   {
-    name: 'profile',
-    path: '/profile',
-    icon: navbar.profile,
-    label: 'Perfil',
+    name: 'finances',
+    path: '/finances',
+    icon: navbar.finances,
+    label: 'Finanças',
   },
 ];
 
@@ -81,14 +74,14 @@ const getActiveTab = (tabs: Tab[], path: string) => {
 watch(
   () => route.path,
   (newPath) => {
-    footerTab.value = getActiveTab(tabs, newPath) || 'home';
+    navbarTab.value = getActiveTab(tabs, newPath) || 'home';
   },
   { immediate: true }
 );
 
 function navigateTo(path: string) {
   router.push(path).then(() => {
-    footerTab.value = getActiveTab(tabs, path) || 'home';
+    navbarTab.value = getActiveTab(tabs, path) || 'home';
   });
 }
 </script>
@@ -103,6 +96,7 @@ function navigateTo(path: string) {
 
 .navbar {
   height: 100%;
+  color: #307714;
 
   &__tab {
     display: flex;
@@ -133,12 +127,6 @@ function navigateTo(path: string) {
       position: absolute;
       left: 2.5px;
     }
-  }
-
-  .q-tabs__indicator {
-    top: 0;
-    bottom: auto;
-    background-color: green;
   }
 }
 

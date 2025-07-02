@@ -1,5 +1,4 @@
 <template>
-  <AppHeader />
   <div class="maintenance">
     <div class="maintenance__wrapper">
       <header class="maintenance__header">
@@ -26,7 +25,7 @@
 
 <script setup lang="ts">
 import { CarWrenchIcon, FilterControlsIcon } from '@/shared/assets/icons';
-import AppHeader from '@/shared/components/AppHeader.vue';
+
 import MaintenanceCard from './components/MaintenanceCard.vue';
 import { MaintenanceCardProps } from './types';
 

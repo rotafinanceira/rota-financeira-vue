@@ -1,5 +1,4 @@
 <template>
-  <AppHeader />
   <div class="perfil-page">
     <nav class="tabs">
       <button
@@ -35,7 +34,6 @@
 import { ref } from 'vue';
 import MyProfile from '@/pages/Profile/MyProfile/MyProfile.vue';
 import MyVehicle from '@/pages/Profile/MyVehicle/MyVehicle.vue';
-import AppHeader from '@/shared/components/AppHeader.vue';
 
 const activeTab = ref<'perfil' | 'veiculo'>('perfil');
 const user = ref({

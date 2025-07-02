@@ -1,6 +1,5 @@
 <template>
   <q-page padding>
-    <HeaderBarWithInfo title="Fazer Login" subtitle="" path="/" />
     <div class="container">
       <div class="container-content">
         <!-- Contêiner exclusivo para o título -->
@@ -58,7 +57,7 @@ import InputPassword from '@/shared/components/InputPassword.vue';
 import InputEmail from '@/shared/components/InputEmail.vue';
 import ButtonComponent from '@/shared/components/ButtonComponent.vue';
 import ModalGenericoAlert from '@/shared/components/ModalGenericoAlert.vue';
-import HeaderBarWithInfo from '@/shared/components/HeaderBarWithInfo.vue';
+
 import googleIcon from '@/shared/assets/googleIcon.svg';
 import { httpClient } from '@/infra/http/httpClient';
 

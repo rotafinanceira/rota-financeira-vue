@@ -1,5 +1,4 @@
 <template>
-  <HeaderBar title="Perfil" :path="'/profile'" />
   <EditField
     title="Modelo"
     description="Digite o modelo completo correto em Modelo Atual e clique em salvar alterações."
@@ -26,7 +25,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditField from '@/pages/Profile/components/EditField.vue';
-import HeaderBar from '@/shared/components/HeaderBar.vue';
 
 const model = ref('');
 

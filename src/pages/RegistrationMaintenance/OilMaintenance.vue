@@ -1,10 +1,5 @@
 <template>
   <q-page>
-    <HeaderBar
-      title="Troca de Óleo"
-      subtitle="Cadastro de Manutenção"
-      :path="'/'"
-    />
     <div class="main-content">
       <div class="card-wrapper">
         <SelectVehicle @vehicle-selected="setCarId" />
@@ -132,7 +127,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import ButtonComponent from '@/shared/components/ButtonComponent.vue';
-import HeaderBar from '@/shared/components/HeaderBar.vue';
+
 import SelectVehicle from '@/shared/components/SelectVehiclePlate.vue';
 import ModalGenerico from '@/shared/components/ModalGenerico.vue';
 import ModalPositive from '@/shared/components/ModalSucess.vue';

@@ -1,6 +1,5 @@
 <template>
   <q-page padding>
-    <HeaderBarWithInfo title="Cadastro - Passo 2" subtitle="" path="/" />
     <div class="container">
       <SignUpTitleStepper :step="2" />
       <div class="container-content">
@@ -41,7 +40,6 @@ import SignUpTitleStepper from '@/shared/components/SignUpTitleStepper.vue';
 import ButtonComponent from '@/shared/components/ButtonComponent.vue';
 import SignUpPasswordInput from '@/shared/components/SignUpPasswordInput.vue';
 import PasswordChecker from '@/shared/components/PasswordChecker.vue';
-import HeaderBarWithInfo from '@/shared/components/HeaderBarWithInfo.vue';
 
 const store = useRegisterStore();
 const router = useRouter();
@@ -74,7 +72,7 @@ const handleSubmit = () => {
   if (validatePassword()) {
     store.setPassword(password.value);
     store.setConfirmPassword(confirmPassword.value);
-    router.push('/register-3');
+    router.push('/register/step-3');
   }
 };
 </script>

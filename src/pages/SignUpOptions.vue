@@ -39,7 +39,7 @@ const navigateToSignIn = () => {
 };
 
 const navigateToSignUp = () => {
-  router.push('/register-1');
+  router.push('/register/step-1');
 };
 
 const continueWithGoogle = () => {

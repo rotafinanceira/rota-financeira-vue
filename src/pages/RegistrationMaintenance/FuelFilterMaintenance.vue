@@ -1,10 +1,5 @@
 <template>
   <q-page>
-    <HeaderBar
-      title="Filtro de Combustível"
-      subtitle="Cadastro de Manutenção"
-      :path="'/'"
-    />
     <div class="main-content">
       <div class="card-wrapper">
         <SelectVehicle />
@@ -130,7 +125,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import ButtonComponent from '@/shared/components/ButtonComponent.vue';
-import HeaderBar from '@/shared/components/HeaderBar.vue';
+
 import SelectVehicle from '@/shared/components/SelectVehiclePlate.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 import ModalGenerico from '@/shared/components/ModalGenerico.vue';

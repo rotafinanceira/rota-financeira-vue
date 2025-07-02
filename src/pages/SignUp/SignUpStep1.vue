@@ -1,6 +1,5 @@
 <template>
   <q-page padding>
-    <HeaderBarWithInfo title="Cadastro - Passo 1" subtitle="" path="/" />
     <div class="container">
       <SignUpTitleStepper :step="1" />
       <div class="container-content">
@@ -56,7 +55,7 @@ import ButtonComponent from '@/shared/components/ButtonComponent.vue';
 import SignInUpFooter from '@/shared/components/SignInUpFooter.vue';
 import ModalGenericoAlert from '@/shared/components/ModalGenericoAlert.vue';
 import SignUpTitleStepper from '@/shared/components/SignUpTitleStepper.vue';
-import HeaderBarWithInfo from '@/shared/components/HeaderBarWithInfo.vue';
+
 import { useRegisterStore } from '@/stores/registerStore';
 import { httpClient } from '@/infra/http/httpClient';
 
@@ -120,7 +119,7 @@ const handleApiError = (statusCode) => {
     if (isValid.value) {
       store.setEmail(email.value);
       store.setConfirmEmail(confirmEmail.value);
-      router.push('/register-2');
+      router.push('/register/step-2');
     }
   } else {
     console.log(statusCode);
@@ -144,7 +143,7 @@ const handleSubmit = async () => {
   } finally {
     isLoading.value = false;
   }
-  router.push('/register-2');
+  router.push('/register/step-2');
 };
 </script>
 

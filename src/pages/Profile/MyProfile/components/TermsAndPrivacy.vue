@@ -1,5 +1,4 @@
 <template>
-  <HeaderBar class="header" title="Perfil" :path="'/profile'" />
   <section class="terms-content">
     <h3>Termos de Uso e Privacidade</h3>
     <div class="terms-card">
@@ -83,8 +82,6 @@
 </template>
 
 <script setup lang="ts">
-import HeaderBar from '@/shared/components/HeaderBar.vue';
-
 // No additional logic is required for this static page.
 </script>
 
