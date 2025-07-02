@@ -1,6 +1,42 @@
 <template>
   <div class="home-page">
+    <!--     <CButton variant="primary" size="default" @click="test">Primário</CButton>
+    <CButton variant="secondary" size="default">test</CButton>
+    <CButton variant="tertiary" size="default">test</CButton>
+    <CButton variant="danger" size="default">test</CButton>
+    <CButton variant="primary" size="default" :disabled="true">test</CButton> -->
     <AppHeader />
+
+    <BottonSheet v-model="showSheet">
+      <template #default>
+        <p>Conteúdo dentro do BottomSheet.</p>
+      </template>
+
+      <template #close-button>
+        <q-btn
+          icon="close"
+          flat
+          round
+          dense
+          class="close-button"
+          @click="showSheet = false"
+        />
+      </template>
+
+      <template #confirm-button>
+        <button class="styled-button" @click="handleCustomConfirm">
+          Confirmar
+        </button>
+      </template>
+    </BottonSheet>
+
+    <button
+      class="styled-button"
+      @click="showBottonSheet"
+      label="Abrir custom bottomsheet"
+    >
+      clicar
+    </button>
     <div class="card-wrapper">
       <div class="card">
         <div>
@@ -168,7 +204,11 @@ import alignmentImage from '@/shared/assets/icons/battery.svg';
 import { ArrowIcon } from '@/shared/assets/icons';
 import batteryIcon from '@/shared/assets/icons/battery.svg';
 import dateIcon from '@/shared/assets/icons/battery.svg';
+import BottonSheet from '@/shared/components/BottonSheet.vue';
+// import CButton from '@/shared/components/CButton.vue';
 import { ref } from 'vue';
+
+const showSheet = ref(false);
 
 const isOpen = ref<boolean>(false);
 const modalContent = ref<string>('Quando devo fazer a troca?');
@@ -178,6 +218,20 @@ const modalDescription = ref<string[]>([
 
 const odometerValue = ref<string>('');
 
+const showBottonSheet = () => {
+  showSheet.value = true;
+};
+
+/* const test = () => {
+  alert(0);
+};
+ */
+function handleCustomConfirm() {
+  // Aqui você pode acessar refs, opções ou emitir eventos
+  console.log('Confirmado!');
+  // Se quiser fechar o bottom sheet:
+  showSheet.value = false;
+}
 const showHelpModal = (): void => {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
