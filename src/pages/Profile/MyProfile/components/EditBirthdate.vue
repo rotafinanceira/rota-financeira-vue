@@ -1,5 +1,4 @@
 <template>
-  <HeaderBar title="Perfil" :path="'/profile'" />
   <EditField
     title="Alterar data de nascimento"
     description="Digite a data de nascimento correta em Data de Nascimento Atual e clique em salvar alterações."

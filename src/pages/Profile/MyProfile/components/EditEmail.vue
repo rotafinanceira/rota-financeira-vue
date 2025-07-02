@@ -1,5 +1,4 @@
 <template>
-  <HeaderBar title="Perfil" :path="'/profile'" />
   <EditField
     title="Alterar e-mail"
     description="Digite um novo e-mail em E-mail atual e clique em salvar alterações."
