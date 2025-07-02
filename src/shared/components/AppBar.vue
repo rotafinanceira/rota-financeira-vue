@@ -1,24 +1,29 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
 import { BellIcon, ProfileIcon } from '../assets/icons';
 import { LogoOneLine } from '../assets/logos';
+import { watch } from 'vue';
 
+const route = useRoute();
 
+watch(route, () => {
+  console.log(route.path)
+  console.log(route.fullPath)
+  console.dir(route.meta.title);
+});
 </script>
 
 <template>
   <header class="appbar">
     <RouterLink to="/profile">
-      <img :src="ProfileIcon" alt="">
+      <img :src="ProfileIcon" alt="" />
     </RouterLink>
-    <img :src="LogoOneLine" alt="">
+    <img :src="LogoOneLine" alt="" />
     <RouterLink to="/notifications">
-      <img :src="BellIcon" alt="" class="appbar__icon">
+      <img :src="BellIcon" alt="" class="appbar__icon" />
     </RouterLink>
   </header>
 </template>
-
-
 
 <style scoped lang="scss">
 .appbar {
@@ -29,6 +34,6 @@ import { LogoOneLine } from '../assets/logos';
 
   min-height: 48px;
   background-color: #fff;
-  border-bottom: 1px solid #E0E5E7;
+  border-bottom: 1px solid #e0e5e7;
 }
 </style>
