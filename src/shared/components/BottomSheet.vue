@@ -1,18 +1,18 @@
 <template>
   <q-dialog
     v-model="internalShow"
-    position="bottom"
+    position="bottomSheet"
     @hide="closeSheet"
     persistent
   >
-    <div class="custom-bottom-sheet" @click.stop>
-      <div class="close-button-container">
-        <slot name="close-button" />
+    <div class="bottomSheet" @click.stop>
+      <div class="container--close">
+        <slot name="close--button" />
       </div>
 
-      <div class="container">
+      <div class="container--confirm">
         <slot />
-        <slot name="confirm-button" />
+        <slot name="confirm--button" />
       </div>
     </div>
   </q-dialog>
@@ -48,25 +48,25 @@ function closeSheet() {
 }
 </script>
 
-<style scoped>
-.custom-bottom-sheet {
+<style scoped lang="scss">
+.bottomSheet {
   width: 100vw;
   max-height: 90vh;
   border-radius: 16px 16px 0 0;
   background-color: white;
   padding: 20px;
   overflow-y: auto;
-}
 
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  margin-top: 24px;
-}
+  .container--close {
+    display: flex;
+    justify-content: flex-end;
+  }
 
-.close-button-container {
-  display: flex;
-  justify-content: flex-end;
+  .container--confirm {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 24px;
+  }
 }
 </style>
