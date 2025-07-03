@@ -8,24 +8,20 @@
     <AppHeader />
 
     <BottonSheet v-model="showSheet">
-      <template #default>
-        <p>Conteúdo dentro do BottomSheet.</p>
+      <template #close-button>
+        <q-btn icon="close" flat round @click="showSheet = false" />
       </template>
 
-      <template #close-button>
-        <q-btn
-          icon="close"
-          flat
-          round
-          dense
-          class="close-button"
-          @click="showSheet = false"
-        />
-      </template>
+      <div>Conteúdo do BottomSheet</div>
 
       <template #confirm-button>
-        <button class="styled-button" @click="handleCustomConfirm">
-          Confirmar
+        <button
+          class="styled-button"
+          label="Confirmar"
+          color="primary"
+          @click="handleCustomConfirm()"
+        >
+          confirmar
         </button>
       </template>
     </BottonSheet>
