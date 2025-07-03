@@ -1,7 +1,7 @@
 <template>
   <q-dialog
     v-model="internalShow"
-    position="bottomSheet"
+    position="bottom"
     @hide="closeSheet"
     persistent
   >
