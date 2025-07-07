@@ -37,7 +37,7 @@ import MyVehicle from '@/pages/Profile/MyVehicle/MyVehicle.vue';
 
 const activeTab = ref<'perfil' | 'veiculo'>('perfil');
 const user = ref({
-  name: 'Bruno Martins Albuquerque',
+  name: 'Bruna Martins Albuquerque',
   email: 'brmartins1984@gmail.com',
   phone: '+55 (11) 9999-9999',
   age: 36,
