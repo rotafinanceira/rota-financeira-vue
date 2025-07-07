@@ -1,11 +1,6 @@
 <template>
-  <q-dialog
-    v-model="internalShow"
-    position="bottom"
-    @hide="closeSheet"
-    persistent
-  >
-    <div class="bottomSheet" @click.stop>
+  <q-dialog v-model="internalShow" position="bottom" no-backdrop-dismiss>
+    <div class="botton-sheet" @click.stop>
       <div class="container--close">
         <slot name="close--button" />
       </div>
@@ -42,20 +37,14 @@ watch(
 watch(internalShow, (val) => {
   emit('update:modelValue', val);
 });
-
-function closeSheet() {
-  internalShow.value = false;
-}
 </script>
 
 <style scoped lang="scss">
-.bottomSheet {
-  width: 100vw;
+.botton-sheet {
   max-height: 90vh;
   border-radius: 16px 16px 0 0;
   background-color: white;
   padding: 20px;
-  overflow-y: auto;
 
   .container--close {
     display: flex;
