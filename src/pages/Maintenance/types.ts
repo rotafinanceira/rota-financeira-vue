@@ -5,6 +5,7 @@ export type MaintenanceCardProps = {
   title: string;
   icon: keyof MaintenanceIcons;
   maintenanceData?: MaintenanceData;
+  to: string;
 };
 
 export type MaintenanceTypes =
