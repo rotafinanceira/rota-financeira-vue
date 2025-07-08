@@ -1,11 +1,11 @@
-// src/router/paths.ts
-
 export const ROUTES = {
+  // Public
   ROOT: '/',
-  SIGN_IN: '/signin',
-  SIGN_UP_OPTIONS: '/signup-options',
+  SIGNIN: '/signin',
+  SIGNUP_OPTIONS: '/signup-options',
   LOGIN_SUCCESS: '/success',
 
+  // Registration
   REGISTER: {
     ROOT: '/register',
     STEP_1: '/register/step-1',
@@ -13,9 +13,9 @@ export const ROUTES = {
     STEP_3: '/register/step-3',
   },
 
+  // Private
+  // Main pages
   HOME: '/home',
-
-  NOTIFICATIONS: '/notifications',
 
   MAINTENANCE: {
     ROOT: '/maintenance',
@@ -27,32 +27,33 @@ export const ROUTES = {
   },
 
   HISTORY: '/history',
+  FINANCES: {
+    ROOT: '/finances',
+    STORE_MONEY: '/finances/store-money',
+    EDIT_VALUE: '/finances/edit-value',
+  },
 
+  // Independent routes
   USER: {
-    ROOT: 'user',
+    ROOT: '/user',
     PROFILE: {
-      ROOT: 'profile',
-      EDIT_NAME: 'edit-name',
-      EDIT_BIRTHDATE: 'edit-birthdate',
-      EDIT_EMAIL: 'edit-email',
-      EDIT_PASSWORD: 'edit-password',
-      TERMS_PRIVACY: 'terms-and-privacy',
+      ROOT: '/user/profile',
+      EDIT_NAME: '/user/profile/edit-name',
+      EDIT_BIRTHDATE: '/user/profile/edit-birthdate',
+      EDIT_EMAIL: '/user/profile/edit-email',
+      EDIT_PASSWORD: '/user/profile/edit-password',
+      TERMS_AND_PRIVACY: '/user/profile/terms-and-privacy',
     },
     VEHICLE: {
-      ROOT: 'vehicle',
-      EDIT_MODEL: 'edit-model',
-      EDIT_BRAND: 'edit-brand',
-      EDIT_YEAR: 'edit-year',
-      EDIT_PLATE: 'edit-plate',
-      EDIT_COLOR: 'edit-color',
+      ROOT: '/user/vehicle',
+      EDIT_MODEL: '/user/vehicle/edit-model',
+      EDIT_BRAND: '/user/vehicle/edit-brand',
+      EDIT_YEAR: '/user/vehicle/edit-year',
+      EDIT_PLATE: '/user/vehicle/edit-plate',
+      EDIT_COLOR: '/user/vehicle/edit-color',
+      REGISTRATION: '/user/vehicle/registration',
     },
   },
 
-  REGISTRATION_VEHICLE: '/registration-vehicle',
-
-  FINANCES: {
-    ROOT: 'finances',
-    STORE_MONEY: 'store-money',
-    EDIT_VALUE: 'edit-value',
-  },
+  NOTIFICATIONS: '/notifications',
 };
