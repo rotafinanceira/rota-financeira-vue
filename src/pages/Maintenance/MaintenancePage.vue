@@ -37,10 +37,12 @@ const maintenanceItems: MaintenanceCardProps[] = [
     maintenanceData: {
       status: 'pending',
     },
+    to: '/alignment-balancing/',
   },
   {
     title: 'Bateria',
     icon: 'battery',
+    to: '/battery-maintenance',
   },
   {
     title: 'Filtro de ar-condicionado',
@@ -48,6 +50,7 @@ const maintenanceItems: MaintenanceCardProps[] = [
     maintenanceData: {
       status: 'expired',
     },
+    to: '/air-conditioner-filter-maintenance',
   },
   {
     title: 'Filtro de combustível',
@@ -55,22 +58,27 @@ const maintenanceItems: MaintenanceCardProps[] = [
     maintenanceData: {
       status: 'unregistered',
     },
+    to: '/fuel-filter-maintenance',
   },
   {
     title: 'Nível de fluidos',
     icon: 'fluidLevel',
+    to: '#',
   },
   {
     title: 'Motor',
     icon: 'engine',
+    to: '#',
   },
   {
     title: 'Troca de óleo',
     icon: 'oil',
+    to: '/oil-maintenance',
   },
   {
     title: 'Verificação de pneu',
     icon: 'wheel',
+    to: '#',
   },
 ];
 
