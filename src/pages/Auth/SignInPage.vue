@@ -151,7 +151,7 @@ const handleApiError = (statusCode) => {
 };
 
 const navigateToHome = () => {
-  router.push('/home');
+  router.push({ name: 'home' });
 };
 
 const continueWithGoogle = () => {
