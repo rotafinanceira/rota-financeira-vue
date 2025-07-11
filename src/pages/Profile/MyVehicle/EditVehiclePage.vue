@@ -1,12 +1,12 @@
 <template>
-  <div class="edit-card">
-    <div class="edit-info">
+  <div class="app-wrapper">
+    <div>
       <h2 class="vehicle__header">Informações do Veículo</h2>
       <div class="vehicle__edit-pages">
         <RouterLink
           v-for="editPage in vehicleEditRoutes"
-          :to="editPage.path"
-          :key="editPage.path"
+          :to="{ name: editPage.name }"
+          :key="editPage.name"
           class="vehicle__edit-page"
         >
           <span>{{ editPage.title }}</span>
@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { RouterLink } from 'vue-router';
-import { type vehicleEditRoutes } from '../../types';
+import { type vehicleEditRoutes } from './types';
 import ToggleButton from '@/shared/components/ToggleButton.vue';
 import { MaintenanceItemProps } from '@/shared/types/maintenance';
 import MaintenanceItem from '@/shared/components/MaintenanceItem.vue';
@@ -72,28 +72,28 @@ function toggleMaintenanceNotifications() {
 
 const vehicleEditRoutes: vehicleEditRoutes[] = [
   {
-    path: '/profile/edit-model',
+    name: 'user-vehicle-edit-model',
     title: 'Modelo',
   },
   {
-    path: '/profile/edit-brand',
+    name: 'user-vehicle-edit-brand',
     title: 'Marca',
   },
   {
-    path: '/profile/edit-year',
+    name: 'user-vehicle-edit-year',
     title: 'Ano',
   },
   {
-    path: '/profile/edit-plate',
+    name: 'user-vehicle-edit-plate',
     title: 'Placa',
   },
   {
-    path: '/profile/edit-color',
+    name: 'user-vehicle-edit-color',
     title: 'Cor',
   },
 ];
 </script>
 
 <style scoped lang="scss">
-@import '../../_vehicles';
+@import './_vehicle';
 </style>

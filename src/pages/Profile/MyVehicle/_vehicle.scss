@@ -1,18 +1,10 @@
 $header-margin: 1.5rem 0 0.5rem;
-
-.teste {
-  background: crimson !important;
-}
 .vehicle {
-  display: flex;
-  flex-direction: column;
-  padding: 0 1rem;
-
   &__wrapper {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: calc(100svh - 72px - 93px - 49px);
+    min-height: calc(100svh - 80px - 95px - 45px);
   }
 
   &__header {
@@ -207,51 +199,6 @@ $header-margin: 1.5rem 0 0.5rem;
   background: var(--Cores-Cinza-Branco, #fff);
 }
 
-.btn-cadastrar {
-  display: flex;
-  width: 320px;
-  height: 48px;
-  padding: 12px 24px;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
-  border-radius: 4px;
-  border: 1px solid #8ce95f;
-  background: #8ce95f;
-  color: var(--Botes-Preenchidos-Ativado-Texto, #2b5e16);
-  font-size: var(--Tipo-Tamanho-Lg, 18px);
-  font-style: normal;
-  font-weight: 600;
-  line-height: 120%;
-  cursor: pointer;
-}
-
-.edit-info h4 {
-  color: var(--Cores-Cinza-900, #0c0d0f);
-  font-size: var(--Tipo-Tamanho-Sm, 14px);
-  font-style: normal;
-  font-weight: 500;
-  line-height: 120%;
-  text-align: left;
-  width: 100%;
-}
-
-.manutencao-item {
-  padding: 8px;
-  border-radius: 4px;
-  background: var(--Cores-Cinza-Branco, #fff);
-}
-
-.manutencao-item p {
-  margin: 0;
-  color: var(--Cores-Cinza-700, #3c4349);
-  font-size: var(--Tipo-Tamanho-Sm, 14px);
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%;
-}
-
 .notificacao-revisao {
   display: flex;
   flex-direction: column;
@@ -264,24 +211,9 @@ $header-margin: 1.5rem 0 0.5rem;
   margin-bottom: 16px;
 }
 
-.notificacao-revisao h4 {
-  color: var(--Cores-Cinza-900, #0c0d0f);
-  font-size: var(--Tipo-Tamanho-Sm, 14px);
-  font-style: normal;
-  font-weight: 500;
-  line-height: 120%;
-  margin-bottom: 8px;
-}
-
-.notificacoes {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
 .switch-label {
   display: flex;
-  // align-items: center;
+  align-items: center;
   justify-content: space-between;
   color: var(--Cores-Cinza-700, #3c4349);
   font-size: var(--Tipo-Tamanho-Sm, 14px);
@@ -294,8 +226,4 @@ $header-margin: 1.5rem 0 0.5rem;
 .switch-label span {
   flex: 1;
   padding-right: 16px;
-}
-
-.switch-label ToggleButton {
-  flex-shrink: 0;
 }
