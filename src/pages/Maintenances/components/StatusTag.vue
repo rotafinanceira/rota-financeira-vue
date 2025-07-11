@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MaintenanceStatus } from '@/pages/Maintenance/types';
+import { MaintenanceStatus } from '@/pages/Maintenances/types';
 
 // FIXME: Valores não devem ser opcionais ao integrar o backend
 export type MaintenanceData = {
