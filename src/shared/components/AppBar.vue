@@ -7,9 +7,8 @@ import { watch } from 'vue';
 const route = useRoute();
 
 watch(route, () => {
-  console.log(route.path)
-  console.log(route.fullPath)
-  console.dir(route.meta.title);
+  console.log('name: ',route.name)
+  console.log('title: ',route.meta.title);
 });
 </script>
 

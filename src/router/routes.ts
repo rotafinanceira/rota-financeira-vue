@@ -1,118 +1,127 @@
-import { h } from 'vue';
-import { RouteRecordRaw, RouterView } from 'vue-router';
-// import { ROUTES } from './paths';
+import { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
+    redirect: '/signup',
     children: [
-      { path: '', component: () => import('src/pages/IntroductionApp.vue') },
+      {
+        path: '/load',
+        component: () => import('src/pages/SplashScreen.vue'),
+      },
       {
         path: 'signin',
-        component: () => import('src/pages/SignIn.vue'),
+        name: 'signin',
+        component: () => import('src/pages/Auth/SignInPage.vue'),
       },
       {
-        path: 'signup-options',
-        component: () => import('src/pages/SignUpOptions.vue'),
+        path: 'signup',
+        name: 'signup',
+        component: () => import('src/pages/Auth/SignUpPage.vue'),
       },
       {
-        path: 'success',
-        component: () => import('src/pages/LoginSuccess.vue'),
+        path: 'terms-and-privacy',
+        name: 'terms-and-privacy',
+        component: () => import('@/pages/TermsAndPrivacyPage.vue'),
       },
       {
         path: 'register',
-        component: { render: () => h(RouterView) },
         children: [
           {
             path: '',
+            name: 'register',
             redirect: '/register/step-1',
           },
           {
             path: 'step-1',
-            component: () => import('src/pages/SignUp/SignUpStep1.vue'),
+            name: 'register-step-1',
+            component: () => import('src/pages/Auth/SignUpStep1.vue'),
           },
           {
             path: 'step-2',
-            component: () => import('src/pages/SignUp/SignUpStep2.vue'),
+            name: 'register-step-2',
+            component: () => import('src/pages/Auth/SignUpStep2.vue'),
           },
           {
             path: 'step-3',
-            component: () => import('src/pages/SignUp/SignUpStep3.vue'),
+            name: 'register-step-3',
+            component: () => import('src/pages/Auth/SignUpStep3.vue'),
           },
         ],
       },
       {
-        path: '',
+        path: '/app',
         component: () => import('src/layouts/AppLayout.vue'),
         children: [
           {
             path: 'home',
+            name: 'home',
             component: () => import('@/pages/Home/HomePage.vue'),
           },
           {
-            path: 'maintenance',
-            component: { render: () => h(RouterView) },
+            path: 'maintenances',
             meta: {
               title: 'Manutenções',
             },
             children: [
               {
                 path: '',
+                name: 'maintenances',
                 component: () =>
-                  import('@/pages/Maintenance/MaintenancePage.vue'),
+                  import('@/pages/Maintenances/MaintenancesPage.vue'),
                 meta: {
                   title: undefined,
                 },
               },
               {
                 path: 'oil',
+                name: 'maintenance-oil',
                 component: () =>
-                  import('@/pages/RegistrationMaintenance/OilMaintenance.vue'),
+                  import('@/pages/Maintenances/Maintenance/OilPage.vue'),
               },
               {
                 path: 'battery',
+                name: 'maintenance-battery',
                 component: () =>
-                  import(
-                    '@/pages/RegistrationMaintenance/BatteryMaintenance.vue'
-                  ),
+                  import('@/pages/Maintenances/Maintenance/BatteryPage.vue'),
               },
               {
                 path: 'fuel-filter',
+                name: 'maintenance-fuel-filter',
                 component: () =>
-                  import(
-                    '@/pages/RegistrationMaintenance/FuelFilterMaintenance.vue'
-                  ),
+                  import('@/pages/Maintenances/Maintenance/FuelFilterPage.vue'),
               },
               {
                 path: 'alignment-balancing',
+                name: 'maintenance-alignment-balancing',
                 component: () =>
                   import(
-                    '@/pages/RegistrationMaintenance/AlignmentBalancing.vue'
+                    '@/pages/Maintenances/Maintenance/AlignmentBalancingPage.vue'
                   ),
               },
               {
                 path: 'air-filter',
+                name: 'maintenance-air-filter',
                 component: () =>
-                  import(
-                    '@/pages/RegistrationMaintenance/AirConditioningFilter.vue'
-                  ),
+                  import('@/pages/Maintenances/Maintenance/AirFilterPage.vue'),
               },
             ],
           },
           {
             path: 'history',
+            name: 'history',
             component: () => import('@/pages/History/HistoryPage.vue'),
           },
           {
             path: 'finances',
-            component: { render: () => h(RouterView) },
             meta: {
               title: 'Finanças',
             },
             children: [
               {
                 path: '',
+                name: 'finances',
                 component: () => import('@/pages/Finances/FinancesPage.vue'),
                 meta: {
                   title: undefined,
@@ -120,11 +129,13 @@ const routes: RouteRecordRaw[] = [
               },
               {
                 path: 'store-money',
+                name: 'finances-store-money',
                 component: () =>
                   import('@/pages/Finances/components/StoreMoney.vue'),
               },
               {
                 path: 'edit-value',
+                name: 'finances-edit-value',
                 component: () =>
                   import('@/pages/Finances/components/EditValue.vue'),
               },
@@ -132,108 +143,136 @@ const routes: RouteRecordRaw[] = [
           },
           {
             path: 'user',
-            component: { render: () => h(RouterView) },
+            component: () => import('@/layouts/UserLayout.vue'),
+            redirect: { name: 'user-profile' },
             children: [
               {
-                path: '',
-                component: () => import('@/pages/Profile/ProfilePage.vue'),
-              },
-              {
                 path: 'profile',
-                component: { render: () => h(RouterView) },
-                meta: {
-                  title: 'Editar perfil',
-                },
                 children: [
                   {
-                    path: 'edit-name',
+                    path: '',
+                    name: 'user-profile',
                     component: () =>
-                      import(
-                        '@/pages/Profile/MyProfile/components/EditName.vue'
-                      ),
+                      import('@/pages/Profile/MyProfile/MyProfilePage.vue'),
                   },
                   {
-                    path: 'edit-birthdate',
-                    component: () =>
-                      import(
-                        '@/pages/Profile/MyProfile/components/EditBirthdate.vue'
-                      ),
-                  },
-                  {
-                    path: 'edit-email',
-                    component: () =>
-                      import(
-                        '@/pages/Profile/MyProfile/components/EditEmail.vue'
-                      ),
-                  },
-                  {
-                    path: 'edit-password',
-                    component: () =>
-                      import(
-                        '@/pages/Profile/MyProfile/components/EditPassword.vue'
-                      ),
-                  },
-                  {
-                    path: 'terms-and-privacy',
-                    component: () =>
-                      import(
-                        '@/pages/Profile/MyProfile/components/TermsAndPrivacy.vue'
-                      ),
+                    path: 'edit',
+                    meta: {
+                      title: 'Editar perfil',
+                    },
+                    children: [
+                      {
+                        path: '',
+                        name: 'user-profile-edit',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyProfile/EditProfilePage.vue'
+                          ),
+                      },
+                      {
+                        path: 'name',
+                        name: 'user-profile-edit-name',
+                        component: () =>
+                          import('@/pages/Profile/MyProfile/Edit/NamePage.vue'),
+                      },
+                      {
+                        path: 'birthdate',
+                        name: 'user-profile-edit-birthdate',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyProfile/Edit/BirthdatePage.vue'
+                          ),
+                      },
+                      {
+                        path: 'email',
+                        name: 'user-profile-edit-email',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyProfile/Edit/EmailPage.vue'
+                          ),
+                      },
+                      {
+                        path: 'password',
+                        name: 'user-profile-edit-password',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyProfile/Edit/PasswordPage.vue'
+                          ),
+                      },
+                    ],
                   },
                 ],
               },
               {
                 path: 'vehicle',
-                component: { render: () => h(RouterView) },
-                meta: {
-                  title: 'Editar veículo',
-                },
                 children: [
                   {
                     path: '',
+                    name: 'user-vehicle',
                     component: () =>
-                      import('@/pages/Profile/MyVehicle/MyVehicle.vue'),
-                    children: [],
+                      import('@/pages/Profile/MyVehicle/MyVehiclePage.vue'),
                   },
                   {
-                    path: 'edit-model',
-                    component: () =>
-                      import(
-                        '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditModel.vue'
-                      ),
+                    path: 'edit',
+                    meta: {
+                      title: 'Editar veículo',
+                    },
+                    children: [
+                      {
+                        path: '',
+                        name: 'user-vehicle-edit',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyVehicle/EditVehiclePage.vue'
+                          ),
+                      },
+                      {
+                        path: 'model',
+                        name: 'user-vehicle-edit-model',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyVehicle/Edit/ModelPage.vue'
+                          ),
+                      },
+                      {
+                        path: 'brand',
+                        name: 'user-vehicle-edit-brand',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyVehicle/Edit/BrandPage.vue'
+                          ),
+                      },
+                      {
+                        path: 'year',
+                        name: 'user-vehicle-edit-year',
+                        component: () =>
+                          import('@/pages/Profile/MyVehicle/Edit/YearPage.vue'),
+                      },
+                      {
+                        path: 'plate',
+                        name: 'user-vehicle-edit-plate',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyVehicle/Edit/PlatePage.vue'
+                          ),
+                      },
+                      {
+                        path: 'color',
+                        name: 'user-vehicle-edit-color',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyVehicle/Edit/ColorPage.vue'
+                          ),
+                      },
+                    ],
                   },
                   {
-                    path: 'edit-brand',
-                    component: () =>
-                      import(
-                        '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditBrand.vue'
-                      ),
-                  },
-                  {
-                    path: 'edit-year',
-                    component: () =>
-                      import(
-                        '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditYear.vue'
-                      ),
-                  },
-                  {
-                    path: 'edit-plate',
-                    component: () =>
-                      import(
-                        '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditPlate.vue'
-                      ),
-                  },
-                  {
-                    path: 'edit-color',
-                    component: () =>
-                      import(
-                        '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditColor.vue'
-                      ),
-                  },
-                  {
-                    path: 'registration-vehicle',
-                    component: () =>
-                      import('@/pages/Vehicle/RegistrationVehicle.vue'),
+                    path: 'register',
+                    name: 'user-vehicle-register',
+                    meta: {
+                      title: 'Cadastrar veículo',
+                    },
+                    component: () => import('@/pages/Vehicle/RegisterPage.vue'),
                   },
                 ],
               },
@@ -241,6 +280,7 @@ const routes: RouteRecordRaw[] = [
           },
           {
             path: 'notifications',
+            name: 'notifications',
             meta: {
               title: 'Notificações',
             },
@@ -253,7 +293,8 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue'),
+    name: 'not-found',
+    component: () => import('pages/NotFound.vue'),
   },
 ];
 
