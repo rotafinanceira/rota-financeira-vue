@@ -7,18 +7,18 @@ import { watch } from 'vue';
 const route = useRoute();
 
 watch(route, () => {
-  console.log('name: ',route.name)
-  console.log('title: ',route.meta.title);
+  console.log('name: ', route.name);
+  console.log('title: ', route.meta.title);
 });
 </script>
 
 <template>
   <header class="appbar">
-    <RouterLink to="/profile">
+    <RouterLink :to="{ name: 'user-profile' }">
       <img :src="ProfileIcon" alt="" />
     </RouterLink>
     <img :src="LogoOneLine" alt="" />
-    <RouterLink to="/notifications">
+    <RouterLink :to="{ name: 'notifications' }">
       <img :src="BellIcon" alt="" class="appbar__icon" />
     </RouterLink>
   </header>

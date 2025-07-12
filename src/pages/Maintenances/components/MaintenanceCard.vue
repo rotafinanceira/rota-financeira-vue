@@ -28,7 +28,7 @@ defineProps<MaintenanceCardProps>();
 </script>
 
 <template>
-  <RouterLink to="#" class="maintenance__item">
+  <RouterLink :to="{ name: routeName }" class="maintenance__item">
     <div class="item__flex">
       <div class="item__flex">
         <div class="item__wrapper">

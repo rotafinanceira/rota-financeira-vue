@@ -143,6 +143,7 @@ const routes: RouteRecordRaw[] = [
           },
           {
             path: 'user',
+            name: 'user',
             component: () => import('@/layouts/UserLayout.vue'),
             redirect: { name: 'user-profile' },
             children: [

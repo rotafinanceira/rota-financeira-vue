@@ -9,7 +9,7 @@
         <button
           class="maintenance__settings"
           type="button"
-          :onclick="openSettings"
+          @click="openSettings"
         >
           <img :src="FilterControlsIcon" alt="filter icon" />
         </button>
@@ -36,10 +36,12 @@ const maintenanceItems: MaintenanceCardProps[] = [
     maintenanceData: {
       status: 'pending',
     },
+    routeName: 'maintenance-alignment-balancing',
   },
   {
     title: 'Bateria',
     icon: 'battery',
+    routeName: 'maintenance-battery',
   },
   {
     title: 'Filtro de ar-condicionado',
@@ -47,6 +49,7 @@ const maintenanceItems: MaintenanceCardProps[] = [
     maintenanceData: {
       status: 'expired',
     },
+    routeName: 'maintenance-air-filter',
   },
   {
     title: 'Filtro de combustível',
@@ -54,22 +57,27 @@ const maintenanceItems: MaintenanceCardProps[] = [
     maintenanceData: {
       status: 'unregistered',
     },
+    routeName: 'maintenance-fuel-filter',
   },
   {
     title: 'Nível de fluidos',
     icon: 'fluidLevel',
+    routeName: '',
   },
   {
     title: 'Motor',
     icon: 'engine',
+    routeName: '',
   },
   {
     title: 'Troca de óleo',
     icon: 'oil',
+    routeName: 'maintenance-oil',
   },
   {
     title: 'Verificação de pneu',
     icon: 'wheel',
+    routeName: '',
   },
 ];
 
