@@ -41,7 +41,7 @@ const isProfileOrVehicle = computed(() => {
   display: flex;
   gap: .5rem;
   padding: .375rem;
-  margin-block: 1.5rem;
+  margin-bottom: 1.5rem;
   background-color: #fff;
 
   border: 1px solid #e0e5e7;

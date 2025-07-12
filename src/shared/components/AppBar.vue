@@ -30,6 +30,7 @@ watch(route, () => {
   justify-content: space-between;
   align-items: center;
   padding-inline: 1.25rem;
+  margin-bottom: 1.5rem;
 
   min-height: 48px;
   background-color: #fff;

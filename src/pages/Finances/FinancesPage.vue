@@ -1,5 +1,5 @@
 <template>
-  <div class="finances">
+  <div class="finances app-wrapper">
     <div class="finances__header">
       <img :src="MoneyCircleIcon" alt="" />
       <h1>Finanças</h1>

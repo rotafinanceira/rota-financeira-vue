@@ -77,7 +77,7 @@ const isThereNoMaintenances = maintenanceHistory
 </script>
 
 <template>
-  <div class="history">
+  <div class="app-wrapper">
     <header class="history__header">
       <div class="flex">
         <img :src="PageIcon" alt="" />
@@ -104,9 +104,6 @@ const isThereNoMaintenances = maintenanceHistory
 
 <style scoped lang="scss">
 .history {
-  width: min(100% - 2.5rem);
-  margin: 1.5rem auto;
-
   &__header {
     display: flex;
     justify-content: space-between;

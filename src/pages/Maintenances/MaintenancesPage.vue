@@ -1,6 +1,6 @@
 <template>
   <div class="maintenance">
-    <div class="maintenance__wrapper">
+    <div class="app-wrapper maintenance__wrapper">
       <header class="maintenance__header">
         <div class="flex">
           <img :src="CarWrenchIcon" alt="" />
@@ -92,9 +92,6 @@ const openSettings = () => {
   padding-bottom: 1rem;
 
   &__wrapper {
-    width: calc(100% - 2.5rem);
-    margin-inline: auto;
-    margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
