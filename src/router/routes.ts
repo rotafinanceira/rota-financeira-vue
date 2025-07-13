@@ -4,21 +4,16 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    redirect: '/signup',
+    redirect: '/welcome',
     children: [
       {
         path: '/load',
         component: () => import('src/pages/SplashScreen.vue'),
       },
       {
-        path: 'signin',
-        name: 'signin',
-        component: () => import('src/pages/Auth/SignInPage.vue'),
-      },
-      {
-        path: 'signup',
-        name: 'signup',
-        component: () => import('src/pages/Auth/SignUpPage.vue'),
+        path: 'welcome',
+        name: 'welcome',
+        component: () => import('src/pages/WelcomePage.vue'),
       },
       {
         path: 'terms-and-privacy',
@@ -26,27 +21,36 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/TermsAndPrivacyPage.vue'),
       },
       {
-        path: 'register',
+        path: 'auth',
+        component: () => import('src/layouts/AuthLayout.vue'),
+        redirect: { name: 'signin' },
         children: [
           {
-            path: '',
-            name: 'register',
-            redirect: '/register/step-1',
+            path: 'signin',
+            name: 'signin',
+            component: () => import('src/pages/Auth/SignInPage.vue'),
           },
           {
-            path: 'step-1',
-            name: 'register-step-1',
-            component: () => import('src/pages/Auth/SignUpStep1.vue'),
-          },
-          {
-            path: 'step-2',
-            name: 'register-step-2',
-            component: () => import('src/pages/Auth/SignUpStep2.vue'),
-          },
-          {
-            path: 'step-3',
-            name: 'register-step-3',
-            component: () => import('src/pages/Auth/SignUpStep3.vue'),
+            path: 'signup',
+            name: 'signup',
+            redirect: '/auth/signup/step-1',
+            children: [
+              {
+                path: 'step-1',
+                name: 'signup-step-1',
+                component: () => import('src/pages/Auth/SignUpStep1.vue'),
+              },
+              {
+                path: 'step-2',
+                name: 'signup-step-2',
+                component: () => import('src/pages/Auth/SignUpStep2.vue'),
+              },
+              {
+                path: 'step-3',
+                name: 'signup-step-3',
+                component: () => import('src/pages/Auth/SignUpStep3.vue'),
+              },
+            ]
           },
         ],
       },

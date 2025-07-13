@@ -33,7 +33,7 @@
           <SignInUpFooter
             message="Já tem uma conta?"
             buttonText="Entrar"
-            :path="'/'"
+            :path="'/auth/signin'"
           />
         </div>
       </div>
