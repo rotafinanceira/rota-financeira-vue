@@ -1,15 +1,14 @@
 <template>
-  <q-dialog v-model="model">
+  <q-dialog v-model="showDialog">
     <div class="dialog-container">
-      <!-- Botão de fechar opcional -->
-      <img
-        :src="XCircleIcon"
-        v-if="showClose"
+      <button
         class="close-button"
-        @click="emit('update:modelValue', false)"
-      />
+        v-if="props.showClose"
+        @click="showDialog = false"
+      >
+        <img :src="XCircleIcon" alt="Fechar" />
+      </button>
 
-      <!-- Conteúdo injetado pelo pai -->
       <div class="dialog-content">
         <slot />
       </div>
@@ -17,24 +16,14 @@
   </q-dialog>
 </template>
 
-<script setup>
-import { computed } from 'vue';
+<script setup lang="ts">
 import { XCircleIcon } from '../assets/icons';
 
-const props = defineProps({
-  modelValue: Boolean,
-  showClose: {
-    type: Boolean,
-    default: true,
-  },
-});
+const props = defineProps<{
+  showClose?: boolean;
+}>();
 
-const emit = defineEmits(['update:modelValue']);
-
-const model = computed({
-  get: () => props.modelValue,
-  set: (val) => emit('update:modelValue', val),
-});
+const showDialog = defineModel<boolean>({ default: false });
 </script>
 
 <style scoped>
@@ -44,8 +33,7 @@ const model = computed({
   border-radius: 8px;
   padding: 32px 24px;
   position: relative;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
+  border: 1px solid #e0e5e7;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -61,10 +49,7 @@ const model = computed({
   position: absolute;
   top: 24px;
   right: 24px;
-  border: none;
-  background: transparent;
-  font-size: 20px;
   cursor: pointer;
-  color: #333;
+  border: none;
 }
 </style>
