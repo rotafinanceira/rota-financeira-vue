@@ -12,35 +12,27 @@
       </div>
     </div>
     <div class="buttons-wrapper">
-      <button class="create-account-button" @click="navigateToSignUp">
-        <span class="create-account-text">Criar Conta</span>
-      </button>
+      <RouterLink class="create-account-button" :to="{ name: 'signup' }">
+        Criar Conta
+      </RouterLink>
       <button class="google-button" @click="continueWithGoogle">
         <img :src="googleIcon" alt="Google Icon" class="google-icon" />
         <span class="google-button-text">Continuar com o Google</span>
       </button>
-      <div class="login-link" @click="navigateToSignIn">
+      <div class="login-link">
         <span class="login-text">Já tem uma conta?</span>
-        <span class="login-link-text"> Entrar</span>
+        <RouterLink :to="{ name: 'signin' }" class="login-link-text">
+          Entrar</RouterLink
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+import { RouterLink } from 'vue-router';
 import logo from '@/shared/assets/logos/logo.svg';
 import googleIcon from '@/shared/assets/googleIcon.svg';
-
-const router = useRouter();
-
-const navigateToSignIn = () => {
-  router.push('/signin');
-};
-
-const navigateToSignUp = () => {
-  router.push('/register/step-1');
-};
 
 const continueWithGoogle = () => {
   // Implement Google sign-in logic here
@@ -136,14 +128,6 @@ const continueWithGoogle = () => {
   top: 529px;
 }
 
-button {
-  padding: 12px 24px;
-  font-size: 16px;
-  cursor: pointer;
-  width: 320px;
-  height: 48px;
-}
-
 .create-account-button {
   display: flex;
   justify-content: center;
@@ -152,15 +136,16 @@ button {
   border-radius: 4px;
   border: 1px solid var(--Cores-Primria-200, #8ce95f);
   background: var(--Cores-Primria-200, #8ce95f);
-}
-
-.create-account-text {
   color: var(--Cores-Secundria-700, #293e2f);
-
   font-size: var(--Tipo-Tamanho-Lg, 18px);
   font-style: normal;
   font-weight: 600;
   line-height: 120%;
+
+  padding: 12px 24px;
+  cursor: pointer;
+  width: 320px;
+  height: 48px;
 }
 
 .google-button {
