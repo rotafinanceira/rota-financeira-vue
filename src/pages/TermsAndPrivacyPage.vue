@@ -1,4 +1,5 @@
 <template>
+  <AppBar show-logo />
   <section class="terms-content">
     <h3>Termos de Uso e Privacidade</h3>
     <div class="terms-card">
@@ -82,6 +83,8 @@
 </template>
 
 <script setup lang="ts">
+import AppBar from '@/shared/components/AppBar.vue';
+
 // No additional logic is required for this static page.
 </script>
 
