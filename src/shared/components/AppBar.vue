@@ -1,26 +1,42 @@
 <script setup lang="ts">
-import { RouterLink, useRoute } from 'vue-router';
-import { BellIcon, ProfileIcon } from '../assets/icons';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
+import { ArrowIcon, BellIcon, ProfileIcon } from '../assets/icons';
 import { LogoOneLine } from '../assets/logos';
-import { watch } from 'vue';
+
+defineProps<{ showLogo?: boolean }>();
 
 const route = useRoute();
+const router = useRouter();
 
-watch(route, () => {
-  console.log('name: ', route.name);
-  console.log('title: ', route.meta.title);
-});
+const goBack = () => {
+  router.back();
+}
 </script>
 
 <template>
   <header class="appbar">
-    <RouterLink :to="{ name: 'user-profile' }">
-      <img :src="ProfileIcon" alt="" />
-    </RouterLink>
-    <img :src="LogoOneLine" alt="" />
-    <RouterLink :to="{ name: 'notifications' }">
-      <img :src="BellIcon" alt="" class="appbar__icon" />
-    </RouterLink>
+    <!-- Appbar de superfície -->
+    <template v-if="!route.meta.title && !showLogo">
+      <RouterLink :to="{ name: 'user-profile' }">
+        <img :src="ProfileIcon" alt="" />
+      </RouterLink>
+      <img :src="LogoOneLine" alt="" />
+      <RouterLink :to="{ name: 'notifications' }">
+        <img :src="BellIcon" alt="" />
+      </RouterLink>
+    </template>
+
+    <!-- Appbar de rotas profundas -->
+    <template v-else>
+      <button @click="goBack" class="appbar__return">
+        <img :src="ArrowIcon" alt=""  />
+      </button>
+      <img v-if="showLogo" :src="LogoOneLine" alt="" />
+      <h1 class="appbar__title" v-else-if="route.meta.title">{{ route.meta.title }}</h1>
+      <RouterLink :to="{ name: 'notifications' }" class="appbar__notification">
+        <img :src="BellIcon" alt="" />
+      </RouterLink>
+    </template>
   </header>
 </template>
 
@@ -35,5 +51,23 @@ watch(route, () => {
   min-height: 48px;
   background-color: #fff;
   border-bottom: 1px solid #e0e5e7;
+
+  &__title {
+    color: #307714;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 120%;
+  }
+
+  &__notification {
+    visibility: hidden;
+  }
+
+  &__return {
+    transform: rotate(-90deg);
+    cursor: pointer;
+  }
+
 }
 </style>
