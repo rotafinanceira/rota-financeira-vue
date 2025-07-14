@@ -31,7 +31,7 @@ const showDialog = defineModel<boolean>({ default: false });
   width: 320px;
   background: white;
   border-radius: 8px;
-  padding: 32px 24px;
+  padding: 24px;
   position: relative;
   border: 1px solid #e0e5e7;
   display: flex;
@@ -51,5 +51,22 @@ const showDialog = defineModel<boolean>({ default: false });
   right: 24px;
   cursor: pointer;
   border: none;
+}
+
+:deep(h2) {
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+:deep(p) {
+  padding-top: 8px;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+:deep(.group) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
 }
 </style>
