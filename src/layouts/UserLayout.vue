@@ -2,31 +2,30 @@
 import { computed } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 
-
 const currentRoute = useRoute();
 const routeName = computed(() => {
   return String(currentRoute.name);
 });
 const isProfileOrVehicle = computed(() => {
-  return routeName.value === 'user-profile' || routeName.value ===  'user-vehicle';
+  return (
+    routeName.value === 'user-profile' || routeName.value === 'user-vehicle'
+  );
 });
-
 </script>
-
 
 <template>
   <div class="app-wrapper">
-    <nav class="tabs" v-if='isProfileOrVehicle'>
+    <nav class="tabs" v-if="isProfileOrVehicle">
       <RouterLink
         :to="{ name: 'user-profile' }"
-        :class="{ 'is-active': routeName.includes('profile')}"
+        :class="{ 'is-active': routeName.includes('profile') }"
         class="tab"
       >
         Meu Perfil
       </RouterLink>
       <RouterLink
         :to="{ name: 'user-vehicle' }"
-        :class="{ 'is-active': routeName.includes('vehicle')}"
+        :class="{ 'is-active': routeName.includes('vehicle') }"
         class="tab"
       >
         Meu Veículo
@@ -39,8 +38,8 @@ const isProfileOrVehicle = computed(() => {
 <style scoped lang="scss">
 .tabs {
   display: flex;
-  gap: .5rem;
-  padding: .375rem;
+  gap: 0.5rem;
+  padding: 0.375rem;
   margin-bottom: 1.5rem;
   background-color: #fff;
 
@@ -55,7 +54,7 @@ const isProfileOrVehicle = computed(() => {
   align-items: center;
   gap: 10px;
   flex: 1 0 0;
-  font-size: .875rem;
+  font-size: 0.875rem;
   color: #307714;
   font-weight: 500;
 

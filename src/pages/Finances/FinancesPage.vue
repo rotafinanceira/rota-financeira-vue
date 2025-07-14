@@ -18,10 +18,7 @@
           </div>
         </div>
       </div>
-      <RouterLink
-        class="card__button"
-        :to="{ name: 'finances-store-money'}"
-      >
+      <RouterLink class="card__button" :to="{ name: 'finances-store-money' }">
         Guardar dinheiro
       </RouterLink>
     </div>
@@ -31,7 +28,9 @@
         <h2 class="card__title">Reserva de manutenção</h2>
         <div class="card__info">
           <span class="card__value-medium">R$ 200,00</span>
-          <RouterLink class="card__link" :to="{ name: 'finances-edit-value'}">Editar valor</RouterLink>
+          <RouterLink class="card__link" :to="{ name: 'finances-edit-value' }"
+            >Editar valor</RouterLink
+          >
         </div>
         <div>
           <div>

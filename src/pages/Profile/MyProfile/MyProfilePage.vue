@@ -56,7 +56,9 @@ function togglePhoneNotifications() {
       </label>
     </div>
 
-    <RouterLink class="btn-editar" :to="{ name: 'user-profile-edit' }">Editar perfil</RouterLink>
+    <RouterLink class="btn-editar" :to="{ name: 'user-profile-edit' }"
+      >Editar perfil</RouterLink
+    >
   </div>
 </template>
 

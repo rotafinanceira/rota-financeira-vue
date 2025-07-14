@@ -66,7 +66,9 @@ const tabs: Tab[] = [
 ];
 
 const getActiveTab = (tabs: Tab[], routeName: string) => {
-  const currentActiveTab = tabs.find((tab) => routeName.includes(tab.routeName))?.name;
+  const currentActiveTab = tabs.find((tab) =>
+    routeName.includes(tab.routeName)
+  )?.name;
 
   return currentActiveTab;
 };

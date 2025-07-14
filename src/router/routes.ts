@@ -50,7 +50,7 @@ const routes: RouteRecordRaw[] = [
                 name: 'signup-step-3',
                 component: () => import('src/pages/Auth/SignUpStep3.vue'),
               },
-            ]
+            ],
           },
         ],
       },

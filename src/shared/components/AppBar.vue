@@ -10,7 +10,7 @@ const router = useRouter();
 
 const goBack = () => {
   router.back();
-}
+};
 </script>
 
 <template>
@@ -29,10 +29,12 @@ const goBack = () => {
     <!-- Appbar de rotas profundas -->
     <template v-else>
       <button @click="goBack" class="appbar__return">
-        <img :src="ArrowIcon" alt=""  />
+        <img :src="ArrowIcon" alt="" />
       </button>
       <img v-if="showLogo" :src="LogoOneLine" alt="" />
-      <h1 class="appbar__title" v-else-if="route.meta.title">{{ route.meta.title }}</h1>
+      <h1 class="appbar__title" v-else-if="route.meta.title">
+        {{ route.meta.title }}
+      </h1>
       <RouterLink :to="{ name: 'notifications' }" class="appbar__notification">
         <img :src="BellIcon" alt="" />
       </RouterLink>
@@ -68,6 +70,5 @@ const goBack = () => {
     transform: rotate(-90deg);
     cursor: pointer;
   }
-
 }
 </style>
