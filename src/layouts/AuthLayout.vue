@@ -5,7 +5,7 @@ import AppBar from '@/shared/components/AppBar.vue';
 </script>
 
 <template>
-    <AppBar />
+    <AppBar show-logo />
     <router-view />
 </template>
 
