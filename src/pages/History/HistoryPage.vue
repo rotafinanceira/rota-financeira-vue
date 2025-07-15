@@ -81,7 +81,7 @@ const isThereNoMaintenances = maintenanceHistory
     <header class="history__header">
       <div class="flex">
         <img :src="PageIcon" alt="" />
-        <h2 class="history__title">Histórico</h2>
+        <h1 class="history__title">Histórico</h1>
       </div>
       <button class="history__settings">
         <img :src="FilterControlsIcon" alt="" />
