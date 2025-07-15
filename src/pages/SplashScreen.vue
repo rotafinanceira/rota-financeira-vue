@@ -23,7 +23,7 @@ onMounted(() => {
   setTimeout(() => {
     showPage.value = false;
     setTimeout(() => {
-      router.push('/signup');
+      router.push('/');
     }, 2000);
   }, 3000);
 });
