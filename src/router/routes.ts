@@ -292,6 +292,10 @@ const routes: RouteRecordRaw[] = [
             component: () =>
               import('@/pages/Notifications/NotificationPage.vue'),
           },
+          {
+            path: '/lab',
+            component: () => import('@/pages/LabPage.vue')
+          },
         ],
       },
     ],
