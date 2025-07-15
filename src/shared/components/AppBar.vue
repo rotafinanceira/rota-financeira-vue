@@ -32,9 +32,9 @@ const goBack = () => {
         <img :src="ArrowIcon" alt="" />
       </button>
       <img v-if="showLogo" :src="LogoOneLine" alt="" />
-      <h1 class="appbar__title" v-else-if="route.meta.title">
+      <span class="appbar__title" v-else-if="route.meta.title">
         {{ route.meta.title }}
-      </h1>
+      </span>
       <RouterLink :to="{ name: 'notifications' }" class="appbar__notification">
         <img :src="BellIcon" alt="" />
       </RouterLink>
