@@ -10,6 +10,9 @@
       </button>
 
       <div class="dialog-content">
+        <div class="main-icon">
+          <img :src="selectedIcon" :alt="props.iconName || 'ícone'" />
+        </div>
         <slot />
       </div>
     </div>
@@ -18,10 +21,29 @@
 
 <script setup lang="ts">
 import { XCircleIcon } from '../assets/icons';
+import { computed } from 'vue';
+import {
+  ModalAlertIcon,
+  ModalCheckIcon,
+  ModalErrorIcon,
+} from '../assets/icons';
+
+const iconMap = {
+  alert: ModalAlertIcon,
+  check: ModalCheckIcon,
+  error: ModalErrorIcon,
+} as const;
+
+type IconName = keyof typeof iconMap;
 
 const props = defineProps<{
   showClose?: boolean;
+  iconName?: IconName;
 }>();
+
+const selectedIcon = computed(() =>
+  props.iconName ? iconMap[props.iconName] : iconMap.check
+);
 
 const showDialog = defineModel<boolean>({ default: false });
 </script>
@@ -59,14 +81,24 @@ const showDialog = defineModel<boolean>({ default: false });
 }
 
 :deep(p) {
-  padding-top: 8px;
-  font-weight: 400;
   font-size: 1rem;
+  color: #485159;
 }
 
 :deep(.group) {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  gap: 0.75rem;
+}
+
+.main-icon {
+  display: flex;
+  justify-content: center;
+
+  img {
+    padding: 2px;
+    width: 44px;
+    height: 44px;
+  }
 }
 </style>
