@@ -93,12 +93,11 @@ const showDialog = defineModel<boolean>({ default: false });
   gap: 0.75rem;
 }
 
-.main-icon {
+.dialog__icon-wrapper {
   display: flex;
   justify-content: center;
 
   img {
-    padding: 2px;
     width: 44px;
     height: 44px;
   }
