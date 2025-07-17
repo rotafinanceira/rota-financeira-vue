@@ -10,8 +10,12 @@
       </button>
 
       <div class="dialog-content">
-        <div class="main-icon">
-          <img :src="selectedIcon" :alt="props.iconName || 'ícone'" />
+        <div class="dialog__icon-wrapper">
+          <img
+            v-if="selectedIcon"
+            :src="selectedIcon"
+            :alt="props.icon || 'ícone'"
+          />
         </div>
         <slot />
       </div>
@@ -38,11 +42,10 @@ type IconName = keyof typeof iconMap;
 
 const props = defineProps<{
   showClose?: boolean;
-  iconName?: IconName;
+  icon?: IconName;
 }>();
-
-const selectedIcon = computed(() =>
-  props.iconName ? iconMap[props.iconName] : iconMap.check
+const selectedIcon = computed(
+  () => (props.icon && iconMap[props.icon]) || undefined
 );
 
 const showDialog = defineModel<boolean>({ default: false });
@@ -81,7 +84,6 @@ const showDialog = defineModel<boolean>({ default: false });
 }
 
 :deep(p) {
-  font-size: 1rem;
   color: #485159;
 }
 
