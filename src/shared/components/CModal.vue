@@ -11,7 +11,7 @@
 
       <div class="dialog-content">
         <div class="dialog__icon-wrapper">
-          <img v-if="selectedIcon" :src="selectedIcon" />
+          <img v-if="selectedIcon" :src="selectedIcon" alt="" />
         </div>
         <slot />
       </div>
