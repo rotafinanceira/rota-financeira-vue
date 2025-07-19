@@ -49,6 +49,8 @@ const goBack = () => {
   align-items: center;
   padding-inline: 1.25rem;
   margin-bottom: 1.5rem;
+  position: sticky;
+  top: 0;
 
   min-height: 48px;
   background-color: #fff;
