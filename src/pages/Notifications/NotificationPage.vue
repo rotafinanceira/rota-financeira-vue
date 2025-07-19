@@ -1,5 +1,5 @@
 <template>
-  <div class="notifications">
+  <div class="notifications app-wrapper">
     <AppNotification v-for="n in notifications" v-bind="n" :key="n.id" />
   </div>
 </template>
@@ -62,7 +62,5 @@ const notifications: Notification[] = [
 .notifications {
   display: grid;
   gap: 1rem;
-  width: calc(100% - 2.5rem);
-  margin: 0.875rem auto;
 }
 </style>

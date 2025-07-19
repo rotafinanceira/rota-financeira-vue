@@ -89,7 +89,6 @@ const openSettings = () => {
 <style lang="scss" scoped>
 .maintenance {
   min-height: calc(100svh - 130px);
-  padding-bottom: 1rem;
 
   &__wrapper {
     display: flex;
