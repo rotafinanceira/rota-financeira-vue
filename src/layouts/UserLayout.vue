@@ -49,7 +49,7 @@ const isProfileOrVehicle = computed(() => {
 
 .tab {
   display: flex;
-  padding: 8px 40px;
+  padding-block: 8px;
   justify-content: center;
   align-items: center;
   gap: 10px;
