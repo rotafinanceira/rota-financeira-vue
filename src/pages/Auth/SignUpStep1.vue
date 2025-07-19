@@ -119,7 +119,7 @@ const handleApiError = (statusCode) => {
     if (isValid.value) {
       store.setEmail(email.value);
       store.setConfirmEmail(confirmEmail.value);
-      router.push('/register/step-2');
+      router.push({ name: 'signup-step-2'});
     }
   } else {
     console.log(statusCode);
@@ -143,7 +143,7 @@ const handleSubmit = async () => {
   } finally {
     isLoading.value = false;
   }
-  router.push('/register/step-2');
+  router.push({ name: 'signup-step-2'});
 };
 </script>
 
