@@ -1,6 +1,5 @@
 <template>
-  <AppHeader />
-  <div class="finances">
+  <div class="finances app-wrapper">
     <div class="finances__header">
       <img :src="MoneyCircleIcon" alt="" />
       <h1>Finanças</h1>
@@ -19,12 +18,9 @@
           </div>
         </div>
       </div>
-      <button
-        class="card__button store"
-        @click="navigateTo('/finances/store-money')"
-      >
+      <RouterLink class="card__button" :to="{ name: 'finances-store-money' }">
         Guardar dinheiro
-      </button>
+      </RouterLink>
     </div>
 
     <div class="finances__card">
@@ -32,7 +28,9 @@
         <h2 class="card__title">Reserva de manutenção</h2>
         <div class="card__info">
           <span class="card__value-medium">R$ 200,00</span>
-          <a class="card__link" href="#/finances/edit-value">Editar valor</a>
+          <RouterLink class="card__link" :to="{ name: 'finances-edit-value' }"
+            >Editar valor</RouterLink
+          >
         </div>
         <div>
           <div>
@@ -79,21 +77,14 @@
 </template>
 
 <script setup lang="ts">
-import AppHeader from '@/shared/components/AppHeader.vue';
 import {
   MoneyCircleIcon,
   InterrogationCircleIcon,
   CheckIcon,
   XIcon,
 } from '@/shared/assets/icons';
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
+import { RouterLink } from 'vue-router';
 const checkinStatus = [true, true, false, false, true, true, false];
-
-function navigateTo(path: string) {
-  router.push(path);
-}
 </script>
 
 <style scoped lang="scss">

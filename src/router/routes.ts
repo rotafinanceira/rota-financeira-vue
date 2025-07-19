@@ -4,174 +4,306 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
+    redirect: '/welcome',
     children: [
-      { path: '', component: () => import('src/pages/IntroductionApp.vue') },
       {
-        path: 'signin',
-        component: () => import('src/pages/SignIn.vue'),
+        path: '/load',
+        component: () => import('src/pages/SplashScreen.vue'),
       },
       {
-        path: 'signup-options',
-        component: () => import('src/pages/SignUpOptions.vue'),
+        path: 'welcome',
+        name: 'welcome',
+        component: () => import('src/pages/WelcomePage.vue'),
       },
       {
-        path: 'success',
-        component: () => import('src/pages/LoginSuccess.vue'),
+        path: 'terms-and-privacy',
+        name: 'terms-and-privacy',
+        component: () => import('@/pages/TermsAndPrivacyPage.vue'),
       },
       {
-        path: 'register-1',
-        component: () => import('src/pages/SignUp/SignUpStep1.vue'),
+        path: 'auth',
+        component: () => import('src/layouts/AuthLayout.vue'),
+        redirect: { name: 'signin' },
+        children: [
+          {
+            path: 'signin',
+            name: 'signin',
+            component: () => import('src/pages/Auth/SignInPage.vue'),
+          },
+          {
+            path: 'signup',
+            name: 'signup',
+            redirect: '/auth/signup/step-1',
+            children: [
+              {
+                path: 'step-1',
+                name: 'signup-step-1',
+                component: () => import('src/pages/Auth/SignUpStep1.vue'),
+              },
+              {
+                path: 'step-2',
+                name: 'signup-step-2',
+                component: () => import('src/pages/Auth/SignUpStep2.vue'),
+              },
+              {
+                path: 'step-3',
+                name: 'signup-step-3',
+                component: () => import('src/pages/Auth/SignUpStep3.vue'),
+              },
+            ],
+          },
+        ],
       },
       {
-        path: 'register-2',
-        component: () => import('src/pages/SignUp/SignUpStep2.vue'),
-      },
-      {
-        path: 'register-3',
-        component: () => import('src/pages/SignUp/SignUpStep3.vue'),
-      },
-      {
-        path: '/',
+        path: '/app',
         component: () => import('src/layouts/AppLayout.vue'),
         children: [
           {
             path: 'home',
+            name: 'home',
             component: () => import('@/pages/Home/HomePage.vue'),
           },
           {
-            path: 'maintenance',
-            component: () => import('@/pages/Maintenance/MaintenancePage.vue'),
+            path: 'maintenances',
+            meta: {
+              title: 'Manutenções',
+            },
+            children: [
+              {
+                path: '',
+                name: 'maintenances',
+                component: () =>
+                  import('@/pages/Maintenances/MaintenancesPage.vue'),
+                meta: {
+                  title: undefined,
+                },
+              },
+              {
+                path: 'oil',
+                name: 'maintenance-oil',
+                component: () =>
+                  import('@/pages/Maintenances/Maintenance/OilPage.vue'),
+              },
+              {
+                path: 'battery',
+                name: 'maintenance-battery',
+                component: () =>
+                  import('@/pages/Maintenances/Maintenance/BatteryPage.vue'),
+              },
+              {
+                path: 'fuel-filter',
+                name: 'maintenance-fuel-filter',
+                component: () =>
+                  import('@/pages/Maintenances/Maintenance/FuelFilterPage.vue'),
+              },
+              {
+                path: 'alignment-balancing',
+                name: 'maintenance-alignment-balancing',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/AlignmentBalancingPage.vue'
+                  ),
+              },
+              {
+                path: 'air-filter',
+                name: 'maintenance-air-filter',
+                component: () =>
+                  import('@/pages/Maintenances/Maintenance/AirFilterPage.vue'),
+              },
+            ],
           },
           {
             path: 'history',
+            name: 'history',
             component: () => import('@/pages/History/HistoryPage.vue'),
           },
           {
-            path: 'profile',
-            component: () => import('@/pages/Profile/ProfilePage.vue'),
+            path: 'finances',
+            meta: {
+              title: 'Finanças',
+            },
+            children: [
+              {
+                path: '',
+                name: 'finances',
+                component: () => import('@/pages/Finances/FinancesPage.vue'),
+                meta: {
+                  title: undefined,
+                },
+              },
+              {
+                path: 'store-money',
+                name: 'finances-store-money',
+                component: () =>
+                  import('@/pages/Finances/components/StoreMoney.vue'),
+              },
+              {
+                path: 'edit-value',
+                name: 'finances-edit-value',
+                component: () =>
+                  import('@/pages/Finances/components/EditValue.vue'),
+              },
+            ],
           },
           {
-            path: 'profile/edit-name',
-            component: () =>
-              import('@/pages/Profile/MyProfile/components/EditName.vue'),
-          },
-          {
-            path: 'profile/edit-birthdate',
-            component: () =>
-              import('@/pages/Profile/MyProfile/components/EditBirthdate.vue'),
-          },
-          {
-            path: 'profile/edit-email',
-            component: () =>
-              import('@/pages/Profile/MyProfile/components/EditEmail.vue'),
-          },
-          {
-            path: 'profile/edit-password',
-            component: () =>
-              import('@/pages/Profile/MyProfile/components/EditPassword.vue'),
-          },
-          {
-            path: 'profile/terms-and-privacy',
-            component: () =>
-              import(
-                '@/pages/Profile/MyProfile/components/TermsAndPrivacy.vue'
-              ),
-          },
-          {
-            path: 'oil-maintenance',
-            component: () =>
-              import('@/pages/RegistrationMaintenance/OilMaintenance.vue'),
-          },
-          {
-            path: 'battery-maintenance',
-            component: () =>
-              import('@/pages/RegistrationMaintenance/BatteryMaintenance.vue'),
-          },
-          {
-            path: 'fuel-filter-maintenance',
-            component: () =>
-              import(
-                '@/pages/RegistrationMaintenance/FuelFilterMaintenance.vue'
-              ),
-          },
-          {
-            path: 'alignment-balancing',
-            component: () =>
-              import('@/pages/RegistrationMaintenance/AlignmentBalancing.vue'),
-          },
-          {
-            path: 'air-conditioner-filter-maintenance',
-            component: () =>
-              import(
-                '@/pages/RegistrationMaintenance/AirConditioningFilter.vue'
-              ),
-          },
-          {
-            path: 'registration-vehicle',
-            component: () => import('@/pages/Vehicle/RegistrationVehicle.vue'),
-          },
-          {
-            path: 'profile/edit-model',
-            component: () =>
-              import(
-                '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditModel.vue'
-              ),
-          },
-          {
-            path: 'profile/edit-brand',
-            component: () =>
-              import(
-                '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditBrand.vue'
-              ),
-          },
-          {
-            path: 'profile/edit-year',
-            component: () =>
-              import(
-                '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditYear.vue'
-              ),
-          },
-          {
-            path: 'profile/edit-plate',
-            component: () =>
-              import(
-                '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditPlate.vue'
-              ),
-          },
-          {
-            path: 'profile/edit-color',
-            component: () =>
-              import(
-                '@/pages/Profile/MyVehicle/components/VehicleEdit/components/EditColor.vue'
-              ),
+            path: 'user',
+            name: 'user',
+            component: () => import('@/layouts/UserLayout.vue'),
+            redirect: { name: 'user-profile' },
+            children: [
+              {
+                path: 'profile',
+                children: [
+                  {
+                    path: '',
+                    name: 'user-profile',
+                    component: () =>
+                      import('@/pages/Profile/MyProfile/MyProfilePage.vue'),
+                  },
+                  {
+                    path: 'edit',
+                    meta: {
+                      title: 'Editar perfil',
+                    },
+                    children: [
+                      {
+                        path: '',
+                        name: 'user-profile-edit',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyProfile/EditProfilePage.vue'
+                          ),
+                      },
+                      {
+                        path: 'name',
+                        name: 'user-profile-edit-name',
+                        component: () =>
+                          import('@/pages/Profile/MyProfile/Edit/NamePage.vue'),
+                      },
+                      {
+                        path: 'birthdate',
+                        name: 'user-profile-edit-birthdate',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyProfile/Edit/BirthdatePage.vue'
+                          ),
+                      },
+                      {
+                        path: 'email',
+                        name: 'user-profile-edit-email',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyProfile/Edit/EmailPage.vue'
+                          ),
+                      },
+                      {
+                        path: 'password',
+                        name: 'user-profile-edit-password',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyProfile/Edit/PasswordPage.vue'
+                          ),
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                path: 'vehicle',
+                children: [
+                  {
+                    path: '',
+                    name: 'user-vehicle',
+                    component: () =>
+                      import('@/pages/Profile/MyVehicle/MyVehiclePage.vue'),
+                  },
+                  {
+                    path: 'edit',
+                    meta: {
+                      title: 'Editar veículo',
+                    },
+                    children: [
+                      {
+                        path: '',
+                        name: 'user-vehicle-edit',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyVehicle/EditVehiclePage.vue'
+                          ),
+                      },
+                      {
+                        path: 'model',
+                        name: 'user-vehicle-edit-model',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyVehicle/Edit/ModelPage.vue'
+                          ),
+                      },
+                      {
+                        path: 'brand',
+                        name: 'user-vehicle-edit-brand',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyVehicle/Edit/BrandPage.vue'
+                          ),
+                      },
+                      {
+                        path: 'year',
+                        name: 'user-vehicle-edit-year',
+                        component: () =>
+                          import('@/pages/Profile/MyVehicle/Edit/YearPage.vue'),
+                      },
+                      {
+                        path: 'plate',
+                        name: 'user-vehicle-edit-plate',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyVehicle/Edit/PlatePage.vue'
+                          ),
+                      },
+                      {
+                        path: 'color',
+                        name: 'user-vehicle-edit-color',
+                        component: () =>
+                          import(
+                            '@/pages/Profile/MyVehicle/Edit/ColorPage.vue'
+                          ),
+                      },
+                    ],
+                  },
+                  {
+                    path: 'register',
+                    name: 'user-vehicle-register',
+                    meta: {
+                      title: 'Cadastrar veículo',
+                    },
+                    component: () => import('@/pages/Vehicle/RegisterPage.vue'),
+                  },
+                ],
+              },
+            ],
           },
           {
             path: 'notifications',
+            name: 'notifications',
+            meta: {
+              title: 'Notificações',
+            },
             component: () =>
               import('@/pages/Notifications/NotificationPage.vue'),
           },
           {
-            path: 'finances',
-            component: () => import('@/pages/Finances/FinancesPage.vue'),
-          },
-          {
-            path: 'finances/store-money',
-            component: () =>
-              import('@/pages/Finances/components/StoreMoney.vue'),
-          },
-          {
-            path: 'finances/edit-value',
-            component: () =>
-              import('@/pages/Finances/components/EditValue.vue'),
+            path: '/lab',
+            component: () => import('@/pages/LabPage.vue')
           },
         ],
       },
     ],
   },
-
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue'),
+    name: 'not-found',
+    component: () => import('pages/NotFound.vue'),
   },
 ];
 

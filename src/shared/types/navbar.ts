@@ -1,6 +1,6 @@
 export type Tab = {
   name: string;
-  path: string;
+  routeName: string;
   icon: {
     enabled: string;
     disabled: string;
