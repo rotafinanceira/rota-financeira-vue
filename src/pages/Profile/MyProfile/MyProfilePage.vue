@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ToggleButton from '@/shared/components/ToggleButton.vue';
+import CToggle from '@/shared/components/CToggle.vue';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
@@ -12,16 +12,8 @@ const user = ref({
     'https://images.unsplash.com/photo-1619895862022-09114b41f16f?q=80&w=532',
 });
 
-const emailNotificationsEnabled = ref(false);
-const phoneNotificationsEnabled = ref(true);
-
-function toggleEmailNotifications() {
-  emailNotificationsEnabled.value = !emailNotificationsEnabled.value;
-}
-
-function togglePhoneNotifications() {
-  phoneNotificationsEnabled.value = !phoneNotificationsEnabled.value;
-}
+const emailNotifications = ref(false);
+const phoneNotifications = ref(true);
 </script>
 
 <template>
@@ -46,13 +38,13 @@ function togglePhoneNotifications() {
     <div class="notificacoes-header">Notificações</div>
 
     <div class="notificacoes">
-      <label class="switch-label" @click="toggleEmailNotifications">
+      <label class="switch-label">
         <span>Receber notificações por e-mail</span>
-        <ToggleButton :modelValue="emailNotificationsEnabled" />
+        <CToggle v-model="emailNotifications" @click="emailNotifications = !emailNotifications" />
       </label>
-      <label class="switch-label" @click="togglePhoneNotifications">
+      <label class="switch-label">
         <span>Receber notificações no celular</span>
-        <ToggleButton :modelValue="phoneNotificationsEnabled" />
+        <CToggle v-model="phoneNotifications" @click="phoneNotifications = !phoneNotifications" />
       </label>
     </div>
 
