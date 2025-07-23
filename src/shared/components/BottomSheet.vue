@@ -1,13 +1,26 @@
 <template>
   <q-dialog v-model="internalShow" position="bottom" no-backdrop-dismiss>
-    <div class="botton-sheet" @click.stop>
-      <div class="container--close">
+    <div
+      class="bottom-sheet"
+      :class="`variant--${props.variant || 'default'}`"
+      @click.stop
+    >
+      <button
+        v-if="props.variant === 'default'"
+        variant="primary"
+        class="close-button"
+        @click="internalShow = false"
+      >
+        <img :src="XCircleIcon" alt="Fechar" />
+      </button>
+
+      <!-- <div class="container--close">
         <slot name="close--button" />
-      </div>
+      </div> -->
 
       <div class="container--confirm">
         <slot />
-        <slot name="confirm--button" />
+        <!-- <slot name="confirm--button" /> -->
       </div>
     </div>
   </q-dialog>
@@ -15,9 +28,11 @@
 
 <script setup lang="ts">
 import { ref, watch, defineProps, defineEmits } from 'vue';
+import XCircleIcon from '../assets/icons/x-circle.svg';
 
 const props = defineProps<{
   modelValue: boolean;
+  variant?: 'default' | 'options' | 'filter';
 }>();
 
 const emit = defineEmits<{
@@ -40,7 +55,7 @@ watch(internalShow, (val) => {
 </script>
 
 <style scoped lang="scss">
-.botton-sheet {
+.bottom-sheet {
   max-height: 90vh;
   border-radius: 16px 16px 0 0;
   background-color: white;
@@ -57,5 +72,34 @@ watch(internalShow, (val) => {
     gap: 40px;
     margin-top: 24px;
   }
+}
+
+.close-button {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  cursor: pointer;
+  border: none;
+}
+
+:deep(h2) {
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+:deep(p) {
+  color: #485159;
+}
+
+:deep(.group) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+:deep(.image-wrapper) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
