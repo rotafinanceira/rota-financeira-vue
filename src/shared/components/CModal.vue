@@ -1,6 +1,9 @@
 <template>
   <q-dialog v-model="showDialog">
     <div class="dialog-container">
+      <h1 v-if="props.title" class="dialog-title">
+        {{ props.title }}
+      </h1>
       <button
         class="close-button"
         v-if="props.showClose"
@@ -39,6 +42,7 @@ type IconName = keyof typeof iconMap;
 const props = defineProps<{
   showClose?: boolean;
   icon?: IconName;
+  title?: string;
 }>();
 const selectedIcon = computed(
   () => (props.icon && iconMap[props.icon]) || undefined
@@ -97,5 +101,23 @@ const showDialog = defineModel<boolean>({ default: false });
     width: 44px;
     height: 44px;
   }
+}
+
+.dialog-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #0c0d0f;
+}
+
+:deep(ul) {
+  margin: 0;
+  padding: 0 24px;
+}
+
+:deep(li) {
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: #485159;
+  text-align: start;
 }
 </style>
