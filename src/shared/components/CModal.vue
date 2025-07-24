@@ -1,9 +1,6 @@
 <template>
   <q-dialog v-model="showDialog">
-    <div class="dialog-container">
-      <h1 v-if="props.title" class="dialog-title">
-        {{ props.title }}
-      </h1>
+    <div :class="['dialog-container', variantClass]">
       <button
         class="close-button"
         v-if="props.showClose"
@@ -13,8 +10,8 @@
       </button>
 
       <div class="dialog-content">
-        <div class="dialog__icon-wrapper">
-          <img v-if="selectedIcon" :src="selectedIcon" alt="" />
+        <div v-if="selectedIcon" class="dialog__icon-wrapper">
+          <img :src="selectedIcon" alt="" />
         </div>
         <slot />
       </div>
@@ -33,22 +30,31 @@ import {
 
 const iconMap = {
   alert: ModalAlertIcon,
-  check: ModalCheckIcon,
+  sucess: ModalCheckIcon,
   error: ModalErrorIcon,
 } as const;
 
 type IconName = keyof typeof iconMap;
+type Variant = 'default' | 'info';
 
-const props = defineProps<{
-  showClose?: boolean;
-  icon?: IconName;
-  title?: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    showClose?: boolean;
+    icon?: IconName;
+    variant?: Variant;
+  }>(),
+  {
+    variant: 'default',
+  }
+);
+
 const selectedIcon = computed(
   () => (props.icon && iconMap[props.icon]) || undefined
 );
 
 const showDialog = defineModel<boolean>({ default: false });
+
+const variantClass = computed(() => `dialog-${props.variant}`);
 </script>
 
 <style scoped>
@@ -68,7 +74,6 @@ const showDialog = defineModel<boolean>({ default: false });
   display: flex;
   flex-direction: column;
   text-align: center;
-  gap: 32px;
 }
 .close-button {
   position: absolute;
@@ -78,46 +83,58 @@ const showDialog = defineModel<boolean>({ default: false });
   border: none;
 }
 
-:deep(h2) {
-  font-weight: 600;
-  font-size: 1.125rem;
-}
+.dialog-default {
+  :deep(h2) {
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
 
-:deep(p) {
-  color: #485159;
-}
+  :deep(p) {
+    color: #485159;
+  }
 
-:deep(.group) {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
+  :deep(.group) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 
-.dialog__icon-wrapper {
-  display: flex;
-  justify-content: center;
+  .dialog-content {
+    gap: 32px;
+  }
 
-  img {
-    width: 44px;
-    height: 44px;
+  .dialog__icon-wrapper {
+    display: flex;
+    justify-content: center;
+
+    img {
+      width: 44px;
+      height: 44px;
+    }
   }
 }
 
-.dialog-title {
-  font-weight: 600;
-  font-size: 1rem;
-  color: #0c0d0f;
-}
+.dialog-info {
+  :deep(h2) {
+    text-align: left;
+    font-weight: 600;
+    font-size: 1rem;
+  }
 
-:deep(ul) {
-  margin: 0;
-  padding: 0 24px;
-}
+  :deep(ul) {
+    margin: 0;
+    padding: 0 24px;
+  }
 
-:deep(li) {
-  font-weight: 400;
-  font-size: 0.875rem;
-  color: #485159;
-  text-align: start;
+  :deep(li) {
+    font-weight: 400;
+    font-size: 0.875rem;
+    color: #485159;
+    text-align: start;
+  }
+
+  .dialog-content {
+    gap: 24px;
+  }
 }
 </style>
