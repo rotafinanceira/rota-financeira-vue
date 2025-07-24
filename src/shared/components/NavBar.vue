@@ -5,7 +5,7 @@
         v-for="tab in tabs"
         :key="tab.name"
         :name="tab.name"
-        @click="navigateTo(tab.path)"
+        @click="navigateTo(tab.routeName)"
         class="navbar__tab"
       >
         <div class="tab__container">
@@ -42,31 +42,33 @@ const router = useRouter();
 const route = useRoute();
 
 const tabs: Tab[] = [
-  { name: 'home', path: '/home', icon: navbar.home, label: 'Início' },
+  { name: 'home', routeName: 'home', icon: navbar.home, label: 'Início' },
   {
     name: 'maintenance',
-    path: '/maintenance',
+    routeName: 'maintenances',
     icon: navbar.maintenance,
     label: 'Manutenções',
     notification: 3,
   },
   {
     name: 'history',
-    path: '/history',
+    routeName: 'history',
     icon: navbar.history,
     label: 'Histórico',
     notification: 0,
   },
   {
     name: 'finances',
-    path: '/finances',
+    routeName: 'finances',
     icon: navbar.finances,
     label: 'Finanças',
   },
 ];
 
-const getActiveTab = (tabs: Tab[], path: string) => {
-  const currentActiveTab = tabs.find((tab) => path.includes(tab.path))?.name;
+const getActiveTab = (tabs: Tab[], routeName: string) => {
+  const currentActiveTab = tabs.find((tab) =>
+    routeName.includes(tab.routeName)
+  )?.name;
 
   return currentActiveTab;
 };
@@ -79,9 +81,9 @@ watch(
   { immediate: true }
 );
 
-function navigateTo(path: string) {
-  router.push(path).then(() => {
-    navbarTab.value = getActiveTab(tabs, path) || 'home';
+function navigateTo(routeName: string) {
+  router.push({ name: routeName }).then(() => {
+    navbarTab.value = getActiveTab(tabs, routeName) || 'home';
   });
 }
 </script>

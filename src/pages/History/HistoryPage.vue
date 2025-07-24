@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { FilterControlsIcon, PageIcon } from '@/shared/assets/icons';
-import AppHeader from '@/shared/components/AppHeader.vue';
 import HistoryCard from './components/HistoryCard.vue';
 import { HistoryCardProps } from './types';
 import { BrokenCar } from '@/shared/assets/illustrations';
@@ -78,12 +77,11 @@ const isThereNoMaintenances = maintenanceHistory
 </script>
 
 <template>
-  <AppHeader />
-  <div class="history">
+  <div class="app-wrapper">
     <header class="history__header">
       <div class="flex">
         <img :src="PageIcon" alt="" />
-        <h2 class="history__title">Histórico</h2>
+        <h1 class="history__title">Histórico</h1>
       </div>
       <button class="history__settings">
         <img :src="FilterControlsIcon" alt="" />
@@ -106,9 +104,6 @@ const isThereNoMaintenances = maintenanceHistory
 
 <style scoped lang="scss">
 .history {
-  width: min(100% - 2.5rem);
-  margin: 1.5rem auto;
-
   &__header {
     display: flex;
     justify-content: space-between;

@@ -7,6 +7,6 @@ export type Vehicle = {
 };
 
 export type vehicleEditRoutes = {
-  path: string;
+  name: string;
   title: string;
 };

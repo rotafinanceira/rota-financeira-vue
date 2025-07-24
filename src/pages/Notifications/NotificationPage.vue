@@ -1,11 +1,9 @@
 <template>
-  <HeaderBar title="Notificações" path="/home" :showBackButton="true" />
-  <div class="notifications">
+  <div class="notifications app-wrapper">
     <AppNotification v-for="n in notifications" v-bind="n" :key="n.id" />
   </div>
 </template>
 <script setup lang="ts">
-import HeaderBar from '@/shared/components/HeaderBar.vue';
 import AppNotification from './components/AppNotification.vue';
 import { Notification } from './types';
 
@@ -64,7 +62,5 @@ const notifications: Notification[] = [
 .notifications {
   display: grid;
   gap: 1rem;
-  width: calc(100% - 2.5rem);
-  margin: 0.875rem auto;
 }
 </style>
