@@ -1,0 +1,229 @@
+$header-margin: 1.5rem 0 0.5rem;
+.vehicle {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100svh - 80px - 95px - 45px);
+  }
+
+  &__header {
+    color: #0c0d0f;
+    font-size: 0.875rem;
+    line-height: 120%;
+    margin: $header-margin;
+    font-weight: 500;
+  }
+
+  &__info {
+    display: flex;
+    padding: 16px;
+    gap: 0.725rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    border-radius: 4px;
+    border: 1px solid var(--Cores-Cinza-100, #e0e5e7);
+    background: var(--Cores-Cinza-Branco, #fff);
+  }
+
+  &__image {
+    width: 80px;
+    height: 80px;
+    border-radius: 80px;
+    background: lightgray 50% / cover no-repeat;
+    object-fit: cover;
+  }
+
+  &__tag {
+    padding: 0.25rem 0.725rem;
+    border-radius: 99px;
+    background: #d3f0ff;
+    color: #1450b7;
+    font-size: var(--Tipo-Tamanho-Xs, 12px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+  }
+
+  &__title {
+    color: var(--Cores-Cinza-900, #0c0d0f);
+    text-align: center;
+    font-size: var(--Tipo-Tamanho-Lg, 18px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+  }
+
+  &__info-data {
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    color: #76828b;
+  }
+}
+
+.maintenances {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.725rem;
+  padding: 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--Cores-Cinza-100, #e0e5e7);
+  background: var(--Cores-Cinza-Branco, #fff);
+
+  &__info {
+    color: var(--Cores-Cinza-700, #3c4349);
+    font-size: var(--Tipo-Tamanho-Sm, 14px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    text-align: center;
+  }
+
+  &__icon {
+    --size: 20px;
+
+    width: var(--size);
+    height: var(--size);
+
+    &__wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #eff3f5;
+      padding: 0.625rem;
+      border-radius: 8px;
+    }
+  }
+
+  &__text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #2b5e16;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 16px;
+    border-radius: 4px;
+    border: 1px solid #e0e5e7;
+    background-color: #fff;
+  }
+}
+
+.vehicle__button {
+  display: flex;
+  width: 100%;
+  padding: 0.75rem;
+  margin: 1.5rem 0;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: none;
+  background: #8ce95f;
+  color: #2b5e16;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 120%;
+  cursor: pointer;
+
+  &.register {
+    margin-top: 1.5rem;
+  }
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  margin: $header-margin;
+
+  > h2 {
+    margin: 0;
+  }
+
+  .total {
+    color: #76828b;
+  }
+}
+
+// Vehicle edit styles
+.vehicle {
+  &__edit-pages {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.2rem;
+    border-radius: 4px;
+    border: 1px solid var(--Cores-Cinza-100, #e0e5e7);
+    background: var(--Cores-Cinza-Branco, #fff);
+  }
+
+  &__edit-page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0;
+    line-height: 150%;
+    text-decoration: none;
+    color: #3c4349;
+    font-size: 0.875rem;
+
+    img {
+      transform: rotate(90deg);
+    }
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+}
+
+.account-info-buttons {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  align-self: stretch;
+  border-radius: 8px;
+  border: 1px solid var(--Cores-Cinza-100, #e0e5e7);
+  background: var(--Cores-Cinza-Branco, #fff);
+}
+
+.notificacao-revisao {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  align-self: stretch;
+  border-radius: 8px;
+  border: 1px solid var(--Cores-Cinza-100, #e0e5e7);
+  background: var(--Cores-Cinza-Branco, #fff);
+  margin-bottom: 16px;
+}
+
+.switch-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--Cores-Cinza-700, #3c4349);
+  font-size: var(--Tipo-Tamanho-Sm, 14px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  width: 100%;
+}
+
+.switch-label span {
+  flex: 1;
+  padding-right: 16px;
+}

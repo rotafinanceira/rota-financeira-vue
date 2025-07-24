@@ -43,6 +43,7 @@ textarea {
 button,
 select {
   text-transform: none;
+  border: none;
 }
 
 button,
@@ -57,3 +58,12 @@ button,
 a {
   text-decoration: none;
 }
+
+.app-wrapper {
+  width: calc(100% - 40px);
+  margin-inline: auto;
+  margin-bottom: 1.25rem;
+}
+
+
+

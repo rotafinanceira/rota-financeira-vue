@@ -1,6 +1,5 @@
 <template>
   <div class="home-page">
-    <AppHeader />
     <div class="card-wrapper">
       <div class="card">
         <div>
@@ -159,7 +158,6 @@
 </template>
 
 <script setup lang="ts">
-import AppHeader from '@/shared/components/AppHeader.vue';
 import ModalGenerico from '@/shared/components/ModalGenerico.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 import odometer from '@/shared/assets/illustrations/odometer.svg';

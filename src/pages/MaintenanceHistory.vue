@@ -1,6 +1,5 @@
 <template>
   <q-layout view="hHh lpR fFf" class="layout-background">
-    <AppHeader />
     <q-page-container>
       <q-page class="q-pa-md">
         <div class="title-wrapper">
@@ -61,7 +60,6 @@
 </template>
 
 <script setup>
-import AppHeader from '@/shared/components/AppHeader.vue';
 import FiltroComb from '@/shared/assets/icons/battery.svg';
 import Alinhamento from '@/shared/assets/icons/battery.svg';
 import { navbar } from '@/shared/assets/navbar';
