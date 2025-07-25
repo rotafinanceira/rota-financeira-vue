@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CButton from '@/shared/components/CButton.vue';
+import CDivider from '@/shared/components/CDivider.vue';
 
 const action = () => {
   console.log('Laboratório');
@@ -9,6 +10,7 @@ const action = () => {
 <template>
   <div class="lab app-wrapper">
     <CButton @click="action">Clique aqui</CButton>
+    <CDivider text="ou" />
   </div>
 </template>
 
@@ -17,7 +19,8 @@ const action = () => {
 
 .lab {
   display: grid;
-  place-items: center;
+  align-content: center;
+  gap: 1rem;
   min-height: $screen;
 }
 </style>
