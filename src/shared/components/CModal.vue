@@ -9,7 +9,7 @@
         <img :src="XCircleIcon" alt="Fechar" />
       </button>
 
-      <div class="dialog-content">
+      <div class="dialog-content group">
         <div v-if="selectedIcon" class="dialog__icon-wrapper">
           <img :src="selectedIcon" alt="" />
         </div>
@@ -30,7 +30,7 @@ import {
 
 const iconMap = {
   alert: ModalAlertIcon,
-  sucess: ModalCheckIcon,
+  success: ModalCheckIcon,
   error: ModalErrorIcon,
 } as const;
 
@@ -44,6 +44,7 @@ const props = withDefaults(
     variant?: Variant;
   }>(),
   {
+    showClose: true,
     variant: 'default',
   }
 );
@@ -68,6 +69,33 @@ const variantClass = computed(() => `dialog-${props.variant}`);
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  :deep(h2) {
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
+
+  :deep(p) {
+    color: #485159;
+  }
+
+  :deep(.group) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  :deep(ul) {
+    margin: 0;
+    padding: 0 24px;
+  }
+
+  :deep(li) {
+    font-weight: 400;
+    font-size: 0.875rem;
+    color: #485159;
+    text-align: start;
+  }
 }
 
 .dialog-content {
@@ -84,21 +112,6 @@ const variantClass = computed(() => `dialog-${props.variant}`);
 }
 
 .dialog-default {
-  :deep(h2) {
-    font-weight: 600;
-    font-size: 1.125rem;
-  }
-
-  :deep(p) {
-    color: #485159;
-  }
-
-  :deep(.group) {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
   .dialog-content {
     gap: 32px;
   }
@@ -117,20 +130,7 @@ const variantClass = computed(() => `dialog-${props.variant}`);
 .dialog-info {
   :deep(h2) {
     text-align: left;
-    font-weight: 600;
     font-size: 1rem;
-  }
-
-  :deep(ul) {
-    margin: 0;
-    padding: 0 24px;
-  }
-
-  :deep(li) {
-    font-weight: 400;
-    font-size: 0.875rem;
-    color: #485159;
-    text-align: start;
   }
 
   .dialog-content {
