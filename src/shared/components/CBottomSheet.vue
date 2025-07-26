@@ -1,15 +1,15 @@
 <template>
-  <q-dialog v-model="internalShow" position="bottom" no-backdrop-dismiss>
+  <q-dialog v-model="showDialog" position="bottom" no-backdrop-dismiss>
     <div
       class="bottom-sheet"
-      :class="`variant--${props.variant || 'default'}`"
+      :class="['dialog-container', variantClass]"
       @click.stop
     >
       <button
         v-if="props.variant === 'default'"
         variant="primary"
         class="close-button"
-        @click="internalShow = false"
+        @click="showDialog = false"
       >
         <img :src="XCircleIcon" alt="Fechar" />
       </button>
@@ -18,7 +18,7 @@
         <slot name="close--button" />
       </div> -->
 
-      <div class="container--confirm">
+      <div class="dialog-content">
         <slot />
         <!-- <slot name="confirm--button" /> -->
       </div>
@@ -27,31 +27,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, defineProps, defineEmits } from 'vue';
+import { computed, defineProps } from 'vue';
 import XCircleIcon from '../assets/icons/x-circle.svg';
 
-const props = defineProps<{
-  modelValue: boolean;
-  variant?: 'default' | 'options' | 'filter';
-}>();
+type Variant = 'default' | 'filter' | 'options';
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void;
-  (e: 'confirm', selected: string[]): void;
-}>();
-
-const internalShow = ref(props.modelValue);
-
-watch(
-  () => props.modelValue,
-  (val) => {
-    internalShow.value = val;
+const props = withDefaults(
+  defineProps<{
+    variant?: Variant;
+  }>(),
+  {
+    variant: 'default',
   }
 );
 
-watch(internalShow, (val) => {
-  emit('update:modelValue', val);
-});
+const variantClass = computed(() => `dialog-${props.variant}`);
+const showDialog = defineModel<boolean>({ default: false });
 </script>
 
 <style scoped lang="scss">
@@ -65,13 +56,13 @@ watch(internalShow, (val) => {
     display: flex;
     justify-content: flex-end;
   }
+}
 
-  .container--confirm {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    margin-top: 24px;
-  }
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-top: 24px;
 }
 
 .close-button {
