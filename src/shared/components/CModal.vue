@@ -9,7 +9,7 @@
         <img :src="XCircleIcon" alt="Fechar" />
       </button>
 
-      <div class="dialog-content group">
+      <div class="dialog-content">
         <div v-if="selectedIcon" class="dialog__icon-wrapper">
           <img :src="selectedIcon" alt="" />
         </div>
@@ -69,14 +69,11 @@ const variantClass = computed(() => `dialog-${props.variant}`);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  color: #485159;
 
   :deep(h2) {
     font-weight: 600;
     font-size: 1.125rem;
-  }
-
-  :deep(p) {
-    color: #485159;
   }
 
   :deep(.group) {
@@ -84,24 +81,11 @@ const variantClass = computed(() => `dialog-${props.variant}`);
     flex-direction: column;
     gap: 0.75rem;
   }
-
-  :deep(ul) {
-    margin: 0;
-    padding: 0 24px;
-  }
-
-  :deep(li) {
-    font-weight: 400;
-    font-size: 0.875rem;
-    color: #485159;
-    text-align: start;
-  }
 }
 
 .dialog-content {
   display: flex;
   flex-direction: column;
-  text-align: center;
 }
 .close-button {
   position: absolute;
@@ -114,6 +98,7 @@ const variantClass = computed(() => `dialog-${props.variant}`);
 .dialog-default {
   .dialog-content {
     gap: 32px;
+    text-align: center;
   }
 
   .dialog__icon-wrapper {
@@ -135,6 +120,16 @@ const variantClass = computed(() => `dialog-${props.variant}`);
 
   .dialog-content {
     gap: 24px;
+  }
+
+  :deep(ul) {
+    margin: 0;
+    padding: 0 24px;
+  }
+
+  :deep(li) {
+    font-weight: 400;
+    font-size: 0.875rem;
   }
 }
 </style>
