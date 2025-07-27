@@ -76,6 +76,10 @@ const variantClass = computed(() => `dialog-${props.variant}`);
     font-size: 1.125rem;
   }
 
+  :deep(p) {
+    color: #485159;
+  }
+
   :deep(.group) {
     display: flex;
     flex-direction: column;
@@ -127,7 +131,8 @@ const variantClass = computed(() => `dialog-${props.variant}`);
     padding: 0 24px;
   }
 
-  :deep(li) {
+  :deep(li),
+  :deep(p) {
     font-weight: 400;
     font-size: 0.875rem;
   }

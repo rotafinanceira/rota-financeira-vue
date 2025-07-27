@@ -43,6 +43,10 @@ const action2 = () => {
 
     <CModal v-model="openModal2" variant="info" :showClose="true">
       <h2>Quando devo fazer a troca?</h2>
+      <p>
+        Ocorreu um erro ao carregar os Termos de Uso. Verifique sua conexão com
+        a internet ou tente novamente mais tarde.
+      </p>
       <ul>
         <li>
           A recomendação é fazer a manutenção dos pneus a cada 5.000 km rodados
