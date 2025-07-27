@@ -30,9 +30,9 @@
     <h2 class="vehicle__header">Notificações</h2>
     <div class="notificacao-revisao">
       <div class="notificacoes">
-        <label class="switch-label" @click="toggleMaintenanceNotifications">
+        <label class="switch-label">
           <span>Habilitar notificações sobre revisão do meu veículo</span>
-          <ToggleButton :modelValue="maintenanceNotificationsEnabled" />
+          <CToggle v-model="maintenanceNotifications" @click="maintenanceNotifications = !maintenanceNotifications" />
         </label>
       </div>
     </div>
@@ -46,12 +46,12 @@
 import { computed, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { type vehicleEditRoutes } from './types';
-import ToggleButton from '@/shared/components/ToggleButton.vue';
 import { MaintenanceItemProps } from '@/shared/types/maintenance';
 import MaintenanceItem from '@/shared/components/MaintenanceItem.vue';
 import { ArrowIcon } from '@/shared/assets/icons';
+import CToggle from '@/shared/components/CToggle.vue';
 
-const maintenanceNotificationsEnabled = ref(true);
+const maintenanceNotifications = ref(true);
 const maintenances = ref<MaintenanceItemProps[]>([
   { title: 'Alinhamento e balanceamento', icon: 'wheel' },
   { title: 'Troca de bateria', icon: 'battery' },
@@ -64,11 +64,6 @@ const maintenanceText = computed(() =>
     ? 'Manutenção Cadastrada'
     : 'Manutenções Cadastradas'
 );
-
-function toggleMaintenanceNotifications() {
-  const newValue = !maintenanceNotificationsEnabled.value;
-  maintenanceNotificationsEnabled.value = newValue;
-}
 
 const vehicleEditRoutes: vehicleEditRoutes[] = [
   {

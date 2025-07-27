@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import CButton from '@/shared/components/CButton.vue';
+import CToggle from '@/shared/components/CToggle.vue';
+import { ref } from 'vue';
 
-const action = () => {
-  console.log('Laboratório');
-};
+const isChecked = ref(false);
 </script>
 
 <template>
   <div class="lab app-wrapper">
-    <CButton @click="action">Clique aqui</CButton>
+    <CToggle v-model="isChecked" @click="isChecked = !isChecked" />
   </div>
 </template>
 
@@ -17,7 +16,9 @@ const action = () => {
 
 .lab {
   display: grid;
-  place-items: center;
+  justify-content: center;
+  align-content: center;
+  gap: 1rem;
   min-height: $screen;
 }
 </style>
