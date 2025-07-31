@@ -1,12 +1,7 @@
 <template>
   <q-dialog v-model="showDialog" position="bottom" no-backdrop-dismiss>
-    <div
-      class="bottom-sheet"
-      :class="['dialog-container', variantClass]"
-      @click.stop
-    >
+    <div class="bottom-sheet" :class="['dialog-container']" @click.stop>
       <button
-        v-if="props.variant === 'default'"
         variant="primary"
         class="close-button"
         @click="showDialog = false"
@@ -14,34 +9,27 @@
         <img :src="XCircleIcon" alt="Fechar" />
       </button>
 
-      <!-- <div class="container--close">
-        <slot name="close--button" />
-      </div> -->
-
       <div class="dialog-content">
         <slot />
-        <!-- <slot name="confirm--button" /> -->
       </div>
     </div>
   </q-dialog>
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps } from 'vue';
+import { defineProps } from 'vue';
 import XCircleIcon from '../assets/icons/x-circle.svg';
-
-type Variant = 'default' | 'filter' | 'options';
 
 const props = withDefaults(
   defineProps<{
-    variant?: Variant;
+    draggable: boolean;
   }>(),
   {
-    variant: 'default',
+    draggable: false,
   }
 );
+console.log(props.draggable);
 
-const variantClass = computed(() => `dialog-${props.variant}`);
 const showDialog = defineModel<boolean>({ default: false });
 </script>
 
@@ -50,7 +38,7 @@ const showDialog = defineModel<boolean>({ default: false });
   max-height: 90vh;
   border-radius: 16px 16px 0 0;
   background-color: white;
-  padding: 20px;
+  padding: 24px 20px;
 
   .container--close {
     display: flex;
@@ -85,7 +73,7 @@ const showDialog = defineModel<boolean>({ default: false });
 :deep(.group) {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 :deep(.image-wrapper) {

@@ -4,32 +4,23 @@ import CButton from '@/shared/components/CButton.vue';
 import CBottomSheet from '@/shared/components/CBottomSheet.vue';
 
 const showSheet = ref(false);
-const showSheet2 = ref(false);
-const showSheet3 = ref(false);
 </script>
 
 <template>
   <div class="lab app-wrapper">
     <CButton @click="showSheet = true">bottom-sheet1</CButton>
-
-    <CButton @click="showSheet2 = true">bottom-sheet2</CButton>
-
-    <CButton @click="showSheet3 = true">bottom-sheet3</CButton>
   </div>
 
-  <CBottomSheet v-model="showSheet" variant="default">
-    <p>tests</p>
-    <CButton @click="showSheet = false">Fechar</CButton>
-  </CBottomSheet>
+  <CBottomSheet v-model="showSheet" :draggable="true">
+    <div class="group">
+      <h2>Teste de título do overlay contendo 2 linhas (ideal)</h2>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna
+      </p>
+    </div>
 
-  <CBottomSheet v-model="showSheet2" variant="default">
-    <p>tests</p>
-    <CButton @click="showSheet3 = false">Fechar</CButton>
-  </CBottomSheet>
-
-  <CBottomSheet v-model="showSheet3" variant="default">
-    <p>tests</p>
-    <CButton @click="showSheet3 = false">Fechar</CButton>
+    <CButton @click="showSheet = false">Cadastrar veículo</CButton>
   </CBottomSheet>
 </template>
 
