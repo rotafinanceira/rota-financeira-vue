@@ -294,7 +294,7 @@ const routes: RouteRecordRaw[] = [
           },
           {
             path: '/lab',
-            component: () => import('@/pages/LabPage.vue')
+            component: () => import('@/pages/LabPage.vue'),
           },
         ],
       },

@@ -47,3 +47,6 @@ export { default as SearchIcon } from './search.svg';
 export { default as TrashIcon } from './trash.svg';
 export { default as WalletIcon } from './wallet.svg';
 export { default as WheelIcon } from './wheel.svg';
+export { default as ModalCheckIcon } from './modal-check.svg';
+export { default as ModalAlertIcon } from './modal-alert.svg';
+export { default as ModalErrorIcon } from './modal-error.svg';
