@@ -66,7 +66,9 @@ const action2 = () => {
 
 .lab {
   display: grid;
-  place-items: center;
+  justify-content: center;
+  align-content: center;
+  gap: 1rem;
   min-height: $screen;
 }
 </style>
