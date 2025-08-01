@@ -1,7 +1,6 @@
 <template>
   <q-dialog v-model="showDialog" position="bottom" no-backdrop-dismiss>
     <div class="bottom-sheet dialog-container" @click.stop>
-      <!-- Barra de arrastar condicional -->
       <div v-if="props.draggable" class="dialog-dragbar" />
 
       <button
