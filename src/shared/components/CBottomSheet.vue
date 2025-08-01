@@ -1,7 +1,11 @@
 <template>
   <q-dialog v-model="showDialog" position="bottom" no-backdrop-dismiss>
-    <div class="bottom-sheet" :class="['dialog-container']" @click.stop>
+    <div class="bottom-sheet dialog-container" @click.stop>
+      <!-- Barra de arrastar condicional -->
+      <div v-if="props.draggable" class="dialog-dragbar" />
+
       <button
+        v-if="props.showClose"
         variant="primary"
         class="close-button"
         @click="showDialog = false"
@@ -22,13 +26,14 @@ import XCircleIcon from '../assets/icons/x-circle.svg';
 
 const props = withDefaults(
   defineProps<{
-    draggable: boolean;
+    draggable?: boolean;
+    showClose?: boolean;
   }>(),
   {
     draggable: false,
+    showClose: false,
   }
 );
-console.log(props.draggable);
 
 const showDialog = defineModel<boolean>({ default: false });
 </script>
@@ -44,6 +49,15 @@ const showDialog = defineModel<boolean>({ default: false });
     display: flex;
     justify-content: flex-end;
   }
+}
+
+.dialog-dragbar {
+  position: relative;
+  margin: 0 auto;
+  width: 64px;
+  height: 4px;
+  background-color: #e0e5e7;
+  border-radius: 2px;
 }
 
 .dialog-content {
