@@ -1,13 +1,10 @@
 <script setup lang="ts">
-
 const isChecked = defineModel({ default: false });
 </script>
 
 <template>
-  <input class="toggle" type="checkbox" :checked="isChecked">
+  <input class="toggle" type="checkbox" :checked="isChecked" />
 </template>
-
-
 
 <style scoped lang="scss">
 .toggle {
@@ -35,8 +32,7 @@ const isChecked = defineModel({ default: false });
 
     border-radius: 99px;
     background-color: var(--toggle-disabled);
-    transition:
-      background-color var(--transition-time) var(--transition-type),
+    transition: background-color var(--transition-time) var(--transition-type),
       transform var(--transition-time) var(--transition-type);
   }
 
