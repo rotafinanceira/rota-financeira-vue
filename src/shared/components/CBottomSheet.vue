@@ -1,18 +1,18 @@
 <template>
   <q-dialog v-model="showDialog" position="bottom" no-backdrop-dismiss>
-    <div class="bottom-sheet dialog-container" @click.stop>
-      <div v-if="props.draggable" class="dialog-dragbar" />
+    <div class="bottom-sheet" @click.stop>
+      <div v-if="props.draggable" class="bottom-sheet__dragbar" />
 
       <button
         v-if="props.showClose"
         variant="primary"
-        class="close-button"
+        class="bottom-sheet__close"
         @click="showDialog = false"
       >
         <img :src="XCircleIcon" alt="Fechar" />
       </button>
 
-      <div class="dialog-content">
+      <div class="bottom-sheet__content">
         <slot />
       </div>
     </div>
@@ -43,35 +43,33 @@ const showDialog = defineModel<boolean>({ default: false });
   border-radius: 16px 16px 0 0;
   background-color: white;
   padding: 24px 20px;
-
-  .container--close {
-    display: flex;
-    justify-content: flex-end;
-  }
-}
-
-.dialog-dragbar {
   position: relative;
-  margin: 0 auto;
-  width: 64px;
-  height: 4px;
-  background-color: #e0e5e7;
-  border-radius: 2px;
-}
 
-.dialog-content {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  margin-top: 24px;
-}
+  &__dragbar {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 64px;
+    height: 4px;
+    background-color: #e0e5e7;
+    border-radius: 2px;
+  }
 
-.close-button {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  cursor: pointer;
-  border: none;
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 24px;
+  }
+
+  &__close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    cursor: pointer;
+    border: none;
+  }
 }
 
 :deep(h2) {
