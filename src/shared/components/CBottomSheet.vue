@@ -1,7 +1,19 @@
 <template>
   <q-dialog v-model="showDialog" position="bottom" no-backdrop-dismiss>
-    <div class="bottom-sheet" @click.stop>
-      <div v-if="props.draggable" class="bottom-sheet__dragbar" />
+    <div
+      class="bottom-sheet"
+      @click.stop
+      ref="sheetRef"
+      :style="`transform: translateY(${translateY}px); transition: ${
+        isDragging ? 'none' : 'transform 0.2s ease'
+      };`"
+    >
+      <div
+        v-if="props.draggable"
+        class="bottom-sheet__dragbar"
+        @mousedown="startDrag"
+        @touchstart="startDrag"
+      />
 
       <button
         v-if="props.showClose"
@@ -20,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, ref, watch } from 'vue';
 import XCircleIcon from '../assets/icons/x-circle.svg';
 
 const props = withDefaults(
@@ -35,6 +47,59 @@ const props = withDefaults(
 );
 
 const showDialog = defineModel<boolean>({ default: false });
+
+const sheetRef = ref<HTMLElement | null>(null);
+const startY = ref(0);
+const translateY = ref(0);
+const isDragging = ref(false);
+
+function getClientY(e: MouseEvent | TouchEvent): number {
+  return e instanceof TouchEvent ? e.touches[0].clientY : e.clientY;
+}
+
+function startDrag(e: MouseEvent | TouchEvent) {
+  if (!props.draggable) return;
+
+  isDragging.value = true;
+  translateY.value = 0;
+  startY.value = getClientY(e);
+
+  ['mousemove', 'touchmove'].forEach((evt) =>
+    window.addEventListener(evt, onDrag as EventListener, { passive: false })
+  );
+  ['mouseup', 'touchend'].forEach((evt) =>
+    window.addEventListener(evt, endDrag as EventListener)
+  );
+}
+
+function onDrag(e: MouseEvent | TouchEvent) {
+  if (!isDragging.value) return;
+  translateY.value = Math.max(0, getClientY(e) - startY.value);
+}
+
+function endDrag() {
+  if (!isDragging.value) return;
+
+  isDragging.value = false;
+  if (translateY.value > 150) {
+    showDialog.value = false;
+  } else {
+    translateY.value = 0;
+  }
+
+  ['mousemove', 'touchmove'].forEach((evt) =>
+    window.removeEventListener(evt, onDrag as EventListener)
+  );
+  ['mouseup', 'touchend'].forEach((evt) =>
+    window.removeEventListener(evt, endDrag as EventListener)
+  );
+}
+
+watch(showDialog, (newVal) => {
+  if (newVal) {
+    translateY.value = 0;
+  }
+});
 </script>
 
 <style scoped lang="scss">
