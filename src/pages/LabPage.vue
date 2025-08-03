@@ -3,9 +3,9 @@ import CToggle from '@/shared/components/CToggle.vue';
 import CTag from '@/shared/components/CTag.vue';
 import { ref } from 'vue';
 import {
-  MoneyCircleIcon,
+  /*   MoneyCircleIcon,
   WheelIcon,
-  LocationIcon,
+  LocationIcon, */
   CalendarIcon,
 } from '@/shared/assets/icons';
 
@@ -15,11 +15,8 @@ const isChecked = ref(false);
 <template>
   <div class="lab app-wrapper">
     <div class="container">
-      <CTag :icon="CalendarIcon" variant="dark">Terça, 1 out. 2025</CTag>
-      <CTag variant="light">150.076km</CTag>
-      <CTag :icon="MoneyCircleIcon" variant="error">R$ 100,00</CTag>
-      <CTag :icon="WheelIcon" variant="dark">Todas</CTag>
-      <CTag :icon="LocationIcon" variant="alert">Seu Zé manutenções</CTag>
+      <CTag :icon="CalendarIcon" title="Terça, 1 out. 2025" variant="default" />
+      <CTag removable title="Terça, 1 out. 2025" variant="default" />
     </div>
 
     <CToggle v-model="isChecked" @click="isChecked = !isChecked" />

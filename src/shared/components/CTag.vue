@@ -1,34 +1,45 @@
 <template>
-  <button
-    :class="['custom-button', variantClass]"
-    type="button"
-    v-bind="$attrs"
-  >
-    <slot /><img v-if="props.icon !== 'none'" :src="props.icon" />
-  </button>
+  <span :class="['custom-tag', variantClass]" type="button">
+    <span>{{ props.title }}</span>
+
+    <img v-if="icon" :src="props.icon" />
+
+    <img v-if="props.removable" :src="XCircleIcon" />
+  </span>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { XCircleIcon } from '../assets/icons';
 
-type Variant = 'dark' | 'light' | 'error' | 'alert';
+type Variant = 'default' | 'outlined' | 'error' | 'alert';
 
-const props = withDefaults(
-  defineProps<{
-    variant?: Variant;
-    icon?: string;
-  }>(),
-  {
-    variant: 'dark',
-    icon: '',
-  }
-);
+interface BaseProps {
+  variant?: Variant;
+  title: string;
+}
 
-const variantClass = computed(() => `btn--${props.variant}`);
+interface IconCTagProps extends BaseProps {
+  icon?: string;
+  removable?: boolean;
+}
+
+interface RemovableOnlyCTagProps extends BaseProps {
+  removable: true;
+  icon?: undefined;
+}
+
+type CTagProps = IconCTagProps | RemovableOnlyCTagProps;
+
+const props = withDefaults(defineProps<CTagProps>(), {
+  variant: 'default',
+});
+
+const variantClass = computed(() => `tag--${props.variant}`);
 </script>
 
 <style scoped>
-.custom-button {
+.custom-tag {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,21 +54,21 @@ const variantClass = computed(() => `btn--${props.variant}`);
 }
 
 /* Variantes */
-.btn--dark {
+.tag--default {
   background-color: #e0e5e7;
 }
 
-.btn--light {
+.tag--outline {
   background-color: transparent; /*ou white*/
   border: 2px solid #e0e5e7;
 }
 
-.btn--error {
+.tag--error {
   background-color: #ed4647;
   color: white;
 }
 
-.btn--alert {
+.tag--alert {
   background-color: #f4ae35;
 }
 </style>
