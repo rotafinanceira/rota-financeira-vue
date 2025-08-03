@@ -1,10 +1,15 @@
 <template>
-  <span :class="['custom-tag', variantClass]" type="button">
-    <span>{{ props.title }}</span>
+  <span :class="['tag', variantClass]" type="button">
+    <span class="tag__title">{{ props.title }}</span>
 
-    <img v-if="icon" :src="props.icon" />
+    <img v-if="icon" :src="props.icon" class="tag__icon" />
 
-    <img v-if="props.removable" :src="XCircleIcon" />
+    <img
+      v-if="props.removable"
+      :src="XCircleIcon"
+      @click.stop="onRemove"
+      className="tag__remove"
+    />
   </span>
 </template>
 
@@ -12,7 +17,7 @@
 import { computed } from 'vue';
 import { XCircleIcon } from '../assets/icons';
 
-type Variant = 'default' | 'outlined' | 'error' | 'alert';
+type Variant = 'default' | 'outline' | 'error' | 'alert';
 
 interface BaseProps {
   variant?: Variant;
@@ -36,14 +41,23 @@ const props = withDefaults(defineProps<CTagProps>(), {
 });
 
 const variantClass = computed(() => `tag--${props.variant}`);
+
+const emit = defineEmits<{
+  (e: 'remove'): void;
+}>();
+
+const onRemove = () => {
+  emit('remove');
+};
 </script>
 
-<style scoped>
-.custom-tag {
+<style scoped lang="scss">
+.tag {
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 500;
+  height: 22px;
   cursor: pointer;
   border-radius: 100px;
   white-space: nowrap;
@@ -51,6 +65,12 @@ const variantClass = computed(() => `tag--${props.variant}`);
   gap: 8px;
   font-size: 0.75rem;
   color: #0c0d0f;
+
+  &__remove,
+  &__icon {
+    width: 12px;
+    height: 12ox;
+  }
 }
 
 /* Variantes */
