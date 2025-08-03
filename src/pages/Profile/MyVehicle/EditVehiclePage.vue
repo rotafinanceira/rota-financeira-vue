@@ -32,7 +32,10 @@
       <div class="notificacoes">
         <label class="switch-label">
           <span>Habilitar notificações sobre revisão do meu veículo</span>
-          <CToggle v-model="maintenanceNotifications" @click="maintenanceNotifications = !maintenanceNotifications" />
+          <CToggle
+            v-model="maintenanceNotifications"
+            @click="maintenanceNotifications = !maintenanceNotifications"
+          />
         </label>
       </div>
     </div>
