@@ -40,11 +40,17 @@ const phoneNotifications = ref(true);
     <div class="notificacoes">
       <label class="switch-label">
         <span>Receber notificações por e-mail</span>
-        <CToggle v-model="emailNotifications" @click="emailNotifications = !emailNotifications" />
+        <CToggle
+          v-model="emailNotifications"
+          @click="emailNotifications = !emailNotifications"
+        />
       </label>
       <label class="switch-label">
         <span>Receber notificações no celular</span>
-        <CToggle v-model="phoneNotifications" @click="phoneNotifications = !phoneNotifications" />
+        <CToggle
+          v-model="phoneNotifications"
+          @click="phoneNotifications = !phoneNotifications"
+        />
       </label>
     </div>
 
