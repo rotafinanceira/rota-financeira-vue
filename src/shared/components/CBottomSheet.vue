@@ -30,6 +30,7 @@
 <script setup lang="ts">
 import { defineProps, ref, watch } from 'vue';
 import XCircleIcon from '../assets/icons/x-circle.svg';
+import { TouchPanValue } from '../types/touchPan';
 
 const translateY = ref(0);
 const isDragging = ref(false);
@@ -46,20 +47,6 @@ const props = withDefaults(
 );
 
 const showDialog = defineModel<boolean>({ default: false });
-
-interface TouchPanValue {
-  evt?: Event;
-  touch?: boolean;
-  mouse?: boolean;
-  isFirst?: boolean;
-  isFinal?: boolean;
-  duration?: number;
-  direction?: 'up' | 'right' | 'down' | 'left';
-  distance?: { x?: number; y?: number };
-  offset?: { x?: number; y?: number };
-  position?: { top?: number; left?: number };
-  delta?: { x?: number; y?: number };
-}
 
 function onPan(evt: Partial<TouchPanValue>) {
   if (!props.draggable) return;
