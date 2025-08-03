@@ -2,22 +2,18 @@
   <q-dialog v-model="showDialog" position="bottom" no-backdrop-dismiss>
     <div
       class="bottom-sheet"
-      @click.stop
       ref="sheetRef"
-      :style="`transform: translateY(${translateY}px); transition: ${
-        isDragging ? 'none' : 'transform 0.2s ease'
-      };`"
+      @click.stop
+      :style="{
+        transform: `translateY(${translateY}px)`,
+        transition: isDragging ? 'none' : 'transform 0.2s ease',
+      }"
+      v-touch-pan.prevent.mouse="onPan"
     >
-      <div
-        v-if="props.draggable"
-        class="bottom-sheet__dragbar"
-        @mousedown="startDrag"
-        @touchstart="startDrag"
-      />
+      <div v-if="props.draggable" class="bottom-sheet__dragbar"></div>
 
       <button
         v-if="props.showClose"
-        variant="primary"
         class="bottom-sheet__close"
         @click="showDialog = false"
       >
@@ -35,6 +31,9 @@
 import { defineProps, ref, watch } from 'vue';
 import XCircleIcon from '../assets/icons/x-circle.svg';
 
+const translateY = ref(0);
+const isDragging = ref(false);
+
 const props = withDefaults(
   defineProps<{
     draggable?: boolean;
@@ -48,55 +47,44 @@ const props = withDefaults(
 
 const showDialog = defineModel<boolean>({ default: false });
 
-const sheetRef = ref<HTMLElement | null>(null);
-const startY = ref(0);
-const translateY = ref(0);
-const isDragging = ref(false);
-
-function getClientY(e: MouseEvent | TouchEvent): number {
-  return e instanceof TouchEvent ? e.touches[0].clientY : e.clientY;
+interface TouchPanValue {
+  evt?: Event;
+  touch?: boolean;
+  mouse?: boolean;
+  isFirst?: boolean;
+  isFinal?: boolean;
+  duration?: number;
+  direction?: 'up' | 'right' | 'down' | 'left';
+  distance?: { x?: number; y?: number };
+  offset?: { x?: number; y?: number };
+  position?: { top?: number; left?: number };
+  delta?: { x?: number; y?: number };
 }
 
-function startDrag(e: MouseEvent | TouchEvent) {
+function onPan(evt: Partial<TouchPanValue>) {
   if (!props.draggable) return;
 
-  isDragging.value = true;
-  translateY.value = 0;
-  startY.value = getClientY(e);
-
-  ['mousemove', 'touchmove'].forEach((evt) =>
-    window.addEventListener(evt, onDrag as EventListener, { passive: false })
-  );
-  ['mouseup', 'touchend'].forEach((evt) =>
-    window.addEventListener(evt, endDrag as EventListener)
-  );
-}
-
-function onDrag(e: MouseEvent | TouchEvent) {
-  if (!isDragging.value) return;
-  translateY.value = Math.max(0, getClientY(e) - startY.value);
-}
-
-function endDrag() {
-  if (!isDragging.value) return;
-
-  isDragging.value = false;
-  if (translateY.value > 150) {
-    showDialog.value = false;
-  } else {
-    translateY.value = 0;
+  if (evt.isFirst) {
+    isDragging.value = true;
   }
 
-  ['mousemove', 'touchmove'].forEach((evt) =>
-    window.removeEventListener(evt, onDrag as EventListener)
-  );
-  ['mouseup', 'touchend'].forEach((evt) =>
-    window.removeEventListener(evt, endDrag as EventListener)
-  );
+  if (evt.offset?.y !== undefined && !evt.isFinal) {
+    translateY.value = Math.max(0, evt.offset.y);
+  }
+
+  if (evt.isFinal) {
+    isDragging.value = false;
+
+    if (evt.offset?.y && evt.offset.y > 100 && evt.direction === 'down') {
+      showDialog.value = false;
+    } else {
+      translateY.value = 0;
+    }
+  }
 }
 
-watch(showDialog, (newVal) => {
-  if (newVal) {
+watch(showDialog, (val) => {
+  if (val) {
     translateY.value = 0;
   }
 });
@@ -119,6 +107,7 @@ watch(showDialog, (newVal) => {
     height: 4px;
     background-color: #e0e5e7;
     border-radius: 2px;
+    cursor: grab;
   }
 
   &__content {
@@ -135,28 +124,7 @@ watch(showDialog, (newVal) => {
     right: 24px;
     cursor: pointer;
     border: none;
+    background: transparent;
   }
-}
-
-:deep(h2) {
-  font-weight: 600;
-  font-size: 1.125rem;
-}
-
-:deep(p) {
-  color: #485159;
-}
-
-:deep(.group) {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-:deep(.image-wrapper) {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 </style>
