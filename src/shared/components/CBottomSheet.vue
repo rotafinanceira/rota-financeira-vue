@@ -59,6 +59,7 @@ const showDialog = defineModel<boolean>({ default: false });
   &__content {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 40px;
     margin-top: 24px;
   }
@@ -84,6 +85,7 @@ const showDialog = defineModel<boolean>({ default: false });
 :deep(.group) {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1rem;
 }
 
