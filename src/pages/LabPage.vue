@@ -10,11 +10,13 @@ const tags = ref([
   {
     id: 1,
     title: 'Sexta, 4 out. 2025',
+    variant: 'default',
     removable: true,
   },
   {
     id: 2,
     title: 'Tecfil',
+    variant: 'default',
     removable: true,
   },
 ]);
@@ -36,6 +38,7 @@ const handleRemove = (id: number) => {
         v-for="tag in tags"
         :key="tag.id"
         :title="tag.title"
+        :variant="tag.variant"
         :removable="tag.removable"
         @remove="handleRemove(tag.id)"
       />
