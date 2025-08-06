@@ -1,15 +1,12 @@
 <template>
-  <span :class="['tag', variantClass]" type="button">
-    <span class="tag__title">{{ props.title }}</span>
+  <span :class="['tag', variantClass]">
+    <span class="tag__title">{{ title }}</span>
 
-    <img v-if="icon" :src="props.icon" class="tag__icon" />
+    <img v-if="icon" :src="icon" class="tag__icon" />
 
-    <img
-      v-if="props.removable"
-      :src="XCircleIcon"
-      @click.stop="onRemove"
-      className="tag__remove"
-    />
+    <button v-if="removable" @click.stop="onRemove">
+      <img :src="XCircleIcon" className="tag__remove" />
+    </button>
   </span>
 </template>
 
