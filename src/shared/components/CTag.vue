@@ -4,7 +4,7 @@
 
     <img v-if="icon" :src="icon" class="tag__icon" />
 
-    <button v-if="removable" @click.stop="onRemove">
+    <button v-if="removable" @click.stop="remove" type="button">
       <img :src="XCircleIcon" className="tag__remove" />
     </button>
   </span>
@@ -18,6 +18,7 @@ type Variant = 'default' | 'outline' | 'error' | 'alert';
 
 const props = withDefaults(
   defineProps<{
+    id?: number;
     variant?: Variant;
     icon?: string;
     title: string;
@@ -31,12 +32,10 @@ const props = withDefaults(
 
 const variantClass = computed(() => `tag--${props.variant}`);
 
-const emit = defineEmits<{
-  (e: 'remove'): void;
-}>();
+const model = defineModel<number>();
 
-const onRemove = () => {
-  emit('remove');
+const remove = () => {
+  model.value = props.id;
 };
 </script>
 
@@ -47,7 +46,6 @@ const onRemove = () => {
   justify-content: center;
   font-weight: 500;
   height: 22px;
-  cursor: pointer;
   border-radius: 100px;
   white-space: nowrap;
   padding: 4px 8px;
