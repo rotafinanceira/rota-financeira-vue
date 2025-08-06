@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CToggle from '@/shared/components/CToggle.vue';
 import CTag from '@/shared/components/CTag.vue';
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { WheelIcon, LocationIcon, CalendarIcon } from '@/shared/assets/icons';
 
 const isChecked = ref(false);
@@ -21,14 +21,9 @@ const tags = ref([
   },
 ]);
 
-const tagToRemove = ref<number | undefined>(undefined);
-
-watch(tagToRemove, (id) => {
-  if (id !== undefined) {
-    tags.value = tags.value.filter((tag) => tag.id !== id);
-    tagToRemove.value = undefined;
-  }
-});
+const handleRemove = (id: number) => {
+  tags.value = tags.value.filter((tag) => tag.id !== id);
+};
 </script>
 
 <template>
@@ -42,10 +37,9 @@ watch(tagToRemove, (id) => {
       <CTag
         v-for="tag in tags"
         :key="tag.id"
-        v-model="tagToRemove"
-        :id="tag.id"
         :title="tag.title"
         :removable="tag.removable"
+        @remove="handleRemove(tag.id)"
       />
     </div>
 
