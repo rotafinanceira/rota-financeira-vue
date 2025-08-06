@@ -16,26 +16,18 @@ import { XCircleIcon } from '../assets/icons';
 
 type Variant = 'default' | 'outline' | 'error' | 'alert';
 
-interface BaseProps {
-  variant?: Variant;
-  title: string;
-}
-
-interface IconCTagProps extends BaseProps {
-  icon?: string;
-  removable?: boolean;
-}
-
-interface RemovableOnlyCTagProps extends BaseProps {
-  removable: true;
-  icon?: undefined;
-}
-
-type CTagProps = IconCTagProps | RemovableOnlyCTagProps;
-
-const props = withDefaults(defineProps<CTagProps>(), {
-  variant: 'default',
-});
+const props = withDefaults(
+  defineProps<{
+    variant?: Variant;
+    icon?: string;
+    title: string;
+    removable?: boolean;
+  }>(),
+  {
+    variant: 'default',
+    removable: false,
+  }
+);
 
 const variantClass = computed(() => `tag--${props.variant}`);
 
