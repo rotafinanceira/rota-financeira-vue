@@ -29,14 +29,25 @@ const handleRemove = (id: number) => {
 <template>
   <div class="lab app-wrapper">
     <div class="container">
-      <CTag :icon="CalendarIcon" title="Terça, 1 out. 2025" variant="default" />
-      <CTag :icon="WheelIcon" title="R$ 100,00" variant="outline" />
-      <CTag :icon="LocationIcon" title="Terça, 1 out. 2025" variant="error" />
+      <CTag
+        :id="0"
+        :icon="CalendarIcon"
+        title="Terça, 1 out. 2025"
+        variant="default"
+      />
+      <CTag :id="0" :icon="WheelIcon" title="R$ 100,00" variant="outline" />
+      <CTag
+        :id="0"
+        :icon="LocationIcon"
+        title="Terça, 1 out. 2025"
+        variant="error"
+      />
     </div>
     <div class="container">
       <CTag
         v-for="tag in tags"
         :key="tag.id"
+        :id="tag.id"
         :title="tag.title"
         :removable="tag.removable"
         @remove="handleRemove(tag.id)"

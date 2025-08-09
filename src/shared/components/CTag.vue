@@ -18,6 +18,7 @@ type Variant = 'default' | 'outline' | 'error' | 'alert';
 
 const props = withDefaults(
   defineProps<{
+    id: number;
     variant?: Variant;
     icon?: string;
     title: string;
@@ -32,11 +33,11 @@ const props = withDefaults(
 const variantClass = computed(() => `tag--${props.variant}`);
 
 const emit = defineEmits<{
-  (e: 'remove'): void;
+  (e: 'remove', id: number): void;
 }>();
 
 const onRemove = () => {
-  emit('remove');
+  emit('remove', props.id);
 };
 </script>
 
