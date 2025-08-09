@@ -25,13 +25,13 @@ const isChecked = defineModel({ default: false });
   &:checked::after {
     content: '';
     position: absolute;
-    left: 5px;
-    top: 2px;
+    left: 50%;
+    top: calc(50% - 1px);
     width: 6px;
     height: 10px;
     border: solid white;
     border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+    transform: translate(-50%, -50%) rotate(45deg);
     border-radius: 1px;
   }
 }
