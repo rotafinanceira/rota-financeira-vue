@@ -1,9 +1,29 @@
 <script setup lang="ts">
-const isChecked = defineModel({ default: false });
+defineOptions({
+  inheritAttrs: false,
+});
+
+const props = defineProps<{
+  disabled?: boolean;
+  name?: string;
+  value?: string | number;
+}>();
+
+const isChecked = defineModel({
+  type: Boolean,
+  default: false,
+});
 </script>
 
 <template>
-  <input class="check-box" type="checkbox" v-model="isChecked" />
+  <input
+    class="check-box"
+    type="checkbox"
+    v-model="isChecked"
+    :disabled="props.disabled"
+    :name="props.name"
+    :value="props.value"
+  />
 </template>
 
 <style scoped lang="scss">
