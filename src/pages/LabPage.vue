@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CCheckBox from '@/shared/components/CCheckBox.vue';
+import CCheckbox from '@/shared/components/CCheckbox.vue';
 import { ref } from 'vue';
 
 const isChecked = ref(false);
@@ -8,7 +8,7 @@ const isChecked = ref(false);
 <template>
   <div class="lab app-wrapper">
     <div class="container">
-      <CCheckBox v-model="isChecked" />
+      <CCheckbox v-model="isChecked" />
     </div>
 
     <p>Checked: {{ isChecked }}</p>
