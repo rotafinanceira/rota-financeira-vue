@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import { defineProps, ref, watch } from 'vue';
 import XCircleIcon from '../assets/icons/x-circle.svg';
-import { TouchPanValue } from '../types/touchPan';
+import { TouchPanValue } from '../types/touch-pan';
 
 const translateY = ref(0);
 const isDragging = ref(false);
