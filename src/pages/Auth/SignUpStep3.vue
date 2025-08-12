@@ -136,7 +136,7 @@ const createAccount = async () => {
     // store.setPhone(phone.value);
 
     store.resetStore();
-    router.push({name: 'home'});
+    router.push({ name: 'home' });
   }
 };
 </script>
