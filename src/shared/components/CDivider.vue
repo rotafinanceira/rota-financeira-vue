@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 defineProps<{
   text?: string;
 }>();
@@ -8,9 +7,9 @@ defineProps<{
 <template>
   <hr v-if="!text" />
   <div v-else class="divider with-text">
-    <hr>
+    <hr />
     <p class="divider__text">{{ text }}</p>
-    <hr>
+    <hr />
   </div>
 </template>
 
@@ -24,11 +23,10 @@ hr {
 }
 
 .divider {
-
   &.with-text {
     display: flex;
     align-items: center;
-    gap: .5rem;
+    gap: 0.5rem;
     width: 100%;
     color: #485159;
 
@@ -37,7 +35,7 @@ hr {
     }
   }
 
-  &__text{
+  &__text {
     color: #485159;
     white-space: nowrap;
   }

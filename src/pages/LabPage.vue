@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import CButton from '@/shared/components/CButton.vue';
-
 import CDivider from '@/shared/components/CDivider.vue';
 
 const action1 = () => {
