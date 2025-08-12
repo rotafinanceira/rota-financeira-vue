@@ -1,27 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import CButton from '@/shared/components/CButton.vue';
 
 import CDivider from '@/shared/components/CDivider.vue';
 
-const openModal1 = ref(false);
-
 const action1 = () => {
-  openModal1.value = true;
-  //console.log('Laboratório');
-};
-
-const openModal2 = ref(false);
-
-const action2 = () => {
-  openModal2.value = true;
-  //console.log('Laboratório');
+  console.log('Laboratório');
 };
 </script>
 
 <template>
   <div class="lab app-wrapper">
-    <CButton @click="action">Clique aqui</CButton>
+    <CButton @click="action1">Botão</CButton>
     <CDivider text="ou" />
   </div>
 </template>
