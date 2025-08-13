@@ -1,13 +1,13 @@
 <template>
-  <span :class="['tag', variantClass]" @click="removable && onRemove()">
+  <button
+    :class="['tag', variantClass]"
+    :disabled="!removable"
+    @click="onRemove"
+  >
     <span class="tag__title">{{ title }}</span>
 
-    <img v-if="icon" :src="icon" class="tag__icon" />
-
-    <button v-if="removable">
-      <img :src="XCircleIcon" className="tag__remove" />
-    </button>
-  </span>
+    <img v-if="currentIcon" :src="currentIcon" class="tag__icon" />
+  </button>
 </template>
 
 <script setup lang="ts">
@@ -39,6 +39,10 @@ const emit = defineEmits<{
 const onRemove = () => {
   emit('remove', props.id);
 };
+
+const currentIcon = computed(() =>
+  props.removable ? XCircleIcon : props.icon
+);
 </script>
 
 <style scoped lang="scss">
@@ -59,11 +63,16 @@ const onRemove = () => {
   &__remove,
   &__icon {
     width: 12px;
-    height: 12ox;
+    height: 12px;
+  }
+
+  &:disabled {
+    background-color: #e0e5e7 !important;
+    color: #0c0d0f !important;
+    opacity: 1 !important;
   }
 }
 
-/* Variantes */
 .tag--default {
   background-color: #e0e5e7;
 }
