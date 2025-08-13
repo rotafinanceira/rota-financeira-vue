@@ -17,7 +17,7 @@ const tags = ref([
     id: 2,
     title: 'Tecfil',
     variant: 'default',
-    removable: true,
+    removable: false,
   },
 ]);
 

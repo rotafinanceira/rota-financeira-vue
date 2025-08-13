@@ -1,10 +1,10 @@
 <template>
-  <span :class="['tag', variantClass]">
+  <span :class="['tag', variantClass]" @click="removable && onRemove()">
     <span class="tag__title">{{ title }}</span>
 
     <img v-if="icon" :src="icon" class="tag__icon" />
 
-    <button v-if="removable" @click.stop="onRemove">
+    <button v-if="removable">
       <img :src="XCircleIcon" className="tag__remove" />
     </button>
   </span>
