@@ -29,17 +29,15 @@
 
 <script setup lang="ts">
 import { defineProps, ref, watch } from 'vue';
-import XCircleIcon from '../assets/icons/x-circle.svg';
-import { TouchPanValue } from '../types/touch-pan';
+import XCircleIcon from '../../assets/icons/x-circle.svg';
+import { TouchPanValue } from '../../types/touch-pan';
+import { bottomSheetProps } from '@/shared/types/bottom-sheet';
 
 const translateY = ref(0);
 const isDragging = ref(false);
 
 const props = withDefaults(
-  defineProps<{
-    draggable?: boolean;
-    showClose?: boolean;
-  }>(),
+  defineProps<bottomSheetProps>(),
   {
     draggable: false,
     showClose: false,
