@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import CButton from '@/shared/components/CButton.vue';
-import CBottomSheet from '@/shared/components/CBottomSheet.vue';
+import CBottomSheetText from '@/shared/components/bottomsheets/CBottomSheetText.vue';
+import CBottomSheetList from '@/shared/components/bottomsheets/CBottomSheetList.vue';
 
 const showSheet1 = ref(false);
 const showSheet2 = ref(false);
@@ -13,7 +14,10 @@ const showSheet2 = ref(false);
     <CButton @click="showSheet2 = true">bottom-sheet2</CButton>
   </div>
 
-  <CBottomSheet v-model="showSheet1" :draggable="true">
+  <CBottomSheetText v-model="showSheet1" :show-close="true">
+    <div>
+      <img src="/src/shared//assets/illustrations/broken-car.svg" />
+    </div>
     <div class="group">
       <h2>Teste de título do overlay contendo 2 linhas (ideal)</h2>
       <p>
@@ -23,19 +27,11 @@ const showSheet2 = ref(false);
     </div>
 
     <CButton @click="showSheet1 = false">Cadastrar veículo</CButton>
-  </CBottomSheet>
+  </CBottomSheetText>
 
-  <CBottomSheet v-model="showSheet2" :show-close="true">
-    <div class="group">
-      <h2>Teste de título do overlay contendo 2 linhas (ideal)</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna
-      </p>
-    </div>
-
+  <CBottomSheetList type="action" :draggable="true" v-model="showSheet2">
     <CButton @click="showSheet2 = false">Cadastrar veículo</CButton>
-  </CBottomSheet>
+  </CBottomSheetList>
 </template>
 
 <style scoped lang="scss">
@@ -45,5 +41,10 @@ const showSheet2 = ref(false);
   display: grid;
   place-items: center;
   min-height: $screen;
+}
+
+.img {
+  width: 176px;
+  height: 176px;
 }
 </style>

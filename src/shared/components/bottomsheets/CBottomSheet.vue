@@ -36,13 +36,10 @@ import { bottomSheetProps } from '@/shared/types/bottom-sheet';
 const translateY = ref(0);
 const isDragging = ref(false);
 
-const props = withDefaults(
-  defineProps<bottomSheetProps>(),
-  {
-    draggable: false,
-    showClose: false,
-  }
-);
+const props = withDefaults(defineProps<bottomSheetProps>(), {
+  draggable: false,
+  showClose: false,
+});
 
 const showDialog = defineModel<boolean>({ default: false });
 
@@ -112,22 +109,4 @@ watch(showDialog, (val) => {
     background: transparent;
   }
 }
-
-:deep(h2) {
-  font-weight: 600;
-  font-size: 1.125rem;
-}
-
-:deep(p) {
-  color: #485159;
-}
-
-:deep(.group) {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-
 </style>
