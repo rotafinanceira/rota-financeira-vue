@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { BottomSheetProps } from '@/shared/types/bottom-sheet';
-import CBottomSheet from './CBottomSheet.vue';
+import BaseBottomSheet from './BaseBottomSheet.vue';
 
 const props = defineProps<BottomSheetProps>();
 </script>
 
 <template>
-  <CBottomSheet v-bind="{ ...props }">
+  <BaseBottomSheet v-bind="{ ...props }">
     <div class="bottom-sheet__wrapper">
       <slot />
     </div>
-  </CBottomSheet>
+  </BaseBottomSheet>
 </template>
 
 <style scoped lang="scss">
@@ -19,5 +19,22 @@ const props = defineProps<BottomSheetProps>();
   flex-direction: column;
   align-items: center;
   gap: 2.5rem;
+
+  :deep(h2) {
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
+
+  :deep(p) {
+    color: #485159;
+  }
+
+  :deep(.group) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
 }
 </style>

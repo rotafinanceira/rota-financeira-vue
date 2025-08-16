@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { BottomSheetProps } from '@/shared/types/bottom-sheet';
-import CBottomSheet from './CBottomSheet.vue';
+import BaseBottomSheet from './BaseBottomSheet.vue';
 
 const props = defineProps<
   BottomSheetProps & {
@@ -10,7 +10,7 @@ const props = defineProps<
 </script>
 
 <template>
-  <CBottomSheet v-bind="{ ...props }">
+  <BaseBottomSheet v-bind="{ ...props }">
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,
       deleniti.
@@ -18,7 +18,7 @@ const props = defineProps<
     <p>
       Esse dolores eos ipsa quos doloribus sapiente labore magnam dignissimos.
     </p>
-  </CBottomSheet>
+  </BaseBottomSheet>
 </template>
 
 <style scoped lang="scss"></style>

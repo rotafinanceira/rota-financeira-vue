@@ -109,21 +109,4 @@ watch(showDialog, (val) => {
     background: transparent;
   }
 }
-
-:deep(h2) {
-  font-weight: 600;
-  font-size: 1.125rem;
-}
-
-:deep(p) {
-  color: #485159;
-}
-
-:deep(.group) {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  text-align: center;
-}
 </style>
