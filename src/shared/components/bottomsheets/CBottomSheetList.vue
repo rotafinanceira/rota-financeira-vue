@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { bottomSheetProps } from '@/shared/types/bottom-sheet';
+import { BottomSheetProps } from '@/shared/types/bottom-sheet';
 import CBottomSheet from './CBottomSheet.vue';
 
 const props = defineProps<
-  bottomSheetProps & {
+  BottomSheetProps & {
     type: 'filter' | 'action';
   }
 >();

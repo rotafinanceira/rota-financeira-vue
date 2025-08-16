@@ -1,4 +1,4 @@
-export type bottomSheetProps = {
-    draggable?: boolean;
-    showClose?: boolean;
-  }
+export type BottomSheetProps = {
+  draggable?: boolean;
+  showClose?: boolean;
+};

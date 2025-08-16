@@ -31,12 +31,12 @@
 import { defineProps, ref, watch } from 'vue';
 import XCircleIcon from '../../assets/icons/x-circle.svg';
 import { TouchPanValue } from '../../types/touch-pan';
-import { bottomSheetProps } from '@/shared/types/bottom-sheet';
+import { BottomSheetProps } from '@/shared/types/bottom-sheet';
 
 const translateY = ref(0);
 const isDragging = ref(false);
 
-const props = withDefaults(defineProps<bottomSheetProps>(), {
+const props = withDefaults(defineProps<BottomSheetProps>(), {
   draggable: false,
   showClose: false,
 });
@@ -108,5 +108,22 @@ watch(showDialog, (val) => {
     border: none;
     background: transparent;
   }
+}
+
+:deep(h2) {
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+:deep(p) {
+  color: #485159;
+}
+
+:deep(.group) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
 }
 </style>
