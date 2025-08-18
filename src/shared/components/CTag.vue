@@ -1,27 +1,12 @@
-<template>
-  <button
-    :class="['tag', variantClass]"
-    :disabled="!removable"
-    @click="onRemove"
-  >
-    <span class="tag__title">{{ title }}</span>
-
-    <img v-if="currentIcon" :src="currentIcon" class="tag__icon" />
-  </button>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue';
 import { XCircleIcon } from '../assets/icons';
 import type { TagProps } from '../types/tag';
 
-const props = withDefaults(
-  defineProps<TagProps>(),
-  {
-    variant: 'default',
-    removable: false,
-  }
-);
+const props = withDefaults(defineProps<TagProps>(), {
+  variant: 'default',
+  removable: false,
+});
 
 const variantClass = computed(() => `tag--${props.variant}`);
 
@@ -37,6 +22,18 @@ const currentIcon = computed(() =>
   props.removable ? XCircleIcon : props.icon
 );
 </script>
+
+<template>
+  <button
+    :class="['tag', variantClass]"
+    :disabled="!removable"
+    @click="onRemove"
+  >
+    <span class="tag__title">{{ title }}</span>
+
+    <img v-if="currentIcon" :src="currentIcon" class="tag__icon" />
+  </button>
+</template>
 
 <style scoped lang="scss">
 .tag {
