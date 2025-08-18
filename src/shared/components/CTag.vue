@@ -13,17 +13,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { XCircleIcon } from '../assets/icons';
-
-type Variant = 'default' | 'outline' | 'error' | 'alert';
+import type { TagProps } from '../types/tag';
 
 const props = withDefaults(
-  defineProps<{
-    id: number;
-    variant?: Variant;
-    icon?: string;
-    title: string;
-    removable?: boolean;
-  }>(),
+  defineProps<TagProps>(),
   {
     variant: 'default',
     removable: false,
