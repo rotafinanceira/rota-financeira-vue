@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
 import CToggle from '@/shared/components/CToggle.vue';
 import CTag from '@/shared/components/CTag.vue';
 import { ref } from 'vue';
