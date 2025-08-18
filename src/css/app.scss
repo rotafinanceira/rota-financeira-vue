@@ -53,6 +53,10 @@ button,
   -webkit-appearance: button;
   background-color: transparent;
   background-image: none;
+
+  &:disabled {
+    opacity: 1 !important;
+  }
 }
 
 a {

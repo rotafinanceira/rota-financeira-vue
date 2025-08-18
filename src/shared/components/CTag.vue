@@ -65,12 +65,6 @@ const currentIcon = computed(() =>
     width: 12px;
     height: 12px;
   }
-
-  &:disabled {
-    background-color: #e0e5e7 !important;
-    color: #0c0d0f !important;
-    opacity: 1 !important;
-  }
 }
 
 .tag--default {
