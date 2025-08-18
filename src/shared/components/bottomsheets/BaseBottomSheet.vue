@@ -1,32 +1,3 @@
-<template>
-  <q-dialog v-model="showDialog" position="bottom" no-backdrop-dismiss>
-    <div
-      class="bottom-sheet"
-      ref="sheetRef"
-      @click.stop
-      :style="{
-        transform: `translateY(${translateY}px)`,
-        transition: isDragging ? 'none' : 'transform 0.2s ease',
-      }"
-      v-touch-pan.prevent.mouse="onPan"
-    >
-      <div v-if="props.draggable" class="bottom-sheet__dragbar"></div>
-
-      <button
-        v-if="props.showClose"
-        class="bottom-sheet__close"
-        @click="showDialog = false"
-      >
-        <img :src="XCircleIcon" alt="Fechar" />
-      </button>
-
-      <div class="bottom-sheet__content">
-        <slot />
-      </div>
-    </div>
-  </q-dialog>
-</template>
-
 <script setup lang="ts">
 import { defineProps, ref, watch } from 'vue';
 import XCircleIcon from '../../assets/icons/x-circle.svg';
@@ -71,6 +42,35 @@ watch(showDialog, (val) => {
   }
 });
 </script>
+
+<template>
+  <q-dialog v-model="showDialog" position="bottom" no-backdrop-dismiss>
+    <div
+      class="bottom-sheet"
+      ref="sheetRef"
+      @click.stop
+      :style="{
+        transform: `translateY(${translateY}px)`,
+        transition: isDragging ? 'none' : 'transform 0.2s ease',
+      }"
+      v-touch-pan.prevent.mouse="onPan"
+    >
+      <div v-if="props.draggable" class="bottom-sheet__dragbar"></div>
+
+      <button
+        v-if="props.showClose"
+        class="bottom-sheet__close"
+        @click="showDialog = false"
+      >
+        <img :src="XCircleIcon" alt="Fechar" />
+      </button>
+
+      <div class="bottom-sheet__content">
+        <slot />
+      </div>
+    </div>
+  </q-dialog>
+</template>
 
 <style scoped lang="scss">
 .bottom-sheet {
