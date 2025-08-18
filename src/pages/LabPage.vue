@@ -3,21 +3,25 @@ import CToggle from '@/shared/components/CToggle.vue';
 import CTag from '@/shared/components/CTag.vue';
 import { ref } from 'vue';
 import { WheelIcon, LocationIcon, CalendarIcon } from '@/shared/assets/icons';
+import type { Tag } from '@/shared/types/tag';
 
 const isChecked = ref(false);
 
-const tags = ref([
+const tags = ref<Tag[]>([
   {
     id: 1,
     title: 'Sexta, 4 out. 2025',
     variant: 'default',
-    removable: true,
   },
   {
     id: 2,
     title: 'Tecfil',
-    variant: 'default',
-    removable: false,
+    variant: 'outline',
+  },
+  {
+    id: 3,
+    title: 'Tecfil',
+    variant: 'alert',
   },
 ]);
 
@@ -48,8 +52,9 @@ const handleRemove = (id: number) => {
         v-for="tag in tags"
         :key="tag.id"
         :id="tag.id"
+        :variant="tag.variant"
         :title="tag.title"
-        :removable="tag.removable"
+        removable
         @remove="handleRemove(tag.id)"
       />
     </div>
