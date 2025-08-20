@@ -1,10 +1,12 @@
 <template>
   <transition name="fade">
-    <div class="introduction-page" v-if="showPage">
+    <div class="introduction-page app-wrapper" v-if="showPage">
       <div class="logo">
         <img :src="logo" alt="Logo" />
         <div class="logo-text">
-          <span class="bold-text">Rota</span>Financeira
+          <span class="bold-text">Rota</span>
+          <br />
+          <span>Financeira</span>
         </div>
       </div>
     </div>
@@ -29,13 +31,15 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@use '../css/variables.scss' as *;
+
 .introduction-page {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #ffffff;
+  gap: 1rem;
+  height: $screen;
 }
 
 .logo {
@@ -43,31 +47,25 @@ onMounted(() => {
   align-items: center;
   gap: 10px;
   position: absolute;
-  top: 343px;
-  bottom: 386px;
-  left: 65px;
 }
 
 .logo img {
-  width: 30.259px;
-  height: 27px;
+  width: 64px;
+  height: 64px;
   flex-shrink: 0;
 }
 
 .logo-text {
   color: var(--Cores-Primria-800, #245017);
-  font-size: 28.131px;
+  font-size: 1.57rem;
   font-style: italic;
-  font-weight: 400;
-  line-height: 21.098px;
-  letter-spacing: -0.309px;
-  width: 196.795px;
-  height: 20.338px;
+  font-weight: 500;
+  line-height: 100%;
   flex-shrink: 0;
 }
 
 .bold-text {
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .fade-enter-active,
