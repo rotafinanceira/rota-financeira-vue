@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import CButton from '@/shared/components/CButton.vue';
-import CDivider from '@/shared/components/CDivider.vue';
 
-const action1 = () => {
-  console.log('Laboratório');
-};
+import CCheckbox from '@/shared/components/CCheckbox.vue';
+import { ref } from 'vue';
+
+const isChecked = ref(false);
 </script>
 
 <template>
   <div class="lab app-wrapper">
-    <CButton @click="action1">Botão</CButton>
-    <CDivider text="ou" />
+    <div class="container">
+      <CCheckbox v-model="isChecked" label="Manutenções de teste" />
+    </div>
+
+    <p>Checked: {{ isChecked }}</p>
   </div>
 </template>
 
@@ -22,5 +24,12 @@ const action1 = () => {
   align-content: center;
   gap: 1rem;
   min-height: $screen;
+}
+
+.container {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
