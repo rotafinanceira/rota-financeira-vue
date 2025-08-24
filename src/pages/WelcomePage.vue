@@ -1,11 +1,7 @@
 <template>
   <div class="welcome-page">
-    <div class="logo">
-      <img :src="logo" alt="Logo" />
-      <span class="logo__text"
-        ><span class="logo__text-strong">Rota</span>Financeira</span
-      >
-    </div>
+    <img :src="LogoOneLine" alt="Logo" />
+
     <div class="intro">
       <h1 class="intro__title">Seu veículo na palma da sua mão!</h1>
       <p class="intro__description">
@@ -42,7 +38,7 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import logo from '@/shared/assets/logos/logo.svg';
+import { LogoOneLine } from '@/shared/assets/logos';
 import googleIcon from '@/shared/assets/googleIcon.svg';
 import CButton from '@/shared/components/CButton.vue';
 
@@ -64,34 +60,6 @@ const continueWithGoogle = () => {
   background-position: center;
   min-height: 100svh;
   padding: 24px 20px 64px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: 100%;
-
-  img {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-  }
-
-  &__text {
-    display: flex;
-    align-items: center;
-    color: #336733;
-    font-size: 1.25rem;
-    font-style: italic;
-    font-weight: 500;
-    line-height: 100%;
-    flex-shrink: 0;
-  }
-
-  &__text-strong {
-    font-weight: 700;
-  }
 }
 
 .intro {
