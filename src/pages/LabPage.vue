@@ -13,7 +13,6 @@ const isChecked = ref(false);
     </div>
 
     <p>Checked: {{ isChecked }}</p>
-
   </div>
 </template>
 
@@ -22,7 +21,6 @@ const isChecked = ref(false);
 
 .lab {
   display: grid;
-  justify-content: center;
   align-content: center;
   gap: 1rem;
   min-height: $screen;
