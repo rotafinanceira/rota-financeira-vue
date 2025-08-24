@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
 import CCheckbox from '@/shared/components/CCheckbox.vue';
 import { ref } from 'vue';
 
@@ -12,6 +13,7 @@ const isChecked = ref(false);
     </div>
 
     <p>Checked: {{ isChecked }}</p>
+
   </div>
 </template>
 
@@ -27,6 +29,7 @@ const isChecked = ref(false);
 }
 
 .container {
+
   display: flex;
   justify-content: center;
   align-items: center;
