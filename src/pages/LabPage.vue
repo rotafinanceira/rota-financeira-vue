@@ -12,8 +12,7 @@ const filterOptions = ["Manutenções vencidas", "Próximas manutenções", "Pre
 
 <template>
   <div class="lab app-wrapper">
-    <CButton @click="showSheet1 = true">bottom-sheet1</CButton>
-    <CButton @click="showSheet2 = true">bottom-sheet2</CButton>
+    <CButton @click="action">Clique aqui</CButton>
   </div>
 
   <CBottomSheetText v-model="showSheet1" :show-close="true">
@@ -39,12 +38,15 @@ const filterOptions = ["Manutenções vencidas", "Próximas manutenções", "Pre
 
 .lab {
   display: grid;
-  place-items: center;
+  justify-content: center;
+  align-content: center;
+  gap: 1rem;
   min-height: $screen;
 }
 
-.img {
-  width: 176px;
-  height: 176px;
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
