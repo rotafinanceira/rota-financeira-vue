@@ -4,6 +4,7 @@ defineOptions({
 });
 
 const props = defineProps<{
+  label: string;
   disabled?: boolean;
   name?: string;
   value?: string | number;
@@ -16,14 +17,17 @@ const isChecked = defineModel({
 </script>
 
 <template>
-  <input
-    class="check-box"
-    type="checkbox"
-    v-model="isChecked"
-    :disabled="props.disabled"
-    :name="props.name"
-    :value="props.value"
-  />
+  <label class="label__wrapper">
+    <input
+      class="check-box"
+      type="checkbox"
+      v-model="isChecked"
+      :disabled="props.disabled"
+      :name="props.name"
+      :value="props.value"
+    />
+    <span class="label">{{ label }}</span>
+  </label>
 </template>
 
 <style scoped lang="scss">
@@ -54,5 +58,17 @@ const isChecked = defineModel({
     transform: translate(-50%, -50%) rotate(45deg);
     border-radius: 1px;
   }
+}
+
+.label__wrapper {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  gap: 1rem;
+}
+
+.label {
+  font-size: .875rem;
+  font-weight: 500;
 }
 </style>
