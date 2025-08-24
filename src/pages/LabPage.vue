@@ -1,63 +1,66 @@
 <script setup lang="ts">
+
+import CToggle from '@/shared/components/CToggle.vue';
+import CTag from '@/shared/components/CTag.vue';
 import { ref } from 'vue';
-import CButton from '@/shared/components/CButton.vue';
-import CModal from '@/shared/components/CModal.vue';
+import { WheelIcon, LocationIcon, CalendarIcon } from '@/shared/assets/icons';
+import type { Tag } from '@/shared/types/tag';
 
-const openModal1 = ref(false);
+const isChecked = ref(false);
 
-const action1 = () => {
-  openModal1.value = true;
-  //console.log('Laboratório');
-};
+const tags = ref<Tag[]>([
+  {
+    id: 1,
+    title: 'Sexta, 4 out. 2025',
+    variant: 'default',
+  },
+  {
+    id: 2,
+    title: 'Tecfil',
+    variant: 'outline',
+  },
+  {
+    id: 3,
+    title: 'Tecfil',
+    variant: 'alert',
+  },
+]);
 
-const openModal2 = ref(false);
-
-const action2 = () => {
-  openModal2.value = true;
-  //console.log('Laboratório');
+const handleRemove = (id: number) => {
+  tags.value = tags.value.filter((tag) => tag.id !== id);
 };
 </script>
 
 <template>
   <div class="lab app-wrapper">
-    <CButton @click="action1">Modal1</CButton>
-    <CButton @click="action2">Modal2</CButton>
-    <CModal
-      v-model="openModal1"
-      variant="default"
-      icon="alert"
-      :showClose="true"
-    >
-      <div class="group">
-        <h2>Erro de carregamento</h2>
-        <p>
-          Ocorreu um erro ao carregar os Termos de Uso. Verifique sua conexão
-          com a internet ou tente novamente mais tarde.
-        </p>
-      </div>
-      <div class="group">
-        <CButton> Action </CButton>
-        <CButton variant="tertiary"> Cancel </CButton>
-      </div>
-    </CModal>
+    <div class="container">
+      <CTag
+        :id="0"
+        :icon="CalendarIcon"
+        title="Terça, 1 out. 2025"
+        variant="default"
+      />
+      <CTag :id="0" :icon="WheelIcon" title="R$ 100,00" variant="outline" />
+      <CTag
+        :id="0"
+        :icon="LocationIcon"
+        title="Terça, 1 out. 2025"
+        variant="error"
+      />
+    </div>
+    <div class="container">
+      <CTag
+        v-for="tag in tags"
+        :key="tag.id"
+        :id="tag.id"
+        :variant="tag.variant"
+        :title="tag.title"
+        removable
+        @remove="handleRemove(tag.id)"
+      />
+    </div>
 
-    <CModal v-model="openModal2" variant="info" :showClose="true">
-      <h2>Quando devo fazer a troca?</h2>
-      <p>
-        Ocorreu um erro ao carregar os Termos de Uso. Verifique sua conexão com
-        a internet ou tente novamente mais tarde.
-      </p>
-      <ul>
-        <li>
-          A recomendação é fazer a manutenção dos pneus a cada 5.000 km rodados
-          ou a cada 6 meses, o que ocorrer primeiro⁠.
-        </li>
-        <li>
-          Troque seus pneus se tiverem mais de 10 anos, mesmo que pareçam bons.
-        </li>
-        <li>Item 3 da lista</li>
-      </ul>
-    </CModal>
+    <CToggle v-model="isChecked" @click="isChecked = !isChecked" />
   </div>
 </template>
 
@@ -70,5 +73,14 @@ const action2 = () => {
   align-content: center;
   gap: 1rem;
   min-height: $screen;
+}
+
+.container {
+  padding: 10px;
+  border-radius: 8px;
+  background-color: white;
+  gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>
