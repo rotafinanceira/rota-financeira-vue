@@ -8,7 +8,7 @@ const isChecked = ref(false);
 <template>
   <div class="lab app-wrapper">
     <div class="container">
-      <CCheckbox v-model="isChecked" />
+      <CCheckbox v-model="isChecked" label="Manutenções de teste" />
     </div>
 
     <p>Checked: {{ isChecked }}</p>
