@@ -12,7 +12,8 @@ const filterOptions = ["Manutenções vencidas", "Próximas manutenções", "Pre
 
 <template>
   <div class="lab app-wrapper">
-    <CButton @click="action">Clique aqui</CButton>
+    <CButton @click="showSheet1 = true">bottom-sheet1</CButton>
+    <CButton @click="showSheet2 = true">bottom-sheet2</CButton>
   </div>
 
   <CBottomSheetText v-model="showSheet1" :show-close="true">
