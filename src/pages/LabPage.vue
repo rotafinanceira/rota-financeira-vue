@@ -6,6 +6,8 @@ import CBottomSheetList from '@/shared/components/bottomsheets/CBottomSheetList.
 
 const showSheet1 = ref(false);
 const showSheet2 = ref(false);
+
+const filterOptions = ["Manutenções vencidas", "Próximas manutenções", "Preencher etapas"];
 </script>
 
 <template>
@@ -29,9 +31,7 @@ const showSheet2 = ref(false);
     <CButton @click="showSheet1 = false">Cadastrar veículo</CButton>
   </CBottomSheetText>
 
-  <CBottomSheetList type="action" :draggable="true" v-model="showSheet2">
-    <CButton @click="showSheet2 = false">Cadastrar veículo</CButton>
-  </CBottomSheetList>
+  <CBottomSheetList type="action" :draggable="true" :options="filterOptions" v-model="showSheet2" />
 </template>
 
 <style scoped lang="scss">
