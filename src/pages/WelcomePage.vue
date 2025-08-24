@@ -59,7 +59,6 @@ const continueWithGoogle = () => {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 10rem;
   background-image: url('@/shared/assets/images/welcomeScreen.png');
   background-size: cover;
   background-position: center;
@@ -103,17 +102,17 @@ const continueWithGoogle = () => {
   &__title {
     color: white;
     font-weight: 700;
-    font-style: bold;
     font-size: 1.75rem;
     line-height: 120%;
     letter-spacing: -0.02em;
+    max-width: 14ch;
   }
 
   &__description {
     color: white;
-    font-style: normal;
     font-size: 0.875rem;
     line-height: 150%;
+    max-width: 45ch;
   }
 }
 
