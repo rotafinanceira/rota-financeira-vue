@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseDivider from '@/shared/components/BaseDivider.vue';
+import CDivider from '@/shared/components/CDivider.vue';
 import type { HistoryCardProps } from '../types';
 import MaintenanceItem from '@/shared/components/MaintenanceItem.vue';
 
@@ -13,7 +13,7 @@ defineProps<HistoryCardProps>();
       <time class="card__date" datetime="2025-04-14">{{ date }}</time>
       <span class="card__km">{{ km }}km</span>
     </div>
-    <BaseDivider class="divider" />
+    <CDivider class="divider" />
     <div class="card__maintenances">
       <MaintenanceItem v-for="m in maintenances" v-bind="m" :key="m.icon" />
     </div>
