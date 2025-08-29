@@ -1,6 +1,6 @@
 <template>
   <div class="welcome-page">
-    <img :src="LogoOneLine" alt="Logo" />
+    <img :src="LogoOneLine" alt="Rota Financeira" />
 
     <div class="intro">
       <h1 class="intro__title">Seu veículo na palma da sua mão!</h1>
@@ -91,7 +91,7 @@ const continueWithGoogle = () => {
   gap: 16px;
 
   &__white {
-    background-color: white !important;
+    background-color: white;
   }
 }
 
@@ -101,7 +101,6 @@ const continueWithGoogle = () => {
   &__text {
     color: white;
     font-size: 1rem;
-    font-style: normal;
     line-height: 150%;
   }
 
