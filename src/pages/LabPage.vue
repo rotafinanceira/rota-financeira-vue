@@ -29,9 +29,15 @@ const selectedOption = ref('option1');
 
 .lab {
   display: grid;
-  justify-content: center;
   align-content: center;
   gap: 1rem;
   min-height: $screen;
+}
+
+.container {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
