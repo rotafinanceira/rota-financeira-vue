@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const activeRadio = defineModel<string>();
+
 defineProps<{
   id: string;
   group: string;
@@ -9,7 +11,7 @@ defineProps<{
 
 <template>
   <label class="label__wrapper">
-    <input class="radio" type="radio" :name="group" :id="id" />
+    <input class="radio" type="radio" :name="group" :id="id" :value="value" v-model="activeRadio" />
     <span class="label">{{ label }}</span>
   </label>
 </template>
