@@ -3,6 +3,7 @@ defineProps<{
   id: string;
   group: string;
   label: string;
+  value: string;
 }>();
 </script>
 
