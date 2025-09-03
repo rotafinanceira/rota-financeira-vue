@@ -66,24 +66,24 @@ const tabs: Tab[] = [
 ];
 
 const getActiveTab = (tabs: Tab[], routeName: string) => {
-  const currentActiveTab = tabs.find((tab) =>
-    routeName.includes(tab.routeName)
-  )?.name;
+  if (routeName.includes('user') || routeName.includes('settings')) {
+    return null;
+  }
 
-  return currentActiveTab;
+  return tabs.find((tab) => routeName.includes(tab.routeName))?.name || null;
 };
 
 watch(
   () => route.path,
   (newPath) => {
-    navbarTab.value = getActiveTab(tabs, newPath) || 'home';
+    navbarTab.value = getActiveTab(tabs, newPath) || '';
   },
   { immediate: true }
 );
 
 function navigateTo(routeName: string) {
   router.push({ name: routeName }).then(() => {
-    navbarTab.value = getActiveTab(tabs, routeName) || 'home';
+    navbarTab.value = getActiveTab(tabs, routeName) || '';
   });
 }
 </script>
