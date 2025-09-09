@@ -1,18 +1,26 @@
 <script setup lang="ts">
-
-import CCheckbox from '@/shared/components/CCheckbox.vue';
+import CRadio from '@/shared/components/CRadio.vue';
 import { ref } from 'vue';
 
-const isChecked = ref(false);
+const selectedOption = ref('option1');
 </script>
 
 <template>
   <div class="lab app-wrapper">
-    <div class="container">
-      <CCheckbox v-model="isChecked" label="Manutenções de teste" />
-    </div>
-
-    <p>Checked: {{ isChecked }}</p>
+    <CRadio
+      id="teste"
+      label="opção 1"
+      value="option1"
+      group="teste"
+      v-model="selectedOption"
+    />
+    <CRadio
+      id="teste"
+      label="opção 2"
+      value="option2"
+      group="teste"
+      v-model="selectedOption"
+    />
   </div>
 </template>
 
