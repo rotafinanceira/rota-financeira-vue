@@ -7,7 +7,7 @@ const routes: RouteRecordRaw[] = [
     redirect: '/welcome',
     children: [
       {
-        path: '/load',
+        path: '/splash',
         component: () => import('src/pages/SplashScreen.vue'),
       },
       {
