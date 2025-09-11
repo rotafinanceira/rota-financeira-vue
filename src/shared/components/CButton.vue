@@ -1,27 +1,30 @@
 <template>
-  <button
-    :class="['custom-button', sizeClass, variantClass]"
-    :disabled="props.disabled"
+  <q-btn
+    class="custom-button"
+    :class="[sizeClass, variantClass]"
+    :disable="props.disabled"
+    :to="props.to"
     type="button"
+    no-caps
   >
     <slot />
-  </button>
+  </q-btn>
 </template>
 
 <script setup lang="ts">
-import { ButtonHTMLAttributes, computed } from 'vue';
+import { QBtn } from 'quasar';
+import { computed } from 'vue';
 
 type Variant = 'primary' | 'secondary' | 'tertiary' | 'danger';
 type Size = 'large' | 'default' | 'small';
 
 const props = withDefaults(
-  defineProps<
-    {
-      variant?: Variant;
-      size?: Size;
-      disabled?: boolean;
-    } & /* @vue-ignore */ ButtonHTMLAttributes
-  >(),
+  defineProps<{
+    variant?: Variant;
+    size?: Size;
+    disabled?: boolean;
+    to?: string | Record<string, string>;
+  }>(),
   {
     variant: 'primary',
     size: 'default',

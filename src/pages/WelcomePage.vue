@@ -10,7 +10,7 @@
       </p>
     </div>
     <div class="buttons">
-      <CButton variant="primary" @click="$router.push({ name: 'signup' })">
+      <CButton variant="primary" :to="{ name: 'signup' }">
         Criar Conta
       </CButton>
 
@@ -19,9 +19,9 @@
         variant="secondary"
         @click="continueWithGoogle"
       >
-        <img :src="googleIcon" alt="Google Icon" class="google-icon" />Continuar
-        com o Google</CButton
-      >
+        <img :src="googleIcon" alt="Google Icon" class="google-icon" />
+        Continuar com o Google
+      </CButton>
 
       <div class="login">
         <span class="login__text"
