@@ -11,7 +11,7 @@
     </div>
     <div class="buttons">
       <CButton variant="primary" @click="$router.push({ name: 'signup' })">
-        Criar Conta
+        Criar uma Conta
       </CButton>
 
       <CButton
