@@ -11,7 +11,7 @@
     </div>
     <div class="buttons">
       <CButton variant="primary" :to="{ name: 'signup' }">
-        Criar Conta
+        Criar uma Conta
       </CButton>
 
       <CButton
