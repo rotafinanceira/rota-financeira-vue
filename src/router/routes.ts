@@ -7,7 +7,7 @@ const routes: RouteRecordRaw[] = [
     redirect: '/welcome',
     children: [
       {
-        path: '/load',
+        path: '/splash',
         component: () => import('src/pages/SplashScreen.vue'),
       },
       {
@@ -296,14 +296,14 @@ const routes: RouteRecordRaw[] = [
             path: '/lab',
             component: () => import('@/pages/LabPage.vue'),
           },
+          {
+            path: '/:catchAll(.*)*',
+            name: 'not-found',
+            component: () => import('pages/NotFound.vue'),
+          },
         ],
       },
     ],
-  },
-  {
-    path: '/:catchAll(.*)*',
-    name: 'not-found',
-    component: () => import('pages/NotFound.vue'),
   },
 ];
 
