@@ -1,36 +1,3 @@
-<template>
-  <q-footer>
-    <q-tabs v-model="navbarTab" align="justify" class="navbar" switch-indicator>
-      <q-tab
-        v-for="tab in tabs"
-        :key="tab.name"
-        :name="tab.name"
-        @click="navigateTo(tab.routeName)"
-        class="navbar__tab"
-      >
-        <div class="tab__container">
-          <div
-            class="navbar__notifications"
-            v-if="tab.notification && tab.notification > 0"
-            floating
-          >
-            <span> +{{ tab.notification }} </span>
-          </div>
-          <img
-            :src="navbarTab === tab.name ? tab.icon.enabled : tab.icon.disabled"
-            alt=""
-          />
-          <p
-            :class="['tab__text', { 'tab__is-active': navbarTab === tab.name }]"
-          >
-            {{ tab.label }}
-          </p>
-        </div>
-      </q-tab>
-    </q-tabs>
-  </q-footer>
-</template>
-
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
@@ -88,7 +55,67 @@ function navigateTo(routeName: string) {
 }
 </script>
 
+<template>
+  <q-footer>
+    <q-tabs v-model="navbarTab" align="justify" class="navbar" switch-indicator>
+      <q-tab
+        v-for="tab in tabs"
+        :key="tab.name"
+        :name="tab.name"
+        @click="navigateTo(tab.routeName)"
+        class="navbar__tab"
+      >
+        <div class="tab__container">
+          <div
+            class="navbar__notifications"
+            v-if="tab.notification && tab.notification > 0"
+            floating
+          >
+            <span> +{{ tab.notification }} </span>
+          </div>
+          <transition name="fade" mode="out-in">
+            <img
+              :key="
+                navbarTab === tab.name ? tab.icon.enabled : tab.icon.disabled
+              "
+              :src="
+                navbarTab === tab.name ? tab.icon.enabled : tab.icon.disabled
+              "
+              alt=""
+              class="tab__icon"
+            />
+          </transition>
+          <transition name="fade" mode="out-in">
+            <p
+              :key="navbarTab === tab.name ? 'active' : 'inactive'"
+              :class="[
+                'tab__text',
+                { 'tab__is-active': navbarTab === tab.name },
+              ]"
+            >
+              {{ tab.label }}
+            </p>
+          </transition>
+        </div>
+      </q-tab>
+    </q-tabs>
+  </q-footer>
+</template>
+
 <style scoped lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0.5;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+
 .q-footer {
   background-color: #ffffff;
   width: 100%;
