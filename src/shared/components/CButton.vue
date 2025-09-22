@@ -40,16 +40,20 @@ const variantClass = computed(() => `btn--${props.variant}`);
 <style scoped>
 .custom-button {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-weight: 600;
   cursor: pointer;
   border-radius: 8px;
   white-space: nowrap;
   padding: 12px 24px;
-  gap: 12px;
   border: none;
+  line-height: 120%;
+}
+
+.custom-button ::v-deep(.q-btn__content) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
 
 .custom-button:disabled {
