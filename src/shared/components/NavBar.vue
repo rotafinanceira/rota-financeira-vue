@@ -73,29 +73,15 @@ function navigateTo(routeName: string) {
           >
             <span> +{{ tab.notification }} </span>
           </div>
-          <transition name="fade" mode="out-in">
-            <img
-              :key="
-                navbarTab === tab.name ? tab.icon.enabled : tab.icon.disabled
-              "
-              :src="
-                navbarTab === tab.name ? tab.icon.enabled : tab.icon.disabled
-              "
-              alt=""
-              class="tab__icon"
-            />
-          </transition>
-          <transition name="fade" mode="out-in">
-            <p
-              :key="navbarTab === tab.name ? 'active' : 'inactive'"
-              :class="[
-                'tab__text',
-                { 'tab__is-active': navbarTab === tab.name },
-              ]"
-            >
-              {{ tab.label }}
-            </p>
-          </transition>
+          <img
+            :src="navbarTab === tab.name ? tab.icon.enabled : tab.icon.disabled"
+            alt=""
+          />
+          <p
+            :class="['tab__text', { 'tab__is-active': navbarTab === tab.name }]"
+          >
+            {{ tab.label }}
+          </p>
         </div>
       </q-tab>
     </q-tabs>
@@ -103,19 +89,6 @@ function navigateTo(routeName: string) {
 </template>
 
 <style scoped lang="scss">
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0.5;
-}
-.fade-enter-to,
-.fade-leave-from {
-  opacity: 1;
-}
-
 .q-footer {
   background-color: #ffffff;
   width: 100%;
