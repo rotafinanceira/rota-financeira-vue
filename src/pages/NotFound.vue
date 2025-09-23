@@ -49,14 +49,8 @@ import mecanicoImage from '../shared/assets/illustrations/mechanic-not-found.png
 }
 
 .return-button {
-  padding-left: 10px;
   width: 26px;
   height: 26px;
-
   transform: rotate(-90deg);
-  .q-img {
-    width: 100%;
-    height: 100%;
-  }
 }
 </style>
