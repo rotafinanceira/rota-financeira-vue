@@ -36,7 +36,6 @@ export { default as MaintenanceIcon } from './maintenance.svg';
 export { default as MoneyCircleIcon } from './money-circle.svg';
 export { default as MouseIcon } from './mouse.svg';
 export { default as OilIcon } from './oil.svg';
-export { default as OilLiquidIcon } from './oil-liquid.svg';
 export { default as PageIcon } from './page.svg';
 export { default as PaletteIcon } from './palette.svg';
 export { default as PlusCircleIcon } from './plus-circle.svg';
