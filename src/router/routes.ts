@@ -82,9 +82,7 @@ const routes: RouteRecordRaw[] = [
                 path: 'oil',
                 name: 'maintenance-oil',
                 component: () =>
-                  import(
-                    '@/pages/Maintenances/Maintenance/OilPage/OilPage.vue'
-                  ),
+                  import('@/pages/Maintenances/Maintenance/OilPage.vue'),
               },
               {
                 path: 'battery',
