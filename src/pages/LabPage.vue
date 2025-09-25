@@ -55,6 +55,8 @@ watch(errors, () => {
   display: grid;
   align-content: center;
   gap: 1rem;
+  align-content: center;
+  gap: 1rem;
   min-height: $screen;
 }
 
