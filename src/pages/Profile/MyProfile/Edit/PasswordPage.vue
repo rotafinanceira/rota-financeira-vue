@@ -53,10 +53,12 @@
 import { ref } from 'vue';
 import EditField from '../../components/EditField.vue';
 import PasswordChecker from '@/shared/components/PasswordChecker.vue';
+import { useRegisterStore } from '@/stores/registerStore';
 
 const currentPassword = ref('');
 const newPassword = ref('');
 const confirmNewPassword = ref('');
+const registerStore = useRegisterStore();
 
 const validatePassword = () => {
   if (newPassword.value !== confirmNewPassword.value) {
@@ -78,10 +80,17 @@ const validatePassword = () => {
   return true;
 };
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   if (validatePassword()) {
-    console.log('Senha alterada com sucesso!');
-    // Add logic to handle password update
+    try {
+      await registerStore.updateUser({
+        currentPassword: currentPassword.value,
+        newPassword: newPassword.value,
+      });
+      alert('Senha alterada com sucesso!');
+    } catch (e) {
+      alert('Erro ao atualizar senha.');
+    }
   }
 };
 </script>
