@@ -1,81 +1,3 @@
-<script setup lang="ts">
-import { FilterControlsIcon, PageIcon } from '@/shared/assets/icons';
-import HistoryCard from './components/HistoryCard.vue';
-import { HistoryCardProps } from './types';
-import { BrokenCar } from '@/shared/assets/illustrations';
-
-const maintenanceHistory: HistoryCardProps[] = [
-  {
-    id: '1',
-    month: 'Setembro',
-    date: 'Quarta, 25 set. 2024',
-    km: '10.570',
-    maintenances: [
-      {
-        icon: 'fuelFilter',
-        title: 'Troca de filtro de combustível',
-        description: 'R$ 400,00',
-      },
-      {
-        icon: 'wheel',
-        title: 'Alinhamento e Balanceamento',
-        description: 'R$ 250,00',
-      },
-    ],
-  },
-  {
-    id: '2',
-    month: 'Agosto',
-    date: 'Segunda, 21 ago. 2024',
-    km: '9.510',
-    maintenances: [
-      {
-        icon: 'fluidLevel',
-        title: 'Troca de água',
-        description: 'R$ 400,00',
-      },
-    ],
-  },
-  {
-    id: '3',
-    month: 'Julho',
-    date: 'Quinta, 15 jul. 2024',
-    km: '10.150',
-    maintenances: [
-      {
-        icon: 'fuelFilter',
-        title: 'Troca de filtro de combustível',
-        description: 'R$ 400,00',
-      },
-      {
-        icon: 'wheel',
-        title: 'Alinhamento e Balanceamento',
-        description: 'R$ 400,00',
-      },
-    ],
-  },
-  {
-    id: '4',
-    month: 'Junho',
-    date: 'Terça, 10 jun. 2024',
-    km: '9.150',
-    maintenances: [
-      {
-        icon: 'oil',
-        title: 'Troca de óleo',
-        description: 'R$ 300,00',
-      },
-    ],
-  },
-];
-
-const isThereNoMaintenances = maintenanceHistory
-  ? maintenanceHistory.length === 0
-    ? true
-    : false
-  : true;
-</script>
-
 <template>
   <div class="app-wrapper">
     <header class="history__header">
@@ -101,6 +23,105 @@ const isThereNoMaintenances = maintenanceHistory
     </main>
   </div>
 </template>
+
+<script setup lang="ts">
+import { FilterControlsIcon, PageIcon } from '@/shared/assets/icons';
+import HistoryCard from './components/HistoryCard.vue';
+import { HistoryCardProps } from './types';
+import { BrokenCar } from '@/shared/assets/illustrations';
+
+import { onMounted, ref, watch } from 'vue';
+import { useMaintenanceStore } from '@/stores/maintenance';
+import { useCarStore } from '@/stores/exemplo';
+
+const types = ['oil', 'battery', 'air-filter'];
+const maintenanceStore = useMaintenanceStore();
+const carStore = useCarStore();
+const maintenanceHistory = ref<HistoryCardProps[]>([]);
+
+type MaintenanceApiItem = {
+  type: 'Oil Change' | 'Battery Change';
+  data: {
+    id: string;
+    lastMaintenanceDate?: string;
+    lastMaintenanceKm?: number;
+    valor?: string;
+    oilBrand?: string;
+    batteryBrand?: string;
+    oilType?: string;
+    status?: string;
+  };
+};
+
+function mapApiToHistoryCard(apiItem: MaintenanceApiItem): HistoryCardProps {
+  // Expanded icon mapping
+  let icon: HistoryCardProps['maintenances'][number]['icon'] = 'oil';
+  switch (apiItem.type) {
+    case 'Oil Change':
+      icon = 'oil';
+      break;
+    case 'Air Filter Change':
+      icon = 'airFilter';
+      break;
+    case 'Wheel Change':
+      icon = 'wheel';
+      break;
+    case 'Battery Change':
+      icon = 'battery';
+      break;
+    case 'Oil Filter Change':
+      icon = 'oilFilter';
+      break;
+    case 'Fuel Filter Change':
+      icon = 'fuelFilter';
+      break;
+    default:
+      icon = 'oil';
+  }
+
+  let month = '';
+  let date = '-';
+  if (apiItem.data.lastMaintenanceDate) {
+    const d = new Date(apiItem.data.lastMaintenanceDate);
+    month = d.toLocaleString('pt-BR', { month: 'long' });
+    date = d.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  return {
+    id: apiItem.data.id,
+    month,
+    date,
+    km: apiItem.data.lastMaintenanceKm?.toString() || '-',
+    maintenances: [
+      {
+        icon,
+        title: apiItem.type,
+        description: apiItem.data.valor || '-',
+      },
+    ],
+  };
+}
+
+onMounted(async () => {
+  await carStore.getCars();
+});
+
+watch(
+  () => carStore.firstLicensePlate,
+  async (plate) => {
+    if (plate) {
+      await maintenanceStore.getMaintenanceHistory(plate, types);
+  maintenanceHistory.value = (maintenanceStore.history as unknown[]).map(item => mapApiToHistoryCard(item as MaintenanceApiItem)) as HistoryCardProps[];
+    }
+  },
+  { immediate: true }
+);
+
+const isThereNoMaintenances = ref(true);
+watch(maintenanceHistory, (val) => {
+  isThereNoMaintenances.value = !val || val.length === 0;
+}, { immediate: true });
+</script>
 
 <style scoped lang="scss">
 .history {
