@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import ButtonComponent from '@/shared/components/ButtonComponent.vue';
 import CModal from '@/shared/components/CModal.vue';
 
 import helpIcon from '@/shared/assets/helpIcon.svg';
-import fuelIcon from '@/shared/assets/icons/fuel-filter.svg';
-import brandIcon from '@/shared/assets/icons/oil.svg';
 
 import { useRouter } from 'vue-router';
+import CButton from '@/shared/components/CButton.vue';
 
 const router = useRouter();
 
 interface OilOptionsProps {
+  label: string;
+  value: string;
+}
+
+interface ServiceOptionsProps {
   label: string;
   value: string;
 }
@@ -21,6 +24,7 @@ const isLoading = ref<boolean>(false);
 const date = ref<string>('');
 const mileage = ref<string>('');
 const oilType = ref<string>('');
+const serviceType = ref<string>('');
 const liters = ref<string>('');
 const oilBrand = ref<string>('');
 const maintenanceValue = ref<string>('');
@@ -40,10 +44,17 @@ const successDescription = ref<string>(
 );
 
 const oilOptions = ref<OilOptionsProps[]>([
-  { label: 'Sintético', value: 'sintetico' },
-  { label: 'Semi-Sintético', value: 'semi-sintetico' },
+  { label: 'Sintético', value: 'sintetic' },
+  { label: 'Semi-Sintético', value: 'semi-sintetic' },
   { label: 'Mineral', value: 'mineral' },
   { label: 'Outro', value: 'outro' },
+]);
+
+const serviceOptions = ref<ServiceOptionsProps[]>([
+  { label: 'Troca de óleo', value: 'oil-filter' },
+  { label: 'Filtro de óleo', value: 'oil-filter' },
+  { label: 'Troca de óleo e filtro de óleo', value: 'oil-change-filter' },
+  { label: 'Outro', value: 'other' },
 ]);
 
 const showHelpModal = (): void => {
@@ -77,10 +88,6 @@ const handleSubmit = (): void => {
     liters.value = '';
     oilBrand.value = '';
     maintenanceValue.value = '';
-
-    setTimeout(() => {
-      router.push({ name: 'maintenance-oil' });
-    }, 1500);
   }, 1000);
 };
 
@@ -107,19 +114,15 @@ const closeSuccess = () => {
             </span>
           </div>
           <div class="input-wrapper">
-            <label for="maintenance-value">Valor da manutenção*</label>
+            <label for="mileage">Quilometragem*</label>
             <div class="definitions-wrapper">
               <q-input
-                id="maintenance-value"
+                id="mileage"
                 outlined
-                v-model="maintenanceValue"
-                label="Digite o valor da manutenção"
+                v-model="mileage"
+                label="Km na data de serviço"
                 type="number"
-              >
-                <template v-slot:append>
-                  <q-icon name="attach_money" />
-                </template>
-              </q-input>
+              ></q-input>
             </div>
           </div>
           <div class="input-wrapper">
@@ -132,30 +135,37 @@ const closeSuccess = () => {
               label="Digite a data da última troca"
               @focus="showDatePicker = true"
             >
-              <template v-slot:append>
-                <q-icon
-                  name="event"
-                  @click="showDatePicker = !showDatePicker"
-                />
-              </template>
+              <template v-slot:append> </template>
             </q-input>
             <q-menu v-model="showDatePicker" fit>
               <q-date v-model="date" mask="DD/MM/YYYY" @input="onDateSelect" />
             </q-menu>
           </div>
           <div class="input-wrapper">
-            <label for="mileage">Quilometragem da troca*</label>
+            <label for="maintenance-value">Valor da manutenção*</label>
             <div class="definitions-wrapper">
               <q-input
-                id="mileage"
+                id="maintenance-value"
                 outlined
-                v-model="mileage"
-                label="Digite a quilometragem da última troca"
+                v-model="maintenanceValue"
+                label="Digite o valor da manutenção"
                 type="number"
-              ></q-input>
-              <span>Km</span>
+              >
+              </q-input>
             </div>
           </div>
+
+          <div class="input-wrapper">
+            <label for="service-type">Serviços*</label>
+            <q-select
+              id="service-type"
+              outlined
+              v-model="serviceType"
+              :options="serviceOptions"
+              label="Escolha o tipo de serviço"
+            ></q-select>
+          </div>
+
           <div class="input-wrapper">
             <label for="oil-type">Tipo*</label>
             <q-select
@@ -166,38 +176,21 @@ const closeSuccess = () => {
               label="Escolha o tipo de óleo"
             ></q-select>
           </div>
+
           <div class="input-wrapper">
-            <label for="liters">Litros utilizados*</label>
-            <div class="definitions-wrapper">
-              <q-input
-                id="liters"
-                outlined
-                v-model="liters"
-                label="Digite a quantidade em litros"
-                type="number"
-              >
-                <img :src="fuelIcon" alt="Fuel Icon" class="icons" />
-              </q-input>
-            </div>
-          </div>
-          <div class="input-wrapper">
-            <label for="oil-brand">Marca</label>
+            <label for="oil-brand">Oficina</label>
             <q-input
-              id="oil-brand"
+              id="workshop-name"
               outlined
               v-model="oilBrand"
-              label="Digite a marca utilizada"
+              label="Digite o nome da oficina"
             >
-              <img :src="brandIcon" alt="Brand Icon" class="icons" />
             </q-input>
           </div>
         </div>
       </div>
-      <ButtonComponent
-        label="Finalizar"
-        :isLoading="isLoading"
-        @click="handleSubmit"
-      />
+      <CButton @click="handleSubmit" :isLoading="isLoading"> Salvar </CButton>
+      >
     </div>
     <CModal v-model="isOpen" icon="alert" variant="info">
       <h2>{{ modalContent }}</h2>
@@ -212,7 +205,7 @@ const closeSuccess = () => {
       <div class="group">
         <h2>{{ successTitle }}</h2>
         <p>{{ successDescription }}</p>
-        <ButtonComponent label="Fechar" @click="closeSuccess" />
+        <CButton @click="closeSuccess">Fechar</CButton>
       </div>
     </CModal>
   </q-page>

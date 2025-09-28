@@ -59,7 +59,7 @@ const maintenances = [
             <div class="maintenance-card__header-container">
               <img :src="OilLiquidIcon" alt="" />
               <div class="vertical"></div>
-              <h1>Revisões anteriores</h1>
+              <h1>{{ m.type }}</h1>
             </div>
             <img :src="EditIcon" alt="" />
           </div>
