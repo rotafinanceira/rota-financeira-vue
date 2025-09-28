@@ -10,7 +10,10 @@
       </button>
     </header>
     <main class="history__main">
-      <section class="history__no-maintenances" v-if="isThereNoMaintenances">
+      <div v-if="isLoading" class="spinner-center">
+        <q-spinner color="primary" size="40px" />
+      </div>
+  <section class="history__no-maintenances" v-else-if="!isLoading && isThereNoMaintenances">
         <img :src="BrokenCar" alt="" />
         <p class="">Você ainda não possui manutenções cadastradas!</p>
       </section>
@@ -31,6 +34,7 @@ import { HistoryCardProps } from './types';
 import { BrokenCar } from '@/shared/assets/illustrations';
 
 import { onMounted, ref, watch } from 'vue';
+import { QSpinner } from 'quasar';
 import { useMaintenanceStore } from '@/stores/maintenance';
 import { useCarStore } from '@/stores/exemplo';
 
@@ -38,6 +42,7 @@ const types = ['oil', 'battery', 'air-filter'];
 const maintenanceStore = useMaintenanceStore();
 const carStore = useCarStore();
 const maintenanceHistory = ref<HistoryCardProps[]>([]);
+const isLoading = ref(false);
 
 type MaintenanceApiItem = {
   type: 'Oil Change' | 'Battery Change';
@@ -110,17 +115,19 @@ watch(
   () => carStore.firstLicensePlate,
   async (plate) => {
     if (plate) {
+      isLoading.value = true;
       await maintenanceStore.getMaintenanceHistory(plate, types);
-  maintenanceHistory.value = (maintenanceStore.history as unknown[]).map(item => mapApiToHistoryCard(item as MaintenanceApiItem)) as HistoryCardProps[];
+      maintenanceHistory.value = (maintenanceStore.history as unknown[]).map(item => mapApiToHistoryCard(item as MaintenanceApiItem)) as HistoryCardProps[];
+      isLoading.value = false;
     }
   },
   { immediate: true }
 );
 
-const isThereNoMaintenances = ref(true);
+const isThereNoMaintenances = ref(false);
 watch(maintenanceHistory, (val) => {
-  isThereNoMaintenances.value = !val || val.length === 0;
-}, { immediate: true });
+  isThereNoMaintenances.value = Array.isArray(val) && val.length === 0;
+});
 </script>
 
 <style scoped lang="scss">
@@ -173,4 +180,10 @@ watch(maintenanceHistory, (val) => {
   align-items: center;
   gap: 0.5rem;
 }
+  .spinner-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+  }
 </style>
