@@ -38,9 +38,9 @@ const modalDescription = ref<string[]>([
 ]);
 const isOpen = ref<boolean>(false);
 const isPositiveOpen = ref<boolean>(false);
-const successTitle = ref<string>('Cadastro concluído!');
+const successTitle = ref<string>('Parabéns!');
 const successDescription = ref<string>(
-  'Informaremos você sobre a próxima troca.'
+  'Você cadastrou a troca de óleo do seu veículo. Iremos lhe informar sobre a próxima manutenção.'
 );
 
 const oilOptions = ref<OilOptionsProps[]>([
@@ -61,11 +61,11 @@ const showHelpModal = (): void => {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
   modalDescription.value = [
-    'O tempo recomendado para troca de óleo é de 6 a 12 meses.',
-    'Troque de óleo a cada 10 mil quilômetros aproximadamente.',
-    'O uso severo do veículo pode encurtar o intervalo de troca de óleo.',
-    'Utilize o tipo de óleo e quantidade correta do modelo do seu veículo.',
-    'Jamais misture óleos de viscosidades diferentes.',
+    'Troque o óleo conforme a recomendação do fabricante: geralmente a cada 10.000 km ou 12 meses para óleo sintético, 5.000 km ou 6 meses para óleos mineral ou semissintético, o que ocorrer primeiro.',
+    'Verifique o nível e a cor do óleo. Se estiver escuro ou com resíduos, troque.',
+    'Troque sempre o filtro junto com o óleo.',
+    'Mesmo rodando pouco, o óleo envelhece. Troque por tempo.',
+    'Uso severo (trânsito, poeira, ladeiras, reboque) pode exigir troca antecipada.',
   ];
 };
 
@@ -192,20 +192,29 @@ const closeSuccess = () => {
       <CButton @click="handleSubmit" :isLoading="isLoading"> Salvar </CButton>
       >
     </div>
-    <CModal v-model="isOpen" icon="alert" variant="info">
+    <CModal v-model="isOpen" variant="info">
       <h2>{{ modalContent }}</h2>
-      <ul>
+      <ul class="info-list">
         <li v-for="(item, index) in modalDescription" :key="index">
           {{ item }}
         </li>
+        <br />
       </ul>
     </CModal>
 
-    <CModal v-model="isPositiveOpen" icon="success" variant="default">
+    <CModal
+      v-model="isPositiveOpen"
+      icon="success"
+      variant="default"
+      @update:modelValue="
+        (val) => {
+          if (!val) closeSuccess();
+        }
+      "
+    >
       <div class="group">
         <h2>{{ successTitle }}</h2>
         <p>{{ successDescription }}</p>
-        <CButton @click="closeSuccess">Fechar</CButton>
       </div>
     </CModal>
   </q-page>
@@ -287,5 +296,9 @@ const closeSuccess = () => {
 .error-message {
   color: red;
   margin-top: 16px;
+}
+
+.info-list li {
+  margin-bottom: 12px;
 }
 </style>
