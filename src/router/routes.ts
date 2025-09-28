@@ -23,7 +23,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'auth',
         component: () => import('src/layouts/AuthLayout.vue'),
-        redirect: { name: 'signin' },
+        // redirect: { name: 'signin' },
         children: [
           {
             path: 'signin',
