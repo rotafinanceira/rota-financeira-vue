@@ -36,7 +36,7 @@ import { BrokenCar } from '@/shared/assets/illustrations';
 import { onMounted, ref, watch } from 'vue';
 import { QSpinner } from 'quasar';
 import { useMaintenanceStore } from '@/stores/maintenance';
-import { useCarStore } from '@/stores/exemplo';
+import { useCarStore } from '@/stores/carStore';
 
 const types = ['oil', 'battery', 'air-filter'];
 const maintenanceStore = useMaintenanceStore();

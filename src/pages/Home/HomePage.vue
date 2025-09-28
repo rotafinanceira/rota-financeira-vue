@@ -174,7 +174,7 @@ import { ArrowIcon } from '@/shared/assets/icons';
 import batteryIcon from '@/shared/assets/icons/battery.svg';
 import dateIcon from '@/shared/assets/icons/battery.svg';
 import { ref, computed, onMounted } from 'vue';
-import { useCarStore } from '@/stores/exemplo';
+import { useCarStore } from '@/stores/carStore';
 
 const isOpen = ref<boolean>(false);
 const modalContent = ref<string>('Quando devo fazer a troca?');
