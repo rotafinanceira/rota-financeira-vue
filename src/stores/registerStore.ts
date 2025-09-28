@@ -48,6 +48,11 @@ export const useRegisterStore = defineStore('register', {
     }) {
       try {
         const { data } = await api().post(`${baseApi}/v1/login`, payload);
+        // Salva o token JWT no localStorage para uso automático pelo Axios
+        if (data?.token) {
+          localStorage.setItem('jwt', data.token);
+          console.log('[Auth] JWT salvo no localStorage:', data.token);
+        }
         return data;
       } catch (e: any) {
         throw e.response?.data || e;
