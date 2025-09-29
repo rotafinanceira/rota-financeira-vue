@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { OilLiquidIcon, EditIcon } from '@/shared/assets/icons';
+import { OilLiquidIcon, EditIcon, CarFrontIcon } from '@/shared/assets/icons';
 import CButton from '@/shared/components/CButton.vue';
 import CTag from '@/shared/components/CTag.vue';
-import wrenchImage from '../../../../shared/assets/illustrations/wrench.png';
+import { Car, Wrench } from '@/shared/assets/illustrations';
 import CDivider from '@/shared/components/CDivider.vue';
 import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 const router = useRouter();
+const hasMaintenances = ref<boolean>(false);
+const hasOverdue = ref<boolean>(false);
 
 interface OilMaintenance {
   id: number;
@@ -48,6 +51,8 @@ const editMaintenance = (maintenance: OilMaintenance) => {
     },
   });
 };
+
+hasMaintenances.value = maintenances.length > 0;
 </script>
 
 <template>
@@ -57,12 +62,32 @@ const editMaintenance = (maintenance: OilMaintenance) => {
       <h1>Troca de óleo</h1>
     </div>
 
-    <div class="oil__card">
+    <div class="oil__card" v-if="!hasMaintenances">
       <div class="card__container">
-        <img :src="wrenchImage" />
+        <img :src="Wrench" />
         <h2 class="card__title">Manutenção não cadastrada!</h2>
         <span class="card__text">
           Você ainda não cadastrou nenhuma troca de óleo.
+        </span>
+      </div>
+    </div>
+
+    <div class="oil__card" v-if="hasMaintenances && hasOverdue">
+      <div class="card__container">
+        <img :src="CarFrontIcon" />
+        <h2 class="card__title">Manutenção vencida!</h2>
+        <span class="card__text">
+          É hora de realizar a revisão de óleo automotivo do seu veículo.
+        </span>
+      </div>
+    </div>
+
+    <div class="oil__card" v-if="hasMaintenances">
+      <div class="card__container">
+        <img :src="Car" />
+        <h2 class="card__title">Você está em dia!</h2>
+        <span class="card__text">
+          Sua próxima revisão do óleo automotivo será em 10.987km.
         </span>
       </div>
     </div>
@@ -74,7 +99,7 @@ const editMaintenance = (maintenance: OilMaintenance) => {
       Cadastrar manutenção
     </CButton>
 
-    <div v-if="maintenances.length > 0" class="maintenances">
+    <div v-if="hasMaintenances" class="maintenances">
       <div class="maintenances__header">
         <img :src="OilLiquidIcon" alt="" />
         <h1>Revisões anteriores</h1>

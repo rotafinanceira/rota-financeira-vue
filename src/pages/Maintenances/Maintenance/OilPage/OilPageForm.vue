@@ -29,7 +29,7 @@ interface ServiceOptionsProps {
   value: string;
 }
 
-const isEditing = ref(false);
+const isEditing = ref<boolean>(false);
 const showDatePicker = ref<boolean>(false);
 const isLoading = ref<boolean>(false);
 const date = ref<string>('');
