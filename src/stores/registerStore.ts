@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineStore } from 'pinia';
 import { api } from '@/boot/axios';
 
@@ -19,7 +20,9 @@ export const useRegisterStore = defineStore('register', {
   actions: {
     async verifyEmail(email: string) {
       try {
-        const { data } = await api().post(`${baseApi}/v1/user/verify`, { email });
+        const { data } = await api().post(`${baseApi}/v1/user/verify`, {
+          email,
+        });
         return data;
       } catch (e: any) {
         throw e.response?.data || e;
@@ -42,10 +45,7 @@ export const useRegisterStore = defineStore('register', {
       }
     },
 
-    async login(payload: {
-      email: string;
-      password: string;
-    }) {
+    async login(payload: { email: string; password: string }) {
       try {
         const { data } = await api().post(`${baseApi}/v1/login`, payload);
         // Salva o token JWT no localStorage para uso automático pelo Axios
@@ -69,7 +69,10 @@ export const useRegisterStore = defineStore('register', {
       newPassword?: string;
     }) {
       try {
-        const { data } = await api().patch(`${baseApi}/v1/user/update`, payload);
+        const { data } = await api().patch(
+          `${baseApi}/v1/user/update`,
+          payload
+        );
         return data;
       } catch (e: any) {
         throw e.response?.data || e;
