@@ -25,10 +25,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditField from '../../components/EditField.vue';
+import { useRegisterStore } from '@/stores/registerStore';
 
 const birthdate = ref('');
+const registerStore = useRegisterStore();
 
-function updateBirthdate() {
-  console.log('Update birthdate');
+async function updateBirthdate() {
+  try {
+    await registerStore.updateUser({ birthday: birthdate.value });
+    alert('Data de nascimento atualizada com sucesso!');
+  } catch (e) {
+    alert('Erro ao atualizar data de nascimento.');
+  }
 }
 </script>
