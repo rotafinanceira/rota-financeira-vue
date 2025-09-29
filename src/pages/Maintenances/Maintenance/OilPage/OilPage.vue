@@ -92,10 +92,7 @@ hasMaintenances.value = maintenances.length > 0;
       </div>
     </div>
 
-    <CButton
-      variant="primary"
-      @click="$router.push({ name: 'maintenance-oil-form' })"
-    >
+    <CButton variant="primary" :to="{ name: 'maintenance-oil-form' }">
       Cadastrar manutenção
     </CButton>
 
