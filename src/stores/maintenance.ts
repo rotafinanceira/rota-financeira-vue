@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { api } from '@/boot/axios';
@@ -14,14 +15,17 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     error.value = null;
 
     try {
-      const query = types?.length ? `?types=${encodeURIComponent(types.join(','))}` : '';
+      const query = types?.length
+        ? `?types=${encodeURIComponent(types.join(','))}`
+        : '';
       const url = `${baseApi}/v1/maintenance/history/${licensePlate}${query}`;
 
       const { data } = await api().get(url);
       history.value = Array.isArray(data) ? data : [];
       return data;
     } catch (e: any) {
-      error.value = e.response?.data?.message || e.message || 'Erro desconhecido';
+      error.value =
+        e.response?.data?.message || e.message || 'Erro desconhecido';
       throw error.value;
     } finally {
       isLoading.value = false;
