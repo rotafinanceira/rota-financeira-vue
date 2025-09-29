@@ -1,13 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import CModal from '@/shared/components/CModal.vue';
 
 import helpIcon from '@/shared/assets/helpIcon.svg';
 
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import CButton from '@/shared/components/CButton.vue';
 
 const router = useRouter();
+const route = useRoute();
+
+interface OilMaintenanceQuery {
+  date: string;
+  km: string;
+  price: string;
+  service: string;
+  oilType: string;
+  oilBrand?: string;
+}
 
 interface OilOptionsProps {
   label: string;
@@ -19,6 +29,7 @@ interface ServiceOptionsProps {
   value: string;
 }
 
+const isEditing = ref(false);
 const showDatePicker = ref<boolean>(false);
 const isLoading = ref<boolean>(false);
 const date = ref<string>('');
@@ -78,16 +89,26 @@ const handleSubmit = (): void => {
   isLoading.value = true;
   setTimeout(() => {
     isLoading.value = false;
-    successTitle.value = 'Cadastro concluído!';
-    successDescription.value = 'Informaremos você sobre a próxima troca.';
+
+    if (isEditing.value) {
+      successTitle.value = 'Edição concluída!';
+      successDescription.value =
+        'Você atualizou a troca de óleo do seu veículo com sucesso.';
+    } else {
+      successTitle.value = 'Cadastro concluído!';
+      successDescription.value = 'Informaremos você sobre a próxima troca.';
+    }
+
     isPositiveOpen.value = true;
 
-    date.value = '';
-    mileage.value = '';
-    oilType.value = '';
-    liters.value = '';
-    oilBrand.value = '';
-    maintenanceValue.value = '';
+    if (!isEditing.value) {
+      date.value = '';
+      mileage.value = '';
+      oilType.value = '';
+      liters.value = '';
+      oilBrand.value = '';
+      maintenanceValue.value = '';
+    }
   }, 1000);
 };
 
@@ -95,6 +116,21 @@ const closeSuccess = () => {
   isPositiveOpen.value = false;
   router.push({ name: 'maintenance-oil' });
 };
+
+onMounted(() => {
+  if (Object.keys(route.query).length > 0) {
+    const query = route.query as unknown as OilMaintenanceQuery;
+
+    date.value = query.date ?? '';
+    mileage.value = query.km ?? '';
+    maintenanceValue.value = query.price ?? '';
+    serviceType.value = query.service ?? '';
+    oilType.value = query.oilType ?? '';
+    oilBrand.value = query.oilBrand ?? '';
+
+    isEditing.value = true;
+  }
+});
 </script>
 
 <template>

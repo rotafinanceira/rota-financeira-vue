@@ -4,23 +4,50 @@ import CButton from '@/shared/components/CButton.vue';
 import CTag from '@/shared/components/CTag.vue';
 import wrenchImage from '../../../../shared/assets/illustrations/wrench.png';
 import CDivider from '@/shared/components/CDivider.vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
-const maintenances = [
+interface OilMaintenance {
+  id: number;
+  date: string;
+  km: number;
+  price: number;
+  service: string;
+  oilType: string;
+  oilBrand?: string;
+}
+
+const maintenances: OilMaintenance[] = [
   {
     id: 1,
-    date: 'Terça, 1 mai. 2025',
-    km: '100.076 km',
-    price: 'R$ 50,00',
-    type: 'Troca de óleo',
+    date: '27/05/2022',
+    km: 100.076,
+    price: 50.0,
+    service: 'Troca de óleo',
+    oilType: 'mineral',
   },
   {
     id: 2,
-    date: 'Segunda, 10 jun. 2025',
-    km: '105.300 km',
-    price: 'R$ 250,00',
-    type: 'Filtro de óleo',
+    date: '01/12/2020',
+    km: 200.076,
+    price: 250.0,
+    service: 'Filtro de óleo',
+    oilType: 'mineral',
   },
 ];
+
+const editMaintenance = (maintenance: OilMaintenance) => {
+  router.push({
+    name: 'maintenance-oil-form',
+    query: {
+      date: maintenance.date,
+      km: maintenance.km,
+      price: maintenance.price,
+      service: maintenance.service,
+      oilType: maintenance.oilType,
+    },
+  });
+};
 </script>
 
 <template>
@@ -59,18 +86,24 @@ const maintenances = [
             <div class="maintenance-card__header-container">
               <img :src="OilLiquidIcon" alt="" />
               <div class="vertical"></div>
-              <h1>{{ m.type }}</h1>
+              <h1>{{ m.service }}</h1>
             </div>
-            <img :src="EditIcon" alt="" />
+            <button></button>
+            <img
+              :src="EditIcon"
+              alt="Editar"
+              style="cursor: pointer"
+              @click="editMaintenance(m)"
+            />
           </div>
 
           <CDivider class="divider" />
 
           <div class="tags">
             <CTag :id="1" :title="m.date" variant="default" />
-            <CTag :id="2" :title="m.km" variant="default" />
-            <CTag :id="3" :title="m.price" variant="default" />
-            <CTag :id="4" :title="m.type" variant="default" />
+            <CTag :id="2" :title="m.km.toString()" variant="default" />
+            <CTag :id="3" :title="m.price.toString()" variant="default" />
+            <CTag :id="4" :title="m.service" variant="default" />
           </div>
         </div>
       </div>
