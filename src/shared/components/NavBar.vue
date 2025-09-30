@@ -1,36 +1,3 @@
-<template>
-  <q-footer>
-    <q-tabs v-model="navbarTab" align="justify" class="navbar" switch-indicator>
-      <q-tab
-        v-for="tab in tabs"
-        :key="tab.name"
-        :name="tab.name"
-        @click="navigateTo(tab.routeName)"
-        class="navbar__tab"
-      >
-        <div class="tab__container">
-          <div
-            class="navbar__notifications"
-            v-if="tab.notification && tab.notification > 0"
-            floating
-          >
-            <span> +{{ tab.notification }} </span>
-          </div>
-          <img
-            :src="navbarTab === tab.name ? tab.icon.enabled : tab.icon.disabled"
-            alt=""
-          />
-          <p
-            :class="['tab__text', { 'tab__is-active': navbarTab === tab.name }]"
-          >
-            {{ tab.label }}
-          </p>
-        </div>
-      </q-tab>
-    </q-tabs>
-  </q-footer>
-</template>
-
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
@@ -66,27 +33,60 @@ const tabs: Tab[] = [
 ];
 
 const getActiveTab = (tabs: Tab[], routeName: string) => {
-  const currentActiveTab = tabs.find((tab) =>
-    routeName.includes(tab.routeName)
-  )?.name;
+  if (routeName.includes('user') || routeName.includes('settings')) {
+    return null;
+  }
 
-  return currentActiveTab;
+  return tabs.find((tab) => routeName.includes(tab.routeName))?.name || null;
 };
 
 watch(
   () => route.path,
   (newPath) => {
-    navbarTab.value = getActiveTab(tabs, newPath) || 'home';
+    navbarTab.value = getActiveTab(tabs, newPath) || '';
   },
   { immediate: true }
 );
 
 function navigateTo(routeName: string) {
   router.push({ name: routeName }).then(() => {
-    navbarTab.value = getActiveTab(tabs, routeName) || 'home';
+    navbarTab.value = getActiveTab(tabs, routeName) || '';
   });
 }
 </script>
+
+<template>
+  <q-footer>
+    <q-tabs v-model="navbarTab" align="justify" class="navbar" switch-indicator>
+      <q-tab
+        v-for="tab in tabs"
+        :key="tab.name"
+        :name="tab.name"
+        @click="navigateTo(tab.routeName)"
+        class="navbar__tab"
+      >
+        <div class="tab__container">
+          <div
+            class="navbar__notifications"
+            v-if="tab.notification && tab.notification > 0"
+            floating
+          >
+            <span> +{{ tab.notification }} </span>
+          </div>
+          <img
+            :src="navbarTab === tab.name ? tab.icon.enabled : tab.icon.disabled"
+            alt=""
+          />
+          <p
+            :class="['tab__text', { 'tab__is-active': navbarTab === tab.name }]"
+          >
+            {{ tab.label }}
+          </p>
+        </div>
+      </q-tab>
+    </q-tabs>
+  </q-footer>
+</template>
 
 <style scoped lang="scss">
 .q-footer {
