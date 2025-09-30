@@ -133,10 +133,32 @@ const createAccount = async () => {
   if (validateAllInfo()) {
     store.setName(fullName.value.split(' ')[0]);
     store.setLastName(fullName.value.split(' ').slice(1).join(' '));
-    // store.setPhone(phone.value);
+    store.setPhone(phone.value);
 
-    store.resetStore();
-    router.push({ name: 'home' });
+    isLoading.value = true;
+    try {
+      // Converter data para ISO 8601
+      const [day, month, year] = birthdate.value.split('/');
+      const birthdayISO = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+      // Limpar telefone
+      const phoneClean = phone.value.replace(/\D/g, '');
+      const payload = {
+        name: store.name,
+        lastName: store.lastName,
+        birthday: birthdayISO,
+        email: store.email,
+        phone: phoneClean,
+        password: store.password,
+      };
+      await store.registerUser(payload);
+      store.resetStore();
+      router.push({ name: 'welcome' });
+    } catch (error) {
+      // handle error (show modal, etc.)
+      console.error(error);
+    } finally {
+      isLoading.value = false;
+    }
   }
 };
 </script>

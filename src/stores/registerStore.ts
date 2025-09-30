@@ -1,20 +1,92 @@
 import { defineStore } from 'pinia';
+import { api } from '@/boot/axios';
+
+const baseApi = import.meta.env.VITE_ROTA_API;
 
 export const useRegisterStore = defineStore('register', {
   state: () => ({
+    email: '',
+    confirmEmail: '',
+    password: '',
+    confirmPassword: '',
     name: '',
     lastName: '',
     day: '',
     month: '',
     year: '',
-    currentStep: 0,
-    hasInteracted: false,
-    email: '',
-    confirmEmail: '',
-    password: '',
-    confirmPassword: '',
+    phone: '',
   }),
   actions: {
+    async verifyEmail(email: string) {
+      try {
+        const { data } = await api().post(`${baseApi}/v1/user/verify`, { email });
+        return data;
+      } catch (e: any) {
+        throw e.response?.data || e;
+      }
+    },
+
+    async registerUser(payload: {
+      name: string;
+      lastName: string;
+      birthday: string;
+      email: string;
+      phone: string;
+      password: string;
+    }) {
+      try {
+        const { data } = await api().post(`${baseApi}/v1/user`, payload);
+        return data;
+      } catch (e: any) {
+        throw e.response?.data || e;
+      }
+    },
+
+    async login(payload: {
+      email: string;
+      password: string;
+    }) {
+      try {
+        const { data } = await api().post(`${baseApi}/v1/login`, payload);
+        // Salva o token JWT no localStorage para uso automático pelo Axios
+        if (data?.token) {
+          localStorage.setItem('jwt', data.token);
+          console.log('[Auth] JWT salvo no localStorage:', data.token);
+        }
+        return data;
+      } catch (e: any) {
+        throw e.response?.data || e;
+      }
+    },
+
+    async updateUser(payload: {
+      name?: string;
+      lastName?: string;
+      birthday?: string;
+      email?: string;
+      phone?: string;
+      currentPassword?: string;
+      newPassword?: string;
+    }) {
+      try {
+        const { data } = await api().patch(`${baseApi}/v1/user/update`, payload);
+        return data;
+      } catch (e: any) {
+        throw e.response?.data || e;
+      }
+    },
+    setEmail(email: string) {
+      this.email = email;
+    },
+    setConfirmEmail(confirmEmail: string) {
+      this.confirmEmail = confirmEmail;
+    },
+    setPassword(password: string) {
+      this.password = password;
+    },
+    setConfirmPassword(confirmPassword: string) {
+      this.confirmPassword = confirmPassword;
+    },
     setName(name: string) {
       this.name = name;
     },
@@ -30,32 +102,20 @@ export const useRegisterStore = defineStore('register', {
     setYear(year: string) {
       this.year = year;
     },
-    setCurrentStep(step: number) {
-      this.currentStep = step;
-    },
-    setHasInteracted(interacted: boolean) {
-      this.hasInteracted = interacted;
-    },
-    setEmail(email: string) {
-      this.email = email;
-    },
-    setConfirmEmail(confirmEmail: string) {
-      this.confirmEmail = confirmEmail;
-    },
-    setPassword(password: string) {
-      this.password = password;
-    },
-    setConfirmPassword(confirmPassword: string) {
-      this.confirmPassword = confirmPassword;
-    },
-    validateEmails() {
-      return this.email === this.confirmEmail;
-    },
-    validatePasswords() {
-      return this.password === this.confirmPassword;
+    setPhone(phone: string) {
+      this.phone = phone;
     },
     resetStore() {
-      this.$reset();
+      this.email = '';
+      this.confirmEmail = '';
+      this.password = '';
+      this.confirmPassword = '';
+      this.name = '';
+      this.lastName = '';
+      this.day = '';
+      this.month = '';
+      this.year = '';
+      this.phone = '';
     },
   },
 });
