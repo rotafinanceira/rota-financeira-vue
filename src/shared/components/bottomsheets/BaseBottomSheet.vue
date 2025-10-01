@@ -95,7 +95,6 @@ watch(showDialog, (val) => {
   &__content {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 40px;
     margin-top: 24px;
   }
