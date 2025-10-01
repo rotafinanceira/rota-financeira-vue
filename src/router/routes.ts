@@ -82,7 +82,17 @@ const routes: RouteRecordRaw[] = [
                 path: 'oil',
                 name: 'maintenance-oil',
                 component: () =>
-                  import('@/pages/Maintenances/Maintenance/OilPage.vue'),
+                  import(
+                    '@/pages/Maintenances/Maintenance/OilPage/OilPage.vue'
+                  ),
+              },
+              {
+                path: 'oil/form',
+                name: 'maintenance-oil-form',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/OilPage/OilPageForm.vue'
+                  ),
               },
               {
                 path: 'battery',
@@ -296,14 +306,14 @@ const routes: RouteRecordRaw[] = [
             path: '/lab',
             component: () => import('@/pages/LabPage.vue'),
           },
+          {
+            path: '/:catchAll(.*)*',
+            name: 'not-found',
+            component: () => import('pages/NotFound.vue'),
+          },
         ],
       },
     ],
-  },
-  {
-    path: '/:catchAll(.*)*',
-    name: 'not-found',
-    component: () => import('pages/NotFound.vue'),
   },
 ];
 
