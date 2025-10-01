@@ -1,19 +1,29 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import CButton from '@/shared/components/CButton.vue';
 import CBottomSheetText from '@/shared/components/bottomsheets/CBottomSheetText.vue';
 import CBottomSheetList from '@/shared/components/bottomsheets/CBottomSheetList.vue';
+import { ListOption } from '@/shared/types/bottom-sheet';
 
 const showSheet1 = ref(false);
 const showSheet2 = ref(false);
 
-const filterOptions = ["Manutenções vencidas", "Próximas manutenções", "Preencher etapas"];
+const filterOptions = ref<ListOption[]>([
+  { label: 'Manutenções vencidas', selected: false },
+  { label: 'Próximas manutenções', selected: false },
+  { label: 'Preencher etapas', selected: false },
+  { label: 'Manutenções sem cadastro', selected: false }
+]);
+
+watch(filterOptions, () => {
+  console.log(filterOptions.value);
+}, { deep: true })
 </script>
 
 <template>
   <div class="lab app-wrapper">
-    <CButton @click="showSheet1 = true">bottom-sheet1</CButton>
-    <CButton @click="showSheet2 = true">bottom-sheet2</CButton>
+    <CButton @click="showSheet1 = true">Text Bottom Sheet</CButton>
+    <CButton @click="showSheet2 = true">List Bottom Sheet</CButton>
   </div>
 
   <CBottomSheetText v-model="showSheet1" :show-close="true">
@@ -31,7 +41,12 @@ const filterOptions = ["Manutenções vencidas", "Próximas manutenções", "Pre
     <CButton @click="showSheet1 = false">Cadastrar veículo</CButton>
   </CBottomSheetText>
 
-  <CBottomSheetList type="action" :draggable="true" :options="filterOptions" v-model="showSheet2" />
+  <CBottomSheetList
+    type="filter"
+    :draggable="true"
+    :options="filterOptions"
+    v-model="showSheet2"
+  />
 </template>
 
 <style scoped lang="scss">
@@ -39,15 +54,8 @@ const filterOptions = ["Manutenções vencidas", "Próximas manutenções", "Pre
 
 .lab {
   display: grid;
-  justify-content: center;
   align-content: center;
   gap: 1rem;
   min-height: $screen;
-}
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 </style>
