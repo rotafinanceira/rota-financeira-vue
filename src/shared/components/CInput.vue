@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs } from 'vue';
-import { Input } from '../types/Input';
 import { useField } from 'vee-validate';
+import type { Input } from '../types/Input';
 import { EyeClosedIcon, EyeOpenedIcon, XCircleIcon } from '../assets/icons';
 
 const props = withDefaults(defineProps<Input>(), {
@@ -22,8 +22,6 @@ const seePasswordIcon = computed(() =>
 const togglePasswordVisibility = () => {
   seePassword.value = !seePassword.value;
 };
-
-console.log(errorMessage);
 </script>
 
 <template>
@@ -31,7 +29,7 @@ console.log(errorMessage);
     <span v-if="label">{{ label }}</span>
     <div
       class="input__wrapper"
-      v-if="variant === 'text'"
+      v-if="variant === 'generic'"
       :class="[{ 'is-error': errorMessage }]"
     >
       <input v-model="value" :name="name" v-bind="attrs" :disabled="disabled"
