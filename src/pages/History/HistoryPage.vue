@@ -13,7 +13,10 @@
       <div v-if="isLoading" class="spinner-center">
         <q-spinner color="primary" size="40px" />
       </div>
-  <section class="history__no-maintenances" v-else-if="!isLoading && isThereNoMaintenances">
+      <section
+        class="history__no-maintenances"
+        v-else-if="!isLoading && isThereNoMaintenances"
+      >
         <img :src="BrokenCar" alt="" />
         <p class="">Você ainda não possui manutenções cadastradas!</p>
       </section>
@@ -45,7 +48,14 @@ const maintenanceHistory = ref<HistoryCardProps[]>([]);
 const isLoading = ref(false);
 
 type MaintenanceApiItem = {
-  type: 'Oil Change' | 'Battery Change';
+  type:
+    | 'Oil Change'
+    | 'Battery Change'
+    | 'Air Filter Change'
+    | 'Wheel Change'
+    | 'Oil Filter Change'
+    | 'Fuel Filter Change';
+
   data: {
     id: string;
     lastMaintenanceDate?: string;
@@ -75,7 +85,7 @@ function mapApiToHistoryCard(apiItem: MaintenanceApiItem): HistoryCardProps {
       icon = 'battery';
       break;
     case 'Oil Filter Change':
-      icon = 'oilFilter';
+      icon = 'oil';
       break;
     case 'Fuel Filter Change':
       icon = 'fuelFilter';
@@ -89,7 +99,12 @@ function mapApiToHistoryCard(apiItem: MaintenanceApiItem): HistoryCardProps {
   if (apiItem.data.lastMaintenanceDate) {
     const d = new Date(apiItem.data.lastMaintenanceDate);
     month = d.toLocaleString('pt-BR', { month: 'long' });
-    date = d.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'short', year: 'numeric' });
+    date = d.toLocaleDateString('pt-BR', {
+      weekday: 'long',
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
   }
 
   return {
@@ -117,7 +132,9 @@ watch(
     if (plate) {
       isLoading.value = true;
       await maintenanceStore.getMaintenanceHistory(plate, types);
-      maintenanceHistory.value = (maintenanceStore.history as unknown[]).map(item => mapApiToHistoryCard(item as MaintenanceApiItem)) as HistoryCardProps[];
+      maintenanceHistory.value = (maintenanceStore.history as unknown[]).map(
+        (item) => mapApiToHistoryCard(item as MaintenanceApiItem)
+      ) as HistoryCardProps[];
       isLoading.value = false;
     }
   },
@@ -180,10 +197,10 @@ watch(maintenanceHistory, (val) => {
   align-items: center;
   gap: 0.5rem;
 }
-  .spinner-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 200px;
-  }
+.spinner-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
 </style>

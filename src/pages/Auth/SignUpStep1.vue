@@ -147,7 +147,9 @@ const handleApiError = (statusCode) => {
 const handleSubmit = async () => {
   validateForm();
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const response = await verifyEmail(email.value);
+
     // Se não lançar erro, assume que email está cadastrado (200)
     handleApiError(200);
   } catch (statusCode) {
