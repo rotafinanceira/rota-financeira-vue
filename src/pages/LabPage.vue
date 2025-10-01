@@ -1,26 +1,24 @@
 <script setup lang="ts">
-import CRadio from '@/shared/components/CRadio.vue';
 import { ref } from 'vue';
+import CSelect from '@/shared/components/CSelect.vue';
 
-const selectedOption = ref('option1');
+const country = ref('');
 </script>
 
 <template>
   <div class="lab app-wrapper">
-    <CRadio
-      id="teste"
-      label="opção 1"
-      value="option1"
-      group="teste"
-      v-model="selectedOption"
+    <CSelect
+      v-model="country"
+      label="País"
+      name="country"
+      placeholder="Selecione um país"
+      :options="[
+        { label: 'Brasil', value: 'br' },
+        { label: 'Argentina', value: 'ar' },
+        { label: 'Chile', value: 'cl' },
+      ]"
     />
-    <CRadio
-      id="teste"
-      label="opção 2"
-      value="option2"
-      group="teste"
-      v-model="selectedOption"
-    />
+    <p>Selecionado: {{ country }}</p>
   </div>
 </template>
 
@@ -35,7 +33,6 @@ const selectedOption = ref('option1');
 }
 
 .container {
-
   display: flex;
   justify-content: center;
   align-items: center;
