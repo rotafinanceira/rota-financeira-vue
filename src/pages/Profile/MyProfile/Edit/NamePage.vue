@@ -25,10 +25,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditField from '../../components/EditField.vue';
+import { useRegisterStore } from '@/stores/registerStore';
 
 const name = ref('');
+const registerStore = useRegisterStore();
 
-function updateName() {
-  console.log('Update name');
+async function updateName() {
+  try {
+    await registerStore.updateUser({ name: name.value });
+    alert('Nome atualizado com sucesso!');
+  } catch (e) {
+    alert('Erro ao atualizar nome.');
+  }
 }
 </script>

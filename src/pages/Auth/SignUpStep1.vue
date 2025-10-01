@@ -57,7 +57,6 @@ import ModalGenericoAlert from '@/shared/components/ModalGenericoAlert.vue';
 import SignUpTitleStepper from '@/shared/components/SignUpTitleStepper.vue';
 
 import { useRegisterStore } from '@/stores/registerStore';
-import { httpClient } from '@/infra/http/httpClient';
 
 const store = useRegisterStore();
 const isLoading = ref(false);
@@ -107,22 +106,38 @@ watch([email, confirmEmail], () => {
 
 const verifyEmail = async (email) => {
   try {
-    const response = await httpClient.post('/user/verify', { email });
+    const response = await store.verifyEmail(email);
     return response;
   } catch (error) {
-    throw error.response?.status;
+    // Captura statusCode do erro retornado pelo backend
+    if (error?.statusCode) {
+      throw error.statusCode;
+    }
+    if (error?.status) {
+      throw error.status;
+    }
+    if (error?.response?.status) {
+      throw error.response.status;
+    }
+    throw error;
   }
 };
 
 const handleApiError = (statusCode) => {
-  if (statusCode === 404 || statusCode === 400) {
+  if (statusCode === 404 || statusCode === 204) {
+    // Email não cadastrado ou resposta OK, pode avançar
     if (isValid.value) {
       store.setEmail(email.value);
       store.setConfirmEmail(confirmEmail.value);
       router.push({ name: 'signup-step-2' });
     }
+  } else if (statusCode === 200) {
+    // Email já cadastrado
+    isOpen.value = true;
+    modalContent.value = 'E-mail já cadastrado';
+    modalDescription.value = 'Faça o login no App';
   } else {
-    console.log(statusCode);
+    // Outros erros
     isOpen.value = true;
     modalContent.value = 'Ocorreu um erro ao tentar cadastrar o e-mail';
     modalDescription.value = 'Tente novamente mais tarde';
@@ -132,18 +147,16 @@ const handleApiError = (statusCode) => {
 const handleSubmit = async () => {
   validateForm();
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const response = await verifyEmail(email.value);
-    if (response.status === 200) {
-      isOpen.value = true;
-      modalContent.value = 'E-mail já cadastrado';
-      modalDescription.value = 'Faça o login no App';
-    }
+
+    // Se não lançar erro, assume que email está cadastrado (200)
+    handleApiError(200);
   } catch (statusCode) {
     handleApiError(statusCode);
   } finally {
     isLoading.value = false;
   }
-  router.push({ name: 'signup-step-2' });
 };
 </script>
 
