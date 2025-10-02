@@ -1,33 +1,40 @@
 <template>
-  <button
+  <q-btn
+    :label="label"
+    :loading="loading"
+    :disable="disabled || loading"
     :class="['custom-button', sizeClass, variantClass]"
-    :disabled="props.disabled"
-    type="button"
+    unelevated
+    @click="emit('click', $event)"
   >
     <slot />
-  </button>
+  </q-btn>
 </template>
 
 <script setup lang="ts">
-import { ButtonHTMLAttributes, computed } from 'vue';
+import { computed } from 'vue';
 
 type Variant = 'primary' | 'secondary' | 'tertiary' | 'danger';
 type Size = 'large' | 'default' | 'small';
 
 const props = withDefaults(
-  defineProps<
-    {
-      variant?: Variant;
-      size?: Size;
-      disabled?: boolean;
-    } & /* @vue-ignore */ ButtonHTMLAttributes
-  >(),
+  defineProps<{
+    label?: string;
+    variant?: Variant;
+    size?: Size;
+    disabled?: boolean;
+    loading?: boolean;
+  }>(),
   {
+    label: '',
     variant: 'primary',
     size: 'default',
     disabled: false,
+    loading: false,
   }
 );
+
+const emit = defineEmits(['click']);
 
 const sizeClass = computed(() => `btn--${props.size}`);
 const variantClass = computed(() => `btn--${props.variant}`);
@@ -35,23 +42,9 @@ const variantClass = computed(() => `btn--${props.variant}`);
 
 <style scoped>
 .custom-button {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-weight: 600;
-  cursor: pointer;
   border-radius: 8px;
-  white-space: nowrap;
-  padding: 12px 24px;
-  gap: 12px;
-  border: none;
-}
-
-.custom-button:disabled {
-  background-color: #e0e5e7;
-  color: #485159;
-  cursor: not-allowed;
+  text-transform: none;
 }
 
 /* Tamanhos */

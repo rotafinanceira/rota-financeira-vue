@@ -19,11 +19,7 @@
               </div>
             </div>
           </div>
-          <ButtonComponent
-            label="Entrar"
-            :isLoading="isLoading"
-            @click="handleSubmit"
-          />
+          <CButton label="Entrar" :loading="isLoading" @click="handleSubmit" />
           <div class="divider">
             <div class="line"></div>
             <span class="divider-text">ou</span>
@@ -55,11 +51,11 @@ import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import InputPassword from '@/shared/components/InputPassword.vue';
 import InputEmail from '@/shared/components/InputEmail.vue';
-import ButtonComponent from '@/shared/components/ButtonComponent.vue';
 import ModalGenericoAlert from '@/shared/components/ModalGenericoAlert.vue';
 
 import googleIcon from '@/shared/assets/googleIcon.svg';
 import { useRegisterStore } from '@/stores/registerStore';
+import CButton from '@/shared/components/CButton.vue';
 
 const isLoading = ref(false);
 const isValidatingForm = ref(false);
