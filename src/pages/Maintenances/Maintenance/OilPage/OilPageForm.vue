@@ -1,14 +1,12 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import CModal from '@/shared/components/CModal.vue';
-
-import helpIcon from '@/shared/assets/helpIcon.svg';
-
 import { useRouter, useRoute } from 'vue-router';
 import CButton from '@/shared/components/CButton.vue';
-
-const router = useRouter();
-const route = useRoute();
+import CModal from '@/shared/components/CModal.vue';
+import helpIcon from '@/shared/assets/helpIcon.svg';
+import { useOilStore } from '@/stores/oilStore';
+import { useCarStore } from '@/stores/carStore';
 
 interface OilMaintenanceQuery {
   date: string;
@@ -17,6 +15,7 @@ interface OilMaintenanceQuery {
   service: string;
   oilType: string;
   oilBrand?: string;
+  id?: string;
 }
 
 interface OilOptionsProps {
@@ -29,17 +28,24 @@ interface ServiceOptionsProps {
   value: string;
 }
 
-const isEditing = ref<boolean>(false);
-const showDatePicker = ref<boolean>(false);
-const isLoading = ref<boolean>(false);
-const date = ref<string>('');
-const mileage = ref<string>('');
-const oilType = ref<string>('');
-const serviceType = ref<string>('');
-const liters = ref<string>('');
-const oilBrand = ref<string>('');
-const maintenanceValue = ref<string>('');
-const modalContent = ref<string>('Quando devo fazer a troca?');
+const router = useRouter();
+const route = useRoute();
+const oilStore = useOilStore();
+const carStore = useCarStore();
+
+const isEditing = ref(false);
+const isLoading = ref(false);
+const showDatePicker = ref(false);
+
+const date = ref('');
+const mileage = ref('');
+const oilType = ref('');
+const serviceType = ref('');
+const liters = ref('');
+const oilBrand = ref('');
+const maintenanceValue = ref('');
+
+const modalContent = ref('Quando devo fazer a troca?');
 const modalDescription = ref<string[]>([
   'O tempo recomendado para troca de óleo é de 6 a 12 meses.',
   'Troque de óleo a cada 10 mil quilômetros aproximadamente.',
@@ -47,12 +53,10 @@ const modalDescription = ref<string[]>([
   'Utilize o tipo de óleo e quantidade correta do modelo do seu veículo.',
   'Jamais misture óleos de viscosidades diferentes.',
 ]);
-const isOpen = ref<boolean>(false);
-const isPositiveOpen = ref<boolean>(false);
-const successTitle = ref<string>('Parabéns!');
-const successDescription = ref<string>(
-  'Você cadastrou a troca de óleo do seu veículo. Iremos lhe informar sobre a próxima manutenção.'
-);
+const isOpen = ref(false);
+const isPositiveOpen = ref(false);
+const successTitle = ref('');
+const successDescription = ref('');
 
 const oilOptions = ref<OilOptionsProps[]>([
   { label: 'Sintético', value: 'sintetic' },
@@ -62,62 +66,19 @@ const oilOptions = ref<OilOptionsProps[]>([
 ]);
 
 const serviceOptions = ref<ServiceOptionsProps[]>([
-  { label: 'Troca de óleo', value: 'oil-filter' },
+  { label: 'Troca de óleo', value: 'oil-change' },
   { label: 'Filtro de óleo', value: 'oil-filter' },
   { label: 'Troca de óleo e filtro de óleo', value: 'oil-change-filter' },
   { label: 'Outro', value: 'other' },
 ]);
 
-const showHelpModal = (): void => {
-  isOpen.value = true;
-  modalContent.value = 'Quando devo fazer a troca?';
-  modalDescription.value = [
-    'Troque o óleo conforme a recomendação do fabricante: geralmente a cada 10.000 km ou 12 meses para óleo sintético, 5.000 km ou 6 meses para óleos mineral ou semissintético, o que ocorrer primeiro.',
-    'Verifique o nível e a cor do óleo. Se estiver escuro ou com resíduos, troque.',
-    'Troque sempre o filtro junto com o óleo.',
-    'Mesmo rodando pouco, o óleo envelhece. Troque por tempo.',
-    'Uso severo (trânsito, poeira, ladeiras, reboque) pode exigir troca antecipada.',
-  ];
-};
+onMounted(async () => {
+  await carStore.getCars();
 
-const onDateSelect = (value: string): void => {
-  date.value = value;
-  showDatePicker.value = false;
-};
+  if (!carStore.firstLicensePlate && carStore.cars.length > 0) {
+    carStore.firstLicensePlate = carStore.cars[0].license_plate;
+  }
 
-const handleSubmit = (): void => {
-  isLoading.value = true;
-  setTimeout(() => {
-    isLoading.value = false;
-
-    if (isEditing.value) {
-      successTitle.value = 'Edição concluída!';
-      successDescription.value =
-        'Você atualizou a troca de óleo do seu veículo com sucesso.';
-    } else {
-      successTitle.value = 'Cadastro concluído!';
-      successDescription.value = 'Informaremos você sobre a próxima troca.';
-    }
-
-    isPositiveOpen.value = true;
-
-    if (!isEditing.value) {
-      date.value = '';
-      mileage.value = '';
-      oilType.value = '';
-      liters.value = '';
-      oilBrand.value = '';
-      maintenanceValue.value = '';
-    }
-  }, 1000);
-};
-
-const closeSuccess = () => {
-  isPositiveOpen.value = false;
-  router.push({ name: 'maintenance-oil' });
-};
-
-onMounted(() => {
   if (Object.keys(route.query).length > 0) {
     const query = route.query as unknown as OilMaintenanceQuery;
 
@@ -131,6 +92,63 @@ onMounted(() => {
     isEditing.value = true;
   }
 });
+
+const showHelpModal = (): void => {
+  isOpen.value = true;
+  modalContent.value = 'Quando devo fazer a troca?';
+  modalDescription.value = [
+    'Troque o óleo conforme a recomendação do fabricante: geralmente a cada 10.000 km ou 12 meses para óleo sintético, 5.000 km ou 6 meses para óleos mineral ou semissintético, o que ocorrer primeiro.',
+    'Verifique o nível e a cor do óleo. Se estiver escuro ou com resíduos, troque.',
+    'Troque sempre o filtro junto com o óleo.',
+    'Mesmo rodando pouco, o óleo envelhece. Troque por tempo.',
+    'Uso severo (trânsito, poeira, ladeiras, reboque) pode exigir troca antecipada.',
+  ];
+};
+
+const onDateSelect = (value: string) => {
+  date.value = value;
+  showDatePicker.value = false;
+};
+
+const handleSubmit = async (): Promise<void> => {
+  isLoading.value = true;
+  try {
+    const [day, month, year] = date.value.split('/');
+    const isoDate = `${year}-${month}-${day}`;
+
+    const payload = {
+      lastMaintenanceDate: isoDate,
+      lastMaintenanceKm: Number(mileage.value),
+      oilType: oilType.value,
+      oilQuantityLt: Number(liters.value) || 1,
+      oilBrand: oilBrand.value,
+      valor: Number(maintenanceValue.value),
+      oficina: oilBrand.value,
+      filterChanged: serviceType.value.includes('filter'),
+    };
+    console.log('Payload enviado para a API:', payload);
+
+    const maintenanceId = isEditing.value
+      ? (route.query.id as string)
+      : undefined;
+    await oilStore.saveOilMaintenance(payload, maintenanceId);
+
+    isPositiveOpen.value = true;
+  } catch (err: any) {
+    if (err.response) {
+      console.error('Erro na API:', err.response.status, err.response.data);
+    } else {
+      console.error('Erro desconhecido:', err.message);
+    }
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const closeSuccess = () => {
+  isPositiveOpen.value = false;
+  router.push({ name: 'maintenance-oil' });
+};
 </script>
 
 <template>
@@ -140,7 +158,7 @@ onMounted(() => {
         <div class="card">
           <div class="text-wrapper">
             <div class="header-content">
-              <span class="title">Manutenção </span>
+              <span class="title">Manutenção</span>
               <div @click="showHelpModal">
                 <img :src="helpIcon" alt="Help Icon" />
               </div>
@@ -149,18 +167,18 @@ onMounted(() => {
               Preencha as informações da manutenção de Troca de Óleo.
             </span>
           </div>
+
           <div class="input-wrapper">
             <label for="mileage">Quilometragem*</label>
-            <div class="definitions-wrapper">
-              <q-input
-                id="mileage"
-                outlined
-                v-model="mileage"
-                label="Km na data de serviço"
-                type="number"
-              ></q-input>
-            </div>
+            <q-input
+              id="mileage"
+              outlined
+              v-model="mileage"
+              label="Km na data de serviço"
+              type="number"
+            />
           </div>
+
           <div class="input-wrapper">
             <label for="last-oil-change">Data da troca*</label>
             <q-input
@@ -170,25 +188,21 @@ onMounted(() => {
               mask="##/##/####"
               label="Digite a data da última troca"
               @focus="showDatePicker = true"
-            >
-              <template v-slot:append> </template>
-            </q-input>
+            />
             <q-menu v-model="showDatePicker" fit>
               <q-date v-model="date" mask="DD/MM/YYYY" @input="onDateSelect" />
             </q-menu>
           </div>
+
           <div class="input-wrapper">
             <label for="maintenance-value">Valor da manutenção*</label>
-            <div class="definitions-wrapper">
-              <q-input
-                id="maintenance-value"
-                outlined
-                v-model="maintenanceValue"
-                label="Digite o valor da manutenção"
-                type="number"
-              >
-              </q-input>
-            </div>
+            <q-input
+              id="maintenance-value"
+              outlined
+              v-model="maintenanceValue"
+              label="Digite o valor da manutenção"
+              type="number"
+            />
           </div>
 
           <div class="input-wrapper">
@@ -198,42 +212,57 @@ onMounted(() => {
               outlined
               v-model="serviceType"
               :options="serviceOptions"
+              emit-value
+              map-options
               label="Escolha o tipo de serviço"
-            ></q-select>
+            />
           </div>
 
           <div class="input-wrapper">
-            <label for="oil-type">Tipo*</label>
+            <label for="oil-type">Tipo de óleo*</label>
             <q-select
               id="oil-type"
               outlined
               v-model="oilType"
               :options="oilOptions"
+              emit-value
+              map-options
               label="Escolha o tipo de óleo"
-            ></q-select>
+            />
           </div>
 
           <div class="input-wrapper">
             <label for="oil-brand">Oficina</label>
             <q-input
-              id="workshop-name"
+              id="oil-brand"
               outlined
               v-model="oilBrand"
               label="Digite o nome da oficina"
-            >
-            </q-input>
+            />
+          </div>
+
+          <div class="input-wrapper">
+            <label for="liters">Quantidade de óleo (litros)</label>
+            <q-input
+              id="liters"
+              outlined
+              v-model="liters"
+              label="Ex: 2"
+              type="number"
+            />
           </div>
         </div>
       </div>
+
       <CButton @click="handleSubmit" :isLoading="isLoading"> Salvar </CButton>
     </div>
+
     <CModal v-model="isOpen" variant="info">
       <h2>{{ modalContent }}</h2>
       <ul class="info-list">
         <li v-for="(item, index) in modalDescription" :key="index">
           {{ item }}
         </li>
-        <br />
       </ul>
     </CModal>
 
@@ -264,15 +293,6 @@ onMounted(() => {
   padding: 24px 20px;
   gap: 32px;
 }
-.icons {
-  height: 20px;
-  width: 20px;
-  justify-content: center;
-  align-items: center;
-  top: 35%;
-  position: absolute;
-  right: 0;
-}
 .card-wrapper {
   display: flex;
   flex-direction: column;
@@ -287,52 +307,23 @@ onMounted(() => {
 .input-wrapper {
   margin-bottom: 20px;
 }
-.definitions-wrapper {
-  position: relative;
-}
-
-.definitions-wrapper span {
-  position: absolute;
-  right: 12px;
-  top: 18px;
-  font-size: 14px;
-  color: #9ba7ad;
-}
-.q-input__inner {
-  cursor: pointer;
-}
-
 .text-wrapper {
   margin-bottom: 32px;
 }
-
 .header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
-.text-wrapper .title {
+.title {
   font-size: 18px;
   font-weight: bold;
 }
-
-.help-icon {
-  cursor: pointer;
-}
-
-.text-wrapper .subtitle {
+.subtitle {
   font-size: 14px;
   color: #5b6871;
-
   margin-top: 8px;
 }
-
-.error-message {
-  color: red;
-  margin-top: 16px;
-}
-
 .info-list li {
   margin-bottom: 12px;
 }

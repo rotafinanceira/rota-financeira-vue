@@ -1,4 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineStore } from 'pinia';
+import { api } from '@/boot/axios';
+import { useCarStore } from './carStore';
+
+const baseApi = import.meta.env.VITE_ROTA_API;
 
 interface OilState {
   date: string;
@@ -20,6 +25,7 @@ export const useOilStore = defineStore('oil', {
     carId: null,
     isLoading: false,
   }),
+
   actions: {
     setDate(date: string) {
       this.date = date;
@@ -44,6 +50,45 @@ export const useOilStore = defineStore('oil', {
     },
     resetStore() {
       this.$reset();
+    },
+
+    async saveOilMaintenance(
+      payload: {
+        lastMaintenanceDate: string;
+        lastMaintenanceKm: number;
+        oilType: string;
+        oilQuantityLt: number;
+        oilBrand?: string;
+        filterChanged?: boolean;
+        valor: number;
+        oficina?: string;
+      },
+      maintenanceId?: string
+    ) {
+      this.isLoading = true;
+      try {
+        const carStore = useCarStore();
+        const licensePlate =
+          carStore.car?.license_plate || carStore.firstLicensePlate;
+        if (!licensePlate) throw new Error('Nenhum carro selecionado.');
+
+        let url = `${baseApi}/v1/maintenance/oil/${licensePlate}`;
+        let method: 'post' | 'patch' = 'post';
+        if (maintenanceId) {
+          url += `/${maintenanceId}`;
+          method = 'patch';
+        }
+
+        const { data } = await api()[method](url, payload);
+
+        return data;
+      } catch (error: any) {
+        throw (
+          error.response?.data?.message || error.message || 'Erro desconhecido'
+        );
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
 });
