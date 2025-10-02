@@ -2,18 +2,9 @@
 import { defineStore } from 'pinia';
 import { api } from '@/boot/axios';
 import { useCarStore } from './carStore';
+import { OilState } from '@/shared/types/oil-maintenance';
 
 const baseApi = import.meta.env.VITE_ROTA_API;
-
-interface OilState {
-  date: string;
-  mileage: string;
-  oilType: string;
-  liters: string;
-  oilBrand: string;
-  carId: number | null;
-  isLoading: boolean;
-}
 
 export const useOilStore = defineStore('oil', {
   state: (): OilState => ({
@@ -24,6 +15,7 @@ export const useOilStore = defineStore('oil', {
     oilBrand: '',
     carId: null,
     isLoading: false,
+    maintenances: [],
   }),
 
   actions: {
@@ -50,6 +42,25 @@ export const useOilStore = defineStore('oil', {
     },
     resetStore() {
       this.$reset();
+    },
+
+    async getOilMaintenances(licensePlate: string) {
+      this.isLoading = true;
+      try {
+        const url = `${baseApi}/v1/maintenance/oil/${licensePlate}`;
+        const { data } = await api().get(url);
+
+        this.maintenances = Array.isArray(data) ? data : [];
+        return this.maintenances;
+      } catch (error: any) {
+        throw (
+          error.response?.data?.message ||
+          error.message ||
+          'Erro ao buscar manutenções de óleo'
+        );
+      } finally {
+        this.isLoading = false;
+      }
     },
 
     async saveOilMaintenance(

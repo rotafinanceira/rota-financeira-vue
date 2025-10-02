@@ -1,58 +1,65 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
-import { OilLiquidIcon, EditIcon, CarFrontIcon } from '@/shared/assets/icons';
-import CButton from '@/shared/components/CButton.vue';
-import CTag from '@/shared/components/CTag.vue';
-import { Car, Wrench } from '@/shared/assets/illustrations';
-import CDivider from '@/shared/components/CDivider.vue';
+import { onMounted, computed, watch, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { useCarStore } from '@/stores/carStore';
+import { useOilStore } from '@/stores/oilStore';
+
+import CDivider from '@/shared/components/CDivider.vue';
+import CTag from '@/shared/components/CTag.vue';
+import CButton from '@/shared/components/CButton.vue';
+import { OilLiquidIcon, EditIcon } from '@/shared/assets/icons';
+import { Car, Wrench, BrokenCar } from '@/shared/assets/illustrations';
+import { QSpinner } from 'quasar';
+
+const oilStore = useOilStore();
+const carStore = useCarStore();
 const router = useRouter();
-const hasMaintenances = ref<boolean>(false);
 const hasOverdue = ref<boolean>(false);
+const hasMaintenances = computed(() => oilStore.maintenances.length > 0);
+const isOverdue = computed(() => hasMaintenances.value && hasOverdue.value);
+const isEmpty = computed(() => !hasMaintenances.value);
 
-interface OilMaintenance {
-  id: number;
-  date: string;
-  km: number;
-  price: number;
-  service: string;
-  oilType: string;
-  oilBrand?: string;
-}
+onMounted(async () => {
+  await carStore.getCars();
+});
 
-const maintenances: OilMaintenance[] = [
-  {
-    id: 1,
-    date: '27/05/2022',
-    km: 100.076,
-    price: 50.0,
-    service: 'Troca de óleo',
-    oilType: 'mineral',
+watch(
+  () => carStore.firstLicensePlate,
+  async (plate) => {
+    if (plate) {
+      await oilStore.getOilMaintenances(plate);
+    }
   },
-  {
-    id: 2,
-    date: '01/12/2020',
-    km: 200.076,
-    price: 250.0,
-    service: 'Filtro de óleo',
-    oilType: 'mineral',
-  },
-];
+  { immediate: true }
+);
 
-const editMaintenance = (maintenance: OilMaintenance) => {
+const mappedMaintenances = computed(() =>
+  oilStore.maintenances.map((m) => ({
+    id: m.id,
+    date: m.lastMaintenanceDate
+      ? new Date(m.lastMaintenanceDate).toLocaleDateString('pt-BR')
+      : '-',
+    km: m.lastMaintenanceKm?.toString() || '-',
+    price: m.valor
+      ? new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        }).format(Number(m.valor))
+      : '-',
+    service: 'Troca de óleo / filtro',
+    oilType: m.oilType || '-',
+    oilBrand: m.oilBrand || null,
+  }))
+);
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function editMaintenance(m: any) {
   router.push({
     name: 'maintenance-oil-form',
-    query: {
-      date: maintenance.date,
-      km: maintenance.km,
-      price: maintenance.price,
-      service: maintenance.service,
-      oilType: maintenance.oilType,
-    },
+    query: { ...m },
   });
-};
-
-hasMaintenances.value = maintenances.length > 0;
+}
 </script>
 
 <template>
@@ -62,47 +69,53 @@ hasMaintenances.value = maintenances.length > 0;
       <h1>Troca de óleo</h1>
     </div>
 
-    <div class="oil__card" v-if="!hasMaintenances">
-      <div class="card__container">
-        <img :src="Wrench" />
-        <h2 class="card__title">Manutenção não cadastrada!</h2>
-        <span class="card__text">
-          Você ainda não cadastrou nenhuma troca de óleo.
-        </span>
-      </div>
+    <div v-if="oilStore.isLoading" class="spinner-center">
+      <q-spinner color="primary" size="40px" />
     </div>
 
-    <div class="oil__card" v-if="hasMaintenances && hasOverdue">
-      <div class="card__container">
-        <img :src="CarFrontIcon" />
-        <h2 class="card__title">Manutenção vencida!</h2>
-        <span class="card__text">
-          É hora de realizar a revisão de óleo automotivo do seu veículo.
-        </span>
+    <section class="oil__status">
+      <div v-if="isEmpty" class="oil__card">
+        <div class="card__container">
+          <img :src="Wrench" />
+          <h2 class="card__title">Nenhuma manutenção cadastrada!</h2>
+          <span class="card__text">
+            Você ainda não cadastrou nenhuma troca de óleo.
+          </span>
+        </div>
       </div>
-    </div>
 
-    <div class="oil__card" v-if="hasMaintenances">
-      <div class="card__container">
-        <img :src="Car" />
-        <h2 class="card__title">Você está em dia!</h2>
-        <span class="card__text">
-          Sua próxima revisão do óleo automotivo será em 10.987km.
-        </span>
+      <div v-else-if="isOverdue" class="oil__card">
+        <div class="card__container">
+          <img :src="BrokenCar" />
+          <h2 class="card__title">Manutenção vencida!</h2>
+          <span class="card__text">
+            É hora de realizar a revisão de óleo automotivo do seu veículo.
+          </span>
+        </div>
       </div>
-    </div>
+
+      <div v-else class="oil__card">
+        <div class="card__container">
+          <img :src="Car" />
+          <h2 class="card__title">Você está em dia!</h2>
+          <span class="card__text">
+            Sua próxima revisão do óleo automotivo será em 10000 km.
+          </span>
+        </div>
+      </div>
+    </section>
 
     <CButton variant="primary" :to="{ name: 'maintenance-oil-form' }">
       Cadastrar manutenção
     </CButton>
 
-    <div v-if="hasMaintenances" class="maintenances">
+    <section v-if="hasMaintenances" class="maintenances">
       <div class="maintenances__header">
         <img :src="OilLiquidIcon" alt="" />
         <h1>Revisões anteriores</h1>
       </div>
 
-      <div v-for="m in maintenances" :key="m.id" class="maintenance-card">
+      <div v-for="m in mappedMaintenances" :key="m.id" class="maintenance-card">
         <div class="maintenance-card__container">
           <div class="maintenance-card__header">
             <div class="maintenance-card__header-container">
@@ -129,11 +142,9 @@ hasMaintenances.value = maintenances.length > 0;
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>
-
-<style scoped lang="scss"></style>
 
 <style scoped lang="scss">
 .oil {
@@ -185,16 +196,16 @@ hasMaintenances.value = maintenances.length > 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
 
-    .card__text {
-      text-align: center;
-      font-size: 0.875rem;
-      font-weight: 400;
-      color: #485159;
+  &__text {
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #485159;
 
-      &.light {
-        font-size: 0.75rem;
-      }
+    &.light {
+      font-size: 0.75rem;
     }
   }
 
@@ -202,24 +213,6 @@ hasMaintenances.value = maintenances.length > 0;
     color: #485159;
     font-weight: 400;
     font-size: 0.875rem;
-  }
-
-  &__button {
-    display: flex;
-    width: 100%;
-    height: 48px;
-    padding: 12px 24px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    border: 1px solid #307714;
-    background: #307714;
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 120%;
-    cursor: pointer;
-    margin-top: 1rem;
   }
 }
 
