@@ -69,7 +69,12 @@ type MaintenanceApiItem = {
 };
 
 function mapApiToHistoryCard(apiItem: MaintenanceApiItem): HistoryCardProps {
-  // Expanded icon mapping
+  const formattedValue = apiItem.data.valor
+    ? new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+      }).format(Number(apiItem.data.valor))
+    : '-';
   let icon: HistoryCardProps['maintenances'][number]['icon'] = 'oil';
   switch (apiItem.type) {
     case 'Oil Change':
@@ -90,8 +95,6 @@ function mapApiToHistoryCard(apiItem: MaintenanceApiItem): HistoryCardProps {
     case 'Fuel Filter Change':
       icon = 'fuelFilter';
       break;
-    default:
-      icon = 'oil';
   }
 
   let month = '';
@@ -107,7 +110,7 @@ function mapApiToHistoryCard(apiItem: MaintenanceApiItem): HistoryCardProps {
     });
   }
 
-  return {
+  const card: HistoryCardProps = {
     id: apiItem.data.id,
     month,
     date,
@@ -116,10 +119,12 @@ function mapApiToHistoryCard(apiItem: MaintenanceApiItem): HistoryCardProps {
       {
         icon,
         title: apiItem.type,
-        description: apiItem.data.valor || '-',
+        description: formattedValue,
       },
     ],
   };
+
+  return card;
 }
 
 onMounted(async () => {
