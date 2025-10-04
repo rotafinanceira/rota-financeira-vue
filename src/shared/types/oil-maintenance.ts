@@ -19,4 +19,15 @@ export interface OilState {
   carId: number | null;
   isLoading: boolean;
   maintenances: OilMaintenance[];
+  selectedMaintenance: OilMaintenance | null;
+}
+
+export interface MappedMaintenance {
+  id: string;
+  date: string;
+  km: string;
+  price: string;
+  service: string;
+  oilType: string;
+  oilBrand: string | null;
 }

@@ -1,4 +1,3 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { onMounted, computed, watch, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -11,6 +10,7 @@ import CButton from '@/shared/components/CButton.vue';
 import { OilLiquidIcon, EditIcon } from '@/shared/assets/icons';
 import { Car, Wrench, BrokenCar } from '@/shared/assets/illustrations';
 import { QSpinner } from 'quasar';
+import { MappedMaintenance } from '@/shared/types/oil-maintenance';
 
 const oilStore = useOilStore();
 const carStore = useCarStore();
@@ -35,7 +35,7 @@ watch(
 );
 
 const mappedMaintenances = computed(() =>
-  oilStore.maintenances.map((m) => ({
+  [...oilStore.maintenances].reverse().map((m) => ({
     id: m.id,
     date: m.lastMaintenanceDate
       ? new Date(m.lastMaintenanceDate).toLocaleDateString('pt-BR')
@@ -53,12 +53,16 @@ const mappedMaintenances = computed(() =>
   }))
 );
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function editMaintenance(m: any) {
-  router.push({
-    name: 'maintenance-oil-form',
-    query: { ...m },
-  });
+function editMaintenance(m: MappedMaintenance): void {
+  const maintenance = oilStore.maintenances.find((item) => item.id === m.id);
+  if (!maintenance) {
+    console.error(`Manutenção com id ${m.id} não encontrada`);
+    return;
+  }
+
+  oilStore.setSelectedMaintenance(maintenance);
+
+  router.push({ name: 'maintenance-oil-form' });
 }
 </script>
 

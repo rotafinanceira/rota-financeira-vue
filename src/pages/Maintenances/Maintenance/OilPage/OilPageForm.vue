@@ -1,22 +1,12 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import CButton from '@/shared/components/CButton.vue';
 import CModal from '@/shared/components/CModal.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 import { useOilStore } from '@/stores/oilStore';
 import { useCarStore } from '@/stores/carStore';
-
-interface OilMaintenanceQuery {
-  date: string;
-  km: string;
-  price: string;
-  service: string;
-  oilType: string;
-  oilBrand?: string;
-  id?: string;
-}
+import { AxiosError } from 'axios';
 
 interface OilOptionsProps {
   label: string;
@@ -29,11 +19,10 @@ interface ServiceOptionsProps {
 }
 
 const router = useRouter();
-const route = useRoute();
+
 const oilStore = useOilStore();
 const carStore = useCarStore();
 
-const isEditing = ref(false);
 const isLoading = ref(false);
 const showDatePicker = ref(false);
 
@@ -75,21 +64,20 @@ const serviceOptions = ref<ServiceOptionsProps[]>([
 onMounted(async () => {
   await carStore.getCars();
 
-  if (!carStore.firstLicensePlate && carStore.cars.length > 0) {
-    carStore.firstLicensePlate = carStore.cars[0].license_plate;
-  }
+  const selected = oilStore.selectedMaintenance;
 
-  if (Object.keys(route.query).length > 0) {
-    const query = route.query as unknown as OilMaintenanceQuery;
-
-    date.value = query.date ?? '';
-    mileage.value = query.km ?? '';
-    maintenanceValue.value = query.price ?? '';
-    serviceType.value = query.service ?? '';
-    oilType.value = query.oilType ?? '';
-    oilBrand.value = query.oilBrand ?? '';
-
-    isEditing.value = true;
+  if (selected) {
+    date.value = new Date(selected.lastMaintenanceDate).toLocaleDateString(
+      'pt-BR'
+    );
+    mileage.value = selected.lastMaintenanceKm.toString();
+    maintenanceValue.value = selected.valor.toString();
+    oilType.value = selected.oilType;
+    oilBrand.value = selected.oilBrand ?? '';
+    liters.value = selected.oilQuantityLt.toString();
+    serviceType.value = selected.filterChanged
+      ? 'oil-change-filter'
+      : 'oil-change';
   }
 });
 
@@ -126,19 +114,18 @@ const handleSubmit = async (): Promise<void> => {
       oficina: oilBrand.value,
       filterChanged: serviceType.value.includes('filter'),
     };
-    console.log('Payload enviado para a API:', payload);
 
-    const maintenanceId = isEditing.value
-      ? (route.query.id as string)
-      : undefined;
-    await oilStore.saveOilMaintenance(payload, maintenanceId);
+    await oilStore.saveOilMaintenance(payload, oilStore.getEditingId());
+    oilStore.setSelectedMaintenance(null);
 
     isPositiveOpen.value = true;
-  } catch (err: any) {
-    if (err.response) {
-      console.error('Erro na API:', err.response.status, err.response.data);
+  } catch (err) {
+    const error = err as AxiosError;
+
+    if (error.response) {
+      console.error('Erro na API:', error.response.status, error.response.data);
     } else {
-      console.error('Erro desconhecido:', err.message);
+      console.error('Erro desconhecido:', error.message);
     }
   } finally {
     isLoading.value = false;

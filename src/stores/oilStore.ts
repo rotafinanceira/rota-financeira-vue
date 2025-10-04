@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineStore } from 'pinia';
 import { api } from '@/boot/axios';
 import { useCarStore } from './carStore';
-import { OilState } from '@/shared/types/oil-maintenance';
+import { OilMaintenance, OilState } from '@/shared/types/oil-maintenance';
+import { AxiosError } from 'axios';
 
 const baseApi = import.meta.env.VITE_ROTA_API;
 
@@ -16,6 +16,7 @@ export const useOilStore = defineStore('oil', {
     carId: null,
     isLoading: false,
     maintenances: [],
+    selectedMaintenance: null,
   }),
 
   actions: {
@@ -44,6 +45,18 @@ export const useOilStore = defineStore('oil', {
       this.$reset();
     },
 
+    setSelectedMaintenance(maintenance: OilMaintenance | null): void {
+      this.selectedMaintenance = maintenance;
+    },
+
+    isEditing(): boolean {
+      return !!this.selectedMaintenance;
+    },
+
+    getEditingId(): string | undefined {
+      return this.selectedMaintenance?.id;
+    },
+
     async getOilMaintenances(licensePlate: string) {
       this.isLoading = true;
       try {
@@ -52,12 +65,17 @@ export const useOilStore = defineStore('oil', {
 
         this.maintenances = Array.isArray(data) ? data : [];
         return this.maintenances;
-      } catch (error: any) {
-        throw (
-          error.response?.data?.message ||
-          error.message ||
-          'Erro ao buscar manutenções de óleo'
-        );
+      } catch (err) {
+        const error = err as AxiosError;
+        if (error.response) {
+          console.error(
+            'Erro na API:',
+            error.response.status,
+            error.response.data
+          );
+        } else {
+          console.error('Erro desconhecido:', error.message);
+        }
       } finally {
         this.isLoading = false;
       }
@@ -93,10 +111,18 @@ export const useOilStore = defineStore('oil', {
         const { data } = await api()[method](url, payload);
 
         return data;
-      } catch (error: any) {
-        throw (
-          error.response?.data?.message || error.message || 'Erro desconhecido'
-        );
+      } catch (err) {
+        const error = err as AxiosError;
+
+        if (error.response) {
+          console.error(
+            'Erro na API:',
+            error.response.status,
+            error.response.data
+          );
+        } else {
+          console.error('Erro desconhecido:', error.message);
+        }
       } finally {
         this.isLoading = false;
       }
