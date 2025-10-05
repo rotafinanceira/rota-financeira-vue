@@ -12,23 +12,45 @@ const props = defineProps<
   }
 >();
 
+const emit = defineEmits<{
+  (e: 'filter', selectedLabels: string[]): void;
+}>();
+
 const clearFilters = () => {
- props.options.forEach(option => option.selected = false)
-}
+  props.options.forEach((option) => (option.selected = false));
+};
+
+const applyFilters = () => {
+  const selectedLabels = props.options
+    .filter((opt) => opt.selected)
+    .map((opt) => opt.label);
+  emit('filter', selectedLabels);
+};
 </script>
 
 <template>
   <BaseBottomSheet v-bind="{ ...props }" class="bottom-sheet" show-close>
     <div class="filter">
       <ul class="options-list">
-        <li v-for="option in options" :key="option.label" class="filter__option">
-          <CCheckbox :label="option.label" name="maintenance-filters" v-model="option.selected" />
+        <li
+          v-for="option in options"
+          :key="option.label"
+          class="filter__option"
+        >
+          <CCheckbox
+            :label="option.label"
+            name="maintenance-filters"
+            v-model="option.selected"
+          />
           <CDivider class="filter__divider" />
         </li>
       </ul>
+
       <div class="filter__buttons">
-        <CButton>Filtrar</CButton>
-        <CButton variant="secondary" @click="clearFilters">Limpar filtros</CButton>
+        <CButton @click="applyFilters">Filtrar</CButton>
+        <CButton variant="secondary" @click="clearFilters"
+          >Limpar filtros</CButton
+        >
       </div>
     </div>
   </BaseBottomSheet>
@@ -48,7 +70,7 @@ const clearFilters = () => {
   &__buttons {
     display: flex;
     gap: 0.5rem;
-    margin-top: -.5rem;
+    margin-top: -0.5rem;
   }
 }
 </style>

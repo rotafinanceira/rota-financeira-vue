@@ -12,12 +12,21 @@ const filterOptions = ref<ListOption[]>([
   { label: 'Manutenções vencidas', selected: false },
   { label: 'Próximas manutenções', selected: false },
   { label: 'Preencher etapas', selected: false },
-  { label: 'Manutenções sem cadastro', selected: false }
+  { label: 'Manutenções sem cadastro', selected: false },
 ]);
 
-watch(filterOptions, () => {
-  console.log(filterOptions.value);
-}, { deep: true })
+const onFilter = (selectedLabels: string[]) => {
+  console.log('Filtros selecionados:', selectedLabels);
+  showSheet2.value = false;
+};
+
+watch(
+  filterOptions,
+  () => {
+    console.log(filterOptions.value);
+  },
+  { deep: true }
+);
 </script>
 
 <template>
@@ -46,6 +55,7 @@ watch(filterOptions, () => {
     :draggable="true"
     :options="filterOptions"
     v-model="showSheet2"
+    @filter="onFilter"
   />
 </template>
 
