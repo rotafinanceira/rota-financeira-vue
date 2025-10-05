@@ -11,16 +11,25 @@ const options: MaskInputOptions = {
   tokens: {
     A: {
       pattern: /[A-Z]/,
-      transform: (char: string) => char.toUpperCase()
-    }
-  }
-}
+      transform: (char: string) => char.toUpperCase(),
+    },
+  },
+};
+
+const plateSchema = yup
+  .string()
+  .required('A placa é obrigatória')
+  .test('len', 'A placa deve ter 7 ou 8 caracteres', (val) => {
+    if (!val) return false;
+    const cleaned = val.replace(/[^A-Z0-9]/gi, '');
+    return cleaned.length === 7 || cleaned.length === 8;
+  });
 
 const { handleSubmit, meta } = useForm({
   validationSchema: yup.object({
     name: yup.string().min(5, 'O nome precisa ter 5 ou mais letras').required(),
     email: yup.string().email().required(),
-    plate: yup.string().length(8, 'A placa do carro deve ter 7 caracteres')
+    plate: plateSchema,
   }),
 });
 
