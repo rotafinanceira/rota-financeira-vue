@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
 import { ref, watch } from 'vue';
 import CButton from '@/shared/components/CButton.vue';
 import CBottomSheetText from '@/shared/components/bottomsheets/CBottomSheetText.vue';
@@ -80,6 +81,7 @@ watch(
       }
     "
   />
+
 </template>
 
 <style scoped lang="scss">

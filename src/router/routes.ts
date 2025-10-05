@@ -7,7 +7,7 @@ const routes: RouteRecordRaw[] = [
     redirect: '/welcome',
     children: [
       {
-        path: '/load',
+        path: '/splash',
         component: () => import('src/pages/SplashScreen.vue'),
       },
       {
@@ -23,7 +23,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'auth',
         component: () => import('src/layouts/AuthLayout.vue'),
-        redirect: { name: 'signin' },
+        // redirect: { name: 'signin' },
         children: [
           {
             path: 'signin',

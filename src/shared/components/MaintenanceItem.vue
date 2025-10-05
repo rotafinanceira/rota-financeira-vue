@@ -29,8 +29,8 @@ defineProps<MaintenanceItemProps>();
 <template>
   <div class="flex">
     <div class="maintenance__item">
-      <img :src="maintenanceIcons[icon]" alt="" class="item__icon" />
-      <img :src="LineVertical" alt="" />
+  <img :src="maintenanceIcons[icon]" alt="" class="item__icon" />
+  <img :src="LineVertical" alt="" />
       <div class="item__content">
         <p class="item__title">{{ title }}</p>
         <p v-if="description" class="item__description">{{ description }}</p>
@@ -41,12 +41,14 @@ defineProps<MaintenanceItemProps>();
 </template>
 
 <style scoped lang="scss">
+
 .maintenance__item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   border-radius: 4px;
 }
+
 
 .item {
   &__icon {

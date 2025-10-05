@@ -1,27 +1,18 @@
-<template>
-  <button
-    :class="['custom-button', sizeClass, variantClass]"
-    :disabled="props.disabled"
-    type="button"
-  >
-    <slot />
-  </button>
-</template>
-
 <script setup lang="ts">
-import { ButtonHTMLAttributes, computed } from 'vue';
+import { QBtn } from 'quasar';
+import { computed } from 'vue';
+import { RouteLocationRaw } from 'vue-router';
 
 type Variant = 'primary' | 'secondary' | 'tertiary' | 'danger';
 type Size = 'large' | 'default' | 'small';
 
 const props = withDefaults(
-  defineProps<
-    {
-      variant?: Variant;
-      size?: Size;
-      disabled?: boolean;
-    } & /* @vue-ignore */ ButtonHTMLAttributes
-  >(),
+  defineProps<{
+    variant?: Variant;
+    size?: Size;
+    disabled?: boolean;
+    to?: RouteLocationRaw;
+  }>(),
   {
     variant: 'primary',
     size: 'default',
@@ -33,19 +24,36 @@ const sizeClass = computed(() => `btn--${props.size}`);
 const variantClass = computed(() => `btn--${props.variant}`);
 </script>
 
+<template>
+  <q-btn
+    class="custom-button"
+    :class="[sizeClass, variantClass]"
+    :disable="props.disabled"
+    :to="props.to"
+    type="button"
+    no-caps
+  >
+    <slot />
+  </q-btn>
+</template>
+
 <style scoped>
 .custom-button {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-weight: 600;
   cursor: pointer;
   border-radius: 8px;
   white-space: nowrap;
   padding: 12px 24px;
-  gap: 12px;
   border: none;
+  line-height: 120%;
+}
+
+.custom-button ::v-deep(.q-btn__content) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
 
 .custom-button:disabled {
