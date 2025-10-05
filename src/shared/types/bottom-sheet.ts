@@ -5,5 +5,7 @@ export type BottomSheetProps = {
 
 export type ListOption = {
   label: string;
-  selected: boolean;
-}
+  selected?: boolean;
+  icon?: string;
+  danger?: boolean;
+};

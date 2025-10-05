@@ -4,9 +4,16 @@ import CButton from '@/shared/components/CButton.vue';
 import CBottomSheetText from '@/shared/components/bottomsheets/CBottomSheetText.vue';
 import CBottomSheetList from '@/shared/components/bottomsheets/CBottomSheetList.vue';
 import { ListOption } from '@/shared/types/bottom-sheet';
-
+import { TrashIcon, ImagemIcon, CameraIcon } from '@/shared/assets/icons';
 const showSheet1 = ref(false);
 const showSheet2 = ref(false);
+const showSheet3 = ref(false);
+
+const actionOptions = ref<ListOption[]>([
+  { label: 'Image', icon: ImagemIcon },
+  { label: 'Camera', icon: CameraIcon },
+  { label: 'Delete', icon: TrashIcon, danger: true },
+]);
 
 const filterOptions = ref<ListOption[]>([
   { label: 'Manutenções vencidas', selected: false },
@@ -33,6 +40,7 @@ watch(
   <div class="lab app-wrapper">
     <CButton @click="showSheet1 = true">Text Bottom Sheet</CButton>
     <CButton @click="showSheet2 = true">List Bottom Sheet</CButton>
+    <CButton @click="showSheet3 = true">Option Bottom Sheet</CButton>
   </div>
 
   <CBottomSheetText v-model="showSheet1" :show-close="true">
@@ -56,6 +64,21 @@ watch(
     :options="filterOptions"
     v-model="showSheet2"
     @filter="onFilter"
+  />
+
+  <CBottomSheetList
+    type="action"
+    :draggable="true"
+    v-model="showSheet3"
+    :options="actionOptions"
+    @action="
+      (label) => {
+        if (label === 'Image') console.log('Galeria aberta');
+        if (label === 'Camera') console.log('Camera aberta');
+        if (label === 'Delete') console.log('Imagem deletada');
+        showSheet3 = false;
+      }
+    "
   />
 </template>
 
