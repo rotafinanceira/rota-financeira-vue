@@ -8,7 +8,11 @@ import CDivider from '@/shared/components/CDivider.vue';
 import CTag from '@/shared/components/CTag.vue';
 import CButton from '@/shared/components/CButton.vue';
 import { OilLiquidIcon, EditIcon } from '@/shared/assets/icons';
-import { Car, Wrench, BrokenCar } from '@/shared/assets/illustrations';
+import {
+  CarIcon,
+  WrenchIcon,
+  BrokenCarIcon,
+} from '@/shared/assets/illustrations';
 import { QSpinner } from 'quasar';
 import { MappedMaintenance } from '@/shared/types/oil-maintenance';
 
@@ -80,7 +84,7 @@ function editMaintenance(m: MappedMaintenance): void {
     <section class="oil__status">
       <div v-if="isEmpty" class="oil__card">
         <div class="card__container">
-          <img :src="Wrench" />
+          <img :src="WrenchIcon" />
           <h2 class="card__title">Nenhuma manutenção cadastrada!</h2>
           <span class="card__text">
             Você ainda não cadastrou nenhuma troca de óleo.
@@ -90,7 +94,7 @@ function editMaintenance(m: MappedMaintenance): void {
 
       <div v-else-if="isOverdue" class="oil__card">
         <div class="card__container">
-          <img :src="BrokenCar" />
+          <img :src="BrokenCarIcon" />
           <h2 class="card__title">Manutenção vencida!</h2>
           <span class="card__text">
             É hora de realizar a revisão de óleo automotivo do seu veículo.
@@ -100,7 +104,7 @@ function editMaintenance(m: MappedMaintenance): void {
 
       <div v-else class="oil__card">
         <div class="card__container">
-          <img :src="Car" />
+          <img :src="CarIcon" />
           <h2 class="card__title">Você está em dia!</h2>
           <span class="card__text">
             Sua próxima revisão do óleo automotivo será em 10000 km.
