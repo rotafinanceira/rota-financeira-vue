@@ -97,7 +97,6 @@ function navigateTo(routeName: string) {
 }
 
 .navbar {
-  z-index: 10;
   height: 100%;
   color: #307714;
 
