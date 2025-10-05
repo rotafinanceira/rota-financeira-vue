@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { ArrowIcon } from '../assets/icons';
 import type { InputHTMLAttributes } from 'vue';
 
@@ -12,17 +12,17 @@ export type Input = {
   label?: string;
   name: string;
   placeholder?: string;
-  action?: () => void;
   options?: Option[];
+  disabled?: boolean;
+  required?: boolean;
 } & /* @vue-ignore */ InputHTMLAttributes;
 
 const props = withDefaults(defineProps<Input>(), {
-  showIcon: 'not-empty',
   options: () => [],
+  required: false,
 });
 
 const isOpen = ref(false);
-
 const modelValue = defineModel<string | number>();
 
 const toggleDropdown = () => {
@@ -34,30 +34,34 @@ const selectOption = (val: string | number) => {
   modelValue.value = val;
   isOpen.value = false;
 };
+
+const borderClass = computed(() => {
+  if (!props.required) return '';
+  return modelValue.value ? 'is-valid' : 'is-error';
+});
+
+const selectedLabel = computed(() => {
+  return modelValue.value
+    ? props.options.find((o) => o.value === modelValue.value)?.label
+    : props.placeholder;
+});
 </script>
 
 <template>
   <div class="select">
-    <span class="select__label" v-if="label">{{ label }}</span>
+    <span class="select__label" v-if="props.label">{{ props.label }}</span>
     <div
       class="select__wrapper"
-      :class="[{ open: isOpen }]"
+      :class="[borderClass, { open: isOpen }]"
       @click="toggleDropdown"
     >
-      <span>
-        {{
-          modelValue
-            ? options.find((o) => o.value === modelValue)?.label
-            : placeholder
-        }}
-      </span>
-
+      <span>{{ selectedLabel }}</span>
       <img class="select__icon" :src="ArrowIcon" alt="" />
     </div>
 
     <ul v-if="isOpen" class="select__list">
       <li
-        v-for="opt in options"
+        v-for="opt in props.options"
         :key="opt.value"
         @click="selectOption(opt.value)"
         class="select__option"
@@ -91,9 +95,18 @@ const selectOption = (val: string | number) => {
     border-radius: 4px;
     background: white;
     color: #0c0d0f;
+    transition: border-color 0.2s;
+
+    .is-error {
+      border-color: red;
+    }
+
+    .is-valid {
+      border-color: green;
+    }
   }
 
-  &__icon {
+  &__wrapper &__wrapper &__icon {
     transition: transform 0.2s ease;
     transform: rotate(180deg);
   }

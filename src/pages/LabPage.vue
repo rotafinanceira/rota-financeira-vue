@@ -11,6 +11,7 @@ const country = ref('');
       v-model="country"
       label="País"
       name="country"
+      :required="true"
       placeholder="Selecione um país"
       :options="[
         { label: 'Brasil', value: 'br' },
