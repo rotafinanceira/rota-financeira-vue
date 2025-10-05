@@ -13,6 +13,7 @@ import { RouterLink } from 'vue-router';
 import { MaintenanceCardProps } from '../types';
 import StatusTag from './StatusTag.vue';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
+import CDivider from '@/shared/components/CDivider.vue';
 
 const maintenanceIcons: MaintenanceIcons = {
   wheel: WheelIcon,
@@ -39,7 +40,7 @@ defineProps<MaintenanceCardProps>();
       <img :src="ArrowIcon" alt="" class="item__arrow" />
     </div>
     <template v-if="maintenanceData?.status">
-      <hr />
+      <CDivider />
       <div class="badges">
         <StatusTag v-bind="maintenanceData" />
       </div>

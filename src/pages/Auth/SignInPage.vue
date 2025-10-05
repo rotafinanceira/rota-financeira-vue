@@ -59,7 +59,7 @@ import ButtonComponent from '@/shared/components/ButtonComponent.vue';
 import ModalGenericoAlert from '@/shared/components/ModalGenericoAlert.vue';
 
 import googleIcon from '@/shared/assets/googleIcon.svg';
-import { httpClient } from '@/infra/http/httpClient';
+import { useRegisterStore } from '@/stores/registerStore';
 
 const isLoading = ref(false);
 const isValidatingForm = ref(false);
@@ -74,6 +74,7 @@ const password = ref('');
 const errors = ref({});
 
 const router = useRouter();
+const registerStore = useRegisterStore();
 
 const resetModal = () => {
   modalContent.value = '';
@@ -120,15 +121,20 @@ const handleSubmit = async () => {
 
   try {
     isLoading.value = true;
-    const response = await httpClient.post('/login', {
+    await registerStore.login({
       email: email.value,
       password: password.value,
     });
-    if (response.status === 200) {
-      router.push({ path: '/success' });
-    }
+    // Sucesso: resultado esperado do backend
+    router.push({ path: '/success' });
   } catch (error) {
-    handleApiError(error.response?.status);
+    // Log detalhado para debug
+    console.error('Erro no login:', error);
+    const statusCode = error?.status || error?.response?.status;
+    if (error?.response?.data) {
+      console.error('Resposta do backend:', error.response.data);
+    }
+    handleApiError(statusCode);
   } finally {
     isLoading.value = false;
   }

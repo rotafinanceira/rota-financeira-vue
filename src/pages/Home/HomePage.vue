@@ -27,7 +27,9 @@
                 >Última quilometragem <br />
                 registrada:</span
               >
-              <span class="kilometer-text-number">123.348</span>
+              <span class="kilometer-text-number">{{
+                lastMileage ?? '-'
+              }}</span>
               <span class="kilometer-text"> Km</span>
             </div>
           </div>
@@ -37,7 +39,11 @@
         </div>
       </div>
       <div>
-        <button class="styled-button">Inserir quilometragem do dia</button>
+        <ButtonComponent
+          label="Inserir quilometragem do dia"
+          :isLoading="isSendingMileage"
+          @click="handleSendMileage"
+        />
       </div>
       <div class="card card-maintenance danger">
         <div class="card-content">
@@ -159,6 +165,7 @@
 
 <script setup lang="ts">
 import ModalGenerico from '@/shared/components/ModalGenerico.vue';
+import ButtonComponent from '@/shared/components/ButtonComponent.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 import odometer from '@/shared/assets/illustrations/odometer.svg';
 import expiredIcon from '@/shared/assets/manVen.svg';
@@ -166,7 +173,8 @@ import alignmentImage from '@/shared/assets/icons/battery.svg';
 import { ArrowIcon } from '@/shared/assets/icons';
 import batteryIcon from '@/shared/assets/icons/battery.svg';
 import dateIcon from '@/shared/assets/icons/battery.svg';
-import { ref } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useCarStore } from '@/stores/carStore';
 
 const isOpen = ref<boolean>(false);
 const modalContent = ref<string>('Quando devo fazer a troca?');
@@ -175,6 +183,33 @@ const modalDescription = ref<string[]>([
 ]);
 
 const odometerValue = ref<string>('');
+const isSendingMileage = ref(false);
+
+const handleSendMileage = async () => {
+  if (!odometerValue.value) return;
+  const mileage = Number(odometerValue.value.replace(/\D/g, ''));
+  if (!mileage || !carStore.firstLicensePlate) return;
+  isSendingMileage.value = true;
+  try {
+    await carStore.updateCarMileage(carStore.firstLicensePlate, mileage);
+    await carStore.getCars(); // Atualiza a lista após o patch
+    odometerValue.value = '';
+  } catch (err) {
+    // Trate erro se quiser
+  } finally {
+    isSendingMileage.value = false;
+  }
+};
+const carStore = useCarStore();
+const lastMileage = computed(() => {
+  if (carStore.cars.length > 0 && carStore.cars[0]?.current_mileage != null) {
+    return carStore.cars[0].current_mileage;
+  }
+  return null;
+});
+onMounted(() => {
+  carStore.getCars();
+});
 
 const showHelpModal = (): void => {
   isOpen.value = true;

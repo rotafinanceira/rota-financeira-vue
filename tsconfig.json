@@ -1,20 +1,21 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "strict": true,
-    "jsx": "preserve",
-    "importHelpers": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    },
-    "types": ["node"],
-    "lib": ["esnext", "dom"]
+      "target": "esnext",
+      "module": "esnext",
+      "moduleResolution": "node",
+      "strict": true,
+      "noImplicitAny": false,
+      "jsx": "preserve",
+      "importHelpers": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "sourceMap": true,
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["src/*"]
+      },
+      "types": ["node"],
+      "lib": ["esnext", "dom"]
   },
   "exclude": [
     "./dist",
