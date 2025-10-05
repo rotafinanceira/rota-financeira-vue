@@ -19,10 +19,20 @@ const options: MaskInputOptions = {
 const plateSchema = yup
   .string()
   .required('A placa é obrigatória')
-  .test('len', 'A placa deve ter 7 ou 8 caracteres', (val) => {
+  .test('plate-format', 'Placa inválida', (val) => {
     if (!val) return false;
     const cleaned = val.replace(/[^A-Z0-9]/gi, '');
-    return cleaned.length === 7 || cleaned.length === 8;
+
+    if (cleaned.length < 5) return false;
+
+    const fifth = cleaned[4];
+    if (/[A-Z]/.test(fifth)) {
+      return cleaned.length === 8;
+    } else if (/[0-9]/.test(fifth)) {
+      return cleaned.length === 7;
+    }
+
+    return false;
   });
 
 const { handleSubmit, meta } = useForm({
