@@ -44,8 +44,10 @@ const modalDescription = ref<string[]>([
 ]);
 const isOpen = ref(false);
 const isPositiveOpen = ref(false);
-const successTitle = ref('');
-const successDescription = ref('');
+const successTitle = ref<string>('Cadastro concluído!');
+const successDescription = ref<string>(
+  'Informaremos você sobre a próxima manutenção.'
+);
 
 const oilOptions = ref<OilOptionsProps[]>([
   { label: 'Sintético', value: 'sintetic' },
