@@ -31,6 +31,7 @@ const isEmpty = computed(() => !hasMaintenances.value);
 
 onMounted(async () => {
   await carStore.getCars();
+  oilStore.resetStore();
 });
 
 watch(
