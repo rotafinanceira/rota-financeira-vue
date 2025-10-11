@@ -15,7 +15,7 @@ interface OilOptionsProps {
 
 interface ServiceOptionsProps {
   label: string;
-  value: string;
+  value: boolean;
 }
 
 const router = useRouter();
@@ -29,7 +29,7 @@ const showDatePicker = ref(false);
 const date = ref('');
 const mileage = ref('');
 const oilType = ref('');
-const serviceType = ref('');
+const serviceType = ref(false);
 const liters = ref('');
 const oilBrand = ref('');
 const maintenanceValue = ref('');
@@ -55,10 +55,8 @@ const oilOptions = ref<OilOptionsProps[]>([
 ]);
 
 const serviceOptions = ref<ServiceOptionsProps[]>([
-  { label: 'Troca de óleo', value: 'oil-change' },
-  { label: 'Filtro de óleo', value: 'oil-filter' },
-  { label: 'Troca de óleo e filtro de óleo', value: 'oil-change-filter' },
-  { label: 'Outro', value: 'other' },
+  { label: 'Troca de óleo', value: false },
+  { label: 'Troca de óleo e filtro de óleo', value: true },
 ]);
 
 onMounted(async () => {
@@ -75,9 +73,7 @@ onMounted(async () => {
     oilType.value = selected.oilType;
     oilBrand.value = selected.oilBrand ?? '';
     liters.value = selected.oilQuantityLt.toString();
-    serviceType.value = selected.filterChanged
-      ? 'oil-change-filter'
-      : 'oil-change';
+    serviceType.value = !!selected.filterChanged;
   }
 });
 
@@ -112,7 +108,7 @@ const handleSubmit = async (): Promise<void> => {
       oilBrand: oilBrand.value,
       valor: Number(maintenanceValue.value),
       oficina: oilBrand.value,
-      filterChanged: serviceType.value.includes('filter'),
+      filterChanged: serviceType.value,
     };
 
     await oilStore.saveOilMaintenance(payload, oilStore.getEditingId());
