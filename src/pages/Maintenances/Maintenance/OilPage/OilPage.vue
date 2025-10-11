@@ -7,7 +7,12 @@ import { useOilStore } from '@/stores/oilStore';
 import CDivider from '@/shared/components/CDivider.vue';
 import CTag from '@/shared/components/CTag.vue';
 import CButton from '@/shared/components/CButton.vue';
-import { OilLiquidIcon, EditIcon } from '@/shared/assets/icons';
+import {
+  OilLiquidIcon,
+  EditIcon,
+  MoneyCircleIcon,
+  CalendarIcon,
+} from '@/shared/assets/icons';
 import {
   CarIcon,
   WrenchIcon,
@@ -42,16 +47,25 @@ const mappedMaintenances = computed(() =>
   [...oilStore.maintenances].reverse().map((m) => ({
     id: m.id,
     date: m.lastMaintenanceDate
-      ? new Date(m.lastMaintenanceDate).toLocaleDateString('pt-BR')
+      ? new Date(m.lastMaintenanceDate)
+          .toLocaleDateString('pt-BR', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          })
+          .replace(/^./, (str) => str.toUpperCase())
       : '-',
-    km: m.lastMaintenanceKm?.toString() || '-',
+    km: m.lastMaintenanceKm
+      ? `${Number(m.lastMaintenanceKm).toLocaleString('pt-BR')} km`
+      : '-',
     price: m.valor
       ? new Intl.NumberFormat('pt-BR', {
           style: 'currency',
           currency: 'BRL',
         }).format(Number(m.valor))
       : '-',
-    service: 'Troca de óleo / filtro',
+    service: m.filterChanged ? 'Troca de filtro e óleo' : 'Troca de óleo',
     oilType: m.oilType || '-',
     oilBrand: m.oilBrand || null,
   }))
@@ -143,10 +157,25 @@ function editMaintenance(m: MappedMaintenance): void {
           <CDivider class="divider" />
 
           <div class="tags">
-            <CTag :id="1" :title="m.date" variant="default" />
+            <CTag
+              :icon="CalendarIcon"
+              :id="1"
+              :title="m.date"
+              variant="default"
+            />
             <CTag :id="2" :title="m.km.toString()" variant="default" />
-            <CTag :id="3" :title="m.price.toString()" variant="default" />
-            <CTag :id="4" :title="m.service" variant="default" />
+            <CTag
+              :icon="MoneyCircleIcon"
+              :id="3"
+              :title="m.price.toString()"
+              variant="default"
+            />
+            <CTag
+              :icon="OilLiquidIcon"
+              :id="4"
+              :title="m.service"
+              variant="default"
+            />
           </div>
         </div>
       </div>
