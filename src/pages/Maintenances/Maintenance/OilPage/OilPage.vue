@@ -121,7 +121,8 @@ function editMaintenance(m: MappedMaintenance): void {
           <img :src="CarIcon" />
           <h2 class="card__title">Você está em dia!</h2>
           <span class="card__text">
-            Sua próxima revisão do óleo automotivo será em {{}}.
+            Sua próxima revisão do óleo automotivo será em
+            {{ oilStore.nextMaintenanceKm ?? '0' }} km.
           </span>
         </div>
       </div>

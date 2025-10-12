@@ -9,6 +9,7 @@ export interface OilMaintenance {
   valor: number;
   status: string;
   oficina?: string;
+  nextMaintenanceMileage: number;
 }
 
 export interface OilState {
@@ -21,6 +22,7 @@ export interface OilState {
   isLoading: boolean;
   maintenances: OilMaintenance[];
   isOverdue: boolean;
+  nextMaintenanceKm: number | null;
   selectedMaintenance: OilMaintenance | null;
 }
 

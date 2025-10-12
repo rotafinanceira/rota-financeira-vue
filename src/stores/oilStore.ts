@@ -17,6 +17,7 @@ export const useOilStore = defineStore('oil', {
     isLoading: false,
     maintenances: [],
     selectedMaintenance: null,
+    nextMaintenanceKm: null,
     isOverdue: false,
   }),
 
@@ -67,6 +68,9 @@ export const useOilStore = defineStore('oil', {
         this.maintenances = Array.isArray(data) ? data : [];
 
         const lastMaintenance = this.maintenances.at(-1);
+        this.nextMaintenanceKm =
+          Number(lastMaintenance?.nextMaintenanceMileage) -
+            Number(lastMaintenance?.lastMaintenanceKm) || null;
         this.isOverdue = lastMaintenance?.status === 'EXPIRED';
 
         return this.maintenances;
