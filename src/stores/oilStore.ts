@@ -17,6 +17,7 @@ export const useOilStore = defineStore('oil', {
     isLoading: false,
     maintenances: [],
     selectedMaintenance: null,
+    isOverdue: false,
   }),
 
   actions: {
@@ -64,6 +65,15 @@ export const useOilStore = defineStore('oil', {
         const { data } = await api().get(url);
 
         this.maintenances = Array.isArray(data) ? data : [];
+
+        const lastMaintenance = this.maintenances.at(-1);
+
+        if (lastMaintenance?.status === 'EXPIRED') {
+          this.isOverdue = true;
+        } else {
+          this.isOverdue = false;
+        }
+
         return this.maintenances;
       } catch (err) {
         const error = err as AxiosError;

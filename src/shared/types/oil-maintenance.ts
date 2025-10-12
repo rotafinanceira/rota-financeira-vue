@@ -7,6 +7,7 @@ export interface OilMaintenance {
   oilBrand?: string;
   filterChanged?: boolean;
   valor: number;
+  status: string;
   oficina?: string;
 }
 
@@ -19,6 +20,7 @@ export interface OilState {
   carId: number | null;
   isLoading: boolean;
   maintenances: OilMaintenance[];
+  isOverdue: boolean;
   selectedMaintenance: OilMaintenance | null;
 }
 

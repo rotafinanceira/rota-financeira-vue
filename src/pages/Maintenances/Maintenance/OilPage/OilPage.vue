@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, computed, watch, ref } from 'vue';
+import { onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCarStore } from '@/stores/carStore';
 import { useOilStore } from '@/stores/oilStore';
@@ -24,9 +24,8 @@ import { MappedMaintenance } from '@/shared/types/oil-maintenance';
 const oilStore = useOilStore();
 const carStore = useCarStore();
 const router = useRouter();
-const hasOverdue = ref<boolean>(false);
 const hasMaintenances = computed(() => oilStore.maintenances.length > 0);
-const isOverdue = computed(() => hasMaintenances.value && hasOverdue.value);
+const isOverdue = computed(() => oilStore.isOverdue);
 const isEmpty = computed(() => !hasMaintenances.value);
 
 onMounted(async () => {
@@ -97,17 +96,7 @@ function editMaintenance(m: MappedMaintenance): void {
     </div>
 
     <section class="oil__status">
-      <div v-if="isEmpty" class="oil__card">
-        <div class="card__container">
-          <img :src="WrenchIcon" />
-          <h2 class="card__title">Nenhuma manutenção cadastrada!</h2>
-          <span class="card__text">
-            Você ainda não cadastrou nenhuma troca de óleo.
-          </span>
-        </div>
-      </div>
-
-      <div v-else-if="isOverdue" class="oil__card">
+      <div v-if="isOverdue" class="oil__card">
         <div class="card__container">
           <img :src="BrokenCarIcon" />
           <h2 class="card__title">Manutenção vencida!</h2>
@@ -117,12 +106,22 @@ function editMaintenance(m: MappedMaintenance): void {
         </div>
       </div>
 
+      <div v-else-if="isEmpty" class="oil__card">
+        <div class="card__container">
+          <img :src="WrenchIcon" />
+          <h2 class="card__title">Nenhuma manutenção cadastrada!</h2>
+          <span class="card__text">
+            Você ainda não cadastrou nenhuma troca de óleo.
+          </span>
+        </div>
+      </div>
+
       <div v-else class="oil__card">
         <div class="card__container">
           <img :src="CarIcon" />
           <h2 class="card__title">Você está em dia!</h2>
           <span class="card__text">
-            Sua próxima revisão do óleo automotivo será em 10000 km.
+            Sua próxima revisão do óleo automotivo será em 10.000 km.
           </span>
         </div>
       </div>
