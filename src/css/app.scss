@@ -38,6 +38,7 @@ textarea {
   color: inherit;
   margin: 0;
   padding: 0;
+  background: inherit;
 }
 
 button,
@@ -68,3 +69,12 @@ a {
   margin-inline: auto;
   margin-bottom: 1.25rem;
 }
+
+// quasar styles reset
+
+.disabled, .disabled *, [disabled], [disabled] * {
+  cursor: unset !important;
+  opacity: unset !important;
+}
+
+
