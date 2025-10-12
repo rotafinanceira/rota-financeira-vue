@@ -3,33 +3,37 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import CButton from '@/shared/components/CButton.vue';
 import CModal from '@/shared/components/CModal.vue';
+import CInput from '@/shared/components/CInput.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 import { useOilStore } from '@/stores/oilStore';
 import { useCarStore } from '@/stores/carStore';
 import { AxiosError } from 'axios';
+import CSelect from '@/shared/components/CSelect.vue';
+import { vMaska } from 'maska/vue';
+import type { MaskInputOptions } from 'maska';
+
+const dateMask: MaskInputOptions = {
+  mask: '##/##/####',
+  tokens: {
+    '#': { pattern: /\d/ },
+  },
+};
 
 interface OilOptionsProps {
   label: string;
   value: string;
 }
 
-interface ServiceOptionsProps {
-  label: string;
-  value: boolean;
-}
-
 const router = useRouter();
-
 const oilStore = useOilStore();
 const carStore = useCarStore();
 
 const isLoading = ref(false);
-const showDatePicker = ref(false);
 
 const date = ref('');
 const mileage = ref('');
 const oilType = ref('');
-const serviceType = ref(false);
+const serviceType = ref('false');
 const liters = ref('');
 const oilBrand = ref('');
 const maintenanceValue = ref('');
@@ -44,10 +48,8 @@ const modalDescription = ref<string[]>([
 ]);
 const isOpen = ref(false);
 const isPositiveOpen = ref(false);
-const successTitle = ref<string>('Cadastro concluído!');
-const successDescription = ref<string>(
-  'Informaremos você sobre a próxima manutenção.'
-);
+const successTitle = ref('Cadastro concluído!');
+const successDescription = ref('Informaremos você sobre a próxima manutenção.');
 
 const oilOptions = ref<OilOptionsProps[]>([
   { label: 'Sintético', value: 'sintetic' },
@@ -56,16 +58,15 @@ const oilOptions = ref<OilOptionsProps[]>([
   { label: 'Outro', value: 'outro' },
 ]);
 
-const serviceOptions = ref<ServiceOptionsProps[]>([
-  { label: 'Troca de óleo', value: false },
-  { label: 'Troca de óleo e filtro de óleo', value: true },
+const serviceOptions = ref<OilOptionsProps[]>([
+  { label: 'Troca de óleo', value: 'false' },
+  { label: 'Troca de óleo e filtro de óleo', value: 'true' },
 ]);
 
 onMounted(async () => {
   await carStore.getCars();
 
   const selected = oilStore.selectedMaintenance;
-
   if (selected) {
     date.value = new Date(selected.lastMaintenanceDate).toLocaleDateString(
       'pt-BR'
@@ -75,7 +76,7 @@ onMounted(async () => {
     oilType.value = selected.oilType;
     oilBrand.value = selected.oilBrand ?? '';
     liters.value = selected.oilQuantityLt.toString();
-    serviceType.value = !!selected.filterChanged;
+    serviceType.value = selected.filterChanged ? 'true' : 'false';
   }
 });
 
@@ -89,11 +90,6 @@ const showHelpModal = (): void => {
     'Mesmo rodando pouco, o óleo envelhece. Troque por tempo.',
     'Uso severo (trânsito, poeira, ladeiras, reboque) pode exigir troca antecipada.',
   ];
-};
-
-const onDateSelect = (value: string) => {
-  date.value = value;
-  showDatePicker.value = false;
 };
 
 const handleSubmit = async (): Promise<void> => {
@@ -110,7 +106,7 @@ const handleSubmit = async (): Promise<void> => {
       oilBrand: oilBrand.value,
       valor: Number(maintenanceValue.value),
       oficina: oilBrand.value,
-      filterChanged: serviceType.value,
+      filterChanged: serviceType.value === 'true',
     };
 
     await oilStore.saveOilMaintenance(payload, oilStore.getEditingId());
@@ -119,7 +115,6 @@ const handleSubmit = async (): Promise<void> => {
     isPositiveOpen.value = true;
   } catch (err) {
     const error = err as AxiosError;
-
     if (error.response) {
       console.error('Erro na API:', error.response.status, error.response.data);
     } else {
@@ -137,110 +132,98 @@ const closeSuccess = () => {
 </script>
 
 <template>
-  <q-page>
-    <div class="main-content">
-      <div class="card-wrapper">
-        <div class="card">
-          <div class="text-wrapper">
-            <div class="header-content">
-              <span class="title">Manutenção</span>
-              <div @click="showHelpModal">
-                <img :src="helpIcon" alt="Help Icon" />
-              </div>
+  <div class="main-content">
+    <div class="card-wrapper">
+      <div class="card">
+        <div class="text-wrapper">
+          <div class="header-content">
+            <span class="title">Manutenção</span>
+            <div @click="showHelpModal">
+              <img :src="helpIcon" alt="Help Icon" />
             </div>
-            <span class="subtitle">
-              Preencha as informações da manutenção de Troca de Óleo.
-            </span>
           </div>
+          <span class="subtitle">
+            Preencha as informações da manutenção de Troca de Óleo.
+          </span>
+        </div>
 
-          <div class="input-wrapper">
-            <label for="mileage">Quilometragem*</label>
-            <q-input
-              id="mileage"
-              outlined
-              v-model="mileage"
-              label="Km na data de serviço"
-              type="number"
-            />
-          </div>
+        <div class="input-wrapper">
+          <CInput
+            v-model="mileage"
+            label="Km na data de serviço*"
+            type="number"
+            name="mileage"
+            placeholder="Ex: 50000"
+            variant="generic"
+          />
+        </div>
 
-          <div class="input-wrapper">
-            <label for="last-oil-change">Data da troca*</label>
-            <q-input
-              id="last-oil-change"
-              outlined
-              v-model="date"
-              mask="##/##/####"
-              label="Digite a data da última troca"
-              @focus="showDatePicker = true"
-            />
-            <q-menu v-model="showDatePicker" fit>
-              <q-date v-model="date" mask="DD/MM/YYYY" @input="onDateSelect" />
-            </q-menu>
-          </div>
+        <div class="input-wrapper">
+          <CInput
+            v-model="date"
+            label="Data da troca*"
+            name="last-oil-change"
+            placeholder="DD/MM/AAAA"
+            variant="generic"
+            v-maska="dateMask"
+          />
+        </div>
 
-          <div class="input-wrapper">
-            <label for="maintenance-value">Valor da manutenção*</label>
-            <q-input
-              id="maintenance-value"
-              outlined
-              v-model="maintenanceValue"
-              label="Digite o valor da manutenção"
-              type="number"
-            />
-          </div>
+        <div class="input-wrapper">
+          <CInput
+            v-model="maintenanceValue"
+            label="Valor da manutenção*"
+            name="maintenance-value"
+            type="number"
+            placeholder="Ex: 150"
+            variant="generic"
+          />
+        </div>
 
-          <div class="input-wrapper">
-            <label for="service-type">Serviços*</label>
-            <q-select
-              id="service-type"
-              outlined
-              v-model="serviceType"
-              :options="serviceOptions"
-              emit-value
-              map-options
-              label="Escolha o tipo de serviço"
-            />
-          </div>
+        <div class="input-wrapper">
+          <CSelect
+            v-model="serviceType"
+            name="service-type"
+            label="Serviços*"
+            :options="serviceOptions"
+            placeholder="Escolha o tipo de serviço"
+          />
+        </div>
 
-          <div class="input-wrapper">
-            <label for="oil-type">Tipo de óleo*</label>
-            <q-select
-              id="oil-type"
-              outlined
-              v-model="oilType"
-              :options="oilOptions"
-              emit-value
-              map-options
-              label="Escolha o tipo de óleo"
-            />
-          </div>
+        <div class="input-wrapper">
+          <CSelect
+            v-model="oilType"
+            name="oil-type"
+            label="Tipo de óleo*"
+            :options="oilOptions"
+            placeholder="Escolha o tipo de óleo"
+          />
+        </div>
 
-          <div class="input-wrapper">
-            <label for="oil-brand">Oficina</label>
-            <q-input
-              id="oil-brand"
-              outlined
-              v-model="oilBrand"
-              label="Digite o nome da oficina"
-            />
-          </div>
+        <div class="input-wrapper">
+          <CInput
+            v-model="oilBrand"
+            label="Oficina"
+            name="oil-brand"
+            placeholder="Digite o nome da oficina"
+            variant="generic"
+          />
+        </div>
 
-          <div class="input-wrapper">
-            <label for="liters">Quantidade de óleo (litros)</label>
-            <q-input
-              id="liters"
-              outlined
-              v-model="liters"
-              label="Ex: 2"
-              type="number"
-            />
-          </div>
+        <div class="input-wrapper">
+          <CInput
+            v-model="liters"
+            label="Quantidade de óleo (litros)"
+            name="liters"
+            type="number"
+            placeholder="Ex: 2"
+            variant="generic"
+          />
         </div>
       </div>
-
-      <CButton @click="handleSubmit" :isLoading="isLoading"> Salvar </CButton>
     </div>
+
+    <CButton @click="handleSubmit" :isLoading="isLoading">Salvar</CButton>
 
     <CModal v-model="isOpen" variant="info">
       <h2>{{ modalContent }}</h2>
@@ -266,7 +249,7 @@ const closeSuccess = () => {
         <p>{{ successDescription }}</p>
       </div>
     </CModal>
-  </q-page>
+  </div>
 </template>
 
 <style scoped>

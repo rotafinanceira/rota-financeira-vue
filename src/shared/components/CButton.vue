@@ -22,8 +22,6 @@ const props = withDefaults(
   }
 );
 
-const emit = defineEmits(['click']);
-
 const sizeClass = computed(() => `btn--${props.size}`);
 const variantClass = computed(() => `btn--${props.variant}`);
 </script>
