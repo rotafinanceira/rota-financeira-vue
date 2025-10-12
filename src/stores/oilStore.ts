@@ -67,12 +67,7 @@ export const useOilStore = defineStore('oil', {
         this.maintenances = Array.isArray(data) ? data : [];
 
         const lastMaintenance = this.maintenances.at(-1);
-
-        if (lastMaintenance?.status === 'EXPIRED') {
-          this.isOverdue = true;
-        } else {
-          this.isOverdue = false;
-        }
+        this.isOverdue = lastMaintenance?.status === 'EXPIRED';
 
         return this.maintenances;
       } catch (err) {
@@ -111,19 +106,34 @@ export const useOilStore = defineStore('oil', {
           carStore.car?.license_plate || carStore.firstLicensePlate;
         if (!licensePlate) throw new Error('Nenhum carro selecionado.');
 
-        let url = `${baseApi}/v1/maintenance/oil/${licensePlate}`;
-        let method: 'post' | 'patch' = 'post';
-        if (maintenanceId) {
-          url += `/${maintenanceId}`;
-          method = 'patch';
+        if (this.selectedMaintenance && maintenanceId) {
+          const url = `${baseApi}/v1/maintenance/oil/${licensePlate}/${maintenanceId}`;
+          const { data } = await api().put(url, payload);
+          return data;
+        } else {
+          const lastMaintenance = this.maintenances.at(-1);
+
+          if (lastMaintenance) {
+            const patchUrl = `${baseApi}/v1/maintenance/oil/${licensePlate}`;
+            try {
+              await api().patch(patchUrl, {
+                status: 'COMPLETED',
+              });
+            } catch (patchErr) {
+              console.warn(
+                'Falha ao marcar última manutenção como completa:',
+                patchErr
+              );
+            }
+          }
+
+          const postUrl = `${baseApi}/v1/maintenance/oil/${licensePlate}`;
+          const { data } = await api().post(postUrl, payload);
+
+          return data;
         }
-
-        const { data } = await api()[method](url, payload);
-
-        return data;
       } catch (err) {
         const error = err as AxiosError;
-
         if (error.response) {
           console.error(
             'Erro na API:',
