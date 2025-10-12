@@ -98,8 +98,9 @@ const onSubmit = handleSubmit((values) => {
   display: flex;
   justify-content: center;
   align-items: center;
-.form {
-  display: grid;
-  gap: 1rem;
+  .form {
+    display: grid;
+    gap: 1rem;
+  }
 }
 </style>
