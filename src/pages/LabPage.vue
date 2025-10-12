@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import CSelect from '@/shared/components/CSelect.vue';
+
+const country = ref('');
 import CButton from '@/shared/components/CButton.vue';
 import CInput from '@/shared/components/CInput.vue';
 import { useForm } from 'vee-validate';
@@ -50,6 +54,19 @@ const onSubmit = handleSubmit((values) => {
 
 <template>
   <div class="lab app-wrapper">
+    <CSelect
+      v-model="country"
+      label="País"
+      name="country"
+      :required="true"
+      placeholder="Selecione um país"
+      :options="[
+        { label: 'Brasil', value: 'br' },
+        { label: 'Argentina', value: 'ar' },
+        { label: 'Chile', value: 'cl' },
+      ]"
+    />
+    <p>Selecionado: {{ country }}</p>
     <form @submit="onSubmit" class="form">
       <CInput label="nome" name="name" variant="generic" />
       <CInput label="email" name="email" variant="generic" type="email" />
@@ -77,6 +94,10 @@ const onSubmit = handleSubmit((values) => {
   min-height: $screen;
 }
 
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 .form {
   display: grid;
   gap: 1rem;
