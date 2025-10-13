@@ -5,7 +5,7 @@ export interface OilMaintenance {
   oilType: string;
   oilQuantityLt: number;
   oilBrand?: string;
-  filterChanged?: boolean;
+  serviceType: string;
   valor: number;
   status: string;
   oficina?: string;
@@ -16,8 +16,9 @@ export interface OilState {
   date: string;
   mileage: string;
   oilType: string;
-  liters: string;
   oilBrand: string;
+  oficina: string;
+  serviceType: string;
   carId: number | null;
   isLoading: boolean;
   maintenances: OilMaintenance[];

@@ -11,8 +11,9 @@ export const useOilStore = defineStore('oil', {
     date: '',
     mileage: '',
     oilType: '',
-    liters: '',
     oilBrand: '',
+    oficina: '',
+    serviceType: '',
     carId: null,
     isLoading: false,
     maintenances: [],
@@ -31,11 +32,14 @@ export const useOilStore = defineStore('oil', {
     setOilType(oilType: string) {
       this.oilType = oilType;
     },
-    setLiters(liters: string) {
-      this.liters = liters;
-    },
     setOilBrand(oilBrand: string) {
       this.oilBrand = oilBrand;
+    },
+    setServiceType(serviceType: string) {
+      this.serviceType = serviceType;
+    },
+    setOficina(oficina: string) {
+      this.oficina = oficina;
     },
     setCarId(carId: number | null) {
       this.carId = carId;
@@ -95,9 +99,8 @@ export const useOilStore = defineStore('oil', {
         lastMaintenanceDate: string;
         lastMaintenanceKm: number;
         oilType: string;
-        oilQuantityLt: number;
         oilBrand?: string;
-        filterChanged?: boolean;
+        serviceType: string;
         valor: number;
         oficina?: string;
       },
@@ -119,34 +122,17 @@ export const useOilStore = defineStore('oil', {
 
           if (lastMaintenance) {
             const patchUrl = `${baseApi}/v1/maintenance/oil/${licensePlate}`;
-            try {
-              await api().patch(patchUrl, {
-                status: 'COMPLETED',
-              });
-            } catch (patchErr) {
-              console.warn(
-                'Falha ao marcar última manutenção como completa:',
-                patchErr
-              );
-            }
+            await api()
+              .patch(patchUrl, { status: 'COMPLETED' })
+              .catch(console.warn);
           }
 
           const postUrl = `${baseApi}/v1/maintenance/oil/${licensePlate}`;
           const { data } = await api().post(postUrl, payload);
-
           return data;
         }
       } catch (err) {
-        const error = err as AxiosError;
-        if (error.response) {
-          console.error(
-            'Erro na API:',
-            error.response.status,
-            error.response.data
-          );
-        } else {
-          console.error('Erro desconhecido:', error.message);
-        }
+        throw err;
       } finally {
         this.isLoading = false;
       }

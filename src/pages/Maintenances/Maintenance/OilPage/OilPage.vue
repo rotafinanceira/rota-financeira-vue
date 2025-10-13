@@ -65,7 +65,10 @@ const mappedMaintenances = computed(() =>
           currency: 'BRL',
         }).format(Number(m.valor))
       : '-',
-    service: m.filterChanged ? 'Troca de filtro e óleo' : 'Troca de óleo',
+    service:
+      m.serviceType === 'oil-changed'
+        ? 'Troca de filtro e óleo'
+        : 'Troca de óleo',
     oilType: m.oilType || '-',
     oilBrand: m.oilBrand || null,
   }))

@@ -7,7 +7,6 @@ import CInput from '@/shared/components/CInput.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 import { useOilStore } from '@/stores/oilStore';
 import { useCarStore } from '@/stores/carStore';
-import { AxiosError } from 'axios';
 import CSelect from '@/shared/components/CSelect.vue';
 import { vMaska } from 'maska/vue';
 import type { MaskInputOptions } from 'maska';
@@ -33,8 +32,8 @@ const isLoading = ref(false);
 const date = ref('');
 const mileage = ref('');
 const oilType = ref('');
-const serviceType = ref('false');
-const liters = ref('');
+const serviceType = ref('');
+const oficina = ref('');
 const oilBrand = ref('');
 const maintenanceValue = ref('');
 
@@ -50,17 +49,19 @@ const isOpen = ref(false);
 const isPositiveOpen = ref(false);
 const successTitle = ref('Cadastro concluído!');
 const successDescription = ref('Informaremos você sobre a próxima manutenção.');
+const isErrorOpen = ref(false);
+const errorTitle = ref('Erro ao salvar!');
+const errorDescription = ref('Ocorreu um erro inesperado. Tente novamente.');
 
 const oilOptions = ref<OilOptionsProps[]>([
-  { label: 'Sintético', value: 'sintetic' },
-  { label: 'Semi-Sintético', value: 'semi-sintetic' },
-  { label: 'Mineral', value: 'mineral' },
-  { label: 'Outro', value: 'outro' },
+  { label: 'Sintético', value: 'SYNTHETIC' },
+  { label: 'Semi-Sintético', value: 'SEMI_SYNTHETIC' },
+  { label: 'Mineral', value: 'MINERAL' },
 ]);
 
 const serviceOptions = ref<OilOptionsProps[]>([
-  { label: 'Troca de óleo', value: 'false' },
-  { label: 'Troca de óleo e filtro de óleo', value: 'true' },
+  { label: 'Troca de óleo', value: 'oil_change' },
+  { label: 'Troca de óleo e filtro de óleo', value: 'both' },
 ]);
 
 onMounted(async () => {
@@ -75,8 +76,8 @@ onMounted(async () => {
     maintenanceValue.value = selected.valor.toString();
     oilType.value = selected.oilType;
     oilBrand.value = selected.oilBrand ?? '';
-    liters.value = selected.oilQuantityLt.toString();
-    serviceType.value = selected.filterChanged ? 'true' : 'false';
+    oficina.value = selected.oficina ?? '';
+    serviceType.value = selected.serviceType ?? '';
   }
 });
 
@@ -102,24 +103,23 @@ const handleSubmit = async (): Promise<void> => {
       lastMaintenanceDate: isoDate,
       lastMaintenanceKm: Number(mileage.value),
       oilType: oilType.value,
-      oilQuantityLt: Number(liters.value) || 1,
       oilBrand: oilBrand.value,
       valor: Number(maintenanceValue.value),
-      oficina: oilBrand.value,
-      filterChanged: serviceType.value === 'true',
+      oficina: oficina.value,
+      serviceType: serviceType.value,
     };
 
+    if (!carStore.firstLicensePlate)
+      throw new Error('Nenhum carro selecionado.');
     await oilStore.saveOilMaintenance(payload, oilStore.getEditingId());
-    oilStore.setSelectedMaintenance(null);
 
+    oilStore.setSelectedMaintenance(null);
     isPositiveOpen.value = true;
   } catch (err) {
-    const error = err as AxiosError;
-    if (error.response) {
-      console.error('Erro na API:', error.response.status, error.response.data);
-    } else {
-      console.error('Erro desconhecido:', error.message);
-    }
+    const error = err as { message: string };
+    errorTitle.value = 'Erro ao salvar manutenção';
+    errorDescription.value = error.message || 'Ocorreu um erro inesperado.';
+    isErrorOpen.value = true;
   } finally {
     isLoading.value = false;
   }
@@ -187,6 +187,7 @@ const closeSuccess = () => {
             label="Serviços*"
             :options="serviceOptions"
             placeholder="Escolha o tipo de serviço"
+            :key="'service-select'"
           />
         </div>
 
@@ -197,12 +198,13 @@ const closeSuccess = () => {
             label="Tipo de óleo*"
             :options="oilOptions"
             placeholder="Escolha o tipo de óleo"
+            :key="'oil-select'"
           />
         </div>
 
         <div class="input-wrapper">
           <CInput
-            v-model="oilBrand"
+            v-model="oficina"
             label="Oficina"
             name="oil-brand"
             placeholder="Digite o nome da oficina"
@@ -212,7 +214,7 @@ const closeSuccess = () => {
 
         <div class="input-wrapper">
           <CInput
-            v-model="liters"
+            v-model="oilBrand"
             label="Quantidade de óleo (litros)"
             name="liters"
             type="number"
@@ -247,6 +249,21 @@ const closeSuccess = () => {
       <div class="group">
         <h2>{{ successTitle }}</h2>
         <p>{{ successDescription }}</p>
+      </div>
+    </CModal>
+    <CModal
+      v-model="isErrorOpen"
+      icon="error"
+      variant="default"
+      @update:modelValue="
+        (val) => {
+          if (!val) isErrorOpen = false;
+        }
+      "
+    >
+      <div class="group">
+        <h2>{{ errorTitle }}</h2>
+        <p>{{ errorDescription }}</p>
       </div>
     </CModal>
   </div>
