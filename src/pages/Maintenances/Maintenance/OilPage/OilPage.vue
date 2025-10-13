@@ -76,14 +76,14 @@ const mappedMaintenances = computed(() =>
 
 function editMaintenance(m: MappedMaintenance): void {
   const maintenance = oilStore.maintenances.find((item) => item.id === m.id);
-  if (!maintenance) {
-    console.error(`Manutenção com id ${m.id} não encontrada`);
-    return;
-  }
+  if (!maintenance) return;
 
   oilStore.setSelectedMaintenance(maintenance);
 
-  router.push({ name: 'maintenance-oil-form' });
+  router.push({
+    name: 'maintenance-oil-form',
+    params: { maintenanceId: m.id },
+  });
 }
 </script>
 

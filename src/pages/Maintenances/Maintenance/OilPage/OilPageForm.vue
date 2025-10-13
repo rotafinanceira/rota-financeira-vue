@@ -1,33 +1,25 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+import { vMaska } from 'maska/vue';
+import type { MaskInputOptions } from 'maska';
+import { AxiosError } from 'axios';
+
 import CButton from '@/shared/components/CButton.vue';
 import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
+import CSelect from '@/shared/components/CSelect.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
+
 import { useOilStore } from '@/stores/oilStore';
 import { useCarStore } from '@/stores/carStore';
-import CSelect from '@/shared/components/CSelect.vue';
-import { vMaska } from 'maska/vue';
-import type { MaskInputOptions } from 'maska';
 
-const dateMask: MaskInputOptions = {
-  mask: '##/##/####',
-  tokens: {
-    '#': { pattern: /\d/ },
-  },
-};
-
-interface OilOptionsProps {
-  label: string;
-  value: string;
-}
-
-const router = useRouter();
 const oilStore = useOilStore();
 const carStore = useCarStore();
+const router = useRouter();
+const route = useRoute();
 
-const isLoading = ref(false);
+const maintenanceId = route.params.maintenanceId as string | undefined;
 
 const date = ref('');
 const mileage = ref('');
@@ -36,50 +28,36 @@ const serviceType = ref('');
 const oficina = ref('');
 const oilBrand = ref('');
 const maintenanceValue = ref('');
+const isLoading = ref(false);
 
-const modalContent = ref('Quando devo fazer a troca?');
-const modalDescription = ref<string[]>([
-  'O tempo recomendado para troca de óleo é de 6 a 12 meses.',
-  'Troque de óleo a cada 10 mil quilômetros aproximadamente.',
-  'O uso severo do veículo pode encurtar o intervalo de troca de óleo.',
-  'Utilize o tipo de óleo e quantidade correta do modelo do seu veículo.',
-  'Jamais misture óleos de viscosidades diferentes.',
-]);
+const dateMask: MaskInputOptions = {
+  mask: '##/##/####',
+  tokens: { '#': { pattern: /\d/ } },
+};
+
+interface OilOptionsProps {
+  label: string;
+  value: string;
+}
+const oilOptions: OilOptionsProps[] = [
+  { label: 'Sintético', value: 'SYNTHETIC' },
+  { label: 'Semi-Sintético', value: 'SEMI_SYNTHETIC' },
+  { label: 'Mineral', value: 'MINERAL' },
+];
+const serviceOptions: OilOptionsProps[] = [
+  { label: 'Troca de óleo', value: 'oil_change' },
+  { label: 'Troca de óleo e filtro de óleo', value: 'both' },
+];
+
 const isOpen = ref(false);
+const modalContent = ref('Quando devo fazer a troca?');
+const modalDescription = ref<string[]>([]);
 const isPositiveOpen = ref(false);
 const successTitle = ref('Cadastro concluído!');
 const successDescription = ref('Informaremos você sobre a próxima manutenção.');
 const isErrorOpen = ref(false);
 const errorTitle = ref('Erro ao salvar!');
 const errorDescription = ref('Ocorreu um erro inesperado. Tente novamente.');
-
-const oilOptions = ref<OilOptionsProps[]>([
-  { label: 'Sintético', value: 'SYNTHETIC' },
-  { label: 'Semi-Sintético', value: 'SEMI_SYNTHETIC' },
-  { label: 'Mineral', value: 'MINERAL' },
-]);
-
-const serviceOptions = ref<OilOptionsProps[]>([
-  { label: 'Troca de óleo', value: 'oil_change' },
-  { label: 'Troca de óleo e filtro de óleo', value: 'both' },
-]);
-
-onMounted(async () => {
-  await carStore.getCars();
-
-  const selected = oilStore.selectedMaintenance;
-  if (selected) {
-    date.value = new Date(selected.lastMaintenanceDate).toLocaleDateString(
-      'pt-BR'
-    );
-    mileage.value = selected.lastMaintenanceKm.toString();
-    maintenanceValue.value = selected.valor.toString();
-    oilType.value = selected.oilType;
-    oilBrand.value = selected.oilBrand ?? '';
-    oficina.value = selected.oficina ?? '';
-    serviceType.value = selected.serviceType ?? '';
-  }
-});
 
 const showHelpModal = (): void => {
   isOpen.value = true;
@@ -93,13 +71,35 @@ const showHelpModal = (): void => {
   ];
 };
 
+const closeSuccess = (): void => {
+  isPositiveOpen.value = false;
+  router.push({ name: 'maintenance-oil' });
+};
+
+interface OilMaintenancePayload {
+  lastMaintenanceDate: string;
+  lastMaintenanceKm: number;
+  oilType: string;
+  oilBrand: string;
+  valor: number;
+  oficina: string;
+  serviceType: string;
+}
+
 const handleSubmit = async (): Promise<void> => {
+  if (!carStore.firstLicensePlate) {
+    errorTitle.value = 'Erro ao salvar manutenção';
+    errorDescription.value = 'Nenhum carro selecionado.';
+    isErrorOpen.value = true;
+    return;
+  }
+
   isLoading.value = true;
   try {
     const [day, month, year] = date.value.split('/');
     const isoDate = `${year}-${month}-${day}`;
 
-    const payload = {
+    const payload: OilMaintenancePayload = {
       lastMaintenanceDate: isoDate,
       lastMaintenanceKm: Number(mileage.value),
       oilType: oilType.value,
@@ -109,26 +109,57 @@ const handleSubmit = async (): Promise<void> => {
       serviceType: serviceType.value,
     };
 
-    if (!carStore.firstLicensePlate)
-      throw new Error('Nenhum carro selecionado.');
     await oilStore.saveOilMaintenance(payload, oilStore.getEditingId());
-
     oilStore.setSelectedMaintenance(null);
     isPositiveOpen.value = true;
   } catch (err) {
-    const error = err as { message: string };
-    errorTitle.value = 'Erro ao salvar manutenção';
-    errorDescription.value = error.message || 'Ocorreu um erro inesperado.';
+    const error = err as AxiosError<{ message?: string }>;
+    console.warn(error);
     isErrorOpen.value = true;
   } finally {
     isLoading.value = false;
   }
 };
 
-const closeSuccess = () => {
-  isPositiveOpen.value = false;
-  router.push({ name: 'maintenance-oil' });
-};
+onMounted(async () => {
+  if (!carStore.firstLicensePlate) {
+    await carStore.getCars();
+  }
+
+  const plate = carStore.firstLicensePlate;
+  if (!plate) return;
+
+  if (!oilStore.maintenances || oilStore.maintenances.length === 0) {
+    await oilStore.getOilMaintenances(plate);
+  }
+
+  if (maintenanceId) {
+    console.log(maintenanceId);
+    const m = oilStore.maintenances.find((m) => m.id === maintenanceId);
+    if (!m) return;
+
+    console.log(m);
+
+    oilStore.setSelectedMaintenance(m);
+
+    date.value = m.lastMaintenanceDate
+      ? new Date(m.lastMaintenanceDate).toLocaleDateString('pt-BR')
+      : '';
+    mileage.value = m.lastMaintenanceKm?.toString() ?? '';
+    maintenanceValue.value = m.valor?.toString() ?? '';
+    oficina.value = m.oficina ?? '';
+    oilBrand.value = m.oilBrand ?? '';
+
+    oilType.value =
+      oilOptions.find(
+        (o) => o.value.toLowerCase() === (m.oilType ?? '').toLowerCase()
+      )?.value ?? '';
+    serviceType.value =
+      serviceOptions.find(
+        (s) => s.value.toLowerCase() === (m.serviceType ?? '').toLowerCase()
+      )?.value ?? '';
+  }
+});
 </script>
 
 <template>
@@ -149,6 +180,7 @@ const closeSuccess = () => {
 
         <div class="input-wrapper">
           <CInput
+            :value="mileage"
             v-model="mileage"
             label="Km na data de serviço*"
             type="number"
@@ -160,6 +192,7 @@ const closeSuccess = () => {
 
         <div class="input-wrapper">
           <CInput
+            :value="date"
             v-model="date"
             label="Data da troca*"
             name="last-oil-change"
@@ -171,6 +204,7 @@ const closeSuccess = () => {
 
         <div class="input-wrapper">
           <CInput
+            :value="maintenanceValue"
             v-model="maintenanceValue"
             label="Valor da manutenção*"
             name="maintenance-value"
@@ -187,7 +221,6 @@ const closeSuccess = () => {
             label="Serviços*"
             :options="serviceOptions"
             placeholder="Escolha o tipo de serviço"
-            :key="'service-select'"
           />
         </div>
 
@@ -198,12 +231,12 @@ const closeSuccess = () => {
             label="Tipo de óleo*"
             :options="oilOptions"
             placeholder="Escolha o tipo de óleo"
-            :key="'oil-select'"
           />
         </div>
 
         <div class="input-wrapper">
           <CInput
+            :value="oficina"
             v-model="oficina"
             label="Oficina"
             name="oil-brand"
@@ -214,10 +247,10 @@ const closeSuccess = () => {
 
         <div class="input-wrapper">
           <CInput
+            :value="oilBrand"
             v-model="oilBrand"
             label="Quantidade de óleo (litros)"
             name="liters"
-            type="number"
             placeholder="Ex: 2"
             variant="generic"
           />

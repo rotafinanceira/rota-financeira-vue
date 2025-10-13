@@ -114,8 +114,8 @@ export const useOilStore = defineStore('oil', {
         if (!licensePlate) throw new Error('Nenhum carro selecionado.');
 
         if (this.selectedMaintenance && maintenanceId) {
-          const url = `${baseApi}/v1/maintenance/oil/${licensePlate}/${maintenanceId}`;
-          const { data } = await api().put(url, payload);
+          const url = `${baseApi}/v1/maintenance/oil/update/${maintenanceId}`;
+          const { data } = await api().patch(url, payload);
           return data;
         } else {
           const lastMaintenance = this.maintenances.at(-1);
