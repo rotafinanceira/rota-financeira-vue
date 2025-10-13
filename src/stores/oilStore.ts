@@ -1,7 +1,12 @@
 import { defineStore } from 'pinia';
 import { api } from '@/boot/axios';
 import { useCarStore } from './carStore';
-import { OilMaintenance, OilState } from '@/shared/types/oil-maintenance';
+import {
+  OilMaintenance,
+  OilServiceType,
+  OilState,
+  OilType,
+} from '@/shared/types/oil-maintenance';
 import { AxiosError } from 'axios';
 
 const baseApi = import.meta.env.VITE_ROTA_API;
@@ -28,10 +33,10 @@ export const useOilStore = defineStore('oil', {
     setMileage(mileage: string) {
       this.mileage = mileage;
     },
-    setOilType(oilType: string) {
+    setOilType(oilType: OilType) {
       this.oilType = oilType;
     },
-    setServiceType(serviceType: string) {
+    setServiceType(serviceType: OilServiceType) {
       this.serviceType = serviceType;
     },
     setOficina(oficina: string) {
@@ -94,8 +99,8 @@ export const useOilStore = defineStore('oil', {
       payload: {
         lastMaintenanceDate: string;
         lastMaintenanceKm: number;
-        oilType: string;
-        serviceType: string;
+        oilType: OilType;
+        serviceType: OilServiceType;
         valor: number;
         oficina?: string;
       },

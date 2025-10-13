@@ -1,10 +1,21 @@
+export enum OilType {
+  MINERAL = 'MINERAL',
+  SEMI_SYNTHETIC = 'SEMI_SYNTHETIC',
+  SYNTHETIC = 'SYNTHETIC',
+}
+
+export enum OilServiceType {
+  OIL_CHANGE = 'oil_change',
+  BOTH = 'both',
+}
+
 export interface OilMaintenance {
   id: string;
   lastMaintenanceDate: string;
   lastMaintenanceKm: number;
-  oilType?: string;
+  oilType: OilType;
   oilQuantityLt: number;
-  serviceType: string;
+  serviceType: OilServiceType;
   valor: number;
   status: string;
   oficina?: string;
@@ -14,9 +25,9 @@ export interface OilMaintenance {
 export interface OilState {
   date: string;
   mileage: string;
-  oilType: string;
+  oilType: OilType | '';
   oficina: string;
-  serviceType: string;
+  serviceType: OilServiceType | '';
   carId: number | null;
   isLoading: boolean;
   maintenances: OilMaintenance[];

@@ -19,7 +19,10 @@ import {
   BrokenCarIcon,
 } from '@/shared/assets/illustrations';
 import { QSpinner } from 'quasar';
-import { MappedMaintenance } from '@/shared/types/oil-maintenance';
+import {
+  MappedMaintenance,
+  OilServiceType,
+} from '@/shared/types/oil-maintenance';
 
 const oilStore = useOilStore();
 const carStore = useCarStore();
@@ -66,7 +69,7 @@ const mappedMaintenances = computed(() =>
         }).format(Number(m.valor))
       : '-',
     service:
-      m.serviceType === 'oil-changed'
+      m.serviceType === ('oil-changed' as OilServiceType)
         ? 'Troca de filtro e óleo'
         : 'Troca de óleo',
     oilType: m.oilType || '-',

@@ -13,6 +13,7 @@ import helpIcon from '@/shared/assets/helpIcon.svg';
 
 import { useOilStore } from '@/stores/oilStore';
 import { useCarStore } from '@/stores/carStore';
+import { OilServiceType, OilType } from '@/shared/types/oil-maintenance';
 
 const oilStore = useOilStore();
 const carStore = useCarStore();
@@ -52,11 +53,15 @@ const isOpen = ref(false);
 const modalContent = ref('Quando devo fazer a troca?');
 const modalDescription = ref<string[]>([]);
 const isPositiveOpen = ref(false);
-const successTitle = ref('Cadastro concluído!');
-const successDescription = ref('Informaremos você sobre a próxima manutenção.');
+const successTitle = ref('Parabéns!');
+const successDescription = ref(
+  'Você cadastrou a troca de óleo do seu veículo. Iremos lhe informar sobre a próxima manutenção.'
+);
 const isErrorOpen = ref(false);
-const errorTitle = ref('Erro ao salvar!');
-const errorDescription = ref('Ocorreu um erro inesperado. Tente novamente.');
+const errorTitle = ref('Algo deu errado!');
+const errorDescription = ref(
+  'Suas alterações não foram salvas. Tente novamente mais tarde.'
+);
 
 const showHelpModal = (): void => {
   isOpen.value = true;
@@ -78,10 +83,10 @@ const closeSuccess = (): void => {
 interface OilMaintenancePayload {
   lastMaintenanceDate: string;
   lastMaintenanceKm: number;
-  oilType: string;
+  oilType: OilType;
   valor: number;
   oficina: string;
-  serviceType: string;
+  serviceType: OilServiceType;
 }
 
 const handleSubmit = async (): Promise<void> => {
@@ -100,11 +105,16 @@ const handleSubmit = async (): Promise<void> => {
     const payload: OilMaintenancePayload = {
       lastMaintenanceDate: isoDate,
       lastMaintenanceKm: Number(mileage.value),
-      oilType: oilType.value,
+      oilType: oilType.value as OilType,
       valor: Number(maintenanceValue.value),
       oficina: oficina.value,
-      serviceType: serviceType.value,
+      serviceType: serviceType.value as OilServiceType,
     };
+
+    if (maintenanceId) {
+      successTitle.value = 'Edição concluída!';
+      successDescription.value = 'As alterações foram salvas com sucesso.';
+    }
 
     await oilStore.saveOilMaintenance(payload, oilStore.getEditingId());
     oilStore.setSelectedMaintenance(null);
@@ -134,8 +144,6 @@ onMounted(async () => {
     console.log(maintenanceId);
     const m = oilStore.maintenances.find((m) => m.id === maintenanceId);
     if (!m) return;
-
-    console.log(m);
 
     oilStore.setSelectedMaintenance(m);
 
