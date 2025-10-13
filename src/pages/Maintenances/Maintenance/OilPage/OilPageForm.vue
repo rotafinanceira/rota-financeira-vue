@@ -26,7 +26,6 @@ const mileage = ref('');
 const oilType = ref('');
 const serviceType = ref('');
 const oficina = ref('');
-const oilBrand = ref('');
 const maintenanceValue = ref('');
 const isLoading = ref(false);
 
@@ -80,7 +79,6 @@ interface OilMaintenancePayload {
   lastMaintenanceDate: string;
   lastMaintenanceKm: number;
   oilType: string;
-  oilBrand: string;
   valor: number;
   oficina: string;
   serviceType: string;
@@ -103,7 +101,6 @@ const handleSubmit = async (): Promise<void> => {
       lastMaintenanceDate: isoDate,
       lastMaintenanceKm: Number(mileage.value),
       oilType: oilType.value,
-      oilBrand: oilBrand.value,
       valor: Number(maintenanceValue.value),
       oficina: oficina.value,
       serviceType: serviceType.value,
@@ -148,7 +145,6 @@ onMounted(async () => {
     mileage.value = m.lastMaintenanceKm?.toString() ?? '';
     maintenanceValue.value = m.valor?.toString() ?? '';
     oficina.value = m.oficina ?? '';
-    oilBrand.value = m.oilBrand ?? '';
 
     oilType.value =
       oilOptions.find(
@@ -241,17 +237,6 @@ onMounted(async () => {
             label="Oficina"
             name="oil-brand"
             placeholder="Digite o nome da oficina"
-            variant="generic"
-          />
-        </div>
-
-        <div class="input-wrapper">
-          <CInput
-            :value="oilBrand"
-            v-model="oilBrand"
-            label="Quantidade de óleo (litros)"
-            name="liters"
-            placeholder="Ex: 2"
             variant="generic"
           />
         </div>

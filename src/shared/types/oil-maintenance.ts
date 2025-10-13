@@ -2,9 +2,8 @@ export interface OilMaintenance {
   id: string;
   lastMaintenanceDate: string;
   lastMaintenanceKm: number;
-  oilType: string;
+  oilType?: string;
   oilQuantityLt: number;
-  oilBrand?: string;
   serviceType: string;
   valor: number;
   status: string;
@@ -16,7 +15,6 @@ export interface OilState {
   date: string;
   mileage: string;
   oilType: string;
-  oilBrand: string;
   oficina: string;
   serviceType: string;
   carId: number | null;
@@ -34,5 +32,4 @@ export interface MappedMaintenance {
   price: string;
   service: string;
   oilType: string;
-  oilBrand: string | null;
 }

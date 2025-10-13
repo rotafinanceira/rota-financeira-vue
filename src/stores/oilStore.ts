@@ -11,7 +11,6 @@ export const useOilStore = defineStore('oil', {
     date: '',
     mileage: '',
     oilType: '',
-    oilBrand: '',
     oficina: '',
     serviceType: '',
     carId: null,
@@ -31,9 +30,6 @@ export const useOilStore = defineStore('oil', {
     },
     setOilType(oilType: string) {
       this.oilType = oilType;
-    },
-    setOilBrand(oilBrand: string) {
-      this.oilBrand = oilBrand;
     },
     setServiceType(serviceType: string) {
       this.serviceType = serviceType;
@@ -99,7 +95,6 @@ export const useOilStore = defineStore('oil', {
         lastMaintenanceDate: string;
         lastMaintenanceKm: number;
         oilType: string;
-        oilBrand?: string;
         serviceType: string;
         valor: number;
         oficina?: string;

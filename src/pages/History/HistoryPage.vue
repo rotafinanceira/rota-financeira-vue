@@ -61,7 +61,6 @@ type MaintenanceApiItem = {
     lastMaintenanceDate?: string;
     lastMaintenanceKm?: number;
     valor?: string;
-    oilBrand?: string;
     batteryBrand?: string;
     oilType?: string;
     status?: string;

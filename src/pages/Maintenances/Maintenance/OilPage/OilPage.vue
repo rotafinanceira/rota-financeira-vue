@@ -70,7 +70,6 @@ const mappedMaintenances = computed(() =>
         ? 'Troca de filtro e óleo'
         : 'Troca de óleo',
     oilType: m.oilType || '-',
-    oilBrand: m.oilBrand || null,
   }))
 );
 
