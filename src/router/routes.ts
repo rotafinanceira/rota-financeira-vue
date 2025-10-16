@@ -296,14 +296,14 @@ const routes: RouteRecordRaw[] = [
             path: '/lab',
             component: () => import('@/pages/LabPage.vue'),
           },
+          {
+            path: '/:catchAll(.*)*',
+            name: 'not-found',
+            component: () => import('pages/NotFound.vue'),
+          },
         ],
       },
     ],
-  },
-  {
-    path: '/:catchAll(.*)*',
-    name: 'not-found',
-    component: () => import('pages/NotFound.vue'),
   },
 ];
 
