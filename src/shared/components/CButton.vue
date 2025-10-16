@@ -14,9 +14,11 @@ const props = withDefaults(
     to?: RouteLocationRaw;
   }>(),
   {
+    label: '',
     variant: 'primary',
     size: 'default',
     disabled: false,
+    loading: false,
   }
 );
 
@@ -41,7 +43,6 @@ const variantClass = computed(() => `btn--${props.variant}`);
 .custom-button {
   width: 100%;
   font-weight: 600;
-  cursor: pointer;
   border-radius: 8px;
   white-space: nowrap;
   padding: 12px 24px;

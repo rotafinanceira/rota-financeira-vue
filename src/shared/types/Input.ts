@@ -1,6 +1,7 @@
 import { InputHTMLAttributes } from 'vue';
 
 export type Input = {
+  modelValue: string | number;
   label?: string;
   name: string;
   placeholder?: string;
@@ -9,5 +10,5 @@ export type Input = {
   disabled?: boolean;
   supportingText?: string;
   action?: () => void;
-  variant: 'generic' | 'password'
+  variant: 'generic' | 'password';
 } & /* @vue-ignore */ InputHTMLAttributes;
