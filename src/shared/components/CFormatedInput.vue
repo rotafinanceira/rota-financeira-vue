@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, useAttrs } from 'vue';
-import { formatCurrency } from '../helper/inputFormatHelper';
+import { formatInput } from '../helper/inputFormatHelper';
 import { XCircleIcon } from '../assets/icons';
 
 const props = withDefaults(
@@ -13,9 +13,11 @@ const props = withDefaults(
     showIcon?: 'always' | 'not-empty';
     disabled?: boolean;
     supportingText?: string;
+    variant?: 'money' | 'unit';
   }>(),
   {
     showIcon: 'not-empty',
+    type: 'money',
   }
 );
 
@@ -24,13 +26,11 @@ const emit = defineEmits<{
 }>();
 
 const attrs = useAttrs();
-const value = ref<string>(
-  formatCurrency(String(props.modelValue ?? 'R$ 0,00'))
-);
+const value = ref<string>(formatInput(props.modelValue, props.variant));
 
 const onInput = (event: Event) => {
   const input = event.target as HTMLInputElement;
-  const formatted = formatCurrency(input.value);
+  const formatted = formatInput(input.value, props.variant);
   input.value = formatted;
   value.value = formatted;
   emit('update:modelValue', formatted);
@@ -39,7 +39,7 @@ const onInput = (event: Event) => {
 watch(
   () => props.modelValue,
   (newVal) => {
-    const formatted = formatCurrency(String(newVal ?? 'R$ 0,00'));
+    const formatted = formatInput(String(newVal ?? ''), props.variant);
     if (formatted !== value.value) {
       value.value = formatted;
     }
@@ -55,7 +55,9 @@ watch(
       <input
         :name="name"
         v-bind="attrs"
-        :placeholder="placeholder || 'R$ 0,00'"
+        :placeholder="
+          placeholder || (variant === 'money' ? 'R$ 0,00' : '1.000')
+        "
         :disabled="disabled"
         :value="value"
         @input="onInput"
@@ -64,7 +66,7 @@ watch(
         v-if="icon"
         type="button"
         @click="
-          value = 'R$ 0,00';
+          value = variant === 'money' ? 'R$ 0,00' : '0';
           emit('update:modelValue', value);
         "
         :disabled="disabled"

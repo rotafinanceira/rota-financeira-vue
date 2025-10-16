@@ -10,14 +10,14 @@ import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
 import CSelect from '@/shared/components/CSelect.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
-import CFormatedInput from '@/shared/components/CMoneyInput.vue';
+import CFormatedInput from '@/shared/components/CFormatedInput.vue';
 
 import { useOilStore } from '@/stores/oilStore';
 import { useCarStore } from '@/stores/carStore';
 import { OilServiceType, OilType } from '@/shared/types/oil-maintenance';
 import {
-  formatCurrency,
-  parseCurrencyToFloat,
+  formatInput,
+  parseInputToNumber,
 } from '@/shared/helper/inputFormatHelper';
 
 const oilStore = useOilStore();
@@ -110,9 +110,9 @@ const handleSubmit = async (): Promise<void> => {
 
     const payload: OilMaintenancePayload = {
       lastMaintenanceDate: isoDate,
-      lastMaintenanceKm: Number(mileage.value),
+      lastMaintenanceKm: parseInputToNumber(mileage.value),
       oilType: oilType.value as OilType,
-      valor: parseCurrencyToFloat(maintenanceValue.value),
+      valor: parseInputToNumber(maintenanceValue.value),
       oficina: oficina.value,
       serviceType: serviceType.value as OilServiceType,
     };
@@ -155,8 +155,8 @@ onMounted(async () => {
     date.value = m.lastMaintenanceDate
       ? new Date(m.lastMaintenanceDate).toLocaleDateString('pt-BR')
       : '';
-    mileage.value = m.lastMaintenanceKm?.toString() ?? '';
-    maintenanceValue.value = formatCurrency(m.valor ?? 0);
+    mileage.value = formatInput(m.lastMaintenanceKm ?? 0);
+    maintenanceValue.value = formatInput(m.valor ?? 0);
     oficina.value = m.oficina ?? '';
 
     oilType.value =
@@ -188,14 +188,12 @@ onMounted(async () => {
         </div>
 
         <div class="input-wrapper">
-          <CInput
-            :value="mileage"
+          <CFormatedInput
             v-model="mileage"
             label="Km na data de serviço*"
-            type="number"
             name="mileage"
-            placeholder="Ex: 50000"
-            variant="generic"
+            variant="unit"
+            id="maintenance-value"
           />
         </div>
 
@@ -213,9 +211,10 @@ onMounted(async () => {
 
         <div class="input-wrapper">
           <CFormatedInput
-            name="maintenanceValue"
             v-model="maintenanceValue"
             label="Valor da manutenção*"
+            name="maintenanceValue"
+            variant="money"
             id="maintenance-value"
           />
         </div>
