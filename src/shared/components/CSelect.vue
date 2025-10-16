@@ -66,18 +66,20 @@ const borderClass = computed(() => {
       <img class="select__icon" :src="ArrowIcon" alt="" />
     </div>
 
-    <ul v-if="isOpen" class="select__list" :class="borderClass">
-      <li
-        v-for="opt in props.options"
-        :key="opt.value"
-        @click="selectOption(opt.value)"
-        class="select__option"
-      >
-        <div class="option-content">
-          <span>{{ opt.label }}</span>
-        </div>
-      </li>
-    </ul>
+    <Transition name="dropdown">
+      <ul v-if="isOpen" class="select__list" :class="borderClass">
+        <li
+          v-for="opt in props.options"
+          :key="opt.value"
+          @click="selectOption(opt.value)"
+          class="select__option"
+        >
+          <div class="option-content">
+            <span>{{ opt.label }}</span>
+          </div>
+        </li>
+      </ul>
+    </Transition>
   </div>
 </template>
 
@@ -176,5 +178,22 @@ const borderClass = computed(() => {
       width: 100%;
     }
   }
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
+  opacity: 0;
+  transform: translateY(-50px);
+}
+
+.dropdown-enter-to,
+.dropdown-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dropdown-enter-active,
+.dropdown-leave-active {
+  transition: all 0.3s ease;
 }
 </style>
