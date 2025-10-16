@@ -10,10 +10,15 @@ import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
 import CSelect from '@/shared/components/CSelect.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
+import CFormatedInput from '@/shared/components/CMoneyInput.vue';
 
 import { useOilStore } from '@/stores/oilStore';
 import { useCarStore } from '@/stores/carStore';
 import { OilServiceType, OilType } from '@/shared/types/oil-maintenance';
+import {
+  formatCurrency,
+  parseCurrencyToFloat,
+} from '@/shared/helper/inputFormatHelper';
 
 const oilStore = useOilStore();
 const carStore = useCarStore();
@@ -27,8 +32,9 @@ const mileage = ref('');
 const oilType = ref('');
 const serviceType = ref('');
 const oficina = ref('');
-const maintenanceValue = ref('');
 const isLoading = ref(false);
+
+const maintenanceValue = ref('R$ 0,00');
 
 const dateMask: MaskInputOptions = {
   mask: '##/##/####',
@@ -106,7 +112,7 @@ const handleSubmit = async (): Promise<void> => {
       lastMaintenanceDate: isoDate,
       lastMaintenanceKm: Number(mileage.value),
       oilType: oilType.value as OilType,
-      valor: Number(maintenanceValue.value),
+      valor: parseCurrencyToFloat(maintenanceValue.value),
       oficina: oficina.value,
       serviceType: serviceType.value as OilServiceType,
     };
@@ -141,7 +147,6 @@ onMounted(async () => {
   }
 
   if (maintenanceId) {
-    console.log(maintenanceId);
     const m = oilStore.maintenances.find((m) => m.id === maintenanceId);
     if (!m) return;
 
@@ -151,7 +156,7 @@ onMounted(async () => {
       ? new Date(m.lastMaintenanceDate).toLocaleDateString('pt-BR')
       : '';
     mileage.value = m.lastMaintenanceKm?.toString() ?? '';
-    maintenanceValue.value = m.valor?.toString() ?? '';
+    maintenanceValue.value = formatCurrency(m.valor ?? 0);
     oficina.value = m.oficina ?? '';
 
     oilType.value =
@@ -207,14 +212,11 @@ onMounted(async () => {
         </div>
 
         <div class="input-wrapper">
-          <CInput
-            :value="maintenanceValue"
+          <CFormatedInput
+            name="maintenanceValue"
             v-model="maintenanceValue"
             label="Valor da manutenção*"
-            name="maintenance-value"
-            type="number"
-            placeholder="Ex: 150"
-            variant="generic"
+            id="maintenance-value"
           />
         </div>
 
