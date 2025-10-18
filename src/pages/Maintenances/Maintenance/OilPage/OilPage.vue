@@ -1,34 +1,42 @@
 <script setup lang="ts">
 import { onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
+import { QSpinner } from 'quasar';
+
 import { useCarStore } from '@/stores/carStore';
 import { useOilStore } from '@/stores/oilStore';
 
 import CDivider from '@/shared/components/CDivider.vue';
 import CTag from '@/shared/components/CTag.vue';
 import CButton from '@/shared/components/CButton.vue';
+
 import {
   OilLiquidIcon,
   EditIcon,
   MoneyCircleIcon,
   CalendarIcon,
 } from '@/shared/assets/icons';
+
 import {
   CarIcon,
   WrenchIcon,
   BrokenCarIcon,
 } from '@/shared/assets/illustrations';
-import { QSpinner } from 'quasar';
+
 import {
   MappedMaintenance,
   OilServiceType,
 } from '@/shared/types/oil-maintenance';
 
+const router = useRouter();
 const oilStore = useOilStore();
 const carStore = useCarStore();
-const router = useRouter();
-const hasMaintenances = computed(() => oilStore.maintenances.length > 0);
-const isOverdue = computed(() => oilStore.isOverdue);
+
+const { maintenances, isOverdue, isLoading, nextMaintenanceKm } =
+  storeToRefs(oilStore);
+
+const hasMaintenances = computed(() => maintenances.value.length > 0);
 const isEmpty = computed(() => !hasMaintenances.value);
 
 onMounted(async () => {
@@ -46,8 +54,8 @@ watch(
   { immediate: true }
 );
 
-const mappedMaintenances = computed(() =>
-  [...oilStore.maintenances].reverse().map((m) => ({
+const mappedMaintenances = computed<MappedMaintenance[]>(() =>
+  [...maintenances.value].reverse().map((m) => ({
     id: m.id,
     date: m.lastMaintenanceDate
       ? new Date(m.lastMaintenanceDate)
@@ -77,11 +85,10 @@ const mappedMaintenances = computed(() =>
 );
 
 function editMaintenance(m: MappedMaintenance): void {
-  const maintenance = oilStore.maintenances.find((item) => item.id === m.id);
+  const maintenance = maintenances.value.find((item) => item.id === m.id);
   if (!maintenance) return;
 
   oilStore.setSelectedMaintenance(maintenance);
-
   router.push({
     name: 'maintenance-oil-form',
     params: { maintenanceId: m.id },
@@ -96,11 +103,11 @@ function editMaintenance(m: MappedMaintenance): void {
       <h1>Troca de óleo</h1>
     </div>
 
-    <div v-if="oilStore.isLoading" class="spinner-center">
+    <div v-if="isLoading" class="spinner-center">
       <q-spinner color="primary" size="40px" />
     </div>
 
-    <section class="oil__status">
+    <section class="oil__status" v-else>
       <div v-if="isOverdue" class="oil__card">
         <div class="card__container">
           <img :src="BrokenCarIcon" />
@@ -126,8 +133,8 @@ function editMaintenance(m: MappedMaintenance): void {
           <img :src="CarIcon" />
           <h2 class="card__title">Você está em dia!</h2>
           <span class="card__text">
-            Sua próxima revisão do óleo automotivo será em
-            {{ oilStore.nextMaintenanceKm ?? '0' }} km.
+            Sua próxima revisão será em
+            {{ nextMaintenanceKm ?? '0' }} km.
           </span>
         </div>
       </div>
@@ -151,7 +158,6 @@ function editMaintenance(m: MappedMaintenance): void {
               <div class="vertical"></div>
               <h1>{{ m.service }}</h1>
             </div>
-            <button></button>
             <img
               :src="EditIcon"
               alt="Editar"
@@ -207,14 +213,13 @@ function editMaintenance(m: MappedMaintenance): void {
   }
 
   &__card {
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 8px;
     border: 1px solid #e0e5e7;
   }
 }
 
 .card {
-  gap: 16px;
   text-align: center;
 
   &__container {
@@ -229,41 +234,18 @@ function editMaintenance(m: MappedMaintenance): void {
   &__title {
     font-weight: 600;
     font-size: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-  }
-
-  &__info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
 
   &__text {
-    text-align: center;
     font-size: 0.875rem;
-    font-weight: 400;
     color: #485159;
-
-    &.light {
-      font-size: 0.75rem;
-    }
-  }
-
-  &__description {
-    color: #485159;
-    font-weight: 400;
-    font-size: 0.875rem;
   }
 }
 
 .tags {
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
-  justify-content: start;
+  gap: 10px;
 }
 
 .maintenances {
@@ -284,7 +266,7 @@ function editMaintenance(m: MappedMaintenance): void {
 }
 
 .maintenance-card {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 8px;
   border: 1px solid #e0e5e7;
   padding: 10px;
@@ -294,26 +276,15 @@ function editMaintenance(m: MappedMaintenance): void {
 
   &__header {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__header-container {
+    display: flex;
     gap: 8px;
     align-items: center;
-    justify-content: space-between;
-
-    &-title {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-
-      h1 {
-        font-weight: 700;
-        font-size: 1.25rem;
-      }
-    }
-
-    &-container {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
   }
 }
 
