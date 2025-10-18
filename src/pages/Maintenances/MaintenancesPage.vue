@@ -14,6 +14,7 @@
           <img :src="FilterControlsIcon" alt="filter icon" />
         </button>
       </header>
+
       <MaintenanceCard
         v-for="item in maintenanceItems"
         v-bind="item"
@@ -24,62 +25,70 @@
 </template>
 
 <script setup lang="ts">
+import { watch, computed, onMounted } from 'vue';
 import { CarWrenchIcon, FilterControlsIcon } from '@/shared/assets/icons';
+import { useMaintenanceStore } from '@/stores/maintenance';
+import { storeToRefs } from 'pinia';
+import { useCarStore } from '@/stores/carStore';
+import { MaintenanceIcons } from '@/shared/types/maintenance';
 
 import MaintenanceCard from './components/MaintenanceCard.vue';
-import { MaintenanceCardProps } from './types';
 
-const maintenanceItems: MaintenanceCardProps[] = [
-  {
-    title: 'Alinhamento e balanceamento',
-    icon: 'wheel',
-    maintenanceData: {
-      status: 'pending',
-    },
-    routeName: 'maintenance-alignment-balancing',
-  },
-  {
-    title: 'Bateria',
-    icon: 'battery',
-    routeName: 'maintenance-battery',
-  },
-  {
-    title: 'Filtro de ar-condicionado',
-    icon: 'airFilter',
-    maintenanceData: {
-      status: 'expired',
-    },
-    routeName: 'maintenance-air-filter',
-  },
-  {
-    title: 'Filtro de combustível',
-    icon: 'fuelFilter',
-    maintenanceData: {
-      status: 'unregistered',
-    },
-    routeName: 'maintenance-fuel-filter',
-  },
-  {
-    title: 'Nível de fluidos',
-    icon: 'fluidLevel',
-    routeName: '',
-  },
-  {
-    title: 'Motor',
-    icon: 'engine',
-    routeName: '',
-  },
-  {
-    title: 'Troca de óleo',
-    icon: 'oil',
-    routeName: 'maintenance-oil',
-  },
-  {
-    title: 'Verificação de pneu',
-    icon: 'wheel',
-    routeName: '',
-  },
-];
+const carStore = useCarStore();
+const maintenanceStore = useMaintenanceStore();
+const { maintenances } = storeToRefs(maintenanceStore);
+
+const iconMap: Record<string, keyof MaintenanceIcons> = {
+  'Oil Change': 'oil',
+  'Wheel Alignment': 'wheel',
+  'Battery Change': 'battery',
+  'Air Filter Change': 'airFilter',
+  'Fuel Filter Change': 'fuelFilter',
+};
+
+const routeMap: Record<string, string> = {
+  'Oil Change': 'maintenance-oil',
+  'Wheel Alignment': 'maintenance-alignment-balancing',
+  'Battery Change': 'maintenance-battery',
+  'Air Filter Change': 'maintenance-air-filter',
+  'Fuel Filter Change': 'maintenance-fuel-filter',
+};
+
+onMounted(async () => {
+  await carStore.getCars();
+  if (carStore.firstLicensePlate) {
+    await maintenanceStore.getMaintenances(carStore.firstLicensePlate);
+  }
+});
+
+watch(
+  () => carStore.firstLicensePlate,
+  async (plate) => {
+    if (plate) {
+      await maintenanceStore.getMaintenances(plate);
+    }
+  }
+);
+
+const maintenanceItems = computed(() => {
+  return maintenances.value.map((m) => {
+    const status =
+      m.data?.status !== 'Unregistered' || m.data?.status !== 'COMPLETED'
+        ? ''
+        : m.data?.status?.toLowerCase();
+
+    console.log(status);
+
+    return {
+      title: m.type || 'Manutenção',
+      icon: iconMap[m.type] || 'wheel',
+      maintenanceData: {
+        status,
+      },
+      routeName: routeMap[m.type] || '',
+    };
+  });
+});
 
 const openSettings = () => {
   console.log('open filters');
