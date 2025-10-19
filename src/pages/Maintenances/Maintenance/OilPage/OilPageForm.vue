@@ -240,7 +240,7 @@ onMounted(async () => {
           <CSelect
             v-model="oilType"
             name="oil-type"
-            label="Tipo de óleo*"
+            label="Tipo de óleo"
             :options="oilOptions"
             placeholder="Escolha o tipo de óleo"
           />

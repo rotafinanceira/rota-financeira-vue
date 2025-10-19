@@ -10,11 +10,13 @@ import {
   WheelIcon,
 } from '@/shared/assets/icons';
 import { RouterLink } from 'vue-router';
-import { MaintenanceCardProps } from '../types';
-import StatusTag from './StatusTag.vue';
+import { computed } from 'vue';
+import { MaintenanceCardProps, MaintenanceStatus } from '../types';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
 import CDivider from '@/shared/components/CDivider.vue';
+import CTag from '@/shared/components/CTag.vue';
 
+// Ícones
 const maintenanceIcons: MaintenanceIcons = {
   wheel: WheelIcon,
   oil: OilIcon,
@@ -25,7 +27,28 @@ const maintenanceIcons: MaintenanceIcons = {
   fluidLevel: ChartIcon,
 };
 
-defineProps<MaintenanceCardProps>();
+const props = defineProps<MaintenanceCardProps>();
+
+const statusTable: Record<
+  MaintenanceStatus,
+  { variant: 'default' | 'alert' | 'error' | 'outline'; text: string }
+> = {
+  Unregistered: { variant: 'outline', text: 'Não registrada' },
+  PENDING: { variant: 'alert', text: 'Pendente' },
+  EXPIRED: { variant: 'error', text: 'Vencida' },
+  COMPLETED: { variant: 'default', text: 'Concluída' },
+};
+
+const statusTag = computed(() => {
+  const status = props.maintenanceData?.status;
+  if (!status) return null;
+
+  if (status === 'COMPLETED' || status === 'PENDING') {
+    return null;
+  }
+
+  return statusTable[status];
+});
 </script>
 
 <template>
@@ -35,14 +58,16 @@ defineProps<MaintenanceCardProps>();
         <div class="item__wrapper">
           <img :src="maintenanceIcons[icon]" alt="" class="item__icon" />
         </div>
+        <div class="vertical"></div>
         <p class="item__text">{{ title }}</p>
       </div>
       <img :src="ArrowIcon" alt="" class="item__arrow" />
     </div>
-    <template v-if="maintenanceData?.status">
+
+    <template v-if="statusTag">
       <CDivider />
       <div class="badges">
-        <StatusTag v-bind="maintenanceData" />
+        <CTag :title="statusTag.text" :variant="statusTag.variant" />
       </div>
     </template>
   </RouterLink>

@@ -33,6 +33,7 @@ import { useCarStore } from '@/stores/carStore';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
 
 import MaintenanceCard from './components/MaintenanceCard.vue';
+import { MaintenanceStatus } from './types';
 
 const carStore = useCarStore();
 const maintenanceStore = useMaintenanceStore();
@@ -72,18 +73,20 @@ watch(
 
 const maintenanceItems = computed(() => {
   return maintenances.value.map((m) => {
-    const status =
-      m.data?.status !== 'Unregistered' || m.data?.status !== 'COMPLETED'
-        ? ''
-        : m.data?.status?.toLowerCase();
-
-    console.log(status);
+    const status: MaintenanceStatus =
+      m.data?.status &&
+      ['Unregistered', 'PENDING', 'EXPIRED', 'COMPLETED'].includes(
+        m.data.status
+      )
+        ? m.data.status
+        : 'Unregistered';
 
     return {
       title: m.type || 'Manutenção',
       icon: iconMap[m.type] || 'wheel',
       maintenanceData: {
         status,
+        pendingSteps: m.data?.pendingSteps || 0,
       },
       routeName: routeMap[m.type] || '',
     };
@@ -102,14 +105,13 @@ const openSettings = () => {
   &__wrapper {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
   }
 
   &__title {

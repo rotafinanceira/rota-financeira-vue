@@ -15,7 +15,7 @@ const emit = defineEmits<{
 }>();
 
 const onRemove = () => {
-  emit('remove', props.id);
+  if (props.id) emit('remove', props.id);
 };
 
 const currentIcon = computed(() =>

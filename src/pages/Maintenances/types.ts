@@ -1,5 +1,4 @@
 import { MaintenanceIcons } from '@/shared/types/maintenance';
-import { MaintenanceData } from './components/StatusTag.vue';
 
 export type MaintenanceCardProps = {
   title: string;
@@ -18,4 +17,14 @@ export type MaintenanceTypes =
   | 'fuel levels'
   | 'fluid levels';
 
-export type MaintenanceStatus = 'unregistered' | 'pending' | 'expired';
+export type MaintenanceStatus =
+  | 'Unregistered'
+  | 'PENDING'
+  | 'EXPIRED'
+  | 'COMPLETED';
+
+export type MaintenanceData = {
+  date?: Date | null;
+  status?: MaintenanceStatus;
+  pendingSteps?: number;
+};
