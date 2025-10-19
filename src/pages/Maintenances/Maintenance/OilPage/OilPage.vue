@@ -97,8 +97,8 @@ function editMaintenance(m: MappedMaintenance): void {
 </script>
 
 <template>
-  <div class="oil app-wrapper">
-    <div class="oil__header">
+  <div class="page app-wrapper">
+    <div class="page__header">
       <img :src="OilLiquidIcon" alt="" />
       <h1>Troca de óleo</h1>
     </div>
@@ -107,8 +107,8 @@ function editMaintenance(m: MappedMaintenance): void {
       <q-spinner color="primary" size="40px" />
     </div>
 
-    <section class="oil__status" v-else>
-      <div v-if="isOverdue" class="oil__card">
+    <section class="page__status" v-else>
+      <div v-if="isOverdue" class="page__card">
         <div class="card__container">
           <img :src="BrokenCarIcon" />
           <h2 class="card__title">Manutenção vencida!</h2>
@@ -118,7 +118,7 @@ function editMaintenance(m: MappedMaintenance): void {
         </div>
       </div>
 
-      <div v-else-if="isEmpty" class="oil__card">
+      <div v-else-if="isEmpty" class="page__card">
         <div class="card__container">
           <img :src="WrenchIcon" />
           <h2 class="card__title">Nenhuma manutenção cadastrada!</h2>
@@ -128,7 +128,7 @@ function editMaintenance(m: MappedMaintenance): void {
         </div>
       </div>
 
-      <div v-else class="oil__card">
+      <div v-else class="page__card">
         <div class="card__container">
           <img :src="CarIcon" />
           <h2 class="card__title">Você está em dia!</h2>
@@ -196,105 +196,5 @@ function editMaintenance(m: MappedMaintenance): void {
 </template>
 
 <style scoped lang="scss">
-.oil {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-
-  &__header {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-
-    h1 {
-      font-weight: 700;
-      font-size: 1.25rem;
-    }
-  }
-
-  &__card {
-    background-color: #fff;
-    border-radius: 8px;
-    border: 1px solid #e0e5e7;
-  }
-}
-
-.card {
-  text-align: center;
-
-  &__container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    padding: 16px;
-  }
-
-  &__title {
-    font-weight: 600;
-    font-size: 1rem;
-  }
-
-  &__text {
-    font-size: 0.875rem;
-    color: #485159;
-  }
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.maintenances {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-
-  &__header {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-
-    h1 {
-      font-weight: 700;
-      font-size: 1.25rem;
-    }
-  }
-}
-
-.maintenance-card {
-  background-color: #fff;
-  border-radius: 8px;
-  border: 1px solid #e0e5e7;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-  }
-
-  &__header-container {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-}
-
-.vertical {
-  width: 1px;
-  height: 35px;
-  border-right: 1px dashed #485159;
-}
-
-.divider {
-  margin: 10px;
-}
+@use '/src/css/maintenancePage.scss';
 </style>

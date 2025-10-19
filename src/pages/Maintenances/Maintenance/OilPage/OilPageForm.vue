@@ -271,7 +271,6 @@ onMounted(async () => {
       </ul>
     </CModal>
 
-    <!-- Modal de sucesso -->
     <CModal
       v-model="isPositiveOpen"
       icon="success"
@@ -288,7 +287,6 @@ onMounted(async () => {
       </div>
     </CModal>
 
-    <!-- Modal de erro -->
     <CModal
       v-model="isErrorOpen"
       icon="error"
@@ -307,46 +305,6 @@ onMounted(async () => {
   </div>
 </template>
 
-<style scoped>
-.main-content {
-  display: flex;
-  flex-direction: column;
-  background-color: #eff3f5;
-  padding: 24px 20px;
-  gap: 32px;
-}
-.card-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.card {
-  width: 100%;
-  background-color: white;
-  border-radius: 8px;
-  padding: 16px;
-}
-.input-wrapper {
-  margin-bottom: 20px;
-}
-.text-wrapper {
-  margin-bottom: 32px;
-}
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.title {
-  font-size: 18px;
-  font-weight: bold;
-}
-.subtitle {
-  font-size: 14px;
-  color: #5b6871;
-  margin-top: 8px;
-}
-.info-list li {
-  margin-bottom: 12px;
-}
+<style scoped lang="scss">
+@use '/src/css/maintenanceForm.scss';
 </style>

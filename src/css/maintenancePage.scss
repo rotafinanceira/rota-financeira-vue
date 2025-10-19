@@ -1,0 +1,101 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__header {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    h1 {
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+  }
+
+  &__card {
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #e0e5e7;
+  }
+}
+
+.card {
+  text-align: center;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  &__text {
+    font-size: 0.875rem;
+    color: #485159;
+  }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.maintenances {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__header {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    h1 {
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+  }
+}
+
+.maintenance-card {
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #e0e5e7;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__header-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+}
+
+.vertical {
+  width: 1px;
+  height: 35px;
+  border-right: 1px dashed #485159;
+}
+
+.divider {
+  margin: 10px;
+}
