@@ -51,3 +51,5 @@ export { default as WheelIcon } from './wheel.svg';
 export { default as ModalCheckIcon } from './modal-check.svg';
 export { default as ModalAlertIcon } from './modal-alert.svg';
 export { default as ModalErrorIcon } from './modal-error.svg';
+export { default as CameraIcon } from './camera.svg';
+export { default as ImagemIcon } from './imagem.svg';
