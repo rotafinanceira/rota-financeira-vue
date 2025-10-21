@@ -1,26 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import CSelect from '@/shared/components/CSelect.vue';
 
-const country = ref('');
 </script>
 
 <template>
   <div class="lab app-wrapper">
-    <CSelect
-      v-model="country"
-      label="País"
-      name="country"
-      :required="true"
-      placeholder="Selecione um país"
-      :options="[
-        { label: 'Brasil', value: 'br' },
-        { label: 'Argentina', value: 'ar' },
-        { label: 'Chile', value: 'cl' },
-      ]"
-    />
-    <p>Selecionado: {{ country }}</p>
+
   </div>
+
+  
+
 </template>
 
 <style scoped lang="scss">
@@ -35,13 +23,4 @@ const country = ref('');
   min-height: $screen;
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .form {
-    display: grid;
-    gap: 1rem;
-  }
-}
 </style>

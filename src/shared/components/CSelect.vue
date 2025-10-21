@@ -1,29 +1,31 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { ArrowIcon } from '../assets/icons';
-import type { InputHTMLAttributes } from 'vue';
 
 export type Option = {
   label: string;
   value: string | number;
 };
 
-export type Input = {
+export type Select = {
   label?: string;
   name: string;
   placeholder?: string;
   options?: Option[];
   disabled?: boolean;
   required?: boolean;
-} & /* @vue-ignore */ InputHTMLAttributes;
+};
 
-const props = withDefaults(defineProps<Input>(), {
+const props = withDefaults(defineProps<Select>(), {
   options: () => [],
   required: false,
 });
 
+const modelValue = defineModel<string | number | ''>('modelValue', {
+  default: '',
+});
+
 const isOpen = ref(false);
-const modelValue = defineModel<string | number>();
 
 const toggleDropdown = () => {
   if (props.disabled) return;
@@ -35,40 +37,49 @@ const selectOption = (val: string | number) => {
   isOpen.value = false;
 };
 
+const selectedLabel = computed(() => {
+  return (
+    props.options.find((o) => o.value === modelValue.value)?.label ??
+    props.placeholder ??
+    'Selecione...'
+  );
+});
+
 const borderClass = computed(() => {
   if (!props.required) return '';
   return modelValue.value ? 'is-valid' : 'is-error';
-});
-
-const selectedLabel = computed(() => {
-  return modelValue.value
-    ? props.options.find((o) => o.value === modelValue.value)?.label
-    : props.placeholder;
 });
 </script>
 
 <template>
   <div class="select">
-    <span class="select__label" v-if="props.label">{{ props.label }}</span>
+    <label v-if="props.label" class="select__label" :for="props.name">
+      {{ props.label }}
+    </label>
+
     <div
       class="select__wrapper"
-      :class="[borderClass, { open: isOpen }]"
+      :class="[borderClass, { disabled: props.disabled, open: isOpen }]"
       @click="toggleDropdown"
     >
       <span>{{ selectedLabel }}</span>
       <img class="select__icon" :src="ArrowIcon" alt="" />
     </div>
 
-    <ul v-if="isOpen" class="select__list">
-      <li
-        v-for="opt in props.options"
-        :key="opt.value"
-        @click="selectOption(opt.value)"
-        class="select__option"
-      >
-        {{ opt.label }}
-      </li>
-    </ul>
+    <Transition name="dropdown">
+      <ul v-if="isOpen" class="select__list" :class="borderClass">
+        <li
+          v-for="opt in props.options"
+          :key="opt.value"
+          @click="selectOption(opt.value)"
+          class="select__option"
+        >
+          <div class="option-content">
+            <span>{{ opt.label }}</span>
+          </div>
+        </li>
+      </ul>
+    </Transition>
   </div>
 </template>
 
@@ -77,60 +88,112 @@ const selectedLabel = computed(() => {
   display: flex;
   flex-direction: column;
   width: 100%;
+  position: relative;
+  font-size: 1rem;
+  color: #485159;
 
   &__label {
+    color: #0c0d0f;
     font-weight: 500;
     font-size: 0.875rem;
     margin-bottom: 4px;
-    line-height: 120%;
   }
 
   &__wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 0.75rem;
     padding: 0.75rem 1rem;
     border: 1px solid #e0e5e7;
     border-radius: 4px;
     background: white;
-    color: #0c0d0f;
-    transition: border-color 0.2s;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
 
-    .is-error {
-      border-color: red;
+    &.is-error {
+      border-color: #e53935 !important;
     }
 
-    .is-valid {
-      border-color: green;
+    &.is-valid {
+      border-color: #43a047 !important;
+    }
+
+    &.disabled {
+      background: #f4f5f6;
+      color: #a0a0a0;
+      cursor: not-allowed;
+    }
+
+    &.open .select__icon {
+      transform: rotate(180deg);
     }
   }
 
-  &__wrapper &__wrapper &__icon {
+  &__icon {
     transition: transform 0.2s ease;
-    transform: rotate(180deg);
-  }
-
-  .open .select__icon {
-    transform: rotate(0deg);
+    width: 16px;
+    height: 16px;
   }
 
   &__list {
-    margin-top: 0.5rem;
-    padding: 0.5rem;
+    margin: 0;
+    padding: 12px;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
     list-style: none;
     border: 1px solid #e0e5e7;
     border-radius: 4px;
     background: white;
+    z-index: 10;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+
+    &.is-error {
+      border-color: #e53935;
+    }
+
+    &.is-valid {
+      border-color: #43a047;
+    }
   }
 
   &__option {
-    padding: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
     transition: background 0.15s ease;
+    display: flex;
+    align-items: center;
 
     &:hover {
       background: #eff3f5;
     }
+
+    .option-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
   }
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
+  opacity: 0;
+  transform: translateY(-50px);
+}
+
+.dropdown-enter-to,
+.dropdown-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dropdown-enter-active,
+.dropdown-leave-active {
+  transition: all 0.3s ease;
 }
 </style>
