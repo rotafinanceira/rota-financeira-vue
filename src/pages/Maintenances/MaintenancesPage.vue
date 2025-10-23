@@ -9,7 +9,7 @@
         <button
           class="maintenance__settings"
           type="button"
-          @click="openSettings"
+          @click="isBottomSheetOpen = true"
         >
           <img :src="FilterControlsIcon" alt="filter icon" />
         </button>
@@ -21,19 +21,37 @@
         :key="item.title"
       />
     </div>
+    <CBottomSheetList
+      type="filter"
+      :draggable="true"
+      :options="filterOptions"
+      v-model="isBottomSheetOpen"
+      @filter="onFilter"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { watch, computed, onMounted } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import { CarWrenchIcon, FilterControlsIcon } from '@/shared/assets/icons';
 import { useMaintenanceStore } from '@/stores/maintenance';
 import { storeToRefs } from 'pinia';
 import { useCarStore } from '@/stores/carStore';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
+import CBottomSheetList from '@/shared/components/bottomsheets/CBottomSheetList.vue';
 
 import MaintenanceCard from './components/MaintenanceCard.vue';
 import { MaintenanceStatus } from './types';
+import { ListOption } from '@/shared/types/bottom-sheet';
+
+const filterOptions = ref<ListOption[]>([
+  { label: 'Manutenções vencidas', selected: false },
+  { label: 'Próximas manutenções', selected: false },
+  { label: 'Preencher etapas', selected: false },
+  { label: 'Manutenções sem cadastro', selected: false },
+]);
+
+const isBottomSheetOpen = ref(false);
 
 const carStore = useCarStore();
 const maintenanceStore = useMaintenanceStore();
@@ -93,8 +111,9 @@ const maintenanceItems = computed(() => {
   });
 });
 
-const openSettings = () => {
-  console.log('open filters');
+const onFilter = (selectedLabels: string[]) => {
+  console.log('Filtros selecionados:', selectedLabels);
+  isBottomSheetOpen.value = false;
 };
 </script>
 
