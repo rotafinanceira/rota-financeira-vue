@@ -1,0 +1,32 @@
+export interface BatteryMaintenance {
+  id: string;
+  lastMaintenanceDate: string;
+  lastMaintenanceKm: number;
+  capacity: string;
+  BatteryQuantityLt: number;
+  valor: number;
+  status: string;
+  brand?: string;
+  nextMaintenanceMileage: number;
+}
+
+export interface BatteryState {
+  date: string;
+  mileage: string;
+  capacity: string;
+  brand: string;
+  carId: number | null;
+  isLoading: boolean;
+  maintenances: BatteryMaintenance[];
+  isOverdue: boolean;
+  nextMaintenanceKm: number | null;
+  selectedMaintenance: BatteryMaintenance | null;
+}
+
+export interface MappedMaintenance {
+  id: string;
+  date: string;
+  km: string;
+  price: string;
+  capacity: string;
+}
