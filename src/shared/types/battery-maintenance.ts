@@ -2,11 +2,11 @@ export interface BatteryMaintenance {
   id: string;
   lastMaintenanceDate: string;
   lastMaintenanceKm: number;
-  capacity: string;
+  remainingCapacity: string;
   BatteryQuantityLt: number;
   valor: number;
   status: string;
-  brand?: string;
+  batteryBrand?: string;
   nextMaintenanceMileage: number;
 }
 

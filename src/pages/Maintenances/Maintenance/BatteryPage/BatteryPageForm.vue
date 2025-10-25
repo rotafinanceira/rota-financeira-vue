@@ -146,7 +146,8 @@ onMounted(async () => {
   if (!plate) return;
 
   if (!maintenances.value || maintenances.value.length === 0) {
-    await batteryStore.getBatteryMaintenances(plate);
+    const resp = await batteryStore.getBatteryMaintenances(plate);
+    console.log(resp);
   }
 
   if (maintenanceId) {
@@ -161,8 +162,8 @@ onMounted(async () => {
 
     mileage.value = formatInput(m.lastMaintenanceKm ?? 0);
     maintenanceValue.value = formatInput(m.valor ?? 0);
-    brand.value = m.brand ?? '';
-    capacity.value = m.capacity ?? '';
+    brand.value = m.batteryBrand ?? '';
+    capacity.value = m.remainingCapacity.toString() ?? '';
   }
 });
 </script>

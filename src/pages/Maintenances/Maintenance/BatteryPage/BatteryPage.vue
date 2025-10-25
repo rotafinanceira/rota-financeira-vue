@@ -74,9 +74,9 @@ const mappedMaintenances = computed<MappedMaintenance[]>(() =>
         }).format(Number(m.valor))
       : '-',
 
-    capacity: m.capacity || '-',
+    capacity: m.remainingCapacity || '-',
 
-    brand: m.brand || '-',
+    brand: m.batteryBrand || '-',
   }))
 );
 
