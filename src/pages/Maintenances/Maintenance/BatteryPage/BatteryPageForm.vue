@@ -59,7 +59,7 @@ const isErrorOpen = ref(false);
 
 const successTitle = ref('Parabéns!');
 const successDescription = ref(
-  'Você cadastrou a troca de óleo do seu veículo. Iremos lhe informar sobre a próxima manutenção.'
+  'Você cadastrou o monitoramento de bateria seu veículo. Iremos lhe informar sobre a próxima troca.'
 );
 
 const errorTitle = ref('Algo deu errado!');
@@ -71,11 +71,10 @@ function showHelpModal() {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
   modalDescription.value = [
-    'Troque o óleo conforme a recomendação do fabricante: geralmente a cada 10.000 km ou 12 meses para óleo sintético, 5.000 km ou 6 meses para óleos mineral ou semissintético, o que ocorrer primeiro.',
-    'Verifique o nível e a cor do óleo. Se estiver escuro ou com resíduos, troque.',
-    'Troque sempre o filtro junto com o óleo.',
-    'Mesmo rodando pouco, o óleo envelhece. Troque por tempo.',
-    'Uso severo (trânsito, poeira, ladeiras, reboque) pode exigir troca antecipada.',
+    'Substitua a bateria se já tiver mais de 3 anos de uso;',
+    'Troque a bateria se o carro apresentar dificuldade para ligar;',
+    'Verifique a carga da bateria se as luzes internas estiverem fracas;',
+    'Limpe os terminais ou troque a bateria em caso de corrosão visível. ',
   ];
 }
 
@@ -208,7 +207,7 @@ onMounted(async () => {
             v-model="brand"
             label="Marca"
             name="battery-brand"
-            placeholder="Digite o nome da marca da bateria"
+            placeholder="Digite a marca utilizada"
             variant="generic"
           />
         </div>
