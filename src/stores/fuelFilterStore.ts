@@ -85,6 +85,8 @@ export const useFuelFilterStore = defineStore('fuel-filter', () => {
       const carStore = useCarStore();
       const licensePlate =
         carStore.car?.license_plate || carStore.firstLicensePlate;
+      console.log(payload);
+
       if (!licensePlate) throw new Error('Nenhum carro selecionado.');
 
       if (selectedMaintenance.value && maintenanceId) {
