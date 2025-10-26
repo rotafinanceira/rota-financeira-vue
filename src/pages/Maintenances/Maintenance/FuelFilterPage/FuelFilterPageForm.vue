@@ -47,7 +47,7 @@ const isErrorOpen = ref(false);
 
 const successTitle = ref('Parabéns!');
 const successDescription = ref(
-  'Você cadastrou a troca de óleo do seu veículo. Iremos lhe informar sobre a próxima manutenção.'
+  'Você cadastrou a manutenção do filtro de combustível do seu veículo. Iremos lhe informar sobre a próxima manutenção.'
 );
 
 const errorTitle = ref('Algo deu errado!');
@@ -59,11 +59,10 @@ function showHelpModal() {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
   modalDescription.value = [
-    'Troque o óleo conforme a recomendação do fabricante: geralmente a cada 10.000 km ou 12 meses para óleo sintético, 5.000 km ou 6 meses para óleos mineral ou semissintético, o que ocorrer primeiro.',
-    'Verifique o nível e a cor do óleo. Se estiver escuro ou com resíduos, troque.',
-    'Troque sempre o filtro junto com o óleo.',
-    'Mesmo rodando pouco, o óleo envelhece. Troque por tempo.',
-    'Uso severo (trânsito, poeira, ladeiras, reboque) pode exigir troca antecipada.',
+    'Troque o filtro de combustível quando apresentar sinais de mal estado.',
+    'Siga a frequência indicada no manual do fabricante do veículo.',
+    'Não limpe o filtro de combustível; substitua-o por um novo.',
+    'Atualmente, a maioria dos manuais recomenda a troca a cada 10.000 km (antigamente, era a cada 30.000 km).',
   ];
 }
 
@@ -168,7 +167,7 @@ onMounted(async () => {
             </div>
           </div>
           <span class="subtitle">
-            Preencha as informações da manutenção de Troca de Óleo.
+            Preencha as informações da manutenção de filtro de combustível.
           </span>
         </div>
 
@@ -196,7 +195,7 @@ onMounted(async () => {
             v-model="brand"
             label="Marca"
             name="battery-brand"
-            placeholder="Digite o nome da marca da bateria"
+            placeholder="Digite a marca utilizada"
             variant="generic"
           />
         </div>
@@ -205,9 +204,9 @@ onMounted(async () => {
           <CInput
             :value="filterModel"
             v-model="filterModel"
-            label="Marca"
+            label="Modelo"
             name="filter-model"
-            placeholder="Digite o nome da marca da bateria"
+            placeholder="Digite o modelo utilizado"
             variant="generic"
           />
         </div>

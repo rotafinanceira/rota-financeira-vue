@@ -47,6 +47,7 @@ watch(
   async (plate) => {
     if (plate) {
       await fuelFilterStore.getFuelFilterMaintenances(plate);
+      console.log(maintenances);
     }
   },
   { immediate: true }
@@ -110,7 +111,8 @@ function editMaintenance(m: MappedMaintenance): void {
           <img :src="BrokenCarIcon" />
           <h2 class="card__title">Manutenção vencida!</h2>
           <span class="card__text">
-            É hora de realizar a revisão de bateria do seu veículo.
+            É hora de realizar a manutenção de filtro de combustível do seu
+            veículo.
           </span>
         </div>
       </div>
@@ -120,7 +122,8 @@ function editMaintenance(m: MappedMaintenance): void {
           <img :src="WrenchIcon" />
           <h2 class="card__title">Nenhuma manutenção cadastrada!</h2>
           <span class="card__text">
-            Você ainda não cadastrou nenhuma troca de bateria.
+            Você ainda não cadastrou nenhuma manutenção de filtro de
+            combustível.
           </span>
         </div>
       </div>
