@@ -77,6 +77,7 @@ const mappedMaintenances = computed<MappedMaintenance[]>(() =>
     capacity: m.remainingCapacity || '-',
 
     brand: m.batteryBrand || '-',
+    oficina: m.oficina || '-',
   }))
 );
 

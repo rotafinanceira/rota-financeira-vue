@@ -34,6 +34,7 @@ const mileage = ref('');
 const capacity = ref('');
 const brand = ref('');
 const maintenanceValue = ref('R$ 0,00');
+const oficina = ref('');
 
 const dateMask: MaskInputOptions = {
   mask: '##/##/####',
@@ -89,6 +90,7 @@ interface BatteryMaintenancePayload {
   remainingCapacity: number;
   valor: number;
   batteryBrand: string;
+  oficina: string;
 }
 
 async function handleSubmit() {
@@ -111,14 +113,13 @@ async function handleSubmit() {
       remainingCapacity: Number(capacity.value),
       valor: parseInputToNumber(maintenanceValue.value),
       batteryBrand: brand.value,
+      oficina: oficina.value,
     };
 
     if (maintenanceId) {
       successTitle.value = 'Edição concluída!';
       successDescription.value = 'As alterações foram salvas com sucesso.';
     }
-
-    console.log('Payload enviado:', payload);
 
     await batteryStore.saveBatteryMaintenance(
       payload,
@@ -163,6 +164,7 @@ onMounted(async () => {
     maintenanceValue.value = formatInput(m.valor ?? 0);
     brand.value = m.batteryBrand ?? '';
     capacity.value = m.remainingCapacity.toString() ?? '';
+    oficina.value = m.oficina ?? '';
   }
 });
 </script>
@@ -193,6 +195,28 @@ onMounted(async () => {
         </div>
 
         <div class="input-wrapper">
+          <CInput
+            :value="date"
+            v-model="date"
+            label="Data da troca*"
+            name="last-battery-change"
+            placeholder="DD/MM/AAAA"
+            variant="generic"
+            v-maska="dateMask"
+          />
+        </div>
+
+        <div class="input-wrapper">
+          <CSelect
+            v-model="capacity"
+            name="capacity"
+            label="Amperagem*"
+            :options="capacityOptions"
+            placeholder="Selecione uma opção"
+          />
+        </div>
+
+        <div class="input-wrapper">
           <CFormatedInput
             v-model="maintenanceValue"
             label="Valor da manutenção*"
@@ -213,24 +237,13 @@ onMounted(async () => {
         </div>
 
         <div class="input-wrapper">
-          <CSelect
-            v-model="capacity"
-            name="capacity"
-            label="Amperagem*"
-            :options="capacityOptions"
-            placeholder="Selecione uma opção"
-          />
-        </div>
-
-        <div class="input-wrapper">
           <CInput
-            :value="date"
-            v-model="date"
-            label="Data da troca*"
-            name="last-battery-change"
-            placeholder="DD/MM/AAAA"
+            :value="oficina"
+            v-model="oficina"
+            label="Oficina"
+            name="oficina"
+            placeholder="Digite o nome da oficina"
             variant="generic"
-            v-maska="dateMask"
           />
         </div>
       </div>
