@@ -177,7 +177,7 @@ watch(maintenanceHistory, (val) => {
 
   &__main {
     display: grid;
-    align-items: center;
+    align-items: start;
     gap: 1.5rem;
     min-height: calc(100svh - 219px);
   }

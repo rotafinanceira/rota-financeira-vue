@@ -8,7 +8,7 @@ import { MaintenanceStatus } from '@/pages/Maintenances/types';
 const baseApi = import.meta.env.VITE_ROTA_API;
 
 export const useMaintenanceStore = defineStore('maintenance', () => {
-  const history = ref<any[]>([]);
+  const history = ref<MaintenanceStatus[]>([]);
   const maintenances = ref<MaintenanceStatus[]>([]);
   const isLoading = ref(false);
 
