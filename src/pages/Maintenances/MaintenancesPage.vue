@@ -41,7 +41,7 @@ import { MaintenanceIcons } from '@/shared/types/maintenance';
 import CBottomSheetList from '@/shared/components/bottomsheets/CBottomSheetList.vue';
 
 import MaintenanceCard from './components/MaintenanceCard.vue';
-import { MaintenanceStatus } from './types';
+import { MaintenanceState } from './types';
 import { ListOption } from '@/shared/types/bottom-sheet';
 
 const filterOptions = ref<ListOption[]>([
@@ -91,7 +91,7 @@ watch(
 
 const maintenanceItems = computed(() => {
   return maintenances.value.map((m) => {
-    const status: MaintenanceStatus =
+    const status: MaintenanceState =
       m.data?.status &&
       ['Unregistered', 'PENDING', 'EXPIRED', 'COMPLETED'].includes(
         m.data.status

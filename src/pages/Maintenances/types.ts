@@ -17,14 +17,23 @@ export type MaintenanceTypes =
   | 'fuel levels'
   | 'fluid levels';
 
-export type MaintenanceStatus =
+export type MaintenanceState =
   | 'Unregistered'
   | 'PENDING'
   | 'EXPIRED'
   | 'COMPLETED';
 
-export type MaintenanceData = {
-  date?: Date | null;
-  status?: MaintenanceStatus;
-  pendingSteps?: number;
-};
+export interface MaintenanceData {
+  status: MaintenanceState;
+  pendingSteps: number;
+  nextDueDate?: string;
+  completedAt?: string | null;
+}
+
+export interface MaintenanceStatus {
+  type: string;
+  data: MaintenanceData;
+  licensePlate?: string;
+  id?: number;
+  updatedAt?: string;
+}

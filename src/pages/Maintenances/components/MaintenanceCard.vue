@@ -11,7 +11,7 @@ import {
 } from '@/shared/assets/icons';
 import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
-import { MaintenanceCardProps, MaintenanceStatus } from '../types';
+import { MaintenanceCardProps, MaintenanceState } from '../types';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
 import CDivider from '@/shared/components/CDivider.vue';
 import CTag from '@/shared/components/CTag.vue';
@@ -30,7 +30,7 @@ const maintenanceIcons: MaintenanceIcons = {
 const props = defineProps<MaintenanceCardProps>();
 
 const statusTable: Record<
-  MaintenanceStatus,
+  MaintenanceState,
   { variant: 'default' | 'alert' | 'error' | 'outline'; text: string }
 > = {
   Unregistered: { variant: 'outline', text: 'Não registrada' },

@@ -3,12 +3,13 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { api } from '@/boot/axios';
 import { AxiosError } from 'axios';
+import { MaintenanceStatus } from '@/pages/Maintenances/types';
 
 const baseApi = import.meta.env.VITE_ROTA_API;
 
 export const useMaintenanceStore = defineStore('maintenance', () => {
   const history = ref<any[]>([]);
-  const maintenances = ref<any[]>([]);
+  const maintenances = ref<MaintenanceStatus[]>([]);
   const isLoading = ref(false);
 
   async function getMaintenances(licensePlate: string) {
