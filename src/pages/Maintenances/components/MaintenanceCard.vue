@@ -16,7 +16,6 @@ import { MaintenanceIcons } from '@/shared/types/maintenance';
 import CDivider from '@/shared/components/CDivider.vue';
 import CTag from '@/shared/components/CTag.vue';
 
-// Ícones
 const maintenanceIcons: MaintenanceIcons = {
   wheel: WheelIcon,
   oil: OilIcon,
@@ -40,7 +39,30 @@ const tagVariantMap: Record<
 };
 
 const displayTags = computed(() => {
-  return (props.tags || []).map((t) => tagVariantMap[t]);
+  const tags = props.tags || [];
+  const result: {
+    variant: 'default' | 'alert' | 'error' | 'outline';
+    text: string;
+  }[] = [];
+
+  if (tags.includes('UNREGISTERED')) {
+    result.push(tagVariantMap.UNREGISTERED);
+  } else if (tags.includes('EXPIRED')) {
+    result.push(tagVariantMap.EXPIRED);
+  } else if (tags.includes('PENDING')) {
+    result.push(tagVariantMap.PENDING);
+  }
+
+  const hasToFill = tags.includes('TO_FILL');
+  const hasStatusNonUnregistered = tags.some((t) =>
+    ['PENDING', 'EXPIRED', 'COMPLETED'].includes(t)
+  );
+
+  if (hasToFill && hasStatusNonUnregistered) {
+    result.push(tagVariantMap.TO_FILL);
+  }
+
+  return result;
 });
 </script>
 
