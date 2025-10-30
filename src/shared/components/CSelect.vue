@@ -183,7 +183,7 @@ const borderClass = computed(() => {
 .dropdown-enter-from,
 .dropdown-leave-to {
   opacity: 0;
-  transform: translateY(-50px);
+  transform: translateY(0px);
 }
 
 .dropdown-enter-to,
