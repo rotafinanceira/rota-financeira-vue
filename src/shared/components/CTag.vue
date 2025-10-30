@@ -11,11 +11,12 @@ const props = withDefaults(defineProps<TagProps>(), {
 const variantClass = computed(() => `tag--${props.variant}`);
 
 const emit = defineEmits<{
-  (e: 'remove', id: number): void;
+  (e: 'remove', label: string): void;
 }>();
 
-const onRemove = () => {
-  if (props.id) emit('remove', props.id);
+const onRemove = (e?: Event) => {
+  e?.stopPropagation?.();
+  emit('remove', props.title || '');
 };
 
 const currentIcon = computed(() =>

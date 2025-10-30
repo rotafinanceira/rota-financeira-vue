@@ -15,6 +15,17 @@
         </button>
       </header>
 
+      <div class="maintenance__tags" v-if="appliedFilters.length">
+        <CTag
+          v-for="filter in appliedFilters"
+          :key="filter"
+          :title="filter"
+          removable
+          variant="default"
+          @remove="removeFilter"
+        />
+      </div>
+
       <MaintenanceCard
         v-for="item in maintenanceItems"
         v-bind="item"
@@ -43,6 +54,7 @@ import CBottomSheetList from '@/shared/components/bottomsheets/CBottomSheetList.
 import MaintenanceCard from './components/MaintenanceCard.vue';
 import { MaintenanceState } from './types';
 import { ListOption } from '@/shared/types/bottom-sheet';
+import CTag from '@/shared/components/CTag.vue';
 
 const filterOptions = ref<ListOption[]>([
   { label: 'Manutenções vencidas', selected: false },
@@ -142,6 +154,16 @@ const onFilter = (selectedLabels: string[]) => {
   isBottomSheetOpen.value = false;
 };
 
+const removeFilter = (label: string) => {
+  const index = appliedFilters.value.findIndex((f) => f === label);
+  if (index === -1) return;
+
+  appliedFilters.value.splice(index, 1);
+
+  const option = filterOptions.value.find((opt) => opt.label === label);
+  if (option) option.selected = false;
+};
+
 watch(isBottomSheetOpen, (open) => {
   if (!open) {
     const selectedLabels = filterOptions.value
@@ -187,5 +209,12 @@ watch(isBottomSheetOpen, (open) => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.maintenance__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1rem;
 }
 </style>
