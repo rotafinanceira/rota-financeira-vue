@@ -107,7 +107,7 @@ const filteredMaintenances = computed(() => {
   if (appliedFilters.value.length === 0) return maintenances.value;
 
   return maintenances.value.filter((m) => {
-    const tags = Array.isArray(m.tags) ? m.tags : [m.tag];
+    const tags = Array.isArray(m.tags) ? m.tags : [];
 
     const matchExpired =
       appliedFilters.value.includes('Manutenções vencidas') &&
@@ -120,7 +120,7 @@ const filteredMaintenances = computed(() => {
       tags.includes('TO_FILL');
     const matchUnregistered =
       appliedFilters.value.includes('Manutenções sem cadastro') &&
-      tags.includes('UNREGISTERED');
+      m.data?.status === 'Unregistered';
 
     return matchExpired || matchPending || matchToFill || matchUnregistered;
   });

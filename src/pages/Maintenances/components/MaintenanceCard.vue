@@ -45,22 +45,10 @@ const displayTags = computed(() => {
     text: string;
   }[] = [];
 
-  if (tags.includes('UNREGISTERED')) {
-    result.push(tagVariantMap.UNREGISTERED);
-  } else if (tags.includes('EXPIRED')) {
-    result.push(tagVariantMap.EXPIRED);
-  } else if (tags.includes('PENDING')) {
-    result.push(tagVariantMap.PENDING);
-  }
+  if (tags.includes('EXPIRED')) result.push(tagVariantMap.EXPIRED);
+  else if (tags.includes('PENDING')) result.push(tagVariantMap.PENDING);
 
-  const hasToFill = tags.includes('TO_FILL');
-  const hasStatusNonUnregistered = tags.some((t) =>
-    ['PENDING', 'EXPIRED', 'COMPLETED'].includes(t)
-  );
-
-  if (hasToFill && hasStatusNonUnregistered) {
-    result.push(tagVariantMap.TO_FILL);
-  }
+  if (tags.includes('TO_FILL')) result.push(tagVariantMap.TO_FILL);
 
   return result;
 });

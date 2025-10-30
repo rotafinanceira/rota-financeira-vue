@@ -16,28 +16,18 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     const tags: MaintenanceTag[] = [];
     const status = (m.data?.status ?? '').toString().toUpperCase();
 
-    if (!status || status === 'UNREGISTERED') {
-      tags.push('UNREGISTERED');
-    }
+    if (!status || status === 'UNREGISTERED') return [];
 
-    if (status === 'EXPIRED') {
-      tags.push('EXPIRED');
-    }
+    if (status === 'EXPIRED') tags.push('EXPIRED');
+    if (status === 'PENDING') tags.push('PENDING');
 
-    if (
+    const hasToFill =
       (m.data?.pendingSteps && m.data.pendingSteps > 0) ||
-      (m.pendingRegistration && m.pendingRegistration > 0)
-    ) {
-      tags.push('TO_FILL');
-    }
+      (m.pendingRegistration && m.pendingRegistration > 0);
 
-    if (status === 'PENDING') {
-      tags.push('PENDING');
-    }
+    if (hasToFill) tags.push('TO_FILL');
 
-    if (tags.length === 0) {
-      tags.push('PENDING');
-    }
+    if (tags.length === 0) tags.push('PENDING');
 
     return tags;
   }
