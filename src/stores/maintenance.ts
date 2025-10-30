@@ -24,7 +24,10 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       tags.push('EXPIRED');
     }
 
-    if (m.data?.pendingSteps && m.data.pendingSteps > 0) {
+    if (
+      (m.data?.pendingSteps && m.data.pendingSteps > 0) ||
+      (m.pendingRegistration && m.pendingRegistration > 0)
+    ) {
       tags.push('TO_FILL');
     }
 
@@ -50,24 +53,29 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       maintenances.value = items.map((raw: any) => {
         const data = raw.data || {};
 
+        const pendingSteps =
+          typeof raw.pendingSteps === 'number'
+            ? raw.pendingSteps
+            : typeof raw['pending-registration'] === 'number'
+            ? raw['pending-registration']
+            : 0;
+
+        const pendingRegistration =
+          typeof raw['pending-registration'] === 'number'
+            ? raw['pending-registration']
+            : 0;
+
         const normalized: MaintenanceStatus = {
           ...raw,
           data: {
-            pendingSteps:
-              typeof data.pendingSteps === 'number'
-                ? data.pendingSteps
-                : typeof data['pending-registration'] === 'number'
-                ? data['pending-registration']
-                : 0,
-
+            ...data,
+            pendingSteps,
             date: data.date ?? data.createdAt ?? data.updatedAt ?? undefined,
-
             status: data.status ?? 'Unregistered',
-
             nextDueDate: data.nextDueDate,
             completedAt: data.completedAt ?? null,
           },
-
+          pendingRegistration,
           tag: 'PENDING',
         } as MaintenanceStatus;
 

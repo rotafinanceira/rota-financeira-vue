@@ -132,6 +132,7 @@ const maintenanceItems = computed(() => {
         pendingSteps: m.data?.pendingSteps || 0,
       },
       routeName: routeMap[m.type] || '',
+      tags: m.tags || [],
     };
   });
 });

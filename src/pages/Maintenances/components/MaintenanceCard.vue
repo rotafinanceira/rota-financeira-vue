@@ -11,7 +11,7 @@ import {
 } from '@/shared/assets/icons';
 import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
-import { MaintenanceCardProps, MaintenanceState } from '../types';
+import { MaintenanceCardProps, MaintenanceTag } from '../types';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
 import CDivider from '@/shared/components/CDivider.vue';
 import CTag from '@/shared/components/CTag.vue';
@@ -29,25 +29,18 @@ const maintenanceIcons: MaintenanceIcons = {
 
 const props = defineProps<MaintenanceCardProps>();
 
-const statusTable: Record<
-  MaintenanceState,
+const tagVariantMap: Record<
+  MaintenanceTag,
   { variant: 'default' | 'alert' | 'error' | 'outline'; text: string }
 > = {
-  Unregistered: { variant: 'outline', text: 'Não registrada' },
-  PENDING: { variant: 'alert', text: 'Pendente' },
   EXPIRED: { variant: 'error', text: 'Vencida' },
-  COMPLETED: { variant: 'default', text: 'Concluída' },
+  PENDING: { variant: 'default', text: 'Pendente' },
+  UNREGISTERED: { variant: 'outline', text: 'Não registrada' },
+  TO_FILL: { variant: 'alert', text: 'Preencher etapas' },
 };
 
-const statusTag = computed(() => {
-  const status = props.maintenanceData?.status;
-  if (!status) return null;
-
-  if (status === 'COMPLETED' || status === 'PENDING') {
-    return null;
-  }
-
-  return statusTable[status];
+const displayTags = computed(() => {
+  return (props.tags || []).map((t) => tagVariantMap[t]);
 });
 </script>
 
@@ -64,10 +57,15 @@ const statusTag = computed(() => {
       <img :src="ArrowIcon" alt="" class="item__arrow" />
     </div>
 
-    <template v-if="statusTag">
+    <template v-if="displayTags.length">
       <CDivider />
       <div class="badges">
-        <CTag :title="statusTag.text" :variant="statusTag.variant" />
+        <CTag
+          v-for="(tag, index) in displayTags"
+          :key="index"
+          :title="tag.text"
+          :variant="tag.variant"
+        />
       </div>
     </template>
   </RouterLink>

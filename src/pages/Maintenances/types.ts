@@ -5,6 +5,7 @@ export type MaintenanceCardProps = {
   icon: keyof MaintenanceIcons;
   maintenanceData?: MaintenanceData;
   routeName: string;
+  tags?: MaintenanceTag[];
 };
 
 export type MaintenanceTypes =
@@ -41,4 +42,5 @@ export interface MaintenanceStatus {
   licensePlate?: string;
   id?: number;
   updatedAt?: string;
+  pendingRegistration?: number;
 }
