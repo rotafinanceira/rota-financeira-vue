@@ -23,16 +23,21 @@ export type MaintenanceState =
   | 'EXPIRED'
   | 'COMPLETED';
 
+export type MaintenanceTag = 'EXPIRED' | 'PENDING' | 'UNREGISTERED' | 'TO_FILL';
+
 export interface MaintenanceData {
   status: MaintenanceState;
   pendingSteps: number;
   nextDueDate?: string;
   completedAt?: string | null;
+  date?: string;
 }
 
 export interface MaintenanceStatus {
   type: string;
   data: MaintenanceData;
+  tag: MaintenanceTag;
+  tags?: MaintenanceTag[];
   licensePlate?: string;
   id?: number;
   updatedAt?: string;

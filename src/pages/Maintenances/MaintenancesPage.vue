@@ -73,6 +73,8 @@ const routeMap: Record<string, string> = {
   'Fuel Filter Change': 'maintenance-fuel-filter',
 };
 
+const appliedFilters = ref<string[]>([]);
+
 onMounted(async () => {
   await carStore.getCars();
   if (carStore.firstLicensePlate) {
@@ -89,8 +91,31 @@ watch(
   }
 );
 
+const filteredMaintenances = computed(() => {
+  if (appliedFilters.value.length === 0) return maintenances.value;
+
+  return maintenances.value.filter((m) => {
+    const tags = Array.isArray(m.tags) ? m.tags : [m.tag];
+
+    const matchExpired =
+      appliedFilters.value.includes('Manutenções vencidas') &&
+      tags.includes('EXPIRED');
+    const matchPending =
+      appliedFilters.value.includes('Próximas manutenções') &&
+      tags.includes('PENDING');
+    const matchToFill =
+      appliedFilters.value.includes('Preencher etapas') &&
+      tags.includes('TO_FILL');
+    const matchUnregistered =
+      appliedFilters.value.includes('Manutenções sem cadastro') &&
+      tags.includes('UNREGISTERED');
+
+    return matchExpired || matchPending || matchToFill || matchUnregistered;
+  });
+});
+
 const maintenanceItems = computed(() => {
-  return maintenances.value.map((m) => {
+  return filteredMaintenances.value.map((m) => {
     const status: MaintenanceState =
       m.data?.status &&
       ['Unregistered', 'PENDING', 'EXPIRED', 'COMPLETED'].includes(
@@ -112,9 +137,18 @@ const maintenanceItems = computed(() => {
 });
 
 const onFilter = (selectedLabels: string[]) => {
-  console.log('Filtros selecionados:', selectedLabels);
+  appliedFilters.value = selectedLabels;
   isBottomSheetOpen.value = false;
 };
+
+watch(isBottomSheetOpen, (open) => {
+  if (!open) {
+    const selectedLabels = filterOptions.value
+      .filter((opt) => opt.selected)
+      .map((opt) => opt.label);
+    appliedFilters.value = selectedLabels;
+  }
+});
 </script>
 
 <style lang="scss" scoped>

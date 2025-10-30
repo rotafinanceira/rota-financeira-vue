@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { api } from '@/boot/axios';
 import { AxiosError } from 'axios';
-import { MaintenanceStatus } from '@/pages/Maintenances/types';
+import { MaintenanceStatus, MaintenanceTag } from '@/pages/Maintenances/types';
 
 const baseApi = import.meta.env.VITE_ROTA_API;
 
@@ -12,15 +12,68 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
   const maintenances = ref<MaintenanceStatus[]>([]);
   const isLoading = ref(false);
 
+  function resolveTags(m: MaintenanceStatus): MaintenanceTag[] {
+    const tags: MaintenanceTag[] = [];
+    const status = (m.data?.status ?? '').toString().toUpperCase();
+
+    if (!status || status === 'UNREGISTERED') {
+      tags.push('UNREGISTERED');
+    }
+
+    if (status === 'EXPIRED') {
+      tags.push('EXPIRED');
+    }
+
+    if (m.data?.pendingSteps && m.data.pendingSteps > 0) {
+      tags.push('TO_FILL');
+    }
+
+    if (status === 'PENDING') {
+      tags.push('PENDING');
+    }
+
+    if (tags.length === 0) {
+      tags.push('PENDING');
+    }
+
+    return tags;
+  }
+
   async function getMaintenances(licensePlate: string) {
-    console.log('test');
     isLoading.value = true;
     try {
       const url = `${baseApi}/v1/maintenance/${licensePlate}/latest`;
       const { data } = await api().get(url);
-      console.log('API response:', data);
 
-      maintenances.value = Array.isArray(data) ? data : [data];
+      const items = Array.isArray(data) ? data : [data];
+
+      maintenances.value = items.map((raw: any) => {
+        const data = raw.data || {};
+
+        const normalized: MaintenanceStatus = {
+          ...raw,
+          data: {
+            pendingSteps:
+              typeof data.pendingSteps === 'number'
+                ? data.pendingSteps
+                : typeof data['pending-registration'] === 'number'
+                ? data['pending-registration']
+                : 0,
+
+            date: data.date ?? data.createdAt ?? data.updatedAt ?? undefined,
+
+            status: data.status ?? 'Unregistered',
+
+            nextDueDate: data.nextDueDate,
+            completedAt: data.completedAt ?? null,
+          },
+
+          tag: 'PENDING',
+        } as MaintenanceStatus;
+
+        normalized.tags = resolveTags(normalized);
+        return normalized;
+      });
 
       return maintenances.value;
     } catch (err) {
