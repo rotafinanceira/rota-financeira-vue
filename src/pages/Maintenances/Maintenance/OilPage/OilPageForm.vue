@@ -261,7 +261,6 @@ onMounted(async () => {
 
     <CButton @click="handleSubmit" :isLoading="isLoading">Salvar</CButton>
 
-    <!-- Modal de ajuda -->
     <CModal v-model="isOpen" variant="info">
       <h2>{{ modalContent }}</h2>
       <ul class="info-list">
