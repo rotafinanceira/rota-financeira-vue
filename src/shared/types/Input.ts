@@ -10,5 +10,5 @@ export type Input = {
   disabled?: boolean;
   supportingText?: string;
   action?: () => void;
-  variant: 'generic' | 'password';
+  variant: 'generic' | 'password' | 'date';
 } & /* @vue-ignore */ InputHTMLAttributes;

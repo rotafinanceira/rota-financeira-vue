@@ -2,6 +2,7 @@
 import { computed, ref, watch, useAttrs } from 'vue';
 import { useField } from 'vee-validate';
 import { QInput, QField, QBtn } from 'quasar';
+
 import type { Input } from '../types/Input';
 
 import { EyeClosedIcon, EyeOpenedIcon, XCircleIcon } from '../assets/icons';
@@ -26,12 +27,13 @@ const { value, errorMessage, validate } = useField<string | number>(
 const seePasswordIcon = computed(() =>
   seePassword.value ? EyeClosedIcon : EyeOpenedIcon
 );
+
 const togglePasswordVisibility = () => {
   seePassword.value = !seePassword.value;
 };
 
 const showClearIcon = computed(() => {
-  if (props.variant !== 'generic') return false;
+  if (props.variant !== 'generic' && props.variant !== 'date') return false;
 
   const hasValue =
     value.value !== undefined &&
@@ -46,9 +48,19 @@ const clearInput = () => {
 };
 
 watch(value, (val) => {
-  emit('update:modelValue', val);
+  if (props.variant === 'date' && typeof val === 'string') {
+    const [day, month, year] = val.split('/');
+    if (day && month && year && year.length === 4) {
+      emit('update:modelValue', `${year}-${month}-${day}`);
+    } else {
+      emit('update:modelValue', val);
+    }
+  } else {
+    emit('update:modelValue', val);
+  }
 });
 </script>
+
 <template>
   <div :class="['custom-input-container', { 'is-disabled': disabled }]">
     <span v-if="label" class="custom-label">{{ label }}</span>
@@ -60,19 +72,16 @@ watch(value, (val) => {
       borderless
       hide-bottom-space
       class="custom-qfield"
-      ><template v-slot:control>
+    >
+      <template v-slot:control>
         <div class="input__wrapper" :class="{ 'is-error': !!errorMessage }">
           <QInput
             v-model="value"
             :name="name"
             v-bind="attrs"
-            :type="
-              props.variant === 'password'
-                ? seePassword
-                  ? 'text'
-                  : 'password'
-                : 'text'
-            "
+            :type="'text'"
+            :mask="props.variant === 'date' ? '##/##/####' : undefined"
+            :fill-mask="props.variant === 'date' ? '_' : undefined"
             :disable="disabled"
             @blur="validate()"
             :placeholder="attrs.placeholder as string"
@@ -81,6 +90,7 @@ watch(value, (val) => {
             class="custom-input full-width"
             tabindex="0"
           />
+
           <QBtn
             v-if="props.variant === 'password'"
             type="button"
@@ -96,6 +106,13 @@ watch(value, (val) => {
               alt="Toggle Password Visibility"
               class="q-icon"
             />
+          </QBtn>
+
+          <QBtn
+            v-else-if="props.variant === 'date'"
+            type="button"
+            :disable="disabled"
+          >
           </QBtn>
 
           <QBtn
@@ -196,7 +213,7 @@ watch(value, (val) => {
 
     .q-field__native {
       padding: 0 !important;
-      line-height: 0 !important;
+      line-height: 20px !important;
       height: 20px !important;
       min-height: 20px !important;
     }

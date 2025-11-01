@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { vMaska } from 'maska/vue';
-import type { MaskInputOptions } from 'maska';
+
 import { AxiosError } from 'axios';
 import { storeToRefs } from 'pinia';
 
@@ -36,11 +35,6 @@ const oilType = ref('');
 const serviceType = ref('');
 const oficina = ref('');
 const maintenanceValue = ref('R$ 0,00');
-
-const dateMask: MaskInputOptions = {
-  mask: '##/##/####',
-  tokens: { '#': { pattern: /\d/ } },
-};
 
 interface Option {
   label: string;
@@ -211,9 +205,8 @@ onMounted(async () => {
             v-model="date"
             label="Data da troca*"
             name="last-oil-change"
-            placeholder="DD/MM/AAAA"
-            variant="generic"
-            v-maska="dateMask"
+            variant="date"
+            placeholder="__/__/____"
           />
         </div>
 
