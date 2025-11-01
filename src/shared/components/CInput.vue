@@ -47,11 +47,22 @@ const clearInput = () => {
   value.value = '';
 };
 
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    if (newVal !== value.value) {
+      value.value = newVal as string | number;
+    }
+  },
+  { immediate: true }
+);
+
 watch(value, (val) => {
   if (props.variant === 'date' && typeof val === 'string') {
+    console.log(val);
     const [day, month, year] = val.split('/');
     if (day && month && year && year.length === 4) {
-      emit('update:modelValue', `${year}-${month}-${day}`);
+      emit('update:modelValue', `${day}/${month}/${year}`);
     } else {
       emit('update:modelValue', val);
     }
@@ -108,12 +119,12 @@ watch(value, (val) => {
             />
           </QBtn>
 
-          <QBtn
+          <!--  <QBtn
             v-else-if="props.variant === 'date'"
             type="button"
             :disable="disabled"
           >
-          </QBtn>
+          </QBtn> -->
 
           <QBtn
             v-else-if="props.variant === 'generic' && showClearIcon"

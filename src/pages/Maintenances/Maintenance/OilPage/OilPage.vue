@@ -44,6 +44,12 @@ onMounted(async () => {
   oilStore.resetStore();
 });
 
+function toLocalDate(dateString: string): Date {
+  if (!dateString) return new Date();
+  const [year, month, day] = dateString.split('T')[0].split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
+
 watch(
   () => carStore.firstLicensePlate,
   async (plate) => {
@@ -58,15 +64,9 @@ const mappedMaintenances = computed<MappedMaintenance[]>(() =>
   [...maintenances.value].reverse().map((m) => ({
     id: m.id,
     date: m.lastMaintenanceDate
-      ? new Date(m.lastMaintenanceDate)
-          .toLocaleDateString('pt-BR', {
-            weekday: 'long',
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-          })
-          .replace(/^./, (str) => str.toUpperCase())
-      : '-',
+      ? toLocalDate(m.lastMaintenanceDate).toLocaleDateString('pt-BR')
+      : '',
+
     km: m.lastMaintenanceKm
       ? `${Number(m.lastMaintenanceKm).toLocaleString('pt-BR')} km`
       : '-',

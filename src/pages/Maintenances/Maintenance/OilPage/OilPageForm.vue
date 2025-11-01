@@ -135,6 +135,12 @@ async function handleSubmit() {
   }
 }
 
+function toLocalDate(dateString: string): Date {
+  if (!dateString) return new Date();
+  const [year, month, day] = dateString.split('T')[0].split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
+
 onMounted(async () => {
   if (!carStore.firstLicensePlate) {
     await carStore.getCars();
@@ -154,9 +160,8 @@ onMounted(async () => {
     oilStore.setSelectedMaintenance(m);
 
     date.value = m.lastMaintenanceDate
-      ? new Date(m.lastMaintenanceDate).toLocaleDateString('pt-BR')
+      ? toLocalDate(m.lastMaintenanceDate).toLocaleDateString('pt-BR')
       : '';
-
     mileage.value = formatInput(m.lastMaintenanceKm ?? 0);
     maintenanceValue.value = formatInput(m.valor ?? 0);
     oficina.value = m.oficina ?? '';
