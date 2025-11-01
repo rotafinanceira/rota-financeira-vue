@@ -90,7 +90,13 @@ watch(value, (val) => {
             v-model="value"
             :name="name"
             v-bind="attrs"
-            :type="'text'"
+            :type="
+              props.variant === 'password'
+                ? seePassword
+                  ? 'text'
+                  : 'password'
+                : 'text'
+            "
             :mask="props.variant === 'date' ? '##/##/####' : undefined"
             :fill-mask="props.variant === 'date' ? '_' : undefined"
             :disable="disabled"
