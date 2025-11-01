@@ -20,7 +20,47 @@ const seePassword = ref(false);
 
 const { value, errorMessage, validate } = useField<string | number>(
   props.name,
-  undefined,
+  (val: string | number) => {
+    if (props.required && (!val || String(val).trim() === '')) {
+      return 'Campo obrigatório';
+    }
+
+    if (props.variant === 'date' && String(val).trim() !== '') {
+      const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+      const match = String(val).match(regex);
+
+      if (!match) {
+        return 'Data inválida (use DD/MM/AAAA)';
+      }
+
+      const day = parseInt(match[1], 10);
+      const month = parseInt(match[2], 10);
+      const year = parseInt(match[3], 10);
+
+      if (day < 1 || day > 31) {
+        return 'Dia inválido';
+      }
+
+      if (month < 1 || month > 12) {
+        return 'Mês inválido';
+      }
+
+      if (year > 2100) {
+        return 'Ano inválido';
+      }
+
+      const testDate = new Date(year, month - 1, day);
+      if (
+        testDate.getFullYear() !== year ||
+        testDate.getMonth() + 1 !== month ||
+        testDate.getDate() !== day
+      ) {
+        return 'Data inexistente';
+      }
+    }
+
+    return true;
+  },
   { validateOnValueUpdate: false }
 );
 
@@ -124,13 +164,6 @@ watch(value, (val) => {
               class="q-icon"
             />
           </QBtn>
-
-          <!--  <QBtn
-            v-else-if="props.variant === 'date'"
-            type="button"
-            :disable="disabled"
-          >
-          </QBtn> -->
 
           <QBtn
             v-else-if="props.variant === 'generic' && showClearIcon"
