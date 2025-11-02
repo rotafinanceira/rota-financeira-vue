@@ -55,6 +55,7 @@ const borderClass = computed(() => {
   <div class="select">
     <label v-if="props.label" class="select__label" :for="props.name">
       {{ props.label }}
+      <span v-if="props.required" class="required-asterisk">*</span>
     </label>
 
     <div
@@ -195,5 +196,9 @@ const borderClass = computed(() => {
 .dropdown-enter-active,
 .dropdown-leave-active {
   transition: all 0.3s ease;
+}
+
+.required-asterisk {
+  color: #ed4647;
 }
 </style>

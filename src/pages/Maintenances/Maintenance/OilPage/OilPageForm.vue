@@ -231,9 +231,10 @@ onMounted(async () => {
           <CSelect
             v-model="serviceType"
             name="service-type"
-            label="Serviços*"
+            label="Serviços"
             :options="serviceOptions"
             placeholder="Escolha o tipo de serviço"
+            required
           />
         </div>
 
