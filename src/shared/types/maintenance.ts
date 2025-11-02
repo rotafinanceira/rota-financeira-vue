@@ -14,3 +14,22 @@ export type MaintenanceItemProps = {
   description?: string;
   hasArrow?: boolean;
 };
+
+export type MaintenanceHistoryItem = {
+  type:
+    | 'Oil Change'
+    | 'Battery Change'
+    | 'Air Filter Change'
+    | 'Wheel Change'
+    | 'Oil Filter Change'
+    | 'Fuel Filter Change';
+  data: {
+    id: string;
+    lastMaintenanceDate?: string;
+    lastMaintenanceKm?: number;
+    valor?: string;
+    batteryBrand?: string;
+    oilType?: string;
+    status?: string;
+  };
+};

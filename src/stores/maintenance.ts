@@ -4,11 +4,12 @@ import { ref } from 'vue';
 import { api } from '@/boot/axios';
 import { AxiosError } from 'axios';
 import { MaintenanceStatus, MaintenanceTag } from '@/pages/Maintenances/types';
+import { MaintenanceHistoryItem } from '@/shared/types/maintenance';
 
 const baseApi = import.meta.env.VITE_ROTA_API;
 
 export const useMaintenanceStore = defineStore('maintenance', () => {
-  const history = ref<MaintenanceStatus[]>([]);
+  const history = ref<MaintenanceHistoryItem[]>([]);
   const maintenances = ref<MaintenanceStatus[]>([]);
   const isLoading = ref(false);
 
@@ -90,7 +91,10 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     }
   }
 
-  async function getMaintenanceHistory(licensePlate: string, types?: string[]) {
+  async function getMaintenanceHistory(
+    licensePlate: string,
+    types?: string[]
+  ): Promise<MaintenanceHistoryItem[]> {
     isLoading.value = true;
     try {
       const query = types?.length
@@ -98,7 +102,8 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
         : '';
       const url = `${baseApi}/v1/maintenance/history/${licensePlate}${query}`;
       const { data } = await api().get(url);
-      history.value = Array.isArray(data) ? data : [];
+      const items = Array.isArray(data) ? data : [];
+      history.value = items as MaintenanceHistoryItem[];
       return history.value;
     } catch (err) {
       const error = err as AxiosError;
@@ -111,6 +116,7 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       } else {
         console.error('Erro desconhecido:', error.message);
       }
+      return [];
     } finally {
       isLoading.value = false;
     }

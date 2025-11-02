@@ -40,6 +40,7 @@ import { onMounted, ref, watch } from 'vue';
 import { QSpinner } from 'quasar';
 import { useMaintenanceStore } from '@/stores/maintenance';
 import { useCarStore } from '@/stores/carStore';
+import { MaintenanceHistoryItem } from '@/shared/types/maintenance';
 
 const types = ['oil', 'battery', 'air-filter'];
 const maintenanceStore = useMaintenanceStore();
@@ -47,27 +48,9 @@ const carStore = useCarStore();
 const maintenanceHistory = ref<HistoryCardProps[]>([]);
 const isLoading = ref(false);
 
-type MaintenanceApiItem = {
-  type:
-    | 'Oil Change'
-    | 'Battery Change'
-    | 'Air Filter Change'
-    | 'Wheel Change'
-    | 'Oil Filter Change'
-    | 'Fuel Filter Change';
-
-  data: {
-    id: string;
-    lastMaintenanceDate?: string;
-    lastMaintenanceKm?: number;
-    valor?: string;
-    batteryBrand?: string;
-    oilType?: string;
-    status?: string;
-  };
-};
-
-function mapApiToHistoryCard(apiItem: MaintenanceApiItem): HistoryCardProps {
+function mapApiToHistoryCard(
+  apiItem: MaintenanceHistoryItem
+): HistoryCardProps {
   const formattedValue = apiItem.data.valor
     ? new Intl.NumberFormat('pt-BR', {
         style: 'currency',
@@ -136,9 +119,31 @@ watch(
     if (plate) {
       isLoading.value = true;
       await maintenanceStore.getMaintenanceHistory(plate, types);
-      maintenanceHistory.value = (maintenanceStore.history as unknown[]).map(
-        (item) => mapApiToHistoryCard(item as MaintenanceApiItem)
-      ) as HistoryCardProps[];
+
+      const grouped = new Map<string, HistoryCardProps>();
+
+      for (const item of maintenanceStore.history) {
+        const card = mapApiToHistoryCard(item);
+        if (!card.month) continue;
+
+        if (!grouped.has(card.month)) {
+          grouped.set(card.month, {
+            id: card.id,
+            month: card.month,
+            date: card.date,
+            km: card.km,
+            maintenances: [...card.maintenances],
+          });
+        } else {
+          const existing = grouped.get(card.month);
+          if (!existing) continue;
+
+          existing.maintenances.push(...card.maintenances);
+        }
+      }
+
+      maintenanceHistory.value = Array.from(grouped.values());
+
       isLoading.value = false;
     }
   },

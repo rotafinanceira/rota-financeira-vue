@@ -1,9 +1,11 @@
-import { MaintenanceItemProps } from '@/shared/types/maintenance';
-
 export type HistoryCardProps = {
-  id?: string;
+  id: string;
   month: string;
   date: string;
   km: string;
-  maintenances: MaintenanceItemProps[];
+  maintenances: {
+    icon: 'oil' | 'airFilter' | 'wheel' | 'battery' | 'fuelFilter';
+    title: string;
+    description: string;
+  }[];
 };
