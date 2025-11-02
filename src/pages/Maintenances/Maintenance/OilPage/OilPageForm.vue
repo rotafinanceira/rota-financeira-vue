@@ -9,7 +9,6 @@ import CButton from '@/shared/components/CButton.vue';
 import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
 import CSelect from '@/shared/components/CSelect.vue';
-import CFormatedInput from '@/shared/components/CFormatedInput.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 
 import { useOilStore } from '@/stores/oilStore';
@@ -34,7 +33,7 @@ const mileage = ref('');
 const oilType = ref('');
 const serviceType = ref('');
 const oficina = ref('');
-const maintenanceValue = ref('R$ 0,00');
+const maintenanceValue = ref('');
 
 interface Option {
   label: string;
@@ -196,31 +195,35 @@ onMounted(async () => {
         </div>
 
         <div class="input-wrapper">
-          <CFormatedInput
+          <CInput
             v-model="mileage"
-            label="Km na data de serviço*"
+            label="Quilometragem"
             name="mileage"
             variant="unit"
+            placeholder="km na data de serviço"
+            required
           />
         </div>
 
         <div class="input-wrapper">
           <CInput
-            :value="date"
             v-model="date"
-            label="Data da troca*"
+            label="Data da troca"
             name="last-oil-change"
             variant="date"
             placeholder="__/__/____"
+            required
           />
         </div>
 
         <div class="input-wrapper">
-          <CFormatedInput
+          <CInput
             v-model="maintenanceValue"
-            label="Valor da manutenção*"
+            label="Valor do serviço"
             name="maintenanceValue"
             variant="money"
+            placeholder="Digite o valor"
+            required
           />
         </div>
 

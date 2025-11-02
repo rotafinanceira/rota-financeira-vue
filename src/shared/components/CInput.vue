@@ -180,7 +180,10 @@ const onBlurValidate = () => validate();
 
 <template>
   <div :class="['custom-input-container', { 'is-disabled': disabled }]">
-    <span v-if="label" class="custom-label">{{ label }}</span>
+    <span v-if="label" class="custom-label"
+      >{{ label }}
+      <span v-if="props.required" class="required-asterisk">*</span></span
+    >
 
     <QField
       :error="!!errorMessage"
@@ -283,6 +286,7 @@ const onBlurValidate = () => validate();
   font-weight: 500;
   line-height: 0 !important;
   color: #0c0d0f;
+  padding-bottom: 4px;
 }
 
 .custom-qfield {
@@ -360,5 +364,9 @@ const onBlurValidate = () => validate();
   .custom-input-container.is-disabled & {
     color: #485159;
   }
+}
+
+.required-asterisk {
+  color: #ed4647;
 }
 </style>
