@@ -7,6 +7,8 @@ import type { Input } from '../types/Input';
 
 import { EyeClosedIcon, EyeOpenedIcon, XCircleIcon } from '../assets/icons';
 
+type InputValue = string | number | null;
+
 const props = withDefaults(defineProps<Input>(), {
   showIcon: 'not-empty',
 });
@@ -18,6 +20,39 @@ const emit = defineEmits<{
 const attrs = useAttrs();
 const seePassword = ref(false);
 
+const onlyDigits = (v: string | number) => String(v ?? '').replace(/\D/g, '');
+
+const formatMoney = (raw: string | number) => {
+  const digits = onlyDigits(raw);
+  if (!digits) return '';
+  const cents = parseInt(digits, 10);
+  const value = (cents / 100).toFixed(2);
+  const parts = value.split('.');
+  parts[0] = Number(parts[0]).toLocaleString('pt-BR');
+  return `R$ ${parts[0]},${parts[1]}`;
+};
+
+const formatUnit = (raw: string | number) => {
+  const digits = onlyDigits(raw);
+  if (!digits) return '';
+  const n = parseInt(digits, 10);
+  return `${n.toLocaleString('pt-BR')} `;
+};
+
+const parseMoneyToNumber = (formatted: string) => {
+  if (!formatted) return NaN;
+  const digits = onlyDigits(formatted);
+  if (!digits) return NaN;
+  return parseInt(digits, 10) / 100;
+};
+
+const parseUnitToNumber = (formatted: string) => {
+  if (!formatted) return NaN;
+  const digits = onlyDigits(formatted);
+  if (!digits) return NaN;
+  return parseInt(digits, 10);
+};
+
 const { value, errorMessage, validate } = useField<string | number>(
   props.name,
   (val: string | number) => {
@@ -28,27 +63,13 @@ const { value, errorMessage, validate } = useField<string | number>(
     if (props.variant === 'date' && String(val).trim() !== '') {
       const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
       const match = String(val).match(regex);
-
-      if (!match) {
-        return 'Data inválida (use DD/MM/AAAA)';
-      }
-
+      if (!match) return 'Data inválida (use DD/MM/AAAA)';
       const day = parseInt(match[1], 10);
       const month = parseInt(match[2], 10);
       const year = parseInt(match[3], 10);
-
-      if (day < 1 || day > 31) {
-        return 'Dia inválido';
-      }
-
-      if (month < 1 || month > 12) {
-        return 'Mês inválido';
-      }
-
-      if (year > 2100) {
-        return 'Ano inválido';
-      }
-
+      if (day < 1 || day > 31) return 'Dia inválido';
+      if (month < 1 || month > 12) return 'Mês inválido';
+      if (year > 2100) return 'Ano inválido';
       const testDate = new Date(year, month - 1, day);
       if (
         testDate.getFullYear() !== year ||
@@ -57,6 +78,18 @@ const { value, errorMessage, validate } = useField<string | number>(
       ) {
         return 'Data inexistente';
       }
+    }
+
+    if (props.variant === 'money' && String(val).trim() !== '') {
+      const n = parseMoneyToNumber(String(val));
+      if (isNaN(n)) return 'Valor inválido';
+      if (n <= 0) return 'Valor deve ser maior que zero';
+    }
+
+    if (props.variant === 'unit' && String(val).trim() !== '') {
+      const n = parseUnitToNumber(String(val));
+      if (isNaN(n)) return 'Valor inválido';
+      if (n <= 0) return 'Valor deve ser maior que zero';
     }
 
     return true;
@@ -73,7 +106,9 @@ const togglePasswordVisibility = () => {
 };
 
 const showClearIcon = computed(() => {
-  if (props.variant !== 'generic' && props.variant !== 'date') return false;
+  if (!['generic', 'date', 'money', 'unit'].includes(props.variant || '')) {
+    return false;
+  }
 
   const hasValue =
     value.value !== undefined &&
@@ -85,31 +120,62 @@ const showClearIcon = computed(() => {
 
 const clearInput = () => {
   value.value = '';
+  emit('update:modelValue', '');
 };
 
 watch(
   () => props.modelValue,
   (newVal) => {
-    if (newVal !== value.value) {
+    if (newVal === value.value) return;
+    if (props.variant === 'money') {
+      if (typeof newVal === 'number') {
+        value.value = formatMoney(String(Math.round(newVal * 100)));
+      } else {
+        value.value = formatMoney(String(newVal ?? ''));
+      }
+    } else if (props.variant === 'unit') {
+      if (typeof newVal === 'number') {
+        value.value = formatUnit(String(newVal));
+      } else {
+        value.value = formatUnit(String(newVal ?? ''));
+      }
+    } else {
       value.value = newVal as string | number;
     }
   },
   { immediate: true }
 );
 
-watch(value, (val) => {
-  if (props.variant === 'date' && typeof val === 'string') {
-    console.log(val);
-    const [day, month, year] = val.split('/');
-    if (day && month && year && year.length === 4) {
-      emit('update:modelValue', `${day}/${month}/${year}`);
-    } else {
-      emit('update:modelValue', val);
+const onInput = (val: InputValue) => {
+  const safeVal = val == null ? '' : String(val);
+
+  if (props.variant === 'money') {
+    const digits = onlyDigits(safeVal);
+    if (!digits) {
+      value.value = '';
+      emit('update:modelValue', '');
+      return;
     }
+    const formatted = formatMoney(digits);
+    value.value = formatted;
+    emit('update:modelValue', formatted);
+  } else if (props.variant === 'unit') {
+    const digits = onlyDigits(safeVal);
+    if (!digits) {
+      value.value = '';
+      emit('update:modelValue', '');
+      return;
+    }
+    const formatted = formatUnit(digits);
+    value.value = formatted;
+    emit('update:modelValue', formatted);
   } else {
-    emit('update:modelValue', val);
+    value.value = safeVal;
+    emit('update:modelValue', safeVal);
   }
-});
+};
+
+const onBlurValidate = () => validate();
 </script>
 
 <template>
@@ -119,6 +185,7 @@ watch(value, (val) => {
     <QField
       :error="!!errorMessage"
       :error-message="errorMessage || supportingText"
+      no-error-icon
       :disable="disabled"
       borderless
       hide-bottom-space
@@ -127,7 +194,8 @@ watch(value, (val) => {
       <template v-slot:control>
         <div class="input__wrapper" :class="{ 'is-error': !!errorMessage }">
           <QInput
-            v-model="value"
+            :model-value="value"
+            @update:model-value="onInput"
             :name="name"
             v-bind="attrs"
             :type="
@@ -140,8 +208,8 @@ watch(value, (val) => {
             :mask="props.variant === 'date' ? '##/##/####' : undefined"
             :fill-mask="props.variant === 'date' ? '_' : undefined"
             :disable="disabled"
-            @blur="validate()"
-            :placeholder="attrs.placeholder as string"
+            @blur="onBlurValidate"
+            :placeholder="props.placeholder as string"
             borderless
             dense
             class="custom-input full-width"
@@ -166,7 +234,7 @@ watch(value, (val) => {
           </QBtn>
 
           <QBtn
-            v-else-if="props.variant === 'generic' && showClearIcon"
+            v-else-if="showClearIcon"
             type="button"
             @click="clearInput"
             :disable="disabled"
