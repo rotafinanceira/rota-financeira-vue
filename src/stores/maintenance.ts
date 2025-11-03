@@ -34,11 +34,12 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
   }
 
   async function getMaintenances(licensePlate: string) {
+    if (!licensePlate) return [];
     isLoading.value = true;
+
     try {
       const url = `${baseApi}/v1/maintenance/${licensePlate}/latest`;
       const { data } = await api().get(url);
-
       const items = Array.isArray(data) ? data : [data];
 
       maintenances.value = items.map((raw: any) => {
@@ -86,6 +87,7 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       } else {
         console.error('Erro desconhecido:', error.message);
       }
+      return [];
     } finally {
       isLoading.value = false;
     }
@@ -95,7 +97,9 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     licensePlate: string,
     types?: string[]
   ): Promise<MaintenanceHistoryItem[]> {
+    if (!licensePlate) return [];
     isLoading.value = true;
+
     try {
       const query = types?.length
         ? `?types=${encodeURIComponent(types.join(','))}`
@@ -107,15 +111,45 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       return history.value;
     } catch (err) {
       const error = err as AxiosError;
-      if (error.response) {
-        console.error(
-          'Erro na API:',
-          error.response.status,
-          error.response.data
-        );
-      } else {
-        console.error('Erro desconhecido:', error.message);
-      }
+      console.error(
+        'Erro na API:',
+        error.response?.status,
+        error.response?.data ?? error.message
+      );
+      return [];
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  interface MaintenanceHistoryRequest {
+    licensePlate: string;
+    maintenanceTypes?: string[];
+    dateFrom?: string;
+    dateTo?: string;
+  }
+
+  async function getMaintenanceHistoryFiltered(
+    request: MaintenanceHistoryRequest
+  ): Promise<MaintenanceHistoryItem[]> {
+    if (!request.licensePlate) return [];
+    isLoading.value = true;
+
+    try {
+      const url = `${baseApi}/v1/maintenance/history`;
+      const { data } = await api().post(url, request);
+
+      const items = Array.isArray(data) ? data : [];
+
+      history.value = items as MaintenanceHistoryItem[];
+      return history.value;
+    } catch (err) {
+      const error = err as AxiosError;
+      console.error(
+        'Erro na API:',
+        error.response?.status,
+        error.response?.data ?? error.message
+      );
       return [];
     } finally {
       isLoading.value = false;
@@ -128,5 +162,7 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     isLoading,
     getMaintenances,
     getMaintenanceHistory,
+    getMaintenanceHistoryFiltered,
+    resolveTags,
   };
 });
