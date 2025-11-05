@@ -121,10 +121,9 @@ const handleSubmit = async () => {
       email: email.value,
       password: password.value,
     });
-    // Sucesso: resultado esperado do backend
-    router.push({ path: '/success' });
+
+    router.push({ name: 'home' });
   } catch (error) {
-    // Log detalhado para debug
     console.error('Erro no login:', error);
     const statusCode = error?.status || error?.response?.status;
     if (error?.response?.data) {
