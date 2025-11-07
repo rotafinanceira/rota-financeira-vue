@@ -42,7 +42,7 @@
         <ButtonComponent
           label="Inserir quilometragem do dia"
           :isLoading="isSendingMileage"
-          @click="handleSendMileage"
+          @click="openMileageModal"
         />
       </div>
       <div class="card card-maintenance danger">
@@ -155,16 +155,34 @@
       </div>
     </div>
   </div>
-  <ModalGenerico
-    :title="modalContent"
-    :open="isOpen"
-    :description="modalDescription"
-    @close="isOpen = false"
-  />
+  <CModal v-model="isOpen" variant="info">
+    <h2>{{ modalContent }}</h2>
+    <ul class="info-list">
+      <li v-for="(item, index) in modalDescription" :key="index">
+        {{ item }}
+      </li>
+    </ul>
+  </CModal>
+
+  <CModalWithButton
+    v-model="isMileageModalOpen"
+    title="Como está seu odômetro hoje?"
+    buttonLabel="Salvar"
+    :isLoading="isSendingMileage"
+    @confirm="confirmMileageFromModal"
+  >
+    <p>Preencha com o valor que aparece no painel do seu carro.</p>
+    <CInput
+      v-model="modalMileageInput"
+      name="mileage"
+      variant="unit"
+      placeholder="km na data de serviço"
+      required
+    />
+  </CModalWithButton>
 </template>
 
 <script setup lang="ts">
-import ModalGenerico from '@/shared/components/ModalGenerico.vue';
 import ButtonComponent from '@/shared/components/ButtonComponent.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 import odometer from '@/shared/assets/illustrations/odometer.svg';
@@ -175,31 +193,57 @@ import batteryIcon from '@/shared/assets/icons/battery.svg';
 import dateIcon from '@/shared/assets/icons/battery.svg';
 import { ref, computed, onMounted } from 'vue';
 import { useCarStore } from '@/stores/carStore';
+import CModal from '@/shared/components/CModal.vue';
+import CInput from '@/shared/components/CInput.vue';
+import CModalWithButton from '@/shared/components/CModalWithButton.vue';
 
 const isOpen = ref<boolean>(false);
 const modalContent = ref<string>('Quando devo fazer a troca?');
 const modalDescription = ref<string[]>([
   'O tempo recomendado para troca de óleo é de 6 a 12 meses.',
 ]);
+const isMileageModalOpen = ref<boolean>(false);
+const modalMileageInput = ref<string>('');
 
 const odometerValue = ref<string>('');
 const isSendingMileage = ref(false);
 
-const handleSendMileage = async () => {
-  if (!odometerValue.value) return;
-  const mileage = Number(odometerValue.value.replace(/\D/g, ''));
-  if (!mileage || !carStore.firstLicensePlate) return;
+const openMileageModal = () => {
+  const current = odometerValue.value
+    ? odometerValue.value.replace(/\D/g, '')
+    : lastMileage.value
+    ? String(lastMileage.value)
+    : '';
+  modalMileageInput.value = current
+    ? Number(current).toLocaleString('pt-BR')
+    : '';
+  isMileageModalOpen.value = true;
+};
+
+const confirmMileageFromModal = async () => {
+  const raw = modalMileageInput.value.replace(/\D/g, '');
+  if (!raw) {
+    return;
+  }
+
+  odometerValue.value = Number(raw).toLocaleString('pt-BR');
+
   isSendingMileage.value = true;
   try {
-    await carStore.updateCarMileage(carStore.firstLicensePlate, mileage);
-    await carStore.getCars(); // Atualiza a lista após o patch
-    odometerValue.value = '';
+    const mileageNum = Number(raw);
+    if (carStore.firstLicensePlate) {
+      await carStore.updateCarMileage(carStore.firstLicensePlate, mileageNum);
+      await carStore.getCars();
+    }
   } catch (err) {
-    // Trate erro se quiser
+    console.error('Erro ao atualizar quilometragem:', err);
   } finally {
     isSendingMileage.value = false;
   }
+
+  isMileageModalOpen.value = false;
 };
+
 const carStore = useCarStore();
 const lastMileage = computed(() => {
   if (carStore.cars.length > 0 && carStore.cars[0]?.current_mileage != null) {
@@ -589,5 +633,23 @@ const nextNextMaintenance = () => {
   display: flex;
   width: 100%;
   justify-content: space-between;
+}
+
+.floating-button {
+  position: fixed;
+  bottom: 10%; /* ajusta conforme o tamanho do modal */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3000; /* acima do overlay do Quasar */
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
