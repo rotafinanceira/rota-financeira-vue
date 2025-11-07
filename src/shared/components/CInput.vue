@@ -36,7 +36,7 @@ const formatUnit = (raw: string | number) => {
   const digits = onlyDigits(raw);
   if (!digits) return '';
   const n = parseInt(digits, 10);
-  return `${n.toLocaleString('pt-BR')} `;
+  return n.toLocaleString('pt-BR');
 };
 
 const parseMoneyToNumber = (formatted: string) => {
