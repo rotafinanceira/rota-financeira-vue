@@ -2,7 +2,7 @@
   <q-dialog v-model="showDialog" persistent class="transparent-dialog">
     <div class="transparent-wrapper">
       <div class="dialog-container">
-        <p>{{ props.title }}</p>
+        <h2>{{ props.title }}</h2>
 
         <button class="close-button" @click="closeDialog">
           <img :src="XCircleIcon" alt="Fechar" />
@@ -15,7 +15,6 @@
         :label="buttonLabel"
         variant="primary"
         :isLoading="isLoading"
-        class="floating-btn"
         @click="handleAction"
       />
     </div>
@@ -64,7 +63,7 @@ const handleAction = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 32px;
+  gap: 16px;
   width: 100%;
   height: 100vh;
   position: relative;
@@ -77,6 +76,17 @@ const handleAction = () => {
   border: none;
 }
 
+h2 {
+  text-align: left;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+:deep(:where(p)) {
+  color: #485159;
+  font-size: 14px;
+}
+
 .dialog-container {
   width: 320px;
   background: white;
@@ -85,22 +95,8 @@ const handleAction = () => {
   position: relative;
   border: 1px solid #e0e5e7;
   display: flex;
+  gap: 1rem;
   flex-direction: column;
   justify-content: center;
-
-  :deep(:where(p, li, ol, span)) {
-    color: #485159;
-  }
-
-  :deep(h2) {
-    font-weight: 600;
-    font-size: 1.125rem;
-  }
-
-  :deep(.group) {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
 }
 </style>

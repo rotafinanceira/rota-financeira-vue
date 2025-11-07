@@ -13,13 +13,9 @@
         <div class="info-wrapper">
           <div class="info-text-wrapper">
             <div class="kilometer-title">
-              <input
-                type="text"
-                v-model="odometerValue"
-                @input="formatOdometerValue"
-                class="km-number"
-                placeholder="000.000"
-              />
+              <p>
+                {{ currentMileage ?? '-' }}
+              </p>
               <span class="km-text">Km</span>
             </div>
             <div>
@@ -156,12 +152,25 @@
     </div>
   </div>
   <CModal v-model="isOpen" variant="info">
-    <h2>{{ modalContent }}</h2>
-    <ul class="info-list">
-      <li v-for="(item, index) in modalDescription" :key="index">
-        {{ item }}
-      </li>
-    </ul>
+    <h2>Como funciona o odômetro?</h2>
+    <div>
+      <p>
+        O odômetro é onde você registra a quilometragem atual do seu veículo
+        diariamente. Esses dados são essenciais para que o app calcule quando
+        cada manutenção precisa ser feita ou se alguma já está vencida.
+      </p>
+      <ui>
+        <li>
+          Preencha no final do dia com o valor que aparece no painel do seu
+          carro.
+        </li></ui
+      >
+
+      <p>
+        Quanto mais regular for esse registro, mais precisas serão as previsões
+        de manutenção.
+      </p>
+    </div>
   </CModal>
 
   <CModalWithButton
@@ -197,42 +206,60 @@ import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
 import CModalWithButton from '@/shared/components/CModalWithButton.vue';
 
-const isOpen = ref<boolean>(false);
-const modalContent = ref<string>('Quando devo fazer a troca?');
-const modalDescription = ref<string[]>([
-  'O tempo recomendado para troca de óleo é de 6 a 12 meses.',
-]);
-const isMileageModalOpen = ref<boolean>(false);
-const modalMileageInput = ref<string>('');
-
-const odometerValue = ref<string>('');
+const isOpen = ref(false);
+const isMileageModalOpen = ref(false);
+const modalMileageInput = ref('');
 const isSendingMileage = ref(false);
 
+const carStore = useCarStore();
+
+onMounted(() => {
+  carStore.getCars();
+});
+
+const currentMileage = computed(() => {
+  if (carStore.cars.length > 0 && carStore.cars[0]?.current_mileage != null) {
+    return carStore.cars[0].current_mileage;
+  }
+  return null;
+});
+
+const lastMileage = ref<number | null>(null);
+
+onMounted(async () => {
+  await carStore.getCars();
+
+  if (currentMileage.value != null) {
+    lastMileage.value = currentMileage.value;
+  }
+});
+
 const openMileageModal = () => {
-  const current = odometerValue.value
-    ? odometerValue.value.replace(/\D/g, '')
+  const current = currentMileage.value
+    ? String(currentMileage.value)
     : lastMileage.value
     ? String(lastMileage.value)
     : '';
+
   modalMileageInput.value = current
     ? Number(current).toLocaleString('pt-BR')
     : '';
+
   isMileageModalOpen.value = true;
 };
 
 const confirmMileageFromModal = async () => {
   const raw = modalMileageInput.value.replace(/\D/g, '');
-  if (!raw) {
-    return;
-  }
+  if (!raw) return;
 
-  odometerValue.value = Number(raw).toLocaleString('pt-BR');
+  const newMileage = Number(raw);
 
   isSendingMileage.value = true;
   try {
-    const mileageNum = Number(raw);
+    lastMileage.value = currentMileage.value ?? newMileage;
+
     if (carStore.firstLicensePlate) {
-      await carStore.updateCarMileage(carStore.firstLicensePlate, mileageNum);
+      await carStore.updateCarMileage(carStore.firstLicensePlate, newMileage);
       await carStore.getCars();
     }
   } catch (err) {
@@ -244,32 +271,8 @@ const confirmMileageFromModal = async () => {
   isMileageModalOpen.value = false;
 };
 
-const carStore = useCarStore();
-const lastMileage = computed(() => {
-  if (carStore.cars.length > 0 && carStore.cars[0]?.current_mileage != null) {
-    return carStore.cars[0].current_mileage;
-  }
-  return null;
-});
-onMounted(() => {
-  carStore.getCars();
-});
-
 const showHelpModal = (): void => {
   isOpen.value = true;
-  modalContent.value = 'Quando devo fazer a troca?';
-  modalDescription.value = [
-    'O tempo recomendado para troca de óleo é de 6 a 12 meses.',
-    'Troque de óleo a cada 10 mil quilômetros aproximadamente.',
-    'O uso severo do veículo pode encurtar o intervalo de troca de óleo.',
-    'Utilize o tipo de óleo e quantidade correta do modelo do seu veículo.',
-    'Jamais misture óleos de viscosidades diferentes.',
-  ];
-};
-
-const formatOdometerValue = (): void => {
-  const value = odometerValue.value.replace(/\D/g, '');
-  odometerValue.value = Number(value).toLocaleString('pt-BR');
 };
 
 const expiredMaintenances = ref([
@@ -633,23 +636,5 @@ const nextNextMaintenance = () => {
   display: flex;
   width: 100%;
   justify-content: space-between;
-}
-
-.floating-button {
-  position: fixed;
-  bottom: 10%; /* ajusta conforme o tamanho do modal */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3000; /* acima do overlay do Quasar */
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>
