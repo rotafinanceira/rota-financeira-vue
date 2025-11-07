@@ -13,20 +13,16 @@
         <div class="info-wrapper">
           <div class="info-text-wrapper">
             <div class="kilometer-title">
-              <p>
+              <p class="km-number">
                 {{ currentMileage ?? '-' }}
               </p>
-              <span class="km-text">Km</span>
+              <span class="km-text">KM</span>
             </div>
             <div>
               <span class="kilometer-text"
                 >Última quilometragem <br />
-                registrada:</span
+                registrada: {{ lastMileage ?? '-' }} Km</span
               >
-              <span class="kilometer-text-number">{{
-                lastMileage ?? '-'
-              }}</span>
-              <span class="kilometer-text"> Km</span>
             </div>
           </div>
           <div class="odometer-icon">
@@ -153,24 +149,24 @@
   </div>
   <CModal v-model="isOpen" variant="info">
     <h2>Como funciona o odômetro?</h2>
-    <div>
-      <p>
-        O odômetro é onde você registra a quilometragem atual do seu veículo
-        diariamente. Esses dados são essenciais para que o app calcule quando
-        cada manutenção precisa ser feita ou se alguma já está vencida.
-      </p>
-      <ui>
-        <li>
-          Preencha no final do dia com o valor que aparece no painel do seu
-          carro.
-        </li></ui
-      >
 
-      <p>
-        Quanto mais regular for esse registro, mais precisas serão as previsões
-        de manutenção.
-      </p>
-    </div>
+    <p>
+      O odômetro é onde você registra a
+      <strong>quilometragem atual</strong> do seu veículo
+      <strong>diariamente.</strong> Esses dados são essenciais para que o app
+      calcule quando cada manutenção precisa ser feita ou se alguma já está
+      vencida.
+    </p>
+    <ul>
+      <li>
+        Preencha no final do dia com o valor que aparece no painel do seu carro.
+      </li>
+    </ul>
+
+    <p>
+      Quanto mais <strong>regular</strong> for esse registro, mais
+      <strong>precisas</strong> serão as previsões de manutenção.
+    </p>
   </CModal>
 
   <CModalWithButton
@@ -178,6 +174,7 @@
     title="Como está seu odômetro hoje?"
     buttonLabel="Salvar"
     :isLoading="isSendingMileage"
+    :disabled="!!errorMessage || !modalMileageInput"
     @confirm="confirmMileageFromModal"
   >
     <p>Preencha com o valor que aparece no painel do seu carro.</p>
@@ -187,8 +184,22 @@
       variant="unit"
       placeholder="km na data de serviço"
       required
+      @blur="validateMileageOnBlur"
     />
+    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
   </CModalWithButton>
+
+  <CModal
+    v-model="isSuccessModalOpen"
+    variant="default"
+    showClose
+    icon="success"
+  >
+    <div class="group">
+      <h2>Quilometragem atualizada!</h2>
+      <p>A nova quilometragem do seu odômetro foi salva com sucesso.</p>
+    </div>
+  </CModal>
 </template>
 
 <script setup lang="ts">
@@ -204,12 +215,14 @@ import { ref, computed, onMounted } from 'vue';
 import { useCarStore } from '@/stores/carStore';
 import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
-import CModalWithButton from '@/shared/components/CModalWithButton.vue';
+import CModalWithButton from './components/CModalWithButton.vue';
 
 const isOpen = ref(false);
 const isMileageModalOpen = ref(false);
+const isSuccessModalOpen = ref(false);
 const modalMileageInput = ref('');
 const isSendingMileage = ref(false);
+const errorMessage = ref('');
 
 const carStore = useCarStore();
 
@@ -218,10 +231,10 @@ onMounted(() => {
 });
 
 const currentMileage = computed(() => {
-  if (carStore.cars.length > 0 && carStore.cars[0]?.current_mileage != null) {
-    return carStore.cars[0].current_mileage;
-  }
-  return null;
+  const mileage = carStore.cars[0]?.current_mileage ?? null;
+  if (mileage == null) return null;
+
+  return mileage.toLocaleString('pt-BR');
 });
 
 const lastMileage = ref<number | null>(null);
@@ -248,11 +261,32 @@ const openMileageModal = () => {
   isMileageModalOpen.value = true;
 };
 
-const confirmMileageFromModal = async () => {
+const validateMileageOnBlur = () => {
   const raw = modalMileageInput.value.replace(/\D/g, '');
-  if (!raw) return;
 
   const newMileage = Number(raw);
+  const current = carStore.cars[0]?.current_mileage ?? 0;
+
+  if (newMileage < current) {
+    errorMessage.value = 'Informe um valor de quilometragem maior que o atual.';
+    return;
+  }
+
+  errorMessage.value = '';
+};
+
+const confirmMileageFromModal = async () => {
+  const raw = modalMileageInput.value.replace(/\D/g, '');
+
+  const newMileage = Number(raw);
+  const current = carStore.cars[0]?.current_mileage ?? 0;
+
+  if (newMileage < current) {
+    errorMessage.value = 'Informe um valor de quilometragem maior que o atual.';
+    return;
+  }
+
+  errorMessage.value = '';
 
   isSendingMileage.value = true;
   try {
@@ -262,13 +296,14 @@ const confirmMileageFromModal = async () => {
       await carStore.updateCarMileage(carStore.firstLicensePlate, newMileage);
       await carStore.getCars();
     }
+
+    isMileageModalOpen.value = false;
+    isSuccessModalOpen.value = true;
   } catch (err) {
     console.error('Erro ao atualizar quilometragem:', err);
   } finally {
     isSendingMileage.value = false;
   }
-
-  isMileageModalOpen.value = false;
 };
 
 const showHelpModal = (): void => {
@@ -373,6 +408,11 @@ const nextNextMaintenance = () => {
   font-weight: bold;
 }
 
+p,
+li {
+  line-height: 150%;
+}
+
 .styled-button {
   display: flex;
   width: 100%;
@@ -445,22 +485,16 @@ const nextNextMaintenance = () => {
 }
 
 .km-number {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 20px;
-  line-height: 26px;
-  color: #51785a;
+  line-height: 120%;
+  color: #485159;
   border: none;
-  background: transparent;
-  width: 90px;
-  text-align: center;
-}
-
-.km-number:focus {
-  outline: none;
+  letter-spacing: -2px;
 }
 
 .km-text {
-  color: #9ba7ad;
+  color: #485159;
   font-weight: 700;
   font-size: 14px;
   margin-top: 1px;
@@ -636,5 +670,11 @@ const nextNextMaintenance = () => {
   display: flex;
   width: 100%;
   justify-content: space-between;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
 }
 </style>

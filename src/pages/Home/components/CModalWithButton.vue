@@ -15,6 +15,7 @@
         :label="buttonLabel"
         variant="primary"
         :isLoading="isLoading"
+        :disabled="disabled"
         @click="handleAction"
       />
     </div>
@@ -23,7 +24,7 @@
 
 <script setup lang="ts">
 import CButton from '@/shared/components/CButton.vue';
-import { XCircleIcon } from '../assets/icons';
+import { XCircleIcon } from '@/shared/assets/icons';
 
 const showDialog = defineModel<boolean>({ default: false });
 
@@ -32,11 +33,12 @@ const props = withDefaults(
     title?: string;
     buttonLabel?: string;
     isLoading?: boolean;
+    disabled?: boolean;
   }>(),
   {
     buttonLabel: 'Salvar',
-    buttonVariant: 'primary',
     isLoading: false,
+    disabled: false,
   }
 );
 
@@ -48,7 +50,7 @@ const closeDialog = () => {
 };
 
 const handleAction = () => {
-  emit('confirm');
+  if (!props.disabled) emit('confirm');
 };
 </script>
 
