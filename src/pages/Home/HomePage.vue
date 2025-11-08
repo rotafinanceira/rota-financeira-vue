@@ -33,6 +33,18 @@
         @click="openMileageModal"
       />
     </div>
+    <div v-if="!hasCarRegistered" class="home__content">
+      <div class="alertCard">
+        <img :src="CarIcon" />
+        <h2 class="alertCard__title">Veículo não cadastrado</h2>
+        <span class="alertCard__text">
+          Cadastre seu veículo para acompanhar manutenções e gastos.
+        </span>
+      </div>
+      <CButton variant="primary" :to="{ name: 'user-vehicle-edit' }">
+        Cadastrar veículo
+      </CButton>
+    </div>
   </div>
   <CModal v-model="isOpen" variant="info">
     <h2>Como funciona o odômetro?</h2>
@@ -100,6 +112,7 @@ import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
 import CModalWithButton from './components/CModalWithButton.vue';
 import CButton from '@/shared/components/CButton.vue';
+import { CarIcon } from '@/shared/assets/illustrations';
 
 const isOpen = ref(false);
 const isMileageModalOpen = ref(false);
@@ -110,9 +123,7 @@ const mileageErrorMessage = ref('');
 
 const carStore = useCarStore();
 
-onMounted(() => {
-  carStore.getCars();
-});
+const hasCarRegistered = computed(() => carStore.cars.length > 0);
 
 const currentMileage = computed(() => {
   const mileage = carStore.cars[0]?.current_mileage ?? null;

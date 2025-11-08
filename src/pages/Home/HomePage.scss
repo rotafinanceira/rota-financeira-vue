@@ -12,6 +12,12 @@
     align-items: center;
     justify-content: space-between;
   }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
 }
 
 p,
@@ -44,6 +50,30 @@ li {
     display: flex;
     flex-direction: row;
     gap: 8px;
+  }
+}
+
+.alertCard {
+  text-align: center;
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+
+  &__title {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  &__text {
+    font-size: 0.875rem;
+    color: #485159;
   }
 }
 
