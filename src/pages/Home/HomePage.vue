@@ -41,7 +41,7 @@
           Cadastre seu veículo para acompanhar manutenções e gastos.
         </span>
       </div>
-      <CButton variant="primary" :to="{ name: 'user-vehicle-edit' }">
+      <CButton variant="primary" :to="{ name: 'user-vehicle-register' }">
         Cadastrar veículo
       </CButton>
     </div>

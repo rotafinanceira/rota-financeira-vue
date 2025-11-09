@@ -1,194 +1,191 @@
 <template>
-  <q-page>
+  <div>
     <div class="main-content">
       <div class="card-wrapper">
-        <SelectVehicle @vehicle-selected="setCarId" />
-
         <div class="card">
           <div class="text-wrapper">
-            <div class="header-content">
-              <span class="title">Características do Veículo</span>
-            </div>
-            <span class="subtitle"
-              >Preencha com as informações do veículo que deseja
-              cadastrar.</span
-            >
-          </div>
+            <span class="title">Novo Cadastro</span>
 
-          <!-- Placa -->
-          <div class="input-wrapper">
-            <label for="licensePlate">Placa*</label>
-            <div class="definitions-wrapper">
-              <q-input
-                id="licensePlate"
-                outlined
-                v-model="licensePlate"
-                label="Digite a placa do seu veículo"
-              ></q-input>
-              <span>
-                <div class="car-icon">
-                  <img :src="carIcon" alt="Ícone do carro" />
-                </div>
-              </span>
-            </div>
-          </div>
-
-          <!-- Ano de Fabricação -->
-          <div class="input-wrapper">
-            <label for="manufacturing-date">Ano de fabricação*</label>
-            <div class="definitions-wrapper">
-              <q-input
-                id="manufacturing-date"
-                outlined
-                v-model="manufacturingDate"
-                label="Ex: 2020"
-              ></q-input>
-              <span>
-                <div class="date-icon">
-                  <img :src="dateIcon" alt="Ícone da data" />
-                </div>
-              </span>
-            </div>
-          </div>
-
-          <!-- Cor -->
-          <div class="input-wrapper">
-            <label for="color">Cor*</label>
-            <div class="definitions-wrapper">
-              <q-input
-                id="color"
-                outlined
-                v-model="color"
-                label="Ex: Cinza"
-              ></q-input>
-              <span>
-                <div class="color-icon">
-                  <img :src="colorIcon" alt="Ícone da cor do carro" />
-                </div>
-              </span>
-            </div>
-          </div>
-
-          <!-- Quilometragem atual -->
-          <div class="input-wrapper">
-            <label for="current-mileage">Quilometragem atual*</label>
-            <div class="definitions-wrapper">
-              <q-input
-                id="current-mileage"
-                outlined
-                v-model="currentMileage"
-                label="Ex: 123.456"
-              ></q-input>
-              <span>Km</span>
-            </div>
+            <span class="subtitle">
+              Complete os campos abaixo com as informações necessárias para
+              realizar o cadastro do seu veículo.
+            </span>
           </div>
 
           <div class="input-wrapper">
-            <div>
-              <label>Combustível*</label>
-              <span class="subtitle"
-                >Insira as características do seu veículo</span
-              >
-            </div>
-            <div class="fuel-input">
-              <div class="fuel-input-items-wrapper">
-                <div
-                  class="fuel-input-item"
-                  :class="{ active: selectedFuel === 'Gasolina' }"
-                  @click="handleClickFuelSelected('Gasolina')"
-                >
-                  Gasolina
-                </div>
-                <div
-                  class="fuel-input-item"
-                  :class="{ active: selectedFuel === 'Etanol' }"
-                  @click="handleClickFuelSelected('Etanol')"
-                >
-                  Etanol
-                </div>
-              </div>
-              <div class="fuel-input-items-wrapper">
-                <div
-                  class="fuel-input-item"
-                  :class="{ active: selectedFuel === 'Elétrico' }"
-                  @click="handleClickFuelSelected('Elétrico')"
-                >
-                  Elétrico
-                </div>
-                <div
-                  class="fuel-input-item"
-                  :class="{ active: selectedFuel === 'Diesel' }"
-                  @click="handleClickFuelSelected('Diesel')"
-                >
-                  Diesel
-                </div>
-              </div>
-            </div>
+            <CInput
+              v-model="chassi"
+              label="Chassi"
+              name="chassi"
+              placeholder="Ex: 9BG. RD08X0. 4G.117974 "
+              variant="generic"
+            />
+          </div>
+
+          <div class="input-wrapper">
+            <CInput
+              v-model="brand"
+              label="Marca"
+              name="brand"
+              placeholder="Digite a marca"
+              variant="generic"
+            />
+          </div>
+
+          <div class="input-wrapper">
+            <CInput
+              v-model="model"
+              label="Modelo"
+              name="model"
+              placeholder="Ex: Corolla"
+              variant="generic"
+            />
+          </div>
+
+          <div class="input-wrapper">
+            <CInput
+              v-model="licensePlate"
+              name="licensePlate"
+              label="Placa do carro"
+              placeholder="Ex: ABC-1234 ou ABC1D23"
+              variant="plate"
+              required
+            />
+          </div>
+
+          <div class="input-wrapper">
+            <CInput
+              v-model="manufacturingDate"
+              label="Ano de fabricação"
+              name="manufacturing-date"
+              placeholder="Ex: 2020"
+              variant="generic"
+            />
+          </div>
+
+          <div class="input-wrapper">
+            <CInput
+              v-model="color"
+              label="Cor"
+              name="color"
+              placeholder="Ex: Cinza"
+              variant="generic"
+            />
+          </div>
+
+          <div class="input-wrapper">
+            <CInput
+              v-model="currentMileage"
+              label="Quilometragem atual"
+              name="current-mileage"
+              variant="unit"
+              placeholder="Ex: 123.456"
+              required
+            />
+          </div>
+
+          <div class="input-wrapper">
+            <CSelect
+              v-model="fuelType"
+              name="fuel-type"
+              label="Tipo de combustível"
+              :options="fuelTypeOptions"
+              placeholder="Escolha o tipo de combustível"
+              @toggle="(val) => (isSelectOpen = val)"
+            />
           </div>
         </div>
       </div>
 
-      <ButtonComponent
-        label="Salvar"
-        :isLoading="isLoading"
-        @click="handleSubmit"
-      />
+      <CButton @click="handleSubmit" :isLoading="isLoading">Salvar</CButton>
+
+      <div :style="{ paddingBottom: isSelectOpen ? '100px' : '0' }"></div>
     </div>
-    <ModalGenerico
-      :title="modalContent"
-      :open="isOpen"
-      :description="modalDescription"
-      :text-button="'Fechar'"
-      @close="isOpen = false"
-    />
-    <ModalPositive
-      :title="successTitle"
-      :open="isPositiveOpen"
-      @close="isPositiveOpen = false"
-      :text-button="'Fechar'"
-    />
-  </q-page>
+    <CModal
+      v-model="isPositiveOpen"
+      icon="success"
+      variant="default"
+      @update:modelValue="
+        (val) => {
+          if (!val) closeSuccess();
+        }
+      "
+    >
+      <div class="group">
+        <h2>{{ successTitle }}</h2>
+        <p>{{ successDescription }}</p>
+      </div>
+    </CModal>
+
+    <CModal
+      v-model="isErrorOpen"
+      icon="error"
+      variant="default"
+      @update:modelValue="
+        (val) => {
+          if (!val) isErrorOpen = false;
+        }
+      "
+    >
+      <div class="group">
+        <h2>{{ errorTitle }}</h2>
+        <p>{{ errorDescription }}</p>
+      </div>
+    </CModal>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import ButtonComponent from '@/shared/components/ButtonComponent.vue';
+import { useRouter } from 'vue-router';
 
-import SelectVehicle from '@/shared/components/SelectVehicleModel.vue';
-import ModalGenerico from '@/shared/components/ModalGenerico.vue';
-import ModalPositive from '@/shared/components/ModalSucess.vue';
-import dateIcon from '@/shared/assets/icons/battery.svg';
-import carIcon from '@/shared/assets/icons/battery.svg';
-import colorIcon from '@/shared/assets/icons/battery.svg';
+import CInput from '@/shared/components/CInput.vue';
+import CSelect from '@/shared/components/CSelect.vue';
+import CModal from '@/shared/components/CModal.vue';
+import CButton from '@/shared/components/CButton.vue';
 
+interface Option {
+  label: string;
+  value: string;
+}
+
+const fuelTypeOptions: Option[] = [
+  { label: 'Diesel', value: 'Diesel' },
+  { label: 'Etanol', value: 'Etanol' },
+  { label: 'Elétrico', value: 'Elétrico' },
+  { label: 'Gasolina', value: 'Gasolina' },
+];
+
+const router = useRouter();
 const isLoading = ref<boolean>(false);
 const date = ref<string>('');
 const color = ref<string>('');
 const manufacturingDate = ref<string>('');
 const currentMileage = ref<string>('');
-const carId = ref<number | null>(null);
-const modalContent = ref<string>('');
-const modalDescription = ref<string[] | string>('');
-const isOpen = ref<boolean>(false);
+const fuelType = ref<string>('');
+const chassi = ref<string>('');
+const brand = ref<string>('');
+const model = ref<string>('');
 const licensePlate = ref<string>('');
-const selectedFuel = ref<string | null>(null);
-const isPositiveOpen = ref<boolean>(false);
-const successTitle = ref<string>('');
+const isPositiveOpen = ref(false);
+const isErrorOpen = ref(false);
+const isSelectOpen = ref(false);
 
-const setCarId = (selectedCarId: number): void => {
-  carId.value = selectedCarId;
-};
+const successTitle = ref('Parabéns!');
+const successDescription = ref(
+  'Você cadastrou a troca de óleo do seu veículo. Iremos lhe informar sobre a próxima manutenção.'
+);
 
-const handleClickFuelSelected = (fuel: string): void => {
-  selectedFuel.value = fuel;
-};
+const errorTitle = ref('Algo deu errado!');
+const errorDescription = ref(
+  'Suas alterações não foram salvas. Tente novamente mais tarde.'
+);
 
 const handleSubmit = (): void => {
   isLoading.value = true;
 
   setTimeout(() => {
     isLoading.value = false;
-    successTitle.value = 'Veículo cadastrado!';
     isPositiveOpen.value = true;
 
     date.value = '';
@@ -197,6 +194,11 @@ const handleSubmit = (): void => {
     currentMileage.value = '';
   }, 1000);
 };
+
+function closeSuccess() {
+  isPositiveOpen.value = false;
+  router.push({ name: 'home' });
+}
 </script>
 
 <style scoped>
@@ -207,116 +209,35 @@ const handleSubmit = (): void => {
   padding: 24px 20px;
   gap: 32px;
 }
-
 .card-wrapper {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-
 .card {
   width: 100%;
   background-color: white;
   border-radius: 8px;
   padding: 16px;
 }
-
 .input-wrapper {
-  margin-bottom: 16px;
-}
-
-.input-wrapper label {
-  font-weight: 500;
-  font-size: 16px;
-}
-
-.definitions-wrapper {
-  position: relative;
-  margin-top: 4px;
-}
-
-.definitions-wrapper span {
-  position: absolute;
-  right: 12px;
-  top: 18px;
-  font-size: 14px;
-  color: #9ba7ad;
-}
-
-.q-input__inner {
-  cursor: pointer;
-}
-
-.text-wrapper {
   margin-bottom: 20px;
+}
+.text-wrapper {
+  margin-bottom: 32px;
+  display: flex;
   flex-direction: column;
-  gap: 6px;
-  display: flex;
+  gap: 1rem;
 }
-
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.amperage-buttons {
-  margin-top: 8px;
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-
 .title {
-  font-weight: bold;
   font-size: 18px;
+  font-weight: bold;
 }
-
-.icons {
-  height: 20px;
-  width: 20px;
-  justify-content: center;
-  align-items: center;
-  top: 35%;
-  position: absolute;
-  right: 0;
-}
-
 .subtitle {
-  font-weight: 400;
-  line-height: 21px;
   font-size: 14px;
   color: #5b6871;
-  display: block;
 }
-
-.fuel-input {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-top: 12px;
-}
-
-.fuel-input-items-wrapper {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.fuel-input-item {
-  flex: 1;
-  width: 50%;
-  text-align: center;
-  border-radius: 4px;
-  border: 1px solid #c2c9cd;
-  padding: 8px 12px;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.active {
-  background-color: #e2eafd;
-  color: #32337d;
-  border: 1px solid #e2eafd;
+.info-list li {
+  margin-bottom: 12px;
 }
 </style>

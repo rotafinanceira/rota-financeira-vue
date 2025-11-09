@@ -27,9 +27,12 @@ const modelValue = defineModel<string | number | ''>('modelValue', {
 
 const isOpen = ref(false);
 
+const emit = defineEmits(['toggle']);
+
 const toggleDropdown = () => {
   if (props.disabled) return;
   isOpen.value = !isOpen.value;
+  emit('toggle', isOpen.value);
 };
 
 const selectOption = (val: string | number) => {
