@@ -38,6 +38,22 @@ const formatUnit = (raw: string | number) => {
   const n = parseInt(digits, 10);
   return n.toLocaleString('pt-BR');
 };
+const formatPlate = (raw: string | number) => {
+  if (!raw) return '';
+  const cleaned = String(raw)
+    .replace(/[^A-Z0-9]/gi, '')
+    .toUpperCase();
+
+  if (/^[A-Z]{3}[0-9]{4}$/.test(cleaned)) {
+    return cleaned.replace(/^([A-Z]{3})([0-9]{4})$/, '$1-$2');
+  }
+
+  if (/^[A-Z]{3}[0-9][A-Z][0-9]{2}$/.test(cleaned)) {
+    return cleaned;
+  }
+
+  return cleaned;
+};
 
 const parseMoneyToNumber = (formatted: string) => {
   if (!formatted) return NaN;
@@ -92,6 +108,17 @@ const { value, errorMessage, validate } = useField<string | number>(
       if (n <= 0) return 'Valor deve ser maior que zero';
     }
 
+    if (props.variant === 'plate' && String(val).trim() !== '') {
+      const cleaned = String(val)
+        .replace(/[^A-Z0-9]/gi, '')
+        .toUpperCase();
+      const regexAntigo = /^[A-Z]{3}[0-9]{4}$/;
+      const regexMercosul = /^[A-Z]{3}[0-9][A-Z][0-9]{2}$/;
+      if (!regexAntigo.test(cleaned) && !regexMercosul.test(cleaned)) {
+        return 'Placa inválida';
+      }
+    }
+
     return true;
   },
   { validateOnValueUpdate: false }
@@ -139,6 +166,8 @@ watch(
       } else {
         value.value = formatUnit(String(newVal ?? ''));
       }
+    } else if (props.variant === 'plate') {
+      value.value = formatPlate(String(newVal ?? ''));
     } else {
       value.value = newVal as string | number;
     }
@@ -167,6 +196,10 @@ const onInput = (val: InputValue) => {
       return;
     }
     const formatted = formatUnit(digits);
+    value.value = formatted;
+    emit('update:modelValue', formatted);
+  } else if (props.variant === 'plate') {
+    const formatted = formatPlate(safeVal);
     value.value = formatted;
     emit('update:modelValue', formatted);
   } else {
