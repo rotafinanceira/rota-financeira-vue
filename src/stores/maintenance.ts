@@ -90,6 +90,34 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     }
   }
 
+  async function getMaintenanceSummary(licensePlate: string) {
+    await getMaintenances(licensePlate);
+
+    const all = maintenances.value || [];
+
+    const hasMaintenances = all.some(
+      (m) => (m.data?.status ?? '').toString().toUpperCase() !== 'UNREGISTERED'
+    );
+
+    const expired = all.filter(
+      (m) => (m.data?.status ?? '').toString().toUpperCase() === 'EXPIRED'
+    );
+
+    const pending = all.filter(
+      (m) => (m.data?.status ?? '').toString().toUpperCase() === 'PENDING'
+    );
+
+    const summary = {
+      hasMaintenances,
+      expired: expired.slice(0, 2),
+      pending: pending.slice(0, 2),
+      expiredCount: expired.length,
+      pendingCount: pending.length,
+    };
+
+    return summary;
+  }
+
   async function getMaintenanceHistory(licensePlate: string, types?: string[]) {
     isLoading.value = true;
     try {
@@ -122,5 +150,6 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     isLoading,
     getMaintenances,
     getMaintenanceHistory,
+    getMaintenanceSummary,
   };
 });

@@ -5,17 +5,35 @@ import { api } from '@/boot/axios';
 const baseApi = import.meta.env.VITE_ROTA_API;
 
 export type CarRegisterPayload = {
-  year: number;
   model: string;
+  year: number;
   license_plate: string;
   current_mileage: number;
 };
 
+/* 
+export type CarRegisterPayload = {
+  userId?: string;
+  chassi: string;
+  brand: string;
+  model: string;
+  license_plate: string;
+  year: number;
+  color: string;
+  fuel_type: string;
+  current_mileage: number;
+}; */
+
 export type CarUpdatePayload = {
   userId?: string;
-  year?: number;
+  chassi?: string;
+  brand?: string;
   model?: string;
   license_plate?: string;
+  year?: number;
+  color?: string;
+  fuel_type?: string;
+  current_mileage?: number;
 };
 
 export const useCarStore = defineStore('car', () => {
@@ -28,13 +46,28 @@ export const useCarStore = defineStore('car', () => {
   async function registerCar(payload: CarRegisterPayload) {
     isLoading.value = true;
     error.value = null;
+
     try {
       const { data } = await api().post(`${baseApi}/v1/cars`, payload);
+
+      if (data && Object.keys(data).length > 0) {
+        car.value = data;
+        cars.value.push(data);
+      }
+
       return data;
-    } catch (e: unknown) {
-      const err = e as any;
-      error.value = err.response?.data || err;
-      throw error.value;
+    } catch (e: any) {
+      const errData = e.response?.data || e;
+      error.value = errData;
+
+      if (e.response?.status === 409) {
+        throw new Error('Um carro com essa placa já está registrado.');
+      }
+      if (e.response?.status === 400) {
+        throw new Error('Dados inválidos. Verifique os campos.');
+      }
+
+      throw errData;
     } finally {
       isLoading.value = false;
     }

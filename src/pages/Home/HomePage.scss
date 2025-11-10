@@ -116,3 +116,9 @@ li {
   font-size: 12px;
   margin-top: 4px;
 }
+
+.maintenance-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
