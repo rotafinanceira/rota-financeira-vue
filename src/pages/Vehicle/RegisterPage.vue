@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -8,6 +9,10 @@ import CButton from '@/shared/components/CButton.vue';
 import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
 import CSelect from '@/shared/components/CSelect.vue';
+import {
+  parseInputToNumber,
+  parsePlateToString,
+} from '@/shared/helper/inputFormatHelper';
 
 interface Option {
   label: string;
@@ -52,24 +57,15 @@ async function handleSubmit() {
   isLoading.value = true;
 
   try {
-    /*
     const payload = {
-      chassi: chassi.value.trim(),
+      chassis: chassi.value.trim(),
       brand: brand.value.trim(),
       model: model.value.trim(),
-      license_plate: licensePlate.value.trim().toUpperCase(),
+      license_plate: parsePlateToString(licensePlate.value),
       year: Number(manufacturingDate.value),
       color: color.value.trim(),
-      current_mileage: Number(currentMileage.value),
-      fuel_type: fuelType.value,
-    };
-    */
-
-    const payload = {
-      model: model.value.trim(),
-      year: Number(manufacturingDate.value),
-      license_plate: licensePlate.value.trim().toUpperCase(),
-      current_mileage: Number(currentMileage.value),
+      current_mileage: parseInputToNumber(currentMileage.value),
+      fuelType: fuelType.value,
     };
 
     console.log(payload);
@@ -203,7 +199,6 @@ function closeSuccess() {
 
     <div :style="{ paddingBottom: isSelectOpen ? '100px' : '0' }"></div>
 
-    <!-- Modal de sucesso -->
     <CModal
       v-model="isPositiveOpen"
       icon="success"

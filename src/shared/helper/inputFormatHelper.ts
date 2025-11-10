@@ -41,3 +41,8 @@ export const parseInputToNumber = (
     return parseInt(numeric) || 0;
   }
 };
+
+export const parsePlateToString = (value: string): string => {
+  if (!value) return '';
+  return value.replace(/[^A-Z0-9]/gi, '').toUpperCase();
+};
