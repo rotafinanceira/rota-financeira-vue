@@ -130,7 +130,25 @@ const routes: RouteRecordRaw[] = [
                 path: 'fuel-filter',
                 name: 'maintenance-fuel-filter',
                 component: () =>
-                  import('@/pages/Maintenances/Maintenance/FuelFilterPage.vue'),
+                  import(
+                    '@/pages/Maintenances/Maintenance/FuelFilterPage/FuelFilterPage.vue'
+                  ),
+              },
+              {
+                path: 'fuel-filter/form',
+                name: 'maintenance-fuel-filter-form',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/FuelFilterPage/FuelFilterPageForm.vue'
+                  ),
+              },
+              {
+                path: 'fuel-filter/form/:maintenanceId?',
+                name: 'maintenance-fuel-filter-form',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/FuelFilterPage/FuelFilterPageForm.vue'
+                  ),
               },
               {
                 path: 'alignment-balancing',
