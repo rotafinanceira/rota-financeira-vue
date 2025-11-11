@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { vMaska } from 'maska/vue';
-import type { MaskInputOptions } from 'maska';
 import { AxiosError } from 'axios';
 import { storeToRefs } from 'pinia';
 
@@ -10,7 +8,6 @@ import CButton from '@/shared/components/CButton.vue';
 import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
 import CSelect from '@/shared/components/CSelect.vue';
-import CFormatedInput from '@/shared/components/CFormatedInput.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 
 import { useBatteryStore } from '@/stores/batteryStore';
@@ -35,11 +32,6 @@ const capacity = ref('');
 const brand = ref('');
 const maintenanceValue = ref('R$ 0,00');
 const oficina = ref('');
-
-const dateMask: MaskInputOptions = {
-  mask: '##/##/####',
-  tokens: { '#': { pattern: /\d/ } },
-};
 
 interface Option {
   label: string;
@@ -186,23 +178,35 @@ onMounted(async () => {
         </div>
 
         <div class="input-wrapper">
-          <CFormatedInput
+          <CInput
             v-model="mileage"
-            label="Km na data de serviço*"
+            label="Quilometragem"
             name="mileage"
             variant="unit"
+            placeholder="km na data de serviço"
+            required
           />
         </div>
 
         <div class="input-wrapper">
           <CInput
-            :value="date"
             v-model="date"
-            label="Data da troca*"
-            name="last-battery-change"
-            placeholder="DD/MM/AAAA"
-            variant="generic"
-            v-maska="dateMask"
+            label="Data da troca"
+            name="last-oil-change"
+            variant="date"
+            placeholder="__/__/____"
+            required
+          />
+        </div>
+
+        <div class="input-wrapper">
+          <CInput
+            v-model="maintenanceValue"
+            label="Valor do serviço"
+            name="maintenanceValue"
+            variant="money"
+            placeholder="Digite o valor"
+            required
           />
         </div>
 
@@ -213,15 +217,6 @@ onMounted(async () => {
             label="Amperagem*"
             :options="capacityOptions"
             placeholder="Selecione uma opção"
-          />
-        </div>
-
-        <div class="input-wrapper">
-          <CFormatedInput
-            v-model="maintenanceValue"
-            label="Valor da manutenção*"
-            name="maintenanceValue"
-            variant="money"
           />
         </div>
 

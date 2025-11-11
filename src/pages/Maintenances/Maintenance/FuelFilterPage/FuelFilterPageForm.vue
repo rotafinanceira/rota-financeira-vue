@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { vMaska } from 'maska/vue';
-import type { MaskInputOptions } from 'maska';
+
 import { AxiosError } from 'axios';
 import { storeToRefs } from 'pinia';
 
 import CButton from '@/shared/components/CButton.vue';
 import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
-import CFormatedInput from '@/shared/components/CFormatedInput.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 
 import { useFuelFilterStore } from '@/stores/fuelFilterStore';
@@ -33,11 +31,6 @@ const mileage = ref('');
 const filterModel = ref('');
 const brand = ref('');
 const maintenanceValue = ref('R$ 0,00');
-
-const dateMask: MaskInputOptions = {
-  mask: '##/##/####',
-  tokens: { '#': { pattern: /\d/ } },
-};
 
 const isOpen = ref(false);
 const modalContent = ref('Quando devo fazer a troca?');
@@ -172,31 +165,35 @@ onMounted(async () => {
         </div>
 
         <div class="input-wrapper">
-          <CFormatedInput
+          <CInput
             v-model="mileage"
-            label="Km na data de serviço*"
+            label="Quilometragem"
             name="mileage"
             variant="unit"
-          />
-        </div>
-
-        <div class="input-wrapper">
-          <CFormatedInput
-            v-model="maintenanceValue"
-            label="Valor da manutenção*"
-            name="maintenanceValue"
-            variant="money"
+            placeholder="km na data de serviço"
+            required
           />
         </div>
 
         <div class="input-wrapper">
           <CInput
-            :value="brand"
-            v-model="brand"
-            label="Marca"
-            name="battery-brand"
-            placeholder="Digite a marca utilizada"
-            variant="generic"
+            v-model="date"
+            label="Data da troca"
+            name="last-oil-change"
+            variant="date"
+            placeholder="__/__/____"
+            required
+          />
+        </div>
+
+        <div class="input-wrapper">
+          <CInput
+            v-model="maintenanceValue"
+            label="Valor do serviço"
+            name="maintenanceValue"
+            variant="money"
+            placeholder="Digite o valor"
+            required
           />
         </div>
 
@@ -213,13 +210,12 @@ onMounted(async () => {
 
         <div class="input-wrapper">
           <CInput
-            :value="date"
-            v-model="date"
-            label="Data da troca*"
-            name="last-battery-change"
-            placeholder="DD/MM/AAAA"
+            :value="brand"
+            v-model="brand"
+            label="Marca"
+            name="battery-brand"
+            placeholder="Digite a marca utilizada"
             variant="generic"
-            v-maska="dateMask"
           />
         </div>
       </div>

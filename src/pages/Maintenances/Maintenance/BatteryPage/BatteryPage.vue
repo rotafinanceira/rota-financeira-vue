@@ -37,8 +37,8 @@ const hasMaintenances = computed(() => maintenances.value.length > 0);
 const isEmpty = computed(() => !hasMaintenances.value);
 
 onMounted(async () => {
-  await carStore.getCars();
   batteryStore.resetStore();
+  await carStore.getCars();
 });
 
 watch(
