@@ -106,7 +106,25 @@ const routes: RouteRecordRaw[] = [
                 path: 'battery',
                 name: 'maintenance-battery',
                 component: () =>
-                  import('@/pages/Maintenances/Maintenance/BatteryPage.vue'),
+                  import(
+                    '@/pages/Maintenances/Maintenance/BatteryPage/BatteryPage.vue'
+                  ),
+              },
+              {
+                path: 'battery/form',
+                name: 'maintenance-battery-form',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/BatteryPage/BatteryPageForm.vue'
+                  ),
+              },
+              {
+                path: 'battery/form/:maintenanceId?',
+                name: 'maintenance-battery-form',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/BatteryPage/BatteryPageForm.vue'
+                  ),
               },
               {
                 path: 'fuel-filter',
