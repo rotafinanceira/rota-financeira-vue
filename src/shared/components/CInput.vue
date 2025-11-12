@@ -2,6 +2,7 @@
 import { computed, ref, watch, useAttrs } from 'vue';
 import { useField } from 'vee-validate';
 import { QInput, QField, QBtn } from 'quasar';
+import { ExclamationCircleRedIcon } from '../assets/icons';
 
 import type { Input } from '../types/Input';
 
@@ -285,6 +286,13 @@ const onBlurValidate = () => validate();
               class="q-icon"
             />
           </QBtn>
+
+          <img
+            v-if="errorMessage"
+            :src="ExclamationCircleRedIcon"
+            alt="Erro"
+            class="error-icon"
+          />
         </div>
       </template>
     </QField>
