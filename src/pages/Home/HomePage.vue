@@ -107,22 +107,16 @@
     v-model="isMileageModalOpen"
     title="Como está seu odômetro hoje?"
     buttonLabel="Salvar"
-    :isLoading="isSendingMileage"
-    :disabled="!!mileageErrorMessage || !modalMileageInput"
-    @confirm="confirmMileageFromModal"
+    @confirm="onSubmit"
+    :disabled="!!errors.mileage"
   >
-    <p>Preencha com o valor que aparece no painel do seu carro.</p>
     <CInput
-      v-model="modalMileageInput"
+      v-model="mileage"
       name="mileage"
       variant="unit"
       placeholder="km na data de serviço"
       required
-      @blur="validateMileageOnBlur"
     />
-    <p v-if="mileageErrorMessage" class="error-message">
-      {{ mileageErrorMessage }}
-    </p>
   </CModalWithButton>
 
   <CModal
@@ -145,20 +139,38 @@ import { ref, computed, onMounted } from 'vue';
 import { useCarStore } from '@/stores/carStore';
 import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
+import * as yup from 'yup';
 import CModalWithButton from './components/CModalWithButton.vue';
-import CButton from '@/shared/components/CButton.vue';
 import { CarIcon } from '@/shared/assets/illustrations';
 import { useMaintenanceStore } from '@/stores/maintenance';
 import { MaintenanceStatus } from '../Maintenances/types';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
 import MaintenanceCard from './components/MaintenanceCard.vue';
+import CButton from '@/shared/components/CButton.vue';
+import { useForm, useField } from 'vee-validate';
 
-const isOpen = ref(false);
+const lastMileage = ref<number | null>(null);
+
+const validationSchema = computed(() =>
+  yup.object({
+    mileage: yup
+      .number()
+      .typeError('Digite um número válido')
+      .required('Campo obrigatório')
+      .moreThan(lastMileage.value ?? 0, 'Informe um valor maior que o atual'),
+  })
+);
+
+const { handleSubmit, errors } = useForm({
+  validationSchema,
+});
+
+const { value: mileage } = useField<number>('mileage');
+
 const isMileageModalOpen = ref(false);
+const isOpen = ref(false);
 const isSuccessModalOpen = ref(false);
-const modalMileageInput = ref('');
 const isSendingMileage = ref(false);
-const mileageErrorMessage = ref('');
 
 const carStore = useCarStore();
 const maintenanceStore = useMaintenanceStore();
@@ -171,14 +183,16 @@ const maintenanceSummary = ref({
   pendingCount: 0,
 });
 
+const onSubmit = handleSubmit(async (values) => {
+  console.log('Valores validados', values);
+});
+
 const hasCarRegistered = computed(() => carStore.cars.length > 0);
 
 const currentMileage = computed(() => {
   const mileage = carStore.cars[0]?.current_mileage ?? null;
   return mileage == null ? null : mileage.toLocaleString('pt-BR');
 });
-
-const lastMileage = ref<number | null>(null);
 
 onMounted(async () => {
   await carStore.getCars();
@@ -202,32 +216,11 @@ onMounted(async () => {
 });
 
 const openMileageModal = () => {
-  const current = currentMileage.value
-    ? String(currentMileage.value)
-    : lastMileage.value
-    ? String(lastMileage.value)
-    : '';
-  modalMileageInput.value = current
-    ? Number(current).toLocaleString('pt-BR')
-    : '';
+  mileage.value = lastMileage.value ?? 0;
   isMileageModalOpen.value = true;
 };
 
-const validateMileageOnBlur = () => {
-  const raw = modalMileageInput.value.replace(/\D/g, '');
-  const newMileage = Number(raw);
-  const current = carStore.cars[0]?.current_mileage ?? 0;
-
-  if (newMileage < current) {
-    mileageErrorMessage.value =
-      'Informe um valor de quilometragem maior que o atual.';
-    return;
-  }
-
-  mileageErrorMessage.value = '';
-};
-
-function mapToCardMaintenances(list: MaintenanceStatus[]) {
+const mapToCardMaintenances = (list: MaintenanceStatus[]) => {
   const detectIcon = (type?: string) => {
     const t = (type ?? '').toString().toLowerCase();
     if (!t) return 'oil';
@@ -257,37 +250,6 @@ function mapToCardMaintenances(list: MaintenanceStatus[]) {
       description,
     };
   });
-}
-
-const confirmMileageFromModal = async () => {
-  const raw = modalMileageInput.value.replace(/\D/g, '');
-  const newMileage = Number(raw);
-  const current = carStore.cars[0]?.current_mileage ?? 0;
-
-  if (newMileage < current) {
-    mileageErrorMessage.value =
-      'Informe um valor de quilometragem maior que o atual.';
-    return;
-  }
-
-  mileageErrorMessage.value = '';
-  isSendingMileage.value = true;
-
-  try {
-    lastMileage.value = currentMileage.value ?? newMileage;
-
-    if (carStore.firstLicensePlate) {
-      await carStore.updateCarMileage(carStore.firstLicensePlate, newMileage);
-      await carStore.getCars();
-    }
-
-    isMileageModalOpen.value = false;
-    isSuccessModalOpen.value = true;
-  } catch (err) {
-    console.error('Erro ao atualizar quilometragem:', err);
-  } finally {
-    isSendingMileage.value = false;
-  }
 };
 
 const showHelpModal = (): void => {
