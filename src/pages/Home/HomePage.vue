@@ -165,6 +165,12 @@ const { handleSubmit, errors } = useForm({
   validationSchema,
 });
 
+const parseLocalizedNumber = (value: string) => {
+  if (!value) return NaN;
+  console.log(value);
+  return Number(value.replace(/\./g, '').replace(',', '.'));
+};
+
 const { value: mileage } = useField<number>('mileage');
 
 const isMileageModalOpen = ref(false);
@@ -184,7 +190,25 @@ const maintenanceSummary = ref({
 });
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log('Valores validados', values);
+  const mileageNumber = parseLocalizedNumber(values.mileage);
+  try {
+    lastMileage.value = currentMileage.value ?? mileageNumber;
+
+    if (carStore.firstLicensePlate) {
+      await carStore.updateCarMileage(
+        carStore.firstLicensePlate,
+        mileageNumber
+      );
+      await carStore.getCars();
+    }
+
+    isMileageModalOpen.value = false;
+    isSuccessModalOpen.value = true;
+  } catch (err) {
+    console.error('Erro ao atualizar quilometragem:', err);
+  } finally {
+    isSendingMileage.value = false;
+  }
 });
 
 const hasCarRegistered = computed(() => carStore.cars.length > 0);
@@ -197,8 +221,10 @@ const currentMileage = computed(() => {
 onMounted(async () => {
   await carStore.getCars();
 
-  if (currentMileage.value != null) {
-    lastMileage.value = Number(currentMileage.value);
+  const mileageNumber = carStore.cars[0]?.current_mileage;
+  console.log(mileageNumber);
+  if (mileageNumber != null) {
+    lastMileage.value = mileageNumber.toLocaleString('pt-BR');
   }
 
   if (carStore.firstLicensePlate) {

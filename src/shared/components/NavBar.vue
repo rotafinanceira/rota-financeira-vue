@@ -15,7 +15,7 @@ const tabs: Tab[] = [
     routeName: 'maintenances',
     icon: navbar.maintenance,
     label: 'Manutenções',
-    notification: 3,
+    notification: 0,
   },
   {
     name: 'history',
