@@ -56,6 +56,10 @@ import { MaintenanceState } from './types';
 import { ListOption } from '@/shared/types/bottom-sheet';
 import CTag from '@/shared/components/CTag.vue';
 
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
 const filterOptions = ref<ListOption[]>([
   { label: 'Manutenções vencidas', selected: false },
   { label: 'Próximas manutenções', selected: false },
@@ -91,6 +95,20 @@ onMounted(async () => {
   await carStore.getCars();
   if (carStore.firstLicensePlate) {
     await maintenanceStore.getMaintenances(carStore.firstLicensePlate);
+  }
+
+  if (route.query.filter === 'expired') {
+    appliedFilters.value = ['Manutenções vencidas'];
+    const option = filterOptions.value.find(
+      (o) => o.label === 'Manutenções vencidas'
+    );
+    if (option) option.selected = true;
+  } else if (route.query.filter === 'pending') {
+    appliedFilters.value = ['Próximas manutenções'];
+    const option = filterOptions.value.find(
+      (o) => o.label === 'Próximas manutenções'
+    );
+    if (option) option.selected = true;
   }
 });
 

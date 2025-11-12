@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CDivider from '@/shared/components/CDivider.vue';
-type HistoryCardProps = {
+type SummaryCardProps = {
   variant: 'expired' | 'pending';
   value: number;
   maintenances: {
@@ -12,7 +12,7 @@ type HistoryCardProps = {
 import MaintenanceItem from '@/shared/components/MaintenanceItem.vue';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
 
-const props = defineProps<HistoryCardProps>();
+const props = defineProps<SummaryCardProps>();
 </script>
 
 <template>
@@ -36,7 +36,12 @@ const props = defineProps<HistoryCardProps>();
           }}
         </p>
         <router-link
-          :to="{ name: 'maintenances' }"
+          :to="{
+            name: 'maintenances',
+            query: {
+              filter: props.variant === 'expired' ? 'expired' : 'pending',
+            },
+          }"
           :class="['see-all', props.variant === 'expired' ? 'red' : 'green']"
         >
           Ver todas

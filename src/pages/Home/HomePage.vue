@@ -51,14 +51,14 @@
       v-else-if="hasCarRegistered && maintenanceSummary.hasMaintenances"
       class="maintenance-summary"
     >
-      <MaintenanceCard
+      <SummaryCard
         v-if="maintenanceSummary.expired.length > 0"
         :value="maintenanceSummary.expiredCount"
         :maintenances="mapToCardMaintenances(maintenanceSummary.expired)"
         variant="expired"
       />
 
-      <MaintenanceCard
+      <SummaryCard
         v-if="maintenanceSummary.pending.length > 0"
         title=""
         :value="maintenanceSummary.pendingCount"
@@ -145,9 +145,9 @@ import { CarIcon } from '@/shared/assets/illustrations';
 import { useMaintenanceStore } from '@/stores/maintenance';
 import { MaintenanceStatus } from '../Maintenances/types';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
-import MaintenanceCard from './components/MaintenanceCard.vue';
 import CButton from '@/shared/components/CButton.vue';
 import { useForm, useField } from 'vee-validate';
+import SummaryCard from './components/SummaryCard.vue';
 
 const lastMileage = ref<number | null>(null);
 

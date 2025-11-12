@@ -109,8 +109,8 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
 
     const summary = {
       hasMaintenances,
-      expired: expired.slice(0, 2),
-      pending: pending.slice(0, 2),
+      expired: expired.slice(0, 1),
+      pending: pending.slice(0, 1),
       expiredCount: expired.length,
       pendingCount: pending.length,
     };
