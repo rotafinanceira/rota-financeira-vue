@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { api } from '@/boot/axios';
 import { AxiosError } from 'axios';
 import { MaintenanceStatus, MaintenanceTag } from '@/pages/Maintenances/types';
+import type { MaintenanceIcons } from '@/shared/types/maintenance';
 
 const baseApi = import.meta.env.VITE_ROTA_API;
 
@@ -11,6 +12,12 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
   const history = ref<MaintenanceStatus[]>([]);
   const maintenances = ref<MaintenanceStatus[]>([]);
   const isLoading = ref(false);
+
+  const EXPIRED_DURATIONS = {
+    oil: { years: 0, months: 6 },
+    fuel: { years: 1, months: 0 },
+    battery: { years: 2, months: 6 },
+  } as const;
 
   function resolveTags(m: MaintenanceStatus): MaintenanceTag[] {
     const tags: MaintenanceTag[] = [];
@@ -144,6 +151,73 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     }
   }
 
+  function addDuration(
+    date: Date,
+    duration?: { years?: number; months?: number }
+  ) {
+    const newDate = new Date(date);
+    if (!duration) return newDate;
+    if (duration.years)
+      newDate.setFullYear(newDate.getFullYear() + duration.years);
+    if (duration.months) newDate.setMonth(newDate.getMonth() + duration.months);
+    return newDate;
+  }
+
+  function getCategoryFromType(type?: string) {
+    const t = (type ?? '').toLowerCase();
+    if (t.includes('óleo') || t.includes('oil')) return 'oil';
+    if (t.includes('combustível') || t.includes('fuel')) return 'fuel';
+    if (t.includes('bateria') || t.includes('battery')) return 'battery';
+    if (t.includes('ar') || t.includes('air')) return 'air';
+    if (t.includes('roda') || t.includes('wheel')) return 'wheel';
+    return 'oil';
+  }
+
+  // --- Método público reutilizável ---
+  function mapToCardMaintenances(list: MaintenanceStatus[]) {
+    const now = new Date();
+    const msPerDay = 1000 * 60 * 60 * 24;
+
+    return list.map((m) => {
+      const category = getCategoryFromType(m.type);
+      const validity =
+        EXPIRED_DURATIONS[category as keyof typeof EXPIRED_DURATIONS];
+      const icon = (
+        category === 'air' ? 'airFilter' : category
+      ) as keyof MaintenanceIcons;
+      const maintenanceDate = m.data?.date ? new Date(m.data.date) : null;
+      const status = (m.data?.status ?? '').toString().toUpperCase();
+
+      let description = 'status desconhecido';
+
+      if (!maintenanceDate) description = 'data não informada';
+      else if (status === 'EXPIRED') {
+        const daysAgo = Math.max(
+          0,
+          Math.floor((now.getTime() - maintenanceDate.getTime()) / msPerDay)
+        );
+        description = `vencida há ${daysAgo} dia${daysAgo !== 1 ? 's' : ''}`;
+      } else if (status === 'PENDING') {
+        const expireDate = addDuration(maintenanceDate, validity);
+        const daysLeft = Math.max(
+          0,
+          Math.ceil((expireDate.getTime() - now.getTime()) / msPerDay)
+        );
+        description = `vence em ${daysLeft} dia${daysLeft !== 1 ? 's' : ''}`;
+      }
+
+      return {
+        icon,
+        title: m.type,
+        description,
+      };
+    }) as {
+      icon: keyof MaintenanceIcons;
+      title: string;
+      description: string;
+    }[];
+  }
+
   return {
     history,
     maintenances,
@@ -151,5 +225,6 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     getMaintenances,
     getMaintenanceHistory,
     getMaintenanceSummary,
+    mapToCardMaintenances,
   };
 });

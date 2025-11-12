@@ -54,7 +54,9 @@
       <SummaryCard
         v-if="maintenanceSummary.expired.length > 0"
         :value="maintenanceSummary.expiredCount"
-        :maintenances="mapToCardMaintenances(maintenanceSummary.expired)"
+        :maintenances="
+          maintenanceStore.mapToCardMaintenances(maintenanceSummary.expired)
+        "
         variant="expired"
       />
 
@@ -62,7 +64,9 @@
         v-if="maintenanceSummary.pending.length > 0"
         title=""
         :value="maintenanceSummary.pendingCount"
-        :maintenances="mapToCardMaintenances(maintenanceSummary.pending)"
+        :maintenances="
+          maintenanceStore.mapToCardMaintenances(maintenanceSummary.pending)
+        "
         variant="pending"
       />
     </div>
@@ -144,7 +148,6 @@ import CModalWithButton from './components/CModalWithButton.vue';
 import { CarIcon } from '@/shared/assets/illustrations';
 import { useMaintenanceStore } from '@/stores/maintenance';
 import { MaintenanceStatus } from '../Maintenances/types';
-import { MaintenanceIcons } from '@/shared/types/maintenance';
 import CButton from '@/shared/components/CButton.vue';
 import { useForm, useField } from 'vee-validate';
 import SummaryCard from './components/SummaryCard.vue';
@@ -222,7 +225,7 @@ onMounted(async () => {
   await carStore.getCars();
 
   const mileageNumber = carStore.cars[0]?.current_mileage;
-  console.log(mileageNumber);
+
   if (mileageNumber != null) {
     lastMileage.value = mileageNumber.toLocaleString('pt-BR');
   }
@@ -244,38 +247,6 @@ onMounted(async () => {
 const openMileageModal = () => {
   mileage.value = lastMileage.value ?? 0;
   isMileageModalOpen.value = true;
-};
-
-const mapToCardMaintenances = (list: MaintenanceStatus[]) => {
-  const detectIcon = (type?: string) => {
-    const t = (type ?? '').toString().toLowerCase();
-    if (!t) return 'oil';
-    if (t.includes('oil') || t.includes('óleo') || t.includes('troca de óleo'))
-      return 'oil';
-    if (t.includes('air') || t.includes('filtro de ar')) return 'airFilter';
-    if (t.includes('battery') || t.includes('bateria')) return 'battery';
-    if (t.includes('wheel') || t.includes('roda')) return 'wheel';
-    if (t.includes('fuel') || t.includes('combustível')) return 'fuelFilter';
-    return 'oil';
-  };
-
-  return list.slice(0, 2).map((m) => {
-    const icon = detectIcon(m.type);
-    const status = m.data?.status?.toUpperCase();
-    let description = '';
-
-    if (status === 'EXPIRED') {
-      description = 'Vencida';
-    } else if (status === 'PENDING') {
-      description = 'Pendente';
-    }
-
-    return {
-      icon: icon as keyof MaintenanceIcons,
-      title: m.type,
-      description,
-    };
-  });
 };
 
 const showHelpModal = (): void => {
