@@ -134,6 +134,34 @@
       <p>A nova quilometragem do seu odômetro foi salva com sucesso.</p>
     </div>
   </CModal>
+
+  <CBottomSheetText v-model="isVehicleBottomSheetOpen" :showClose="true">
+    <img :src="Car" />
+    <div class="group">
+      <h2>Que bom ter você por aqui!</h2>
+      <p>
+        Vamos cuidar do seu carro juntos! Comece cadastrando seu veículo para
+        acompanhar suas manutenções e gastos.
+      </p>
+    </div>
+    <CButton variant="secondary" :to="{ name: 'user-vehicle-register' }">
+      Cadastrar veículo
+    </CButton>
+  </CBottomSheetText>
+
+  <CBottomSheetText v-model="isMaintenanceBottomSheetOpen" :showClose="true">
+    <img :src="CarRepair" />
+    <div class="group">
+      <h2>Registre e planeje suas manutenções em um só lugar</h2>
+      <p>
+        Cadastre os serviços realizados e acompanhe as próximas revisões para
+        evitar gastos inesperados.
+      </p>
+    </div>
+    <CButton variant="secondary" :to="{ name: 'maintenances' }">
+      Cadastrar manutenções
+    </CButton>
+  </CBottomSheetText>
 </template>
 
 <script setup lang="ts">
@@ -151,6 +179,11 @@ import { MaintenanceStatus } from '../Maintenances/types';
 import CButton from '@/shared/components/CButton.vue';
 import { useForm, useField } from 'vee-validate';
 import SummaryCard from './components/SummaryCard.vue';
+import CBottomSheetText from '@/shared/components/bottomsheets/CBottomSheetText.vue';
+import { Car, CarRepair } from '@/shared/assets/illustrations';
+
+const isVehicleBottomSheetOpen = ref(false);
+const isMaintenanceBottomSheetOpen = ref(false);
 
 const lastMileage = ref<number | null>(null);
 
@@ -241,7 +274,13 @@ onMounted(async () => {
       expiredCount: summary.expiredCount ?? 0,
       pendingCount: summary.pendingCount ?? 0,
     };
+
+    isMaintenanceBottomSheetOpen.value = true;
+  } else {
+    isMaintenanceBottomSheetOpen.value = false;
   }
+
+  isVehicleBottomSheetOpen.value = !carStore.firstLicensePlate;
 });
 
 const openMileageModal = () => {
