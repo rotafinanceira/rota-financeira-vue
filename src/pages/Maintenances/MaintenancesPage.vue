@@ -1,6 +1,28 @@
 <template>
   <div class="maintenance">
     <div class="app-wrapper maintenance__wrapper">
+      <div
+        v-if="showExpiredCard && expiredMaintenances.length"
+        class="expired-card"
+        role="alert"
+      >
+        <div class="expired-card__container">
+          <img :src="BrokenCarIcon" />
+          <h2 class="expired-card__title">Manutenção vencida!</h2>
+          <span class="expired-card__text">
+            É hora de realizar a revisão de bateria do seu veículo.
+          </span>
+        </div>
+
+        <button
+          class="expired-card__close"
+          type="button"
+          @click="showExpiredCard = false"
+        >
+          <img :src="XCircleIcon" alt="Fechar" />
+        </button>
+      </div>
+
       <header class="maintenance__header">
         <div class="flex">
           <img :src="CarWrenchIcon" alt="" />
@@ -55,6 +77,8 @@ import MaintenanceCard from './components/MaintenanceCard.vue';
 import { MaintenanceState } from './types';
 import { ListOption } from '@/shared/types/bottom-sheet';
 import CTag from '@/shared/components/CTag.vue';
+import { BrokenCarIcon } from '@/shared/assets/illustrations';
+import { XCircleIcon } from '@/shared/assets/icons';
 
 import { useRoute } from 'vue-router';
 
@@ -68,6 +92,7 @@ const filterOptions = ref<ListOption[]>([
 ]);
 
 const isBottomSheetOpen = ref(false);
+const showExpiredCard = ref(false);
 
 const carStore = useCarStore();
 const maintenanceStore = useMaintenanceStore();
@@ -95,6 +120,10 @@ onMounted(async () => {
   await carStore.getCars();
   if (carStore.firstLicensePlate) {
     await maintenanceStore.getMaintenances(carStore.firstLicensePlate);
+  }
+
+  if (expiredMaintenances.value.length) {
+    showExpiredCard.value = true;
   }
 
   if (route.query.filter === 'expired') {
@@ -167,7 +196,11 @@ const maintenanceItems = computed(() => {
   });
 });
 
-console.log(maintenanceItems);
+const expiredMaintenances = computed(() =>
+  maintenances.value.filter(
+    (m) => Array.isArray(m.tags) && m.tags.includes('EXPIRED')
+  )
+);
 
 const onFilter = (selectedLabels: string[]) => {
   appliedFilters.value = selectedLabels;
@@ -236,5 +269,40 @@ watch(isBottomSheetOpen, (open) => {
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 1rem;
+}
+
+.expired-card {
+  text-align: center;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #e0e5e7;
+  position: relative;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  &__text {
+    font-size: 0.875rem;
+    color: #485159;
+  }
+
+  &__close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    cursor: pointer;
+    border: none;
+  }
 }
 </style>
