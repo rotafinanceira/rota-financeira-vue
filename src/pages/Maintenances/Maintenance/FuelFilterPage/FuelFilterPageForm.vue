@@ -29,7 +29,7 @@ const maintenanceId = route.params.maintenanceId as string | undefined;
 const date = ref('');
 const mileage = ref('');
 const filterModel = ref('');
-const brand = ref('');
+const oficina = ref('');
 const maintenanceValue = ref('R$ 0,00');
 
 const isOpen = ref(false);
@@ -63,12 +63,12 @@ function closeSuccess() {
   router.push({ name: 'maintenance-fuel-filter' });
 }
 
-interface BatteryMaintenancePayload {
+interface FuelFilterMaintenancePayload {
   lastMaintenanceDate: string;
   lastMaintenanceKm: number;
   filterType: string;
   valor: number;
-  filterBrand: string;
+  oficina: string | null;
 }
 
 async function handleSubmit() {
@@ -85,20 +85,18 @@ async function handleSubmit() {
     const [day, month, year] = date.value.split('/');
     const isoDate = `${year}-${month}-${day}`;
 
-    const payload: BatteryMaintenancePayload = {
+    const payload: FuelFilterMaintenancePayload = {
       lastMaintenanceDate: isoDate,
       lastMaintenanceKm: parseInputToNumber(mileage.value),
       filterType: filterModel.value,
       valor: parseInputToNumber(maintenanceValue.value),
-      filterBrand: brand.value,
+      oficina: oficina.value,
     };
 
     if (maintenanceId) {
       successTitle.value = 'Edição concluída!';
       successDescription.value = 'As alterações foram salvas com sucesso.';
     }
-
-    console.log('Payload enviado:', payload);
 
     await fuelFilterStore.saveFuelFilterMaintenance(
       payload,
@@ -141,7 +139,7 @@ onMounted(async () => {
 
     mileage.value = formatInput(m.lastMaintenanceKm ?? 0);
     maintenanceValue.value = formatInput(m.valor ?? 0);
-    brand.value = m.filterBrand ?? '';
+    oficina.value = m.oficina ?? '';
     filterModel.value = m.filterType.toString() ?? '';
   }
 });
@@ -209,11 +207,11 @@ onMounted(async () => {
 
         <div class="input-wrapper">
           <CInput
-            :value="brand"
-            v-model="brand"
-            label="Marca"
-            name="battery-brand"
-            placeholder="Digite a marca utilizada"
+            :value="oficina"
+            v-model="oficina"
+            label="Oficina"
+            name="oficina"
+            placeholder="Digite o nome da oficina"
             variant="generic"
           />
         </div>

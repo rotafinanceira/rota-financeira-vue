@@ -11,7 +11,7 @@ export const useFuelFilterStore = defineStore('fuel-filter', () => {
   const date = ref('');
   const mileage = ref('');
   const filterModel = ref('');
-  const brand = ref('');
+  const oficina = ref('');
   const carId = ref<number | null>(null);
   const isLoading = ref(false);
   const maintenances = ref<FuelFilterMaintenance[]>([]);
@@ -26,7 +26,7 @@ export const useFuelFilterStore = defineStore('fuel-filter', () => {
     date.value = '';
     mileage.value = '';
     filterModel.value = '';
-    brand.value = '';
+    oficina.value = '';
     carId.value = null;
     isLoading.value = false;
     maintenances.value = [];
@@ -76,7 +76,7 @@ export const useFuelFilterStore = defineStore('fuel-filter', () => {
       lastMaintenanceKm: number;
       filterType: string;
       valor: number;
-      filterBrand: string;
+      oficina: string | null;
     },
     maintenanceId?: string
   ) {
@@ -116,7 +116,7 @@ export const useFuelFilterStore = defineStore('fuel-filter', () => {
     date,
     mileage,
     filterModel,
-    brand,
+    oficina,
     carId,
     isLoading,
     maintenances,

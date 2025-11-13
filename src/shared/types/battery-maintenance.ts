@@ -6,14 +6,14 @@ export interface BatteryMaintenance {
   BatteryQuantityLt: number;
   valor: number;
   status: string;
-  batteryBrand?: string;
+  batteryBrand?: string | null;
   nextMaintenanceMileage: number;
-  oficina: string;
+  oficina: string | null;
 }
 
 export interface BatteryState {
   date: string;
-  mileage: string;
+  mileage: string | null;
   capacity: string;
   brand: string;
   carId: number | null;
@@ -22,7 +22,7 @@ export interface BatteryState {
   isOverdue: boolean;
   nextMaintenanceKm: number | null;
   selectedMaintenance: BatteryMaintenance | null;
-  oficina: string;
+  oficina: string | null;
 }
 
 export interface MappedMaintenance {

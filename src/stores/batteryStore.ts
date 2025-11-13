@@ -76,7 +76,7 @@ export const useBatteryStore = defineStore('battery', () => {
       lastMaintenanceKm: number;
       remainingCapacity: number;
       valor: number;
-      batteryBrand: string;
+      batteryBrand: string | null;
     },
     maintenanceId?: string
   ) {

@@ -167,6 +167,8 @@ const maintenanceItems = computed(() => {
   });
 });
 
+console.log(maintenanceItems);
+
 const onFilter = (selectedLabels: string[]) => {
   appliedFilters.value = selectedLabels;
   isBottomSheetOpen.value = false;

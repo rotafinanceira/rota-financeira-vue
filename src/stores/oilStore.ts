@@ -83,7 +83,7 @@ export const useOilStore = defineStore('oil', () => {
       oilType: OilType;
       serviceType: OilServiceType;
       valor: number;
-      oficina?: string;
+      oficina?: string | null;
     },
     maintenanceId?: string
   ) {

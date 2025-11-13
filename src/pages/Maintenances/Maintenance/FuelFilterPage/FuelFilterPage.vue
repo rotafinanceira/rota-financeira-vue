@@ -78,7 +78,7 @@ const mappedMaintenances = computed<MappedMaintenance[]>(() =>
 
     filterModel: m.filterType || '-',
 
-    filterBrand: m.filterBrand || '-',
+    oficina: m.oficina || '-',
   }))
 );
 
@@ -180,14 +180,6 @@ function editMaintenance(m: MappedMaintenance): void {
               :icon="MoneyCircleIcon"
               :id="3"
               :title="m.price.toString()"
-              variant="default"
-            />
-
-            <CTag
-              v-if="m.filterBrand"
-              :icon="FuelFilterIcon"
-              :id="4"
-              :title="m.filterBrand"
               variant="default"
             />
           </div>

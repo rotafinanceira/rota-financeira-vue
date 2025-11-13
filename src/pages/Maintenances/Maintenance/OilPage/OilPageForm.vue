@@ -89,7 +89,7 @@ interface OilMaintenancePayload {
   lastMaintenanceKm: number;
   oilType: OilType;
   valor: number;
-  oficina: string;
+  oficina: string | null;
   serviceType: OilServiceType;
 }
 
@@ -112,7 +112,7 @@ async function handleSubmit() {
       lastMaintenanceKm: parseInputToNumber(mileage.value),
       oilType: oilType.value as OilType,
       valor: parseInputToNumber(maintenanceValue.value),
-      oficina: oficina.value,
+      oficina: oficina.value.trim() || null,
       serviceType: serviceType.value as OilServiceType,
     };
 

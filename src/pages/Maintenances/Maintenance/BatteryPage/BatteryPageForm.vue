@@ -113,6 +113,8 @@ async function handleSubmit() {
       successDescription.value = 'As alterações foram salvas com sucesso.';
     }
 
+    console.log(payload);
+
     await batteryStore.saveBatteryMaintenance(
       payload,
       batteryStore.getEditingId
