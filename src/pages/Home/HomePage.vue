@@ -275,12 +275,13 @@ onMounted(async () => {
       pendingCount: summary.pendingCount ?? 0,
     };
 
-    isMaintenanceBottomSheetOpen.value = true;
+    isVehicleBottomSheetOpen.value = false;
   } else {
-    isMaintenanceBottomSheetOpen.value = false;
+    isVehicleBottomSheetOpen.value = true;
   }
 
-  isVehicleBottomSheetOpen.value = !carStore.firstLicensePlate;
+  isMaintenanceBottomSheetOpen.value =
+    !maintenanceSummary.value.hasMaintenances;
 });
 
 const openMileageModal = () => {

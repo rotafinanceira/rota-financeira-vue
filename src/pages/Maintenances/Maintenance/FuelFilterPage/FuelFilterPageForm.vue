@@ -52,10 +52,9 @@ function showHelpModal() {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
   modalDescription.value = [
-    'Troque o filtro de combustível quando apresentar sinais de mal estado.',
-    'Siga a frequência indicada no manual do fabricante do veículo.',
-    'Não limpe o filtro de combustível; substitua-o por um novo.',
-    'Atualmente, a maioria dos manuais recomenda a troca a cada 10.000 km (antigamente, era a cada 30.000 km).',
+    'O filtro de combustível é um item de segurança para o seu motor, responsável por reter sujeira e impurezas antes que elas atinjam e danifiquem peças caras, como a bomba de combustível e os bicos injetores.',
+    'A regra geral é substituí-lo a cada 10.000 km rodados, ou 12 meses, o que ocorrer primeiro. Seguindo sempre a orientação do fabricante.',
+    'Fique atento aos sinais de problema, como perda de potência, dificuldade para ligar e aumento no consumo de combustível. Esses sintomas indicam que o filtro pode estar obstruído, comprometendo o desempenho e a eficiência do veículo. Ao perceber esses sinais, troque o filtro o quanto antes.',
   ];
 }
 
