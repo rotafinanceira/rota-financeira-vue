@@ -90,7 +90,7 @@ h2 {
 }
 
 .dialog-container {
-  width: 320px;
+  width: 100%;
   background: white;
   border-radius: 8px;
   padding: 24px;

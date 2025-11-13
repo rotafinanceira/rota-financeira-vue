@@ -173,7 +173,6 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     return 'oil';
   }
 
-  // --- Método público reutilizável ---
   function mapToCardMaintenances(list: MaintenanceStatus[]) {
     const now = new Date();
     const msPerDay = 1000 * 60 * 60 * 24;
