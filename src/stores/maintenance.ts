@@ -177,6 +177,13 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     const now = new Date();
     const msPerDay = 1000 * 60 * 60 * 24;
 
+    const formatter = new Intl.DateTimeFormat('pt-BR', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    });
+
     return list.map((m) => {
       const category = getCategoryFromType(m.type);
       const validity =
@@ -184,25 +191,33 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       const icon = (
         category === 'air' ? 'airFilter' : category
       ) as keyof MaintenanceIcons;
+
       const maintenanceDate = m.data?.date ? new Date(m.data.date) : null;
       const status = (m.data?.status ?? '').toString().toUpperCase();
 
       let description = 'status desconhecido';
 
-      if (!maintenanceDate) description = 'data não informada';
-      else if (status === 'EXPIRED') {
-        const daysAgo = Math.max(
-          0,
-          Math.floor((now.getTime() - maintenanceDate.getTime()) / msPerDay)
-        );
-        description = `vencida há ${daysAgo} dia${daysAgo !== 1 ? 's' : ''}`;
-      } else if (status === 'PENDING') {
+      if (!maintenanceDate) {
+        description = 'data não informada';
+      } else {
         const expireDate = addDuration(maintenanceDate, validity);
-        const daysLeft = Math.max(
-          0,
-          Math.ceil((expireDate.getTime() - now.getTime()) / msPerDay)
+
+        const daysDiff = Math.ceil(
+          (expireDate.getTime() - now.getTime()) / msPerDay
         );
-        description = `vence em ${daysLeft} dia${daysLeft !== 1 ? 's' : ''}`;
+
+        if (status === 'EXPIRED') {
+          const formatted = formatter
+            .format(expireDate)
+            .replace('-feira', '')
+            .replace(/\b\w/, (c) => c.toLowerCase())
+            .trim();
+          description = `Venceu ${formatted}`;
+        } else if (status === 'PENDING' && daysDiff <= 5) {
+          description = `Vence em ${daysDiff} dia${daysDiff !== 1 ? 's' : ''}`;
+        } else {
+          description = '';
+        }
       }
 
       return {
