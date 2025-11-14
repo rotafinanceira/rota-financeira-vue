@@ -15,8 +15,8 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
 
   const EXPIRED_DURATIONS = {
     oil: { years: 0, months: 6 },
-    fuel: { years: 1, months: 0 },
     battery: { years: 2, months: 6 },
+    'fuel-filter': { years: 0, months: 10 },
   } as const;
 
   function resolveTags(m: MaintenanceStatus): MaintenanceTag[] {
@@ -167,8 +167,9 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
 
   function getCategoryFromType(type?: string) {
     const t = (type ?? '').toLowerCase();
-    if (t.includes('óleo') || t.includes('oil')) return 'oil';
-    if (t.includes('combustível') || t.includes('fuel')) return 'fuel';
+
+    if (t.includes('Oil Change')) return 'oil';
+    if (t.includes('Fuel Filter Change')) return 'fuel';
     if (t.includes('bateria') || t.includes('battery')) return 'battery';
     if (t.includes('ar') || t.includes('air')) return 'air';
     if (t.includes('roda') || t.includes('wheel')) return 'wheel';
@@ -179,6 +180,8 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     const now = new Date();
     const msPerDay = 1000 * 60 * 60 * 24;
 
+    console.log(maintenances);
+
     const formatter = new Intl.DateTimeFormat('pt-BR', {
       weekday: 'long',
       day: 'numeric',
@@ -188,6 +191,7 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
 
     return list.map((m) => {
       const category = getCategoryFromType(m.type);
+
       const validity =
         EXPIRED_DURATIONS[category as keyof typeof EXPIRED_DURATIONS];
       const icon = (
