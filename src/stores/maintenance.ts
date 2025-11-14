@@ -5,6 +5,7 @@ import { api } from '@/boot/axios';
 import { AxiosError } from 'axios';
 import { MaintenanceStatus, MaintenanceTag } from '@/pages/Maintenances/types';
 import type { MaintenanceIcons } from '@/shared/types/maintenance';
+import { ListOption } from '@/shared/types/bottom-sheet';
 
 const baseApi = import.meta.env.VITE_ROTA_API;
 
@@ -18,6 +19,27 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     battery: { years: 2, months: 6 },
     'fuel-filter': { years: 0, months: 10 },
   } as const;
+
+  const appliedFilters = ref<string[]>([]);
+  const filterOptions = ref<ListOption[]>([
+    { label: 'Manutenções vencidas', selected: false },
+    { label: 'Próximas manutenções', selected: false },
+    { label: 'Preencher etapas', selected: false },
+    { label: 'Manutenções sem cadastro', selected: false },
+  ]);
+
+  function setFilters(filters: string[]) {
+    appliedFilters.value = filters;
+
+    filterOptions.value.forEach((opt) => {
+      opt.selected = filters.includes(opt.label);
+    });
+  }
+
+  function clearFilters() {
+    appliedFilters.value = [];
+    filterOptions.value.forEach((opt) => (opt.selected = false));
+  }
 
   function resolveTags(m: MaintenanceStatus): MaintenanceTag[] {
     const tags: MaintenanceTag[] = [];
@@ -313,5 +335,10 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     getMaintenanceHistory,
     getMaintenanceSummary,
     mapToCardMaintenances,
+
+    appliedFilters,
+    filterOptions,
+    setFilters,
+    clearFilters,
   };
 });

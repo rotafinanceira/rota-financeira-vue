@@ -74,7 +74,6 @@ import { MaintenanceIcons } from '@/shared/types/maintenance';
 import CBottomSheetList from '@/shared/components/bottomsheets/CBottomSheetList.vue';
 
 import MaintenanceCard from './components/MaintenanceCard.vue';
-import { ListOption } from '@/shared/types/bottom-sheet';
 import CTag from '@/shared/components/CTag.vue';
 import { BrokenCarIcon } from '@/shared/assets/illustrations';
 import { XCircleIcon } from '@/shared/assets/icons';
@@ -82,13 +81,6 @@ import { XCircleIcon } from '@/shared/assets/icons';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-
-const filterOptions = ref<ListOption[]>([
-  { label: 'Manutenções vencidas', selected: false },
-  { label: 'Próximas manutenções', selected: false },
-  { label: 'Preencher etapas', selected: false },
-  { label: 'Manutenções sem cadastro', selected: false },
-]);
 
 const isBottomSheetOpen = ref(false);
 const showExpiredCard = ref(false);
@@ -113,7 +105,7 @@ const routeMap: Record<string, string> = {
   'Fuel Filter Change': 'maintenance-fuel-filter',
 };
 
-const appliedFilters = ref<string[]>([]);
+const { appliedFilters, filterOptions } = storeToRefs(maintenanceStore);
 
 onMounted(async () => {
   await carStore.getCars();
@@ -191,18 +183,13 @@ const expiredMaintenances = computed(() =>
 );
 
 const onFilter = (selectedLabels: string[]) => {
-  appliedFilters.value = selectedLabels;
+  maintenanceStore.setFilters(selectedLabels);
   isBottomSheetOpen.value = false;
 };
 
 const removeFilter = (label: string) => {
-  const index = appliedFilters.value.findIndex((f) => f === label);
-  if (index === -1) return;
-
-  appliedFilters.value.splice(index, 1);
-
-  const option = filterOptions.value.find((opt) => opt.label === label);
-  if (option) option.selected = false;
+  const updated = appliedFilters.value.filter((f) => f !== label);
+  maintenanceStore.setFilters(updated);
 };
 
 watch(isBottomSheetOpen, (open) => {
