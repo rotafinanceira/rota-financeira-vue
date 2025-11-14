@@ -3,7 +3,7 @@ import { MaintenanceIcons } from '@/shared/types/maintenance';
 export type MaintenanceCardProps = {
   title: string;
   icon: keyof MaintenanceIcons;
-  maintenanceData?: MaintenanceData;
+  maintenanceData?: MaintenanceStatus;
   routeName: string;
   tags?: MaintenanceTag[];
 };
@@ -32,6 +32,11 @@ export interface MaintenanceData {
   nextDueDate?: string;
   completedAt?: string | null;
   date?: string;
+  tagInfo?: {
+    key: MaintenanceTag;
+    text: string;
+    variant?: 'alert' | 'error' | 'default';
+  } | null;
 }
 
 export interface MaintenanceStatus {
@@ -43,4 +48,9 @@ export interface MaintenanceStatus {
   id?: number;
   updatedAt?: string;
   pendingRegistration?: number;
+  tagInfo?: {
+    key: MaintenanceTag;
+    text: string;
+    variant?: 'alert' | 'error' | 'default';
+  }[];
 }

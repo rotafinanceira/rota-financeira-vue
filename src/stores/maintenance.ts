@@ -26,7 +26,6 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     if (!status || status === 'UNREGISTERED') return [];
 
     if (status === 'EXPIRED') tags.push('EXPIRED');
-    if (status === 'PENDING') tags.push('PENDING');
 
     const hasToFill =
       (m.data?.pendingSteps && m.data.pendingSteps > 0) ||
@@ -34,13 +33,12 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
 
     if (hasToFill) tags.push('TO_FILL');
 
-    if (tags.length === 0) tags.push('PENDING');
-
     return tags;
   }
 
   async function getMaintenances(licensePlate: string) {
     isLoading.value = true;
+
     try {
       const url = `${baseApi}/v1/maintenance/${licensePlate}/latest`;
       const { data } = await api().get(url);
@@ -48,14 +46,14 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       const items = Array.isArray(data) ? data : [data];
 
       maintenances.value = items.map((raw: any) => {
-        const data = raw.data || {};
+        const mData = raw.data || {};
 
         const pendingSteps =
           typeof raw.pendingSteps === 'number'
             ? raw.pendingSteps
             : typeof raw['pending-registration'] === 'number'
             ? raw['pending-registration']
-            : 0;
+            : mData.pendingSteps ?? 0;
 
         const pendingRegistration =
           typeof raw['pending-registration'] === 'number'
@@ -65,24 +63,28 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
         const normalized: MaintenanceStatus = {
           ...raw,
           data: {
-            ...data,
+            ...mData,
             pendingSteps,
-            date: data.date ?? data.createdAt ?? data.updatedAt ?? undefined,
-            status: data.status ?? 'Unregistered',
-            nextDueDate: data.nextDueDate,
-            completedAt: data.completedAt ?? null,
+            date: mData.date ?? mData.createdAt ?? mData.updatedAt ?? undefined,
+            status: mData.status ?? 'UNREGISTERED',
+            nextDueDate: mData.nextDueDate,
+            completedAt: mData.completedAt ?? null,
           },
           pendingRegistration,
-          tag: 'PENDING',
-        } as MaintenanceStatus;
+          tags: [],
+          tagInfo: [],
+        };
 
         normalized.tags = resolveTags(normalized);
+        normalized.tagInfo = resolveMaintenanceTags(normalized);
+
         return normalized;
       });
 
       return maintenances.value;
     } catch (err) {
       const error = err as AxiosError;
+
       if (error.response) {
         console.error(
           'Erro na API:',
@@ -230,6 +232,73 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       title: string;
       description: string;
     }[];
+  }
+
+  function resolveMaintenanceTags(m: MaintenanceStatus) {
+    const tags = m.tags ?? [];
+    const tagInfos: {
+      key: MaintenanceTag;
+      text: string;
+      variant: 'default' | 'alert' | 'error';
+    }[] = [];
+
+    const now = new Date();
+    const msPerDay = 1000 * 60 * 60 * 24;
+
+    const pending = m.data?.pendingSteps ?? 0;
+
+    tags.forEach((tag) => {
+      if (tag === 'TO_FILL' && pending > 0) {
+        tagInfos.push({
+          key: 'TO_FILL',
+          text: `Preencher ${pending} etapa${pending > 1 ? 's' : ''}`,
+          variant: 'alert',
+        });
+      }
+
+      if (tag === 'EXPIRED') {
+        const category = getCategoryFromType(m.type);
+        const validity =
+          EXPIRED_DURATIONS[category as keyof typeof EXPIRED_DURATIONS];
+        const expireDate = m.data?.date
+          ? addDuration(new Date(m.data.date), validity)
+          : null;
+        if (expireDate) {
+          const formatter = new Intl.DateTimeFormat('pt-BR', {
+            day: 'numeric',
+            month: 'short',
+          });
+          tagInfos.push({
+            key: 'EXPIRED',
+            text: `Venceu ${formatter.format(expireDate)}`,
+            variant: 'error',
+          });
+        }
+      }
+
+      if (tag === 'PENDING') {
+        const category = getCategoryFromType(m.type);
+        const validity =
+          EXPIRED_DURATIONS[category as keyof typeof EXPIRED_DURATIONS];
+        const expireDate = m.data?.date
+          ? addDuration(new Date(m.data.date), validity)
+          : null;
+        if (expireDate) {
+          const daysDiff = Math.ceil(
+            (expireDate.getTime() - now.getTime()) / msPerDay
+          );
+          if (daysDiff <= 5) {
+            tagInfos.push({
+              key: 'PENDING',
+              text: `Vence em ${daysDiff} dia${daysDiff > 1 ? 's' : ''}`,
+              variant: 'default',
+            });
+          }
+        }
+      }
+    });
+
+    return tagInfos;
   }
 
   return {

@@ -39,18 +39,16 @@ const tagVariantMap: Record<
 };
 
 const displayTags = computed(() => {
-  const tags = props.tags || [];
-  const result: {
-    variant: 'default' | 'alert' | 'error' | 'outline';
-    text: string;
-  }[] = [];
+  const tags = props.maintenanceData?.tags ?? [];
+  const tagInfos = props.maintenanceData?.tagInfo ?? [];
 
-  if (tags.includes('EXPIRED')) result.push(tagVariantMap.EXPIRED);
-  else if (tags.includes('PENDING')) result.push(tagVariantMap.PENDING);
+  return tags.map((tag) => {
+    const info = tagInfos.find((t) => t.key === tag);
+    const variant = info?.variant ?? tagVariantMap[tag]?.variant ?? 'default';
+    const text = info?.text ?? tagVariantMap[tag]?.text ?? tag;
 
-  if (tags.includes('TO_FILL')) result.push(tagVariantMap.TO_FILL);
-
-  return result;
+    return { variant, text };
+  });
 });
 </script>
 

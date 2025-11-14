@@ -74,7 +74,6 @@ import { MaintenanceIcons } from '@/shared/types/maintenance';
 import CBottomSheetList from '@/shared/components/bottomsheets/CBottomSheetList.vue';
 
 import MaintenanceCard from './components/MaintenanceCard.vue';
-import { MaintenanceState } from './types';
 import { ListOption } from '@/shared/types/bottom-sheet';
 import CTag from '@/shared/components/CTag.vue';
 import { BrokenCarIcon } from '@/shared/assets/illustrations';
@@ -175,21 +174,10 @@ const filteredMaintenances = computed(() => {
 
 const maintenanceItems = computed(() => {
   return filteredMaintenances.value.map((m) => {
-    const status: MaintenanceState =
-      m.data?.status &&
-      ['Unregistered', 'PENDING', 'EXPIRED', 'COMPLETED'].includes(
-        m.data.status
-      )
-        ? m.data.status
-        : 'Unregistered';
-
     return {
       title: m.type || 'Manutenção',
       icon: iconMap[m.type] || 'wheel',
-      maintenanceData: {
-        status,
-        pendingSteps: m.data?.pendingSteps || 0,
-      },
+      maintenanceData: m,
       routeName: routeMap[m.type] || '',
       tags: m.tags || [],
     };
