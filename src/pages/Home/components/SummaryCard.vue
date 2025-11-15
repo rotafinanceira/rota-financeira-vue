@@ -11,6 +11,19 @@ type SummaryCardProps = {
 };
 import MaintenanceItem from '@/shared/components/MaintenanceItem.vue';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
+import { computed } from 'vue';
+
+const desc = computed(() => {
+  const isSingular = props.value === 1;
+
+  if (props.variant === 'expired') {
+    return isSingular ? ' manutenção vencida' : ' manutenções vencidas';
+  }
+
+  return isSingular
+    ? ' manutenção está próxima'
+    : ' manutenções estão próximas';
+});
 
 const props = defineProps<SummaryCardProps>();
 </script>
@@ -26,15 +39,7 @@ const props = defineProps<SummaryCardProps>();
     </h3>
     <div class="card__info">
       <div class="card__info-header">
-        <p class="card__desc">
-          {{ props.value }}
-
-          {{
-            props.variant === 'expired'
-              ? 'manutenções vencidas'
-              : 'manutenções estão próximas'
-          }}
-        </p>
+        <p class="card__desc">{{ props.value }}{{ desc }}</p>
         <router-link
           :to="{
             name: 'maintenances',
