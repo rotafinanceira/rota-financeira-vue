@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { AxiosError } from 'axios';
 import { storeToRefs } from 'pinia';
+import { Form } from 'vee-validate';
 
 import CButton from '@/shared/components/CButton.vue';
 import CModal from '@/shared/components/CModal.vue';
@@ -59,6 +60,12 @@ const errorTitle = ref('Algo deu errado!');
 const errorDescription = ref(
   'Suas alterações não foram salvas. Tente novamente mais tarde.'
 );
+
+const isFormInvalid = computed(() => {
+  return (
+    !mileage.value || !date.value || !maintenanceValue.value || !capacity.value
+  );
+});
 
 function showHelpModal() {
   isOpen.value = true;
@@ -179,7 +186,7 @@ onMounted(async () => {
           </span>
         </div>
 
-        <div class="input-wrapper">
+        <Form class="form" @submit="handleSubmit" v-slot="{ meta }">
           <CInput
             v-model="mileage"
             label="Quilometragem"
@@ -188,9 +195,7 @@ onMounted(async () => {
             placeholder="km na data de serviço"
             required
           />
-        </div>
 
-        <div class="input-wrapper">
           <CInput
             v-model="date"
             label="Data da troca"
@@ -199,9 +204,7 @@ onMounted(async () => {
             placeholder="__/__/____"
             required
           />
-        </div>
 
-        <div class="input-wrapper">
           <CInput
             v-model="maintenanceValue"
             label="Valor do serviço"
@@ -210,9 +213,7 @@ onMounted(async () => {
             placeholder="Digite o valor"
             required
           />
-        </div>
 
-        <div class="input-wrapper">
           <CSelect
             v-model="capacity"
             name="capacity"
@@ -220,9 +221,7 @@ onMounted(async () => {
             :options="capacityOptions"
             placeholder="Selecione uma opção"
           />
-        </div>
 
-        <div class="input-wrapper">
           <CInput
             :value="brand"
             v-model="brand"
@@ -231,9 +230,7 @@ onMounted(async () => {
             placeholder="Digite a marca utilizada"
             variant="generic"
           />
-        </div>
 
-        <div class="input-wrapper">
           <CInput
             :value="oficina"
             v-model="oficina"
@@ -242,13 +239,14 @@ onMounted(async () => {
             placeholder="Digite o nome da oficina"
             variant="generic"
           />
-        </div>
+
+          <CButton type="submit" :disabled="!meta.valid || isFormInvalid"
+            >Salvar</CButton
+          >
+        </Form>
       </div>
     </div>
 
-    <CButton @click="handleSubmit" :isLoading="isLoading">Salvar</CButton>
-
-    <!-- Modal de ajuda -->
     <CModal v-model="isOpen" variant="info">
       <h2>{{ modalContent }}</h2>
       <ul class="info-list">
