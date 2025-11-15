@@ -16,8 +16,10 @@
   border-radius: 8px;
   padding: 16px;
 }
-.input-wrapper {
-  margin-bottom: 20px;
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 .text-wrapper {
   margin-bottom: 32px;
