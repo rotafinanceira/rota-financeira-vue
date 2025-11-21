@@ -30,11 +30,6 @@
             <span class="google-button-text">Entrar com o Google</span>
           </button>
         </div>
-        <q-btn
-          label="Ir para Home"
-          color="primary"
-          @click="navigateToHome"
-        ></q-btn>
       </div>
     </div>
     <ModalGenericoAlert
@@ -149,10 +144,6 @@ const handleApiError = (statusCode) => {
     modalContent.value = 'Ocorreu um erro ao tentar fazer login';
     modalDescription.value = 'Tente novamente mais tarde';
   }
-};
-
-const navigateToHome = () => {
-  router.push({ name: 'home' });
 };
 
 const continueWithGoogle = () => {
