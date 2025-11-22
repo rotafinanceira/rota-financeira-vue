@@ -156,8 +156,16 @@ const navigateToHome = () => {
   router.push({ name: 'home' });
 };
 
-const continueWithGoogle = () => {
-  // Implemente a lógica para login com o Google aqui
+const continueWithGoogle = async () => {
+  try {
+    isLoading.value = true;
+    await registerStore.googleLogin();
+    router.push({ path: '/success' });
+  } catch (error) {
+    console.error('Google Login Error:', error);
+  } finally {
+    isLoading.value = false;
+  }
 };
 </script>
 
