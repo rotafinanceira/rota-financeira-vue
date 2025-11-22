@@ -89,6 +89,14 @@ const carStore = useCarStore();
 const maintenanceStore = useMaintenanceStore();
 const { maintenances } = storeToRefs(maintenanceStore);
 
+const typeTranslations: Record<string, string> = {
+  'Oil Change': 'Troca de óleo',
+  'Fuel Filter Change': 'Troca do filtro de combustível',
+  'Wheel Alignment': 'Alinhamento e balanceamento',
+  'Battery Change': 'Troca de bateria',
+  'Air Filter Change': 'Troca do filtro de ar',
+};
+
 const iconMap: Record<string, keyof MaintenanceIcons> = {
   'Oil Change': 'oil',
   'Wheel Alignment': 'wheel',
@@ -167,7 +175,7 @@ const filteredMaintenances = computed(() => {
 const maintenanceItems = computed(() => {
   return filteredMaintenances.value.map((m) => {
     return {
-      title: m.type || 'Manutenção',
+      title: typeTranslations[m.type] || m.type,
       icon: iconMap[m.type] || 'wheel',
       maintenanceData: m,
       routeName: routeMap[m.type] || '',

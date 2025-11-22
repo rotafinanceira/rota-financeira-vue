@@ -47,6 +47,15 @@ const carStore = useCarStore();
 const maintenanceHistory = ref<HistoryCardProps[]>([]);
 const isLoading = ref(false);
 
+const typeTranslations: Record<string, string> = {
+  'Oil Change': 'Troca de óleo',
+  'Fuel Filter Change': 'Troca do filtro de combustível',
+  'Battery Change': 'Troca de bateria',
+  'Air Filter Change': 'Troca do filtro de ar',
+  'Wheel Change': 'Troca de roda',
+  'Oil Filter Change': 'Troca do filtro de óleo',
+};
+
 type MaintenanceApiItem = {
   type:
     | 'Oil Change'
@@ -117,7 +126,7 @@ function mapApiToHistoryCard(apiItem: MaintenanceApiItem): HistoryCardProps {
     maintenances: [
       {
         icon,
-        title: apiItem.type,
+        title: typeTranslations[apiItem.type] || apiItem.type,
         description: formattedValue,
       },
     ],

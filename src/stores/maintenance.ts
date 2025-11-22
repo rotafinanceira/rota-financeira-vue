@@ -14,10 +14,35 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
   const maintenances = ref<MaintenanceStatus[]>([]);
   const isLoading = ref(false);
 
+  const categoryMap: Record<string, string> = {
+    'Oil Change': 'oil',
+    'Fuel Filter Change': 'fuel-filter',
+    'Battery Change': 'battery',
+    'Air Filter Change': 'air',
+    'Wheel Alignment': 'wheel',
+  };
+
+  function iconKeyFromCategory(category: string): keyof MaintenanceIcons {
+    switch (category) {
+      case 'air':
+        return 'airFilter';
+      case 'fuel-filter':
+        return 'fuelFilter';
+      case 'battery':
+        return 'battery';
+      case 'wheel':
+        return 'wheel';
+      default:
+        return 'oil';
+    }
+  }
+
   const EXPIRED_DURATIONS = {
     oil: { years: 0, months: 6 },
     battery: { years: 2, months: 6 },
     'fuel-filter': { years: 0, months: 10 },
+    air: { years: 1, months: 0 },
+    wheel: { years: 1, months: 0 },
   } as const;
 
   const appliedFilters = ref<string[]>([]);
@@ -188,21 +213,12 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
   }
 
   function getCategoryFromType(type?: string) {
-    const t = (type ?? '').toLowerCase();
-
-    if (t.includes('Oil Change')) return 'oil';
-    if (t.includes('Fuel Filter Change')) return 'fuel';
-    if (t.includes('bateria') || t.includes('battery')) return 'battery';
-    if (t.includes('ar') || t.includes('air')) return 'air';
-    if (t.includes('roda') || t.includes('wheel')) return 'wheel';
-    return 'oil';
+    return categoryMap[type ?? ''] || 'oil';
   }
 
   function mapToCardMaintenances(list: MaintenanceStatus[]) {
     const now = new Date();
     const msPerDay = 1000 * 60 * 60 * 24;
-
-    console.log(maintenances);
 
     const formatter = new Intl.DateTimeFormat('pt-BR', {
       weekday: 'long',
@@ -213,12 +229,10 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
 
     return list.map((m) => {
       const category = getCategoryFromType(m.type);
+      const validity = EXPIRED_DURATIONS[category];
+      const icon = iconKeyFromCategory(category);
 
-      const validity =
-        EXPIRED_DURATIONS[category as keyof typeof EXPIRED_DURATIONS];
-      const icon = (
-        category === 'air' ? 'airFilter' : category
-      ) as keyof MaintenanceIcons;
+      console.log(category);
 
       const maintenanceDate = m.data?.date ? new Date(m.data.date) : null;
       const status = (m.data?.status ?? '').toString().toUpperCase();
