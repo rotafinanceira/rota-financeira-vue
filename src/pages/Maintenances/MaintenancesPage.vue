@@ -70,7 +70,6 @@ import { CarWrenchIcon, FilterControlsIcon } from '@/shared/assets/icons';
 import { useMaintenanceStore } from '@/stores/maintenance';
 import { storeToRefs } from 'pinia';
 import { useCarStore } from '@/stores/carStore';
-import { MaintenanceIcons } from '@/shared/types/maintenance';
 import CBottomSheetList from '@/shared/components/bottomsheets/CBottomSheetList.vue';
 
 import MaintenanceCard from './components/MaintenanceCard.vue';
@@ -79,6 +78,7 @@ import { BrokenCarIcon } from '@/shared/assets/illustrations';
 import { XCircleIcon } from '@/shared/assets/icons';
 
 import { useRoute } from 'vue-router';
+import { MAINTENANCE_CONFIG } from '../../constants/maintenances';
 
 const route = useRoute();
 
@@ -88,30 +88,6 @@ const showExpiredCard = ref(false);
 const carStore = useCarStore();
 const maintenanceStore = useMaintenanceStore();
 const { maintenances } = storeToRefs(maintenanceStore);
-
-const typeTranslations: Record<string, string> = {
-  'Oil Change': 'Troca de óleo',
-  'Fuel Filter Change': 'Troca do filtro de combustível',
-  'Wheel Alignment': 'Alinhamento e balanceamento',
-  'Battery Change': 'Troca de bateria',
-  'Air Filter Change': 'Troca do filtro de ar',
-};
-
-const iconMap: Record<string, keyof MaintenanceIcons> = {
-  'Oil Change': 'oil',
-  'Wheel Alignment': 'wheel',
-  'Battery Change': 'battery',
-  'Air Filter Change': 'airFilter',
-  'Fuel Filter Change': 'fuelFilter',
-};
-
-const routeMap: Record<string, string> = {
-  'Oil Change': 'maintenance-oil',
-  'Wheel Alignment': 'maintenance-alignment-balancing',
-  'Battery Change': 'maintenance-battery',
-  'Air Filter Change': 'maintenance-air-filter',
-  'Fuel Filter Change': 'maintenance-fuel-filter',
-};
 
 const { appliedFilters, filterOptions } = storeToRefs(maintenanceStore);
 
@@ -172,18 +148,19 @@ const filteredMaintenances = computed(() => {
   });
 });
 
-const maintenanceItems = computed(() => {
-  return filteredMaintenances.value.map((m) => {
+const maintenanceItems = computed(() =>
+  filteredMaintenances.value.map((m) => {
+    const cfg = MAINTENANCE_CONFIG[m.type];
+
     return {
-      title: typeTranslations[m.type] || m.type,
-      icon: iconMap[m.type] || 'wheel',
+      title: cfg?.label ?? m.type,
+      icon: cfg?.icon ?? 'wheel',
       maintenanceData: m,
-      routeName: routeMap[m.type] || '',
+      routeName: cfg?.route ?? '',
       tags: m.tags || [],
     };
-  });
-});
-
+  })
+);
 const expiredMaintenances = computed(() =>
   maintenances.value.filter(
     (m) => Array.isArray(m.tags) && m.tags.includes('EXPIRED')

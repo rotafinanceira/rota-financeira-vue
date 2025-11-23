@@ -4,46 +4,20 @@ import { ref } from 'vue';
 import { api } from '@/boot/axios';
 import { AxiosError } from 'axios';
 import { MaintenanceStatus, MaintenanceTag } from '@/pages/Maintenances/types';
+import { MAINTENANCE_CONFIG } from '@/constants/maintenances';
 import type { MaintenanceIcons } from '@/shared/types/maintenance';
 import { ListOption } from '@/shared/types/bottom-sheet';
 
 const baseApi = import.meta.env.VITE_ROTA_API;
 
+function getConfig(type?: string) {
+  return MAINTENANCE_CONFIG[type as keyof typeof MAINTENANCE_CONFIG];
+}
+
 export const useMaintenanceStore = defineStore('maintenance', () => {
   const history = ref<MaintenanceStatus[]>([]);
   const maintenances = ref<MaintenanceStatus[]>([]);
   const isLoading = ref(false);
-
-  const categoryMap: Record<string, string> = {
-    'Oil Change': 'oil',
-    'Fuel Filter Change': 'fuel-filter',
-    'Battery Change': 'battery',
-    'Air Filter Change': 'air',
-    'Wheel Alignment': 'wheel',
-  };
-
-  function iconKeyFromCategory(category: string): keyof MaintenanceIcons {
-    switch (category) {
-      case 'air':
-        return 'airFilter';
-      case 'fuel-filter':
-        return 'fuelFilter';
-      case 'battery':
-        return 'battery';
-      case 'wheel':
-        return 'wheel';
-      default:
-        return 'oil';
-    }
-  }
-
-  const EXPIRED_DURATIONS = {
-    oil: { years: 0, months: 6 },
-    battery: { years: 2, months: 6 },
-    'fuel-filter': { years: 0, months: 10 },
-    air: { years: 1, months: 0 },
-    wheel: { years: 1, months: 0 },
-  } as const;
 
   const appliedFilters = ref<string[]>([]);
   const filterOptions = ref<ListOption[]>([
@@ -55,7 +29,6 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
 
   function setFilters(filters: string[]) {
     appliedFilters.value = filters;
-
     filterOptions.value.forEach((opt) => {
       opt.selected = filters.includes(opt.label);
     });
@@ -79,6 +52,8 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       (m.pendingRegistration && m.pendingRegistration > 0);
 
     if (hasToFill) tags.push('TO_FILL');
+
+    if (status === 'PENDING') tags.push('PENDING');
 
     return tags;
   }
@@ -125,22 +100,21 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
         normalized.tags = resolveTags(normalized);
         normalized.tagInfo = resolveMaintenanceTags(normalized);
 
+        console.log(normalized);
+        console.log(normalized.tags);
+        console.log(normalized.tagInfo);
+
         return normalized;
       });
 
       return maintenances.value;
     } catch (err) {
       const error = err as AxiosError;
-
-      if (error.response) {
-        console.error(
-          'Erro na API:',
-          error.response.status,
-          error.response.data
-        );
-      } else {
-        console.error('Erro desconhecido:', error.message);
-      }
+      console.error(
+        'Erro ao buscar manutenções:',
+        error.response?.status ?? '',
+        error.response?.data ?? error.message
+      );
     } finally {
       isLoading.value = false;
     }
@@ -163,38 +137,35 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       (m) => (m.data?.status ?? '').toString().toUpperCase() === 'PENDING'
     );
 
-    const summary = {
+    return {
       hasMaintenances,
       expired: expired.slice(0, 1),
       pending: pending.slice(0, 1),
       expiredCount: expired.length,
       pendingCount: pending.length,
     };
-
-    return summary;
   }
 
   async function getMaintenanceHistory(licensePlate: string, types?: string[]) {
     isLoading.value = true;
+
     try {
       const query = types?.length
         ? `?types=${encodeURIComponent(types.join(','))}`
         : '';
+
       const url = `${baseApi}/v1/maintenance/history/${licensePlate}${query}`;
       const { data } = await api().get(url);
+
       history.value = Array.isArray(data) ? data : [];
       return history.value;
     } catch (err) {
       const error = err as AxiosError;
-      if (error.response) {
-        console.error(
-          'Erro na API:',
-          error.response.status,
-          error.response.data
-        );
-      } else {
-        console.error('Erro desconhecido:', error.message);
-      }
+      console.error(
+        'Erro ao buscar histórico:',
+        error.response?.status ?? '',
+        error.response?.data ?? error.message
+      );
     } finally {
       isLoading.value = false;
     }
@@ -206,14 +177,13 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
   ) {
     const newDate = new Date(date);
     if (!duration) return newDate;
+
     if (duration.years)
       newDate.setFullYear(newDate.getFullYear() + duration.years);
-    if (duration.months) newDate.setMonth(newDate.getMonth() + duration.months);
-    return newDate;
-  }
 
-  function getCategoryFromType(type?: string) {
-    return categoryMap[type ?? ''] || 'oil';
+    if (duration.months) newDate.setMonth(newDate.getMonth() + duration.months);
+
+    return newDate;
   }
 
   function mapToCardMaintenances(list: MaintenanceStatus[]) {
@@ -228,11 +198,9 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     });
 
     return list.map((m) => {
-      const category = getCategoryFromType(m.type);
-      const validity = EXPIRED_DURATIONS[category];
-      const icon = iconKeyFromCategory(category);
-
-      console.log(category);
+      const cfg = getConfig(m.type);
+      const icon = cfg?.icon ?? 'wheel';
+      const validity = cfg?.duration;
 
       const maintenanceDate = m.data?.date ? new Date(m.data.date) : null;
       const status = (m.data?.status ?? '').toString().toUpperCase();
@@ -243,7 +211,6 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
         description = 'data não informada';
       } else {
         const expireDate = addDuration(maintenanceDate, validity);
-
         const daysDiff = Math.ceil(
           (expireDate.getTime() - now.getTime()) / msPerDay
         );
@@ -254,6 +221,7 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
             .replace('-feira', '')
             .replace(/\b\w/, (c) => c.toLowerCase())
             .trim();
+
           description = `Venceu ${formatted}`;
         } else if (status === 'PENDING' && daysDiff <= 5) {
           description = `Vence em ${daysDiff} dia${daysDiff !== 1 ? 's' : ''}`;
@@ -264,7 +232,7 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
 
       return {
         icon,
-        title: m.type,
+        title: cfg?.label ?? m.type,
         description,
       };
     }) as {
@@ -285,6 +253,9 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     const now = new Date();
     const msPerDay = 1000 * 60 * 60 * 24;
 
+    const cfg = getConfig(m.type);
+    const validity = cfg?.duration;
+
     const pending = m.data?.pendingSteps ?? 0;
 
     tags.forEach((tag) => {
@@ -297,17 +268,16 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       }
 
       if (tag === 'EXPIRED') {
-        const category = getCategoryFromType(m.type);
-        const validity =
-          EXPIRED_DURATIONS[category as keyof typeof EXPIRED_DURATIONS];
         const expireDate = m.data?.date
           ? addDuration(new Date(m.data.date), validity)
           : null;
+
         if (expireDate) {
           const formatter = new Intl.DateTimeFormat('pt-BR', {
             day: 'numeric',
             month: 'short',
           });
+
           tagInfos.push({
             key: 'EXPIRED',
             text: `Venceu ${formatter.format(expireDate)}`,
@@ -317,20 +287,19 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       }
 
       if (tag === 'PENDING') {
-        const category = getCategoryFromType(m.type);
-        const validity =
-          EXPIRED_DURATIONS[category as keyof typeof EXPIRED_DURATIONS];
         const expireDate = m.data?.date
           ? addDuration(new Date(m.data.date), validity)
           : null;
+
         if (expireDate) {
-          const daysDiff = Math.ceil(
+          const diff = Math.ceil(
             (expireDate.getTime() - now.getTime()) / msPerDay
           );
-          if (daysDiff <= 5) {
+
+          if (diff <= 5) {
             tagInfos.push({
               key: 'PENDING',
-              text: `Vence em ${daysDiff} dia${daysDiff > 1 ? 's' : ''}`,
+              text: `Vence em ${diff} dia${diff > 1 ? 's' : ''}`,
               variant: 'default',
             });
           }
@@ -345,6 +314,7 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     history,
     maintenances,
     isLoading,
+
     getMaintenances,
     getMaintenanceHistory,
     getMaintenanceSummary,
