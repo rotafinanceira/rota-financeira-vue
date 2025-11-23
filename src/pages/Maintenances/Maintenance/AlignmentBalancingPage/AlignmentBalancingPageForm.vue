@@ -35,7 +35,6 @@ const maintenanceValue = ref('R$ 0,00');
 
 const isOpen = ref(false);
 const modalContent = ref('Quando devo fazer a troca?');
-const modalDescription = ref<string[]>([]);
 const isPositiveOpen = ref(false);
 const isErrorOpen = ref(false);
 
