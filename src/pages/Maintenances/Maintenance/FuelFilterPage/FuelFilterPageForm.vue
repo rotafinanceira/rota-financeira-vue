@@ -141,7 +141,6 @@ onMounted(async () => {
     mileage.value = formatInput(m.lastMaintenanceKm ?? 0);
     maintenanceValue.value = formatInput(m.valor ?? 0);
     oficina.value = m.oficina ?? '';
-    filterModel.value = m.filterType.toString() ?? '';
   }
 });
 </script>
@@ -187,15 +186,6 @@ onMounted(async () => {
             variant="money"
             placeholder="Digite o valor"
             required
-          />
-
-          <CInput
-            :value="filterModel"
-            v-model="filterModel"
-            label="Modelo"
-            name="filter-model"
-            placeholder="Digite o modelo utilizado"
-            variant="generic"
           />
 
           <CInput

@@ -2,7 +2,6 @@ export interface FuelFilterMaintenance {
   id: string;
   lastMaintenanceDate: string;
   lastMaintenanceKm: number;
-  filterType: string;
   valor: number;
   status: string;
   oficina?: string | null;
@@ -12,7 +11,6 @@ export interface FuelFilterMaintenance {
 export interface FuelFilterState {
   date: string;
   mileage: string;
-  filterModel: string;
   oficina: string | null;
   carId: number | null;
   isLoading: boolean;
@@ -27,14 +25,12 @@ export interface MappedMaintenance {
   date: string;
   km: string;
   price: string;
-  filterModel: string;
   oficina: string;
 }
 
 export interface FuelFilterPayload {
   lastMaintenanceDate: string;
   lastMaintenanceKm: number;
-  filterType: string;
   valor: number;
   oficina: string | null;
 }

@@ -140,7 +140,6 @@ onMounted(async () => {
     mileage.value = formatInput(m.lastMaintenanceKm ?? 0);
     maintenanceValue.value = formatInput(m.valor ?? 0);
     oficina.value = m.oficina ?? '';
-    filterModel.value = m.filterType.toString() ?? '';
   }
 });
 </script>

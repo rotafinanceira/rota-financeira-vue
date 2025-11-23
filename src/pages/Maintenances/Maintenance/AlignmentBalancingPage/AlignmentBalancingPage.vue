@@ -75,8 +75,6 @@ const mappedMaintenances = computed<MappedMaintenance[]>(() =>
         }).format(Number(m.valor))
       : '-',
 
-    filterModel: m.filterType || '-',
-
     oficina: m.oficina || '-',
   }))
 );

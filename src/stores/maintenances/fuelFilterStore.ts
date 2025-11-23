@@ -11,18 +11,15 @@ export const useFuelFilterStore = defineStore('fuel-filter', () => {
     type: 'fuel-filter',
   });
 
-  const filterModel = ref<string>('');
   const oficina = ref<string>('');
 
   function resetStore() {
     base.resetBaseState();
-    filterModel.value = '';
     oficina.value = '';
   }
 
   return {
     ...base,
-    filterModel,
     oficina,
     resetStore,
   };
