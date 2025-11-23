@@ -11,7 +11,7 @@ import {
 } from '@/shared/assets/icons';
 import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
-import { MaintenanceCardProps, MaintenanceTag } from '../types';
+import { MaintenanceCardProps } from '../types';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
 import CDivider from '@/shared/components/CDivider.vue';
 import CTag from '@/shared/components/CTag.vue';
@@ -28,27 +28,13 @@ const maintenanceIcons: MaintenanceIcons = {
 
 const props = defineProps<MaintenanceCardProps>();
 
-const tagVariantMap: Record<
-  MaintenanceTag,
-  { variant: 'default' | 'alert' | 'error' | 'outline'; text: string }
-> = {
-  EXPIRED: { variant: 'error', text: 'Vencida' },
-  PENDING: { variant: 'default', text: 'Pendente' },
-  UNREGISTERED: { variant: 'outline', text: 'Não registrada' },
-  TO_FILL: { variant: 'alert', text: 'Preencher etapas' },
-};
-
 const displayTags = computed(() => {
-  const tags = props.maintenanceData?.tags ?? [];
   const tagInfos = props.maintenanceData?.tagInfo ?? [];
 
-  return tags.map((tag) => {
-    const info = tagInfos.find((t) => t.key === tag);
-    const variant = info?.variant ?? tagVariantMap[tag]?.variant ?? 'default';
-    const text = info?.text ?? tagVariantMap[tag]?.text ?? tag;
-
-    return { variant, text };
-  });
+  return tagInfos.map((info) => ({
+    variant: info.variant ?? 'default',
+    text: info.text ?? '',
+  }));
 });
 </script>
 
