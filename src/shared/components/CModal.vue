@@ -128,6 +128,9 @@ const variantClass = computed(() => `dialog-${props.variant}`);
   :deep(ul) {
     margin: 0;
     padding-left: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
 
   :deep(li),

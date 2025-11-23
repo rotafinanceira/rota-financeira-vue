@@ -160,14 +160,48 @@ const routes: RouteRecordRaw[] = [
                 name: 'maintenance-alignment-balancing',
                 component: () =>
                   import(
-                    '@/pages/Maintenances/Maintenance/AlignmentBalancingPage.vue'
+                    '@/pages/Maintenances/Maintenance/AlignmentBalancingPage/AlignmentBalancingPage.vue'
+                  ),
+              },
+              {
+                path: 'alignment-balancing/form',
+                name: 'maintenance-alignment-balancing-form',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/AlignmentBalancingPage/AlignmentBalancingPageForm.vue'
+                  ),
+              },
+              {
+                path: 'alignment-balancing/form/:maintenanceId?',
+                name: 'maintenance-alignment-balancing-form',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/AlignmentBalancingPage/AlignmentBalancingPageForm.vue'
                   ),
               },
               {
                 path: 'air-filter',
                 name: 'maintenance-air-filter',
                 component: () =>
-                  import('@/pages/Maintenances/Maintenance/AirFilterPage.vue'),
+                  import(
+                    '@/pages/Maintenances/Maintenance/AirFilterPage/AirFilterPage.vue'
+                  ),
+              },
+              {
+                path: 'air-filter/form',
+                name: 'maintenance-air-filter-form',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/AirFilterPage/AirFilterPageForm.vue'
+                  ),
+              },
+              {
+                path: 'air-filter/form/:maintenanceId?',
+                name: 'maintenance-air-filter-form',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/AirFilterPage/AirFilterPageForm.vue'
+                  ),
               },
             ],
           },
