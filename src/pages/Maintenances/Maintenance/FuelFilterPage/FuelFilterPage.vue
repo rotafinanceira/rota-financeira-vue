@@ -12,7 +12,6 @@ import CTag from '@/shared/components/CTag.vue';
 import CButton from '@/shared/components/CButton.vue';
 
 import {
-  BatteryIcon,
   EditIcon,
   MoneyCircleIcon,
   CalendarIcon,
@@ -146,7 +145,7 @@ function editMaintenance(m: MappedMaintenance): void {
 
     <section v-if="hasMaintenances" class="maintenances">
       <div class="maintenances__header">
-        <img :src="BatteryIcon" alt="" />
+        <img :src="FuelFilterIcon" alt="" />
         <h1>Revisões anteriores</h1>
       </div>
 
@@ -154,7 +153,7 @@ function editMaintenance(m: MappedMaintenance): void {
         <div class="maintenance-card__container">
           <div class="maintenance-card__header">
             <div class="maintenance-card__header-container">
-              <img :src="BatteryIcon" alt="" />
+              <img :src="FuelFilterIcon" alt="" />
               <div class="vertical"></div>
               <h1>Filtro de combustível</h1>
             </div>
