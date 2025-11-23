@@ -31,6 +31,11 @@ const routes: RouteRecordRaw[] = [
             component: () => import('src/pages/Auth/SignInPage.vue'),
           },
           {
+            path: 'google-callback',
+            name: 'google-callback',
+            component: () => import('src/pages/Auth/GoogleCallbackPage.vue'),
+          },
+          {
             path: 'signup',
             name: 'signup',
             redirect: '/auth/signup/step-1',

@@ -41,9 +41,12 @@ import { RouterLink } from 'vue-router';
 import { LogoOneLine } from '@/shared/assets/logos';
 import googleIcon from '@/shared/assets/googleIcon.svg';
 import CButton from '@/shared/components/CButton.vue';
+import { useRegisterStore } from '@/stores/registerStore';
+
+const registerStore = useRegisterStore();
 
 const continueWithGoogle = () => {
-  // Implement Google sign-in logic here
+  registerStore.googleLogin();
 };
 </script>
 
