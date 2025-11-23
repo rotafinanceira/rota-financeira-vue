@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 import { QSpinner } from 'quasar';
 
 import { useCarStore } from '@/stores/carStore';
-import { useBatteryStore } from '@/stores/batteryStore';
+import { useBatteryStore } from '@/stores/maintenances/batteryStore';
 
 import CDivider from '@/shared/components/CDivider.vue';
 import CTag from '@/shared/components/CTag.vue';
@@ -45,7 +45,7 @@ watch(
   () => carStore.firstLicensePlate,
   async (plate) => {
     if (plate) {
-      await batteryStore.getBatteryMaintenances(plate);
+      await batteryStore.getMaintenances(plate);
     }
   },
   { immediate: true }

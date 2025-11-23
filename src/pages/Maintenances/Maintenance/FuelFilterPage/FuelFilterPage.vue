@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 import { QSpinner } from 'quasar';
 
 import { useCarStore } from '@/stores/carStore';
-import { useFuelFilterStore } from '@/stores/fuelFilterStore';
+import { useFuelFilterStore } from '@/stores/maintenances/fuelFilterStore';
 
 import CDivider from '@/shared/components/CDivider.vue';
 import CTag from '@/shared/components/CTag.vue';
@@ -46,7 +46,7 @@ watch(
   () => carStore.firstLicensePlate,
   async (plate) => {
     if (plate) {
-      await fuelFilterStore.getFuelFilterMaintenances(plate);
+      await fuelFilterStore.getMaintenances(plate);
       console.log(maintenances);
     }
   },

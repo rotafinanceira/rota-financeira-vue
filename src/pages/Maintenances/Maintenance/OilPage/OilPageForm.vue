@@ -11,7 +11,7 @@ import CInput from '@/shared/components/CInput.vue';
 import CSelect from '@/shared/components/CSelect.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 
-import { useOilStore } from '@/stores/oilStore';
+import { useOilStore } from '@/stores/maintenances/oilStore';
 import { useCarStore } from '@/stores/carStore';
 import { OilServiceType, OilType } from '@/shared/types/oil-maintenance';
 import {
@@ -121,7 +121,7 @@ async function handleSubmit() {
       successDescription.value = 'As alterações foram salvas com sucesso.';
     }
 
-    await oilStore.saveOilMaintenance(payload, oilStore.getEditingId);
+    await oilStore.saveMaintenance(payload, oilStore.getEditingId);
 
     oilStore.setSelectedMaintenance(null);
     isPositiveOpen.value = true;
@@ -149,7 +149,7 @@ onMounted(async () => {
   if (!plate) return;
 
   if (!maintenances.value || maintenances.value.length === 0) {
-    await oilStore.getOilMaintenances(plate);
+    await oilStore.getMaintenances(plate);
   }
 
   if (maintenanceId) {

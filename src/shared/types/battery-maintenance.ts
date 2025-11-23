@@ -33,3 +33,11 @@ export interface MappedMaintenance {
   capacity: string;
   oficina: string;
 }
+
+export interface BatteryPayload {
+  lastMaintenanceDate: string;
+  lastMaintenanceKm: number;
+  remainingCapacity: number;
+  valor: number;
+  batteryBrand: string | null;
+}

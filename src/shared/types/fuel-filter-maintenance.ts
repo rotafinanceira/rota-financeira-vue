@@ -30,3 +30,11 @@ export interface MappedMaintenance {
   filterModel: string;
   oficina: string;
 }
+
+export interface FuelFilterPayload {
+  lastMaintenanceDate: string;
+  lastMaintenanceKm: number;
+  filterType: string;
+  valor: number;
+  oficina: string | null;
+}

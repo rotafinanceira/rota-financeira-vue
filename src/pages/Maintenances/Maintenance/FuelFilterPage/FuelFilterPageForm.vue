@@ -11,7 +11,7 @@ import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 
-import { useFuelFilterStore } from '@/stores/fuelFilterStore';
+import { useFuelFilterStore } from '@/stores/maintenances/fuelFilterStore';
 import { useCarStore } from '@/stores/carStore';
 import {
   formatInput,
@@ -99,7 +99,7 @@ async function handleSubmit() {
       successDescription.value = 'As alterações foram salvas com sucesso.';
     }
 
-    await fuelFilterStore.saveFuelFilterMaintenance(
+    await fuelFilterStore.saveMaintenance(
       payload,
       fuelFilterStore.getEditingId
     );
@@ -124,7 +124,7 @@ onMounted(async () => {
   if (!plate) return;
 
   if (!maintenances.value || maintenances.value.length === 0) {
-    const resp = await fuelFilterStore.getFuelFilterMaintenances(plate);
+    const resp = await fuelFilterStore.getMaintenances(plate);
     console.log(resp);
   }
 

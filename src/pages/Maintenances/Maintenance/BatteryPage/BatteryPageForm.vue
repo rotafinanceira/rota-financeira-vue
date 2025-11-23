@@ -11,7 +11,7 @@ import CInput from '@/shared/components/CInput.vue';
 import CSelect from '@/shared/components/CSelect.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 
-import { useBatteryStore } from '@/stores/batteryStore';
+import { useBatteryStore } from '@/stores/maintenances/batteryStore';
 import { useCarStore } from '@/stores/carStore';
 import {
   formatInput,
@@ -122,10 +122,7 @@ async function handleSubmit() {
 
     console.log(payload);
 
-    await batteryStore.saveBatteryMaintenance(
-      payload,
-      batteryStore.getEditingId
-    );
+    await batteryStore.saveMaintenance(payload, batteryStore.getEditingId);
 
     batteryStore.setSelectedMaintenance(null);
     isPositiveOpen.value = true;
@@ -147,7 +144,7 @@ onMounted(async () => {
   if (!plate) return;
 
   if (!maintenances.value || maintenances.value.length === 0) {
-    const resp = await batteryStore.getBatteryMaintenances(plate);
+    const resp = await batteryStore.getMaintenances(plate);
     console.log(resp);
   }
 
