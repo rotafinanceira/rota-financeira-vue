@@ -8,16 +8,6 @@ export type MaintenanceCardProps = {
   tags?: MaintenanceTag[];
 };
 
-export type MaintenanceTypes =
-  | 'engine'
-  | 'battery'
-  | 'oil'
-  | 'air filter'
-  | 'wheel'
-  | 'alignment and balancing'
-  | 'fuel levels'
-  | 'fluid levels';
-
 export type MaintenanceState =
   | 'Unregistered'
   | 'PENDING'
