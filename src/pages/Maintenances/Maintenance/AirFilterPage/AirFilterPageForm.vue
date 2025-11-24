@@ -88,8 +88,6 @@ async function handleSubmit() {
   }
   const [day, month, year] = date.value.split('/');
   const isoDate = `${year}-${month}-${day}`;
-  const last = maintenances.value.at(-1) as AirFilterMaintenance;
-  const previousChanged = last?.lastChangedDate || isoDate;
 
   isLoading.value = true;
 
@@ -99,8 +97,7 @@ async function handleSubmit() {
       valor: parseInputToNumber(maintenanceValue.value),
       oficina: oficina.value,
       lastCleanedDate: isoDate,
-      lastChangedDate:
-        selectedServiceType.value === 'change' ? previousChanged : isoDate,
+      lastChangedDate: isoDate,
     };
 
     if (maintenanceId) {
