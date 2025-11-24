@@ -86,7 +86,7 @@ function editMaintenance(m: MappedMaintenance): void {
 
   fuelFilterStore.setSelectedMaintenance(maintenance);
   router.push({
-    name: 'maintenance-air-filter-form',
+    name: 'maintenance-air-filter-edit',
     params: { maintenanceId: m.id },
   });
 }
@@ -138,7 +138,7 @@ function editMaintenance(m: MappedMaintenance): void {
       </div>
     </section>
 
-    <CButton variant="primary" :to="{ name: 'maintenance-air-filter-form' }">
+    <CButton variant="primary" :to="{ name: 'maintenance-air-filter-create' }">
       Cadastrar manutenção
     </CButton>
 

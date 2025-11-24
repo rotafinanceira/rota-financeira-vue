@@ -85,7 +85,7 @@ function editMaintenance(m: MappedMaintenance): void {
 
   fuelFilterStore.setSelectedMaintenance(maintenance);
   router.push({
-    name: 'maintenance-alignment-balancing-form',
+    name: 'maintenance-alignment-balancing-edit',
     params: { maintenanceId: m.id },
   });
 }
@@ -139,7 +139,7 @@ function editMaintenance(m: MappedMaintenance): void {
 
     <CButton
       variant="primary"
-      :to="{ name: 'maintenance-alignment-balancing-form' }"
+      :to="{ name: 'maintenance-alignment-balancing-create' }"
     >
       Cadastrar manutenção
     </CButton>

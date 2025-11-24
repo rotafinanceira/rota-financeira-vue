@@ -53,8 +53,9 @@ function showHelpModal() {
   modalContent.value = 'Quando devo fazer a troca?';
 }
 
-function closeSuccess() {
+async function closeSuccess() {
   isPositiveOpen.value = false;
+  await router.replace({ name: 'maintenances' });
   router.push({ name: 'maintenance-fuel-filter' });
 }
 
@@ -132,8 +133,8 @@ onMounted(async () => {
       ? new Date(m.lastMaintenanceDate).toLocaleDateString('pt-BR')
       : '';
 
-    mileage.value = formatInput(m.lastMaintenanceKm ?? 0);
-    maintenanceValue.value = formatInput(m.valor ?? 0);
+    mileage.value = formatInput(m.lastMaintenanceKm ?? 0, 'unit');
+    maintenanceValue.value = formatInput(m.valor ?? 0, 'money');
     oficina.value = m.oficina ?? '';
   }
 });

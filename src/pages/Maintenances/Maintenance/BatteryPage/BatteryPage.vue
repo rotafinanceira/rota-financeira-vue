@@ -87,7 +87,7 @@ function editMaintenance(m: MappedMaintenance): void {
 
   batteryStore.setSelectedMaintenance(maintenance);
   router.push({
-    name: 'maintenance-battery-form',
+    name: 'maintenance-battery-edit',
     params: { maintenanceId: m.id },
   });
 }
@@ -137,7 +137,7 @@ function editMaintenance(m: MappedMaintenance): void {
       </div>
     </section>
 
-    <CButton variant="primary" :to="{ name: 'maintenance-battery-form' }">
+    <CButton variant="primary" :to="{ name: 'maintenance-battery-create' }">
       Cadastrar manutenção
     </CButton>
 

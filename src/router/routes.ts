@@ -93,7 +93,7 @@ const routes: RouteRecordRaw[] = [
               },
               {
                 path: 'oil/form',
-                name: 'maintenance-oil-form',
+                name: 'maintenance-oil-create',
                 component: () =>
                   import(
                     '@/pages/Maintenances/Maintenance/OilPage/OilPageForm.vue'
@@ -101,7 +101,7 @@ const routes: RouteRecordRaw[] = [
               },
               {
                 path: 'oil/form/:maintenanceId?',
-                name: 'maintenance-oil-form',
+                name: 'maintenance-oil-edit',
                 component: () =>
                   import(
                     '@/pages/Maintenances/Maintenance/OilPage/OilPageForm.vue'
@@ -117,7 +117,7 @@ const routes: RouteRecordRaw[] = [
               },
               {
                 path: 'battery/form',
-                name: 'maintenance-battery-form',
+                name: 'maintenance-battery-create',
                 component: () =>
                   import(
                     '@/pages/Maintenances/Maintenance/BatteryPage/BatteryPageForm.vue'
@@ -125,7 +125,7 @@ const routes: RouteRecordRaw[] = [
               },
               {
                 path: 'battery/form/:maintenanceId?',
-                name: 'maintenance-battery-form',
+                name: 'maintenance-battery-edit',
                 component: () =>
                   import(
                     '@/pages/Maintenances/Maintenance/BatteryPage/BatteryPageForm.vue'
@@ -141,7 +141,7 @@ const routes: RouteRecordRaw[] = [
               },
               {
                 path: 'fuel-filter/form',
-                name: 'maintenance-fuel-filter-form',
+                name: 'maintenance-fuel-filter-create',
                 component: () =>
                   import(
                     '@/pages/Maintenances/Maintenance/FuelFilterPage/FuelFilterPageForm.vue'
@@ -149,7 +149,7 @@ const routes: RouteRecordRaw[] = [
               },
               {
                 path: 'fuel-filter/form/:maintenanceId?',
-                name: 'maintenance-fuel-filter-form',
+                name: 'maintenance-fuel-filter-edit',
                 component: () =>
                   import(
                     '@/pages/Maintenances/Maintenance/FuelFilterPage/FuelFilterPageForm.vue'
@@ -165,7 +165,7 @@ const routes: RouteRecordRaw[] = [
               },
               {
                 path: 'alignment-balancing/form',
-                name: 'maintenance-alignment-balancing-form',
+                name: 'maintenance-alignment-balancing-create',
                 component: () =>
                   import(
                     '@/pages/Maintenances/Maintenance/AlignmentBalancingPage/AlignmentBalancingPageForm.vue'
@@ -173,7 +173,7 @@ const routes: RouteRecordRaw[] = [
               },
               {
                 path: 'alignment-balancing/form/:maintenanceId?',
-                name: 'maintenance-alignment-balancing-form',
+                name: 'maintenance-alignment-balancing-edit',
                 component: () =>
                   import(
                     '@/pages/Maintenances/Maintenance/AlignmentBalancingPage/AlignmentBalancingPageForm.vue'
@@ -189,7 +189,7 @@ const routes: RouteRecordRaw[] = [
               },
               {
                 path: 'air-filter/form',
-                name: 'maintenance-air-filter-form',
+                name: 'maintenance-air-filter-create',
                 component: () =>
                   import(
                     '@/pages/Maintenances/Maintenance/AirFilterPage/AirFilterPageForm.vue'
@@ -197,7 +197,7 @@ const routes: RouteRecordRaw[] = [
               },
               {
                 path: 'air-filter/form/:maintenanceId?',
-                name: 'maintenance-air-filter-form',
+                name: 'maintenance-air-filter-edit',
                 component: () =>
                   import(
                     '@/pages/Maintenances/Maintenance/AirFilterPage/AirFilterPageForm.vue'

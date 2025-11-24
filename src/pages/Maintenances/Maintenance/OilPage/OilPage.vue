@@ -90,7 +90,7 @@ function editMaintenance(m: MappedMaintenance): void {
 
   oilStore.setSelectedMaintenance(maintenance);
   router.push({
-    name: 'maintenance-oil-form',
+    name: 'maintenance-oil-edit',
     params: { maintenanceId: m.id },
   });
 }
@@ -140,7 +140,7 @@ function editMaintenance(m: MappedMaintenance): void {
       </div>
     </section>
 
-    <CButton variant="primary" :to="{ name: 'maintenance-oil-form' }">
+    <CButton variant="primary" :to="{ name: 'maintenance-oil-create' }">
       Cadastrar manutenção
     </CButton>
 
