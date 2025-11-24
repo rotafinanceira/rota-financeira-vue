@@ -34,9 +34,9 @@ export const MAINTENANCE_CONFIG: Record<
   },
   'Wheel Alignment': {
     label: 'Alinhamento e balanceamento',
-    icon: 'wheel',
+    icon: 'alignment',
     route: 'maintenance-alignment-balancing',
-    category: 'wheel',
+    category: 'alignment',
     duration: { years: 1, months: 0 },
   },
   'Battery Change': {

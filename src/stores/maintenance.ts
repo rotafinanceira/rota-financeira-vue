@@ -100,10 +100,6 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
         normalized.tags = resolveTags(normalized);
         normalized.tagInfo = resolveMaintenanceTags(normalized);
 
-        console.log(normalized);
-        console.log(normalized.tags);
-        console.log(normalized.tagInfo);
-
         return normalized;
       });
 

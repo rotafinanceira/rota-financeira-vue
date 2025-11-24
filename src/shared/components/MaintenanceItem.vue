@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   AirFilterIcon,
+  AlignmentIcon,
   ArrowIcon,
   BatteryIcon,
   ChartIcon,
@@ -14,6 +15,7 @@ import { MaintenanceIcons } from '@/shared/types/maintenance';
 import { LineVertical } from '../assets/decorations';
 
 const maintenanceIcons: MaintenanceIcons = {
+  alignment: AlignmentIcon,
   wheel: WheelIcon,
   oil: OilIcon,
   battery: BatteryIcon,

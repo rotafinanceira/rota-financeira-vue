@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowIcon } from '@/shared/assets/icons';
+import { AlignmentIcon, ArrowIcon } from '@/shared/assets/icons';
 import {
   AirFilterIcon,
   BatteryIcon,
@@ -18,6 +18,7 @@ import CTag from '@/shared/components/CTag.vue';
 
 const maintenanceIcons: MaintenanceIcons = {
   wheel: WheelIcon,
+  alignment: AlignmentIcon,
   oil: OilIcon,
   battery: BatteryIcon,
   engine: EngineIcon,
