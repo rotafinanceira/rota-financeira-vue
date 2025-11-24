@@ -46,7 +46,6 @@ watch(
   async (plate) => {
     if (plate) {
       await fuelFilterStore.getMaintenances(plate);
-      console.log(maintenances);
     }
   },
   { immediate: true }

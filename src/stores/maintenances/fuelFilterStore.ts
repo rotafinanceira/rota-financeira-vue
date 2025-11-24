@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
 import type {
   FuelFilterMaintenance,
   FuelFilterPayload,
@@ -11,16 +10,12 @@ export const useFuelFilterStore = defineStore('fuel-filter', () => {
     type: 'fuel-filter',
   });
 
-  const oficina = ref<string>('');
-
   function resetStore() {
     base.resetBaseState();
-    oficina.value = '';
   }
 
   return {
     ...base,
-    oficina,
     resetStore,
   };
 });

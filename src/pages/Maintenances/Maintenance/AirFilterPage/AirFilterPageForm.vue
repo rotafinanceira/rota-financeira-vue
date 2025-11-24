@@ -11,25 +11,30 @@ import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 
-import { useFuelFilterStore } from '@/stores/maintenances/fuelFilterStore';
+import { useAirFilterStore } from '@/stores/maintenances/airFilterStore';
 import { useCarStore } from '@/stores/carStore';
 import {
   formatInput,
   parseInputToNumber,
 } from '@/shared/helper/inputFormatHelper';
+import {
+  AirFilterMaintenance,
+  AirFilterPayload,
+} from '@/shared/types/air-filter-maintenance';
+import CSelect from '@/shared/components/CSelect.vue';
 
-const fuelFilterStore = useFuelFilterStore();
+const airFilterStore = useAirFilterStore();
 const carStore = useCarStore();
 const router = useRouter();
 const route = useRoute();
 
-const { maintenances, isLoading } = storeToRefs(fuelFilterStore);
+const { maintenances, isLoading } = storeToRefs(airFilterStore);
 
 const maintenanceId = route.params.maintenanceId as string | undefined;
 
 const date = ref('');
 const mileage = ref('');
-const filterModel = ref('');
+const selectedServiceType = ref<'clean' | 'change' | null>(null);
 const oficina = ref('');
 const maintenanceValue = ref('R$ 0,00');
 
@@ -38,6 +43,16 @@ const modalContent = ref('Quando devo fazer a troca?');
 const modalDescription = ref<string[]>([]);
 const isPositiveOpen = ref(false);
 const isErrorOpen = ref(false);
+
+interface Option {
+  label: string;
+  value: string;
+}
+
+const serviceOptions: Option[] = [
+  { label: 'Limpeza de filtro', value: 'clean' },
+  { label: 'Troca de filtro', value: 'change' },
+];
 
 const successTitle = ref('Parabéns!');
 const successDescription = ref(
@@ -61,15 +76,7 @@ function showHelpModal() {
 async function closeSuccess() {
   isPositiveOpen.value = false;
   await router.replace({ name: 'maintenances' });
-  router.push({ name: 'maintenance-fuel-filter' });
-}
-
-interface FuelFilterMaintenancePayload {
-  lastMaintenanceDate: string;
-  lastMaintenanceKm: number;
-  filterType: string;
-  valor: number;
-  oficina: string | null;
+  router.push({ name: 'maintenance-air-filter' });
 }
 
 async function handleSubmit() {
@@ -79,19 +86,21 @@ async function handleSubmit() {
     isErrorOpen.value = true;
     return;
   }
+  const [day, month, year] = date.value.split('/');
+  const isoDate = `${year}-${month}-${day}`;
+  const last = maintenances.value.at(-1) as AirFilterMaintenance;
+  const previousChanged = last?.lastChangedDate || isoDate;
 
   isLoading.value = true;
 
   try {
-    const [day, month, year] = date.value.split('/');
-    const isoDate = `${year}-${month}-${day}`;
-
-    const payload: FuelFilterMaintenancePayload = {
-      lastMaintenanceDate: isoDate,
+    const payload: AirFilterPayload = {
       lastMaintenanceKm: parseInputToNumber(mileage.value),
-      filterType: filterModel.value,
       valor: parseInputToNumber(maintenanceValue.value),
       oficina: oficina.value,
+      lastCleanedDate: isoDate,
+      lastChangedDate:
+        selectedServiceType.value === 'change' ? previousChanged : isoDate,
     };
 
     if (maintenanceId) {
@@ -99,12 +108,9 @@ async function handleSubmit() {
       successDescription.value = 'As alterações foram salvas com sucesso.';
     }
 
-    await fuelFilterStore.saveMaintenance(
-      payload,
-      fuelFilterStore.getEditingId
-    );
+    await airFilterStore.saveMaintenance(payload, airFilterStore.getEditingId);
 
-    fuelFilterStore.setSelectedMaintenance(null);
+    airFilterStore.setSelectedMaintenance(null);
     isPositiveOpen.value = true;
   } catch (err) {
     const error = err as AxiosError<{ message?: string }>;
@@ -124,7 +130,7 @@ onMounted(async () => {
   if (!plate) return;
 
   if (!maintenances.value || maintenances.value.length === 0) {
-    const resp = await fuelFilterStore.getMaintenances(plate);
+    const resp = await airFilterStore.getMaintenances(plate);
     console.log(resp);
   }
 
@@ -132,10 +138,10 @@ onMounted(async () => {
     const m = maintenances.value.find((m) => m.id === maintenanceId);
     if (!m) return;
 
-    fuelFilterStore.setSelectedMaintenance(m);
+    airFilterStore.setSelectedMaintenance(m);
 
-    date.value = m.lastMaintenanceDate
-      ? new Date(m.lastMaintenanceDate).toLocaleDateString('pt-BR')
+    date.value = m.lastCleandDate
+      ? new Date(m.lastCleandDate).toLocaleDateString('pt-BR')
       : '';
 
     mileage.value = formatInput(m.lastMaintenanceKm ?? 0, 'unit');
@@ -188,13 +194,12 @@ onMounted(async () => {
             required
           />
 
-          <CInput
-            :value="filterModel"
-            v-model="filterModel"
-            label="Modelo"
-            name="filter-model"
-            placeholder="Digite o modelo utilizado"
-            variant="generic"
+          <CSelect
+            v-model="selectedServiceType as string"
+            name="service"
+            label="Serviço"
+            :options="serviceOptions"
+            placeholder="Selecione uma opção"
           />
 
           <CInput

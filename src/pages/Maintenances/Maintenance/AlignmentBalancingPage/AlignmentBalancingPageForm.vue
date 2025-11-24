@@ -10,6 +10,7 @@ import CButton from '@/shared/components/CButton.vue';
 import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
+import { FuelFilterPayload } from '@/shared/types/fuel-filter-maintenance';
 
 import { useFuelFilterStore } from '@/stores/maintenances/fuelFilterStore';
 import { useCarStore } from '@/stores/carStore';
@@ -59,14 +60,6 @@ async function closeSuccess() {
   router.push({ name: 'maintenance-fuel-filter' });
 }
 
-interface FuelFilterMaintenancePayload {
-  lastMaintenanceDate: string;
-  lastMaintenanceKm: number;
-  filterType: string;
-  valor: number;
-  oficina: string | null;
-}
-
 async function handleSubmit() {
   if (!carStore.firstLicensePlate) {
     errorTitle.value = 'Erro ao salvar manutenção';
@@ -81,10 +74,9 @@ async function handleSubmit() {
     const [day, month, year] = date.value.split('/');
     const isoDate = `${year}-${month}-${day}`;
 
-    const payload: FuelFilterMaintenancePayload = {
+    const payload: FuelFilterPayload = {
       lastMaintenanceDate: isoDate,
       lastMaintenanceKm: parseInputToNumber(mileage.value),
-      filterType: filterModel.value,
       valor: parseInputToNumber(maintenanceValue.value),
       oficina: oficina.value,
     };

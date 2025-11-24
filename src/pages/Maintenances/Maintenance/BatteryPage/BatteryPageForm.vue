@@ -17,6 +17,7 @@ import {
   formatInput,
   parseInputToNumber,
 } from '@/shared/helper/inputFormatHelper';
+import { BatteryPayload } from '@/shared/types/battery-maintenance';
 
 const batteryStore = useBatteryStore();
 const carStore = useCarStore();
@@ -84,15 +85,6 @@ async function closeSuccess() {
   router.push({ name: 'maintenance-battery' });
 }
 
-interface BatteryMaintenancePayload {
-  lastMaintenanceDate: string;
-  lastMaintenanceKm: number;
-  remainingCapacity: number;
-  valor: number;
-  batteryBrand: string;
-  oficina: string;
-}
-
 async function handleSubmit() {
   if (!carStore.firstLicensePlate) {
     errorTitle.value = 'Erro ao salvar manutenção';
@@ -107,7 +99,7 @@ async function handleSubmit() {
     const [day, month, year] = date.value.split('/');
     const isoDate = `${year}-${month}-${day}`;
 
-    const payload: BatteryMaintenancePayload = {
+    const payload: BatteryPayload = {
       lastMaintenanceDate: isoDate,
       lastMaintenanceKm: parseInputToNumber(mileage.value),
       remainingCapacity: Number(capacity.value),

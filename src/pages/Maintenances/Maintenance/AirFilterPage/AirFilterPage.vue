@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 import { QSpinner } from 'quasar';
 
 import { useCarStore } from '@/stores/carStore';
-import { useFuelFilterStore } from '@/stores/maintenances/fuelFilterStore';
+import { useAirFilterStore } from '@/stores/maintenances/airFilterStore';
 
 import CDivider from '@/shared/components/CDivider.vue';
 import CTag from '@/shared/components/CTag.vue';
@@ -28,17 +28,17 @@ import {
 import { MappedMaintenance } from '@/shared/types/fuel-filter-maintenance';
 
 const router = useRouter();
-const fuelFilterStore = useFuelFilterStore();
+const airFilterStore = useAirFilterStore();
 const carStore = useCarStore();
 
 const { maintenances, isOverdue, isLoading, nextMaintenanceKm } =
-  storeToRefs(fuelFilterStore);
+  storeToRefs(airFilterStore);
 
 const hasMaintenances = computed(() => maintenances.value.length > 0);
 const isEmpty = computed(() => !hasMaintenances.value);
 
 onMounted(async () => {
-  fuelFilterStore.resetStore();
+  airFilterStore.resetStore();
   await carStore.getCars();
 });
 
@@ -46,8 +46,7 @@ watch(
   () => carStore.firstLicensePlate,
   async (plate) => {
     if (plate) {
-      await fuelFilterStore.getMaintenances(plate);
-      console.log(maintenances);
+      await airFilterStore.getMaintenances(plate);
     }
   },
   { immediate: true }
@@ -56,8 +55,8 @@ watch(
 const mappedMaintenances = computed<MappedMaintenance[]>(() =>
   [...maintenances.value].reverse().map((m) => ({
     id: m.id,
-    date: m.lastMaintenanceDate
-      ? new Date(m.lastMaintenanceDate)
+    date: m.lastChangedDate
+      ? new Date(m.lastChangedDate)
           .toLocaleDateString('pt-BR', {
             weekday: 'long',
             day: 'numeric',
@@ -84,7 +83,7 @@ function editMaintenance(m: MappedMaintenance): void {
   const maintenance = maintenances.value.find((item) => item.id === m.id);
   if (!maintenance) return;
 
-  fuelFilterStore.setSelectedMaintenance(maintenance);
+  airFilterStore.setSelectedMaintenance(maintenance);
   router.push({
     name: 'maintenance-air-filter-edit',
     params: { maintenanceId: m.id },

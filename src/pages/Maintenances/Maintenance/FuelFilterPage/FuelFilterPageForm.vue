@@ -17,6 +17,7 @@ import {
   formatInput,
   parseInputToNumber,
 } from '@/shared/helper/inputFormatHelper';
+import { FuelFilterPayload } from '@/shared/types/fuel-filter-maintenance';
 
 const fuelFilterStore = useFuelFilterStore();
 const carStore = useCarStore();
@@ -29,7 +30,6 @@ const maintenanceId = route.params.maintenanceId as string | undefined;
 
 const date = ref('');
 const mileage = ref('');
-const filterModel = ref('');
 const oficina = ref('');
 const maintenanceValue = ref('R$ 0,00');
 
@@ -65,14 +65,6 @@ async function closeSuccess() {
   router.push({ name: 'maintenance-fuel-filter' });
 }
 
-interface FuelFilterMaintenancePayload {
-  lastMaintenanceDate: string;
-  lastMaintenanceKm: number;
-  filterType: string;
-  valor: number;
-  oficina: string | null;
-}
-
 async function handleSubmit() {
   if (!carStore.firstLicensePlate) {
     errorTitle.value = 'Erro ao salvar manutenção';
@@ -87,10 +79,9 @@ async function handleSubmit() {
     const [day, month, year] = date.value.split('/');
     const isoDate = `${year}-${month}-${day}`;
 
-    const payload: FuelFilterMaintenancePayload = {
+    const payload: FuelFilterPayload = {
       lastMaintenanceDate: isoDate,
       lastMaintenanceKm: parseInputToNumber(mileage.value),
-      filterType: filterModel.value,
       valor: parseInputToNumber(maintenanceValue.value),
       oficina: oficina.value,
     };

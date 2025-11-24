@@ -1,28 +1,23 @@
-export interface BatteryMaintenance {
+export interface AlignmentMaintenance {
   id: string;
   lastMaintenanceDate: string;
   lastMaintenanceKm: number;
-  remainingCapacity: string;
-  BatteryQuantityLt: number;
   valor: number;
   status: string;
-  batteryBrand?: string | null;
+  oficina?: string | null;
   nextMaintenanceMileage: number;
-  oficina: string | null;
 }
 
-export interface BatteryState {
+export interface AlignmentState {
   date: string;
-  mileage: string | null;
-  capacity: string;
-  brand: string;
+  mileage: string;
+  oficina: string | null;
   carId: number | null;
   isLoading: boolean;
-  maintenances: BatteryMaintenance[];
+  maintenances: AlignmentMaintenance[];
   isOverdue: boolean;
   nextMaintenanceKm: number | null;
-  selectedMaintenance: BatteryMaintenance | null;
-  oficina: string | null;
+  selectedMaintenance: AlignmentMaintenance | null;
 }
 
 export interface MappedMaintenance {
@@ -30,15 +25,12 @@ export interface MappedMaintenance {
   date: string;
   km: string;
   price: string;
-  capacity: string;
   oficina: string;
 }
 
-export interface BatteryPayload {
+export interface AlignmentPayload {
   lastMaintenanceDate: string;
   lastMaintenanceKm: number;
-  remainingCapacity: number;
   valor: number;
-  batteryBrand: string | null;
   oficina: string | null;
 }

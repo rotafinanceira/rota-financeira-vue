@@ -12,6 +12,7 @@ export function createMaintenanceBase<TMaintenance, TPayload>(options: {
   const date = ref<string>('');
   const mileage = ref<string>('');
   const isLoading = ref<boolean>(false);
+  const oficina = ref<string>('');
 
   const maintenances = ref<TMaintenance[]>([]);
   const selectedMaintenance = ref<TMaintenance | null>(null);
@@ -26,6 +27,7 @@ export function createMaintenanceBase<TMaintenance, TPayload>(options: {
     date.value = '';
     mileage.value = '';
     isLoading.value = false;
+    oficina.value = '';
     maintenances.value = [];
     selectedMaintenance.value = null;
     nextMaintenanceKm.value = null;
