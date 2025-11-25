@@ -1,7 +1,6 @@
 export interface AirFilterMaintenance {
   id: string;
   lastChangedDate: string;
-  lastCleandDate: string;
   lastMaintenanceKm: number;
   valor: number;
   status: string;

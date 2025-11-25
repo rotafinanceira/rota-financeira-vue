@@ -17,10 +17,7 @@ import {
   formatInput,
   parseInputToNumber,
 } from '@/shared/helper/inputFormatHelper';
-import {
-  AirFilterMaintenance,
-  AirFilterPayload,
-} from '@/shared/types/air-filter-maintenance';
+import { AirFilterPayload } from '@/shared/types/air-filter-maintenance';
 import CSelect from '@/shared/components/CSelect.vue';
 
 const airFilterStore = useAirFilterStore();
@@ -34,7 +31,6 @@ const maintenanceId = route.params.maintenanceId as string | undefined;
 
 const date = ref('');
 const mileage = ref('');
-const selectedServiceType = ref<'clean' | 'change' | null>(null);
 const oficina = ref('');
 const maintenanceValue = ref('R$ 0,00');
 
@@ -137,8 +133,8 @@ onMounted(async () => {
 
     airFilterStore.setSelectedMaintenance(m);
 
-    date.value = m.lastCleandDate
-      ? new Date(m.lastCleandDate).toLocaleDateString('pt-BR')
+    date.value = m.lastChangedDate
+      ? new Date(m.lastChangedDate).toLocaleDateString('pt-BR')
       : '';
 
     mileage.value = formatInput(m.lastMaintenanceKm ?? 0, 'unit');
@@ -192,7 +188,6 @@ onMounted(async () => {
           />
 
           <CSelect
-            v-model="selectedServiceType as string"
             name="service"
             label="Serviço"
             :options="serviceOptions"
