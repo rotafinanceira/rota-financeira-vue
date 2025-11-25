@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 import { QSpinner } from 'quasar';
 
 import { useCarStore } from '@/stores/carStore';
-import { useFuelFilterStore } from '@/stores/maintenances/fuelFilterStore';
+import { useAlignmentStore } from '@/stores/maintenances/alignmentStore';
 
 import CDivider from '@/shared/components/CDivider.vue';
 import CTag from '@/shared/components/CTag.vue';
@@ -27,17 +27,17 @@ import {
 import { MappedMaintenance } from '@/shared/types/fuel-filter-maintenance';
 
 const router = useRouter();
-const fuelFilterStore = useFuelFilterStore();
+const alignmentStore = useAlignmentStore();
 const carStore = useCarStore();
 
 const { maintenances, isOverdue, isLoading, nextMaintenanceKm } =
-  storeToRefs(fuelFilterStore);
+  storeToRefs(alignmentStore);
 
 const hasMaintenances = computed(() => maintenances.value.length > 0);
 const isEmpty = computed(() => !hasMaintenances.value);
 
 onMounted(async () => {
-  fuelFilterStore.resetStore();
+  alignmentStore.resetStore();
   await carStore.getCars();
 });
 
@@ -45,7 +45,7 @@ watch(
   () => carStore.firstLicensePlate,
   async (plate) => {
     if (plate) {
-      await fuelFilterStore.getMaintenances(plate);
+      await alignmentStore.getMaintenances(plate);
     }
   },
   { immediate: true }
@@ -54,8 +54,8 @@ watch(
 const mappedMaintenances = computed<MappedMaintenance[]>(() =>
   [...maintenances.value].reverse().map((m) => ({
     id: m.id,
-    date: m.lastMaintenanceDate
-      ? new Date(m.lastMaintenanceDate)
+    date: m.lastAlignmentBalanceDate
+      ? new Date(m.lastAlignmentBalanceDate)
           .toLocaleDateString('pt-BR', {
             weekday: 'long',
             day: 'numeric',
@@ -82,7 +82,7 @@ function editMaintenance(m: MappedMaintenance): void {
   const maintenance = maintenances.value.find((item) => item.id === m.id);
   if (!maintenance) return;
 
-  fuelFilterStore.setSelectedMaintenance(maintenance);
+  alignmentStore.setSelectedMaintenance(maintenance);
   router.push({
     name: 'maintenance-alignment-balancing-edit',
     params: { maintenanceId: m.id },

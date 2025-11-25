@@ -1,6 +1,6 @@
 export interface AlignmentMaintenance {
   id: string;
-  lastMaintenanceDate: string;
+  lastAlignmentBalanceDate: string;
   lastMaintenanceKm: number;
   valor: number;
   status: string;
@@ -29,7 +29,10 @@ export interface MappedMaintenance {
 }
 
 export interface AlignmentPayload {
-  lastMaintenanceDate: string;
+  lastAlignmentBalanceDate: string;
+  lastWheelRotationDate: string;
+  lastWheelChangeDate: string;
+  wheelRim: number;
   lastMaintenanceKm: number;
   valor: number;
   oficina: string | null;

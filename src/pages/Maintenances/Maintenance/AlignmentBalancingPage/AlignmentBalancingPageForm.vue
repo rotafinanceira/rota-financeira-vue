@@ -9,28 +9,45 @@ import { storeToRefs } from 'pinia';
 import CButton from '@/shared/components/CButton.vue';
 import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
+import CSelect from '@/shared/components/CSelect.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
-import { FuelFilterPayload } from '@/shared/types/fuel-filter-maintenance';
+import { AlignmentPayload } from '@/shared/types/alignment-maintenance';
 
-import { useFuelFilterStore } from '@/stores/maintenances/fuelFilterStore';
+import { useAlignmentStore } from '@/stores/maintenances/alignmentStore';
 import { useCarStore } from '@/stores/carStore';
 import {
   formatInput,
   parseInputToNumber,
 } from '@/shared/helper/inputFormatHelper';
 
-const fuelFilterStore = useFuelFilterStore();
+interface Option {
+  label: string;
+  value: string | number;
+}
+
+const serviceOptions: Option[] = [
+  { label: 'Alinhamento', value: 'align' },
+  { label: 'Balanceamento', value: 'balance' },
+  { label: 'Alinhamento e Balanceamento', value: 'align-balance' },
+];
+
+const wheelOptions: Option[] = [
+  { label: 'Dianteiras', value: 1 },
+  { label: 'Traseiras', value: 2 },
+  { label: 'Todas', value: 3 },
+];
+
+const alignmentStore = useAlignmentStore();
 const carStore = useCarStore();
 const router = useRouter();
 const route = useRoute();
 
-const { maintenances, isLoading } = storeToRefs(fuelFilterStore);
+const { maintenances, isLoading } = storeToRefs(alignmentStore);
 
 const maintenanceId = route.params.maintenanceId as string | undefined;
 
 const date = ref('');
 const mileage = ref('');
-const filterModel = ref('');
 const oficina = ref('');
 const maintenanceValue = ref('R$ 0,00');
 
@@ -57,7 +74,7 @@ function showHelpModal() {
 async function closeSuccess() {
   isPositiveOpen.value = false;
   await router.replace({ name: 'maintenances' });
-  router.push({ name: 'maintenance-fuel-filter' });
+  router.push({ name: 'maintenance-alignment-balancing' });
 }
 
 async function handleSubmit() {
@@ -74,8 +91,11 @@ async function handleSubmit() {
     const [day, month, year] = date.value.split('/');
     const isoDate = `${year}-${month}-${day}`;
 
-    const payload: FuelFilterPayload = {
-      lastMaintenanceDate: isoDate,
+    const payload: AlignmentPayload = {
+      lastAlignmentBalanceDate: isoDate,
+      lastWheelRotationDate: isoDate,
+      lastWheelChangeDate: isoDate,
+      wheelRim: 0,
       lastMaintenanceKm: parseInputToNumber(mileage.value),
       valor: parseInputToNumber(maintenanceValue.value),
       oficina: oficina.value,
@@ -86,12 +106,9 @@ async function handleSubmit() {
       successDescription.value = 'As alterações foram salvas com sucesso.';
     }
 
-    await fuelFilterStore.saveMaintenance(
-      payload,
-      fuelFilterStore.getEditingId
-    );
+    await alignmentStore.saveMaintenance(payload, alignmentStore.getEditingId);
 
-    fuelFilterStore.setSelectedMaintenance(null);
+    alignmentStore.setSelectedMaintenance(null);
     isPositiveOpen.value = true;
   } catch (err) {
     const error = err as AxiosError<{ message?: string }>;
@@ -111,18 +128,17 @@ onMounted(async () => {
   if (!plate) return;
 
   if (!maintenances.value || maintenances.value.length === 0) {
-    const resp = await fuelFilterStore.getMaintenances(plate);
-    console.log(resp);
+    await alignmentStore.getMaintenances(plate);
   }
 
   if (maintenanceId) {
     const m = maintenances.value.find((m) => m.id === maintenanceId);
     if (!m) return;
 
-    fuelFilterStore.setSelectedMaintenance(m);
+    alignmentStore.setSelectedMaintenance(m);
 
-    date.value = m.lastMaintenanceDate
-      ? new Date(m.lastMaintenanceDate).toLocaleDateString('pt-BR')
+    date.value = m.lastAlignmentBalanceDate
+      ? new Date(m.lastAlignmentBalanceDate).toLocaleDateString('pt-BR')
       : '';
 
     mileage.value = formatInput(m.lastMaintenanceKm ?? 0, 'unit');
@@ -176,13 +192,20 @@ onMounted(async () => {
             required
           />
 
-          <CInput
-            :value="filterModel"
-            v-model="filterModel"
-            label="Modelo"
-            name="filter-model"
-            placeholder="Digite o modelo utilizado"
-            variant="generic"
+          <CSelect
+            name="service"
+            label="Serviço"
+            :options="serviceOptions"
+            placeholder="Selecione uma opção"
+            required
+          />
+
+          <CSelect
+            name="service"
+            label="Serviço"
+            :options="wheelOptions"
+            placeholder="Selecione uma opção"
+            required
           />
 
           <CInput
