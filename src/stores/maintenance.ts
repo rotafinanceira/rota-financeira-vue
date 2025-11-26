@@ -298,6 +298,12 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
               text: `Vence em ${diff} dia${diff > 1 ? 's' : ''}`,
               variant: 'default',
             });
+          } else if (diff > 5 && pending === 0) {
+            tagInfos.push({
+              key: 'PENDING',
+              text: 'Sem pendências',
+              variant: 'default',
+            });
           }
         }
       }
