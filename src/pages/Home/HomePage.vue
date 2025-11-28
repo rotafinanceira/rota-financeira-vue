@@ -16,8 +16,8 @@
 
         <div>
           <span class="last-km">
-            Última quilometragem <br />
-            registrada: {{ lastMileage ?? '000.000' }} Km
+            Data da última manutenção <br />
+            registrada: {{ lastMaintenanceDate }}
           </span>
         </div>
 
@@ -225,17 +225,23 @@ const maintenanceSummary = ref({
   pendingCount: 0,
 });
 
+const lastMaintenanceDate = computed(() => {
+  const lastUpdate = carStore.car?.lastMileageUpdate?.date;
+
+  if (!lastUpdate) return '00/00/0000';
+
+  return new Date(lastUpdate).toLocaleDateString('pt-BR');
+});
+
 const onSubmit = handleSubmit(async (values) => {
   const mileageNumber = parseLocalizedNumber(values.mileage);
   try {
-    lastMileage.value = currentMileage.value ?? mileageNumber;
-
     if (carStore.firstLicensePlate) {
       await carStore.updateCarMileage(
         carStore.firstLicensePlate,
         mileageNumber
       );
-      await carStore.getCars();
+      await carStore.getCarByPlate(carStore.firstLicensePlate);
     }
 
     isMileageModalOpen.value = false;
@@ -250,20 +256,15 @@ const onSubmit = handleSubmit(async (values) => {
 const hasCarRegistered = computed(() => carStore.cars.length > 0);
 
 const currentMileage = computed(() => {
-  const mileage = carStore.cars[0]?.current_mileage ?? null;
+  const mileage = carStore.car?.current_mileage ?? null;
   return mileage == null ? null : mileage.toLocaleString('pt-BR');
 });
 
 onMounted(async () => {
   await carStore.getCars();
 
-  const mileageNumber = carStore.cars[0]?.current_mileage;
-
-  if (mileageNumber != null) {
-    lastMileage.value = mileageNumber.toLocaleString('pt-BR');
-  }
-
   if (carStore.firstLicensePlate) {
+    await carStore.getCarByPlate(carStore.firstLicensePlate);
     const summary = await maintenanceStore.getMaintenanceSummary(
       carStore.firstLicensePlate
     );

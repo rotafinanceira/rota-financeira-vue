@@ -2,6 +2,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { api } from '@/boot/axios';
+import { Car } from '@/shared/types/car';
 const baseApi = import.meta.env.VITE_ROTA_API;
 
 export type CarRegisterPayload = {
@@ -29,8 +30,8 @@ export type CarUpdatePayload = {
 };
 
 export const useCarStore = defineStore('car', () => {
-  const cars = ref<any[]>([]);
-  const car = ref<any | null>(null);
+  const cars = ref<Car[]>([]);
+  const car = ref<Car | null>(null);
   const error = ref<any | null>(null);
   const isLoading = ref(false);
   const firstLicensePlate = ref<string | null>(null);
@@ -72,18 +73,17 @@ export const useCarStore = defineStore('car', () => {
   async function getCars() {
     isLoading.value = true;
     error.value = null;
+
     try {
-      const { data } = await api().get(`${baseApi}/v1/cars`);
+      const { data } = await api().get<Car[]>(`${baseApi}/v1/cars`);
+
       cars.value = data;
-      if (Array.isArray(data) && data.length > 0) {
-        firstLicensePlate.value = data[0].license_plate || null;
-      } else {
-        firstLicensePlate.value = null;
-      }
+
+      firstLicensePlate.value = data[0]?.license_plate ?? null;
+
       return data;
-    } catch (e: unknown) {
-      const err = e as any;
-      error.value = err.response?.data || err;
+    } catch (e: any) {
+      error.value = e.response?.data || e;
       throw error.value;
     } finally {
       isLoading.value = false;
@@ -96,6 +96,7 @@ export const useCarStore = defineStore('car', () => {
     try {
       const { data } = await api().get(`${baseApi}/v1/cars/${license_plate}`);
       car.value = data;
+      console.log(data);
       return data;
     } catch (e: unknown) {
       const err = e as any;
