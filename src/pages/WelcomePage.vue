@@ -68,7 +68,7 @@ const continueWithGoogle = () => {
 .intro {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
 
   &__title {
     color: white;
@@ -91,7 +91,7 @@ const continueWithGoogle = () => {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
 
   &__white {
     background-color: white;

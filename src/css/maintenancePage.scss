@@ -1,11 +1,11 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 1.5rem;
 
   &__header {
     display: flex;
-    gap: 8px;
+    gap: 0.5rem;
     align-items: center;
 
     h1 {
@@ -29,8 +29,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 16px;
-    padding: 16px;
+    gap: 1rem;
+    padding: 1rem;
   }
 
   &__title {
@@ -47,17 +47,17 @@
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .maintenances {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 1.5rem;
 
   &__header {
     display: flex;
-    gap: 8px;
+    gap: 0.5rem;
     align-items: center;
 
     h1 {
