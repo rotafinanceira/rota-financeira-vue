@@ -74,7 +74,8 @@ const mappedMaintenances = computed<MappedMaintenance[]>(() =>
         }).format(Number(m.valor))
       : '-',
 
-    capacity: m.remainingCapacity || '-',
+    voltage: m.voltage ?? null,
+    amperage: m.amperage ?? null,
 
     brand: m.batteryBrand || '-',
     oficina: m.oficina || '-',
@@ -179,10 +180,19 @@ function editMaintenance(m: MappedMaintenance): void {
               :title="m.price.toString()"
               variant="default"
             />
+
             <CTag
+              v-if="m.voltage"
               :icon="BatteryIcon"
               :id="4"
-              :title="m.capacity"
+              :title="m.voltage"
+              variant="default"
+            />
+            <CTag
+              v-if="m.amperage"
+              :icon="BatteryIcon"
+              :id="5"
+              :title="m.amperage"
               variant="default"
             />
           </div>

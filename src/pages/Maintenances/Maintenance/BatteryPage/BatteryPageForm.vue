@@ -30,7 +30,8 @@ const maintenanceId = route.params.maintenanceId as string | undefined;
 
 const date = ref('');
 const mileage = ref('');
-const capacity = ref('');
+const amperage = ref('');
+const voltage = ref('');
 const brand = ref('');
 const maintenanceValue = ref('R$ 0,00');
 const oficina = ref('');
@@ -40,10 +41,22 @@ interface Option {
   value: string;
 }
 
-const capacityOptions: Option[] = [
-  { label: '60 Ah', value: '60' },
-  { label: '80 Ah', value: '80' },
-  { label: '120 Ah', value: '120' },
+const amperageOptions: Option[] = [
+  { label: '40 a 45Ah', value: '40 a 45Ah' },
+  { label: '50 a 60Ah', value: '50 a 60Ah' },
+  { label: '65 a 70Ah', value: '65 a 70Ah' },
+];
+
+const voltageOptions: Option[] = [
+  { label: '12V', value: '12V' },
+  { label: '24V', value: '24V' },
+];
+
+const brandOptions: Option[] = [
+  { label: 'Moura', value: 'Moura' },
+  { label: 'Heliar', value: 'Heliar' },
+  { label: 'Bosch', value: 'Bosch' },
+  { label: 'Bosch', value: 'Outros' },
 ];
 
 const isOpen = ref(false);
@@ -63,9 +76,7 @@ const errorDescription = ref(
 );
 
 const isFormInvalid = computed(() => {
-  return (
-    !mileage.value || !date.value || !maintenanceValue.value || !capacity.value
-  );
+  return !mileage.value || !date.value || !maintenanceValue.value;
 });
 
 function showHelpModal() {
@@ -102,7 +113,8 @@ async function handleSubmit() {
     const payload: BatteryPayload = {
       lastMaintenanceDate: isoDate,
       lastMaintenanceKm: parseInputToNumber(mileage.value),
-      remainingCapacity: Number(capacity.value),
+      voltage: voltage.value,
+      amperage: amperage.value,
       valor: parseInputToNumber(maintenanceValue.value),
       batteryBrand: brand.value,
       oficina: oficina.value,
@@ -152,7 +164,8 @@ onMounted(async () => {
     mileage.value = formatInput(m.lastMaintenanceKm ?? 0, 'unit');
     maintenanceValue.value = formatInput(m.valor ?? 0, 'money');
     brand.value = m.batteryBrand ?? '';
-    capacity.value = m.remainingCapacity.toString() ?? '';
+    amperage.value = m.amperage ?? '';
+    voltage.value = m.voltage ?? '';
     oficina.value = m.oficina ?? '';
   }
 });
@@ -203,20 +216,28 @@ onMounted(async () => {
           />
 
           <CSelect
-            v-model="capacity"
-            name="capacity"
-            label="Amperagem*"
-            :options="capacityOptions"
-            placeholder="Selecione uma opção"
-          />
-
-          <CInput
             :value="brand"
             v-model="brand"
             label="Marca"
             name="battery-brand"
             placeholder="Digite a marca utilizada"
-            variant="generic"
+            :options="brandOptions"
+          />
+
+          <CSelect
+            v-model="amperage"
+            name="amperage"
+            label="Amperagem"
+            :options="amperageOptions"
+            placeholder="Selecione uma opção"
+          />
+
+          <CSelect
+            v-model="voltage"
+            name="voltage"
+            label="Voltagem"
+            :options="voltageOptions"
+            placeholder="Selecione uma opção"
           />
 
           <CInput
