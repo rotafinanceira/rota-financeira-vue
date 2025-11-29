@@ -83,10 +83,12 @@ function showHelpModal() {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
   modalDescription.value = [
-    'Substitua a bateria se já tiver mais de 3 anos de uso;',
-    'Troque a bateria se o carro apresentar dificuldade para ligar;',
-    'Verifique a carga da bateria se as luzes internas estiverem fracas;',
-    'Limpe os terminais ou troque a bateria em caso de corrosão visível. ',
+    'A vida útil média da bateria é de 2 a 3 anos, podendo variar conforme o uso do veículo.',
+    'Fique atento a sinais como dificuldade de dar partida, luz da bateria acesa no painel ou falhas em equipamentos elétricos.',
+    'Evite utilizar som, ar-condicionado ou luzes do carro por muito tempo com o motor desligado, pois isso reduz a durabilidade da bateria.',
+    'Sempre confira se os polos estão limpos e bem conectados; mau contato pode simular defeito. ',
+    'Em caso de vazamentos, inchaço ou cheiro forte de enxofre, a troca deve ser imediata.',
+    'Para veículos que ficam parados por longos períodos, recomenda-se ligar o motor pelo menos uma vez por semana para manter a carga.',
   ];
 }
 
