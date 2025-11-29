@@ -21,7 +21,7 @@ export interface MaintenanceData {
   pendingSteps: number;
   nextDueDate?: string;
   completedAt?: string | null;
-  date?: string;
+  date: string;
   tagInfo?: {
     key: MaintenanceTag;
     text: string;

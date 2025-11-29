@@ -252,59 +252,51 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
     const cfg = getConfig(m.type);
     const validity = cfg?.duration;
 
-    const pending = m.data?.pendingSteps ?? 0;
+    const pendingSteps = m.data?.pendingSteps ?? 0;
+
+    const expireDate = addDuration(new Date(m.data.date), validity);
+
+    const diff = Math.ceil((expireDate.getTime() - now.getTime()) / msPerDay);
 
     tags.forEach((tag) => {
-      if (tag === 'TO_FILL' && pending > 0) {
+      if (tag === 'TO_FILL' && pendingSteps > 0) {
         tagInfos.push({
           key: 'TO_FILL',
-          text: `Preencher ${pending} etapa${pending > 1 ? 's' : ''}`,
+          text: `Preencher ${pendingSteps} etapa${pendingSteps > 1 ? 's' : ''}`,
           variant: 'alert',
         });
       }
 
       if (tag === 'EXPIRED') {
-        const expireDate = m.data?.date
-          ? addDuration(new Date(m.data.date), validity)
-          : null;
+        const formatter = new Intl.DateTimeFormat('pt-BR', {
+          day: 'numeric',
+          month: 'short',
+        });
 
-        if (expireDate) {
-          const formatter = new Intl.DateTimeFormat('pt-BR', {
-            day: 'numeric',
-            month: 'short',
-          });
+        tagInfos.push({
+          key: 'EXPIRED',
+          text: `Venceu ${formatter.format(expireDate)}`,
+          variant: 'error',
+        });
+      }
 
+      if (tag === 'PENDING') {
+        if (diff > 0 && diff <= 5) {
           tagInfos.push({
-            key: 'EXPIRED',
-            text: `Venceu ${formatter.format(expireDate)}`,
-            variant: 'error',
+            key: 'PENDING',
+            text: `Vence em ${diff} dia${diff > 1 ? 's' : ''}`,
+            variant: 'default',
           });
         }
       }
 
-      if (tag === 'PENDING') {
-        const expireDate = m.data?.date
-          ? addDuration(new Date(m.data.date), validity)
-          : null;
-
-        if (expireDate) {
-          const diff = Math.ceil(
-            (expireDate.getTime() - now.getTime()) / msPerDay
-          );
-
-          if (diff <= 5) {
-            tagInfos.push({
-              key: 'PENDING',
-              text: `Vence em ${diff} dia${diff > 1 ? 's' : ''}`,
-              variant: 'default',
-            });
-          } else if (diff > 5 && pending === 0) {
-            tagInfos.push({
-              key: 'PENDING',
-              text: 'Sem pendências',
-              variant: 'default',
-            });
-          }
+      if (tag === 'PENDING' && pendingSteps === 0) {
+        if (diff > 5) {
+          tagInfos.push({
+            key: 'PENDING',
+            text: 'Sem pendências',
+            variant: 'default',
+          });
         }
       }
     });
