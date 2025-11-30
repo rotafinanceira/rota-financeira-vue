@@ -83,7 +83,7 @@ async function handleSubmit() {
       lastMaintenanceDate: isoDate,
       lastMaintenanceKm: parseInputToNumber(mileage.value),
       valor: parseInputToNumber(maintenanceValue.value),
-      oficina: oficina.value,
+      oficina: oficina.value?.trim() || null,
     };
 
     if (maintenanceId) {

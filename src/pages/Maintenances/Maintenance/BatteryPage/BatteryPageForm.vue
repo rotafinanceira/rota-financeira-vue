@@ -115,11 +115,11 @@ async function handleSubmit() {
     const payload: BatteryPayload = {
       lastMaintenanceDate: isoDate,
       lastMaintenanceKm: parseInputToNumber(mileage.value),
-      voltage: voltage.value,
-      amperage: amperage.value,
+      voltage: voltage.value?.trim() || null,
+      amperage: amperage.value?.trim() || null,
       valor: parseInputToNumber(maintenanceValue.value),
-      batteryBrand: brand.value,
-      oficina: oficina.value,
+      batteryBrand: brand.value?.trim() || null,
+      oficina: oficina.value?.trim() || null,
     };
 
     if (maintenanceId) {

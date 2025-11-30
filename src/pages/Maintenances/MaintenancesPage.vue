@@ -149,21 +149,17 @@ const filteredMaintenances = computed(() => {
 });
 
 const maintenanceItems = computed(() =>
-  filteredMaintenances.value
-    .filter(
-      (m) => m.type === 'Battery Change' || m.type === 'Fuel Filter Change'
-    )
-    .map((m) => {
-      const cfg = MAINTENANCE_CONFIG[m.type];
+  filteredMaintenances.value.map((m) => {
+    const cfg = MAINTENANCE_CONFIG[m.type];
 
-      return {
-        title: cfg?.label ?? m.type,
-        icon: cfg?.icon ?? 'wheel',
-        maintenanceData: m,
-        routeName: cfg?.route ?? '',
-        tags: m.tags || [],
-      };
-    })
+    return {
+      title: cfg?.label ?? m.type,
+      icon: cfg?.icon ?? 'wheel',
+      maintenanceData: m,
+      routeName: cfg?.route ?? '',
+      tags: m.tags || [],
+    };
+  })
 );
 
 const expiredMaintenances = computed(() =>

@@ -2,8 +2,8 @@ export interface BatteryMaintenance {
   id: string;
   lastMaintenanceDate: string;
   lastMaintenanceKm: number;
-  voltage: string;
-  amperage: string;
+  voltage?: string | null;
+  amperage?: string | null;
   BatteryQuantityLt: number;
   valor: number;
   status: string;
@@ -15,8 +15,8 @@ export interface BatteryMaintenance {
 export interface BatteryState {
   date: string;
   mileage: string | null;
-  voltage: string;
-  amperage: string;
+  voltage: string | null;
+  amperage: string | null;
   brand: string;
   carId: number | null;
   isLoading: boolean;
@@ -32,16 +32,16 @@ export interface MappedMaintenance {
   date: string;
   km: string;
   price: string;
-  voltage: string;
-  amperage: string;
-  oficina: string;
+  voltage: string | null;
+  amperage: string | null;
+  oficina: string | null;
 }
 
 export interface BatteryPayload {
   lastMaintenanceDate: string;
   lastMaintenanceKm: number;
-  voltage: string;
-  amperage: string;
+  voltage?: string | null;
+  amperage?: string | null;
   valor: number;
   batteryBrand: string | null;
   oficina: string | null;

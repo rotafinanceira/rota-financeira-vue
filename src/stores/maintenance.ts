@@ -47,6 +47,8 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
 
     if (status === 'EXPIRED') tags.push('EXPIRED');
 
+    console.log(m.data);
+
     const hasToFill =
       (m.data?.pendingSteps && m.data.pendingSteps > 0) ||
       (m.pendingRegistration && m.pendingRegistration > 0);
@@ -215,8 +217,6 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
             .replace('-feira', '')
             .replace(/\b\w/, (c) => c.toLowerCase())
             .trim();
-
-          console.log(formatted);
 
           description = `Venceu ${formatted}`;
         } else if (status === 'PENDING' && daysDiff <= 5) {

@@ -77,8 +77,8 @@ const mappedMaintenances = computed<MappedMaintenance[]>(() =>
     voltage: m.voltage ?? null,
     amperage: m.amperage ?? null,
 
-    brand: m.batteryBrand || '-',
-    oficina: m.oficina || '-',
+    brand: m.batteryBrand ?? null,
+    oficina: m.oficina ?? null,
   }))
 );
 
