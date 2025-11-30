@@ -67,7 +67,7 @@ const isErrorOpen = ref(false);
 
 const successTitle = ref('Parabéns!');
 const successDescription = ref(
-  'Parabéns! Você cadastrou a manutenção da Bateria do seu veículo. Iremos lhe informar sobre a próxima substituição.'
+  'Você cadastrou a manutenção da Bateria do seu veículo. Iremos lhe informar sobre a próxima substituição.'
 );
 
 const errorTitle = ref('Algo deu errado!');
