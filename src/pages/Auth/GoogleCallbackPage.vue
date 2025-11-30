@@ -16,17 +16,17 @@ const registerStore = useRegisterStore();
 
 onMounted(() => {
   const token = route.query.token as string;
-  
+
   if (token) {
     console.log('Token recebido via Google Callback:', token);
     registerStore.setSession(token);
-    
+
     // Redireciona para a home ou página de sucesso
-    router.push({ name: 'home' }); 
+    router.push({ name: '/app/home' });
   } else {
-    console.error('Nenhum token recebido no callback do Google.');
+    console.error('Nenhum token recebido no callback do Google. Redirecionando para signin...');
     // Redireciona de volta para o login em caso de erro
-    router.push({ name: 'login' });
+    router.push({ path: '/app/home' });
   }
 });
 </script>
