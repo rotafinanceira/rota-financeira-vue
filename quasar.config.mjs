@@ -4,7 +4,7 @@ import path from 'path';
 export default configure(function (/* ctx */) {
   return {
     // ...existing code...
-    boot: ['pinia'],
+    boot: [],
     css: ['app.scss'],
     extras: ['material-icons'],
     build: {
@@ -37,6 +37,12 @@ export default configure(function (/* ctx */) {
     },
     devServer: {
       open: true,
+      // proxy: {
+      //   '/api': {
+      //     target: 'http://localhost:3030',
+      //     changeOrigin: false, // Tenta manter a origem original para que o redirect volte para a porta correta (se permitido pelo Google)
+      //   },
+      // },
     },
     framework: {
       config: {},
