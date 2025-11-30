@@ -19,8 +19,6 @@ export type MaintenanceTag = 'EXPIRED' | 'PENDING' | 'UNREGISTERED' | 'TO_FILL';
 export interface MaintenanceData {
   status: MaintenanceState;
   pendingSteps: number;
-  nextDueDate?: string;
-  completedAt?: string | null;
   date: string;
   tagInfo?: {
     key: MaintenanceTag;

@@ -89,8 +89,6 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
             pendingSteps,
             date: mData.date ?? mData.createdAt ?? mData.updatedAt ?? undefined,
             status: mData.status ?? 'UNREGISTERED',
-            nextDueDate: mData.nextDueDate,
-            completedAt: mData.completedAt ?? null,
           },
           pendingRegistration,
           tags: [],
@@ -213,10 +211,12 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
 
         if (status === 'EXPIRED') {
           const formatted = formatter
-            .format(expireDate)
+            .format(new Date(m.data.date))
             .replace('-feira', '')
             .replace(/\b\w/, (c) => c.toLowerCase())
             .trim();
+
+          console.log(formatted);
 
           description = `Venceu ${formatted}`;
         } else if (status === 'PENDING' && daysDiff <= 5) {
@@ -246,17 +246,17 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       variant: 'default' | 'alert' | 'error';
     }[] = [];
 
+    const pendingSteps = m.data?.pendingSteps ?? 0;
+
     const now = new Date();
     const msPerDay = 1000 * 60 * 60 * 24;
 
-    const cfg = getConfig(m.type);
-    const validity = cfg?.duration;
+    const formatter = new Intl.DateTimeFormat('pt-BR', {
+      day: 'numeric',
+      month: 'short',
+    });
 
-    const pendingSteps = m.data?.pendingSteps ?? 0;
-
-    const expireDate = addDuration(new Date(m.data.date), validity);
-
-    const diff = Math.ceil((expireDate.getTime() - now.getTime()) / msPerDay);
+    let diff = 0;
 
     tags.forEach((tag) => {
       if (tag === 'TO_FILL' && pendingSteps > 0) {
@@ -268,10 +268,7 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       }
 
       if (tag === 'EXPIRED') {
-        const formatter = new Intl.DateTimeFormat('pt-BR', {
-          day: 'numeric',
-          month: 'short',
-        });
+        const expireDate = new Date(m.data.date);
 
         tagInfos.push({
           key: 'EXPIRED',
@@ -281,17 +278,16 @@ export const useMaintenanceStore = defineStore('maintenance', () => {
       }
 
       if (tag === 'PENDING') {
+        const expireDate = new Date(m.data.date);
+        diff = Math.ceil((expireDate.getTime() - now.getTime()) / msPerDay);
+
         if (diff > 0 && diff <= 5) {
           tagInfos.push({
             key: 'PENDING',
             text: `Vence em ${diff} dia${diff > 1 ? 's' : ''}`,
             variant: 'default',
           });
-        }
-      }
-
-      if (tag === 'PENDING' && pendingSteps === 0) {
-        if (diff > 5) {
+        } else if (pendingSteps === 0 && diff > 5) {
           tagInfos.push({
             key: 'PENDING',
             text: 'Sem pendências',
