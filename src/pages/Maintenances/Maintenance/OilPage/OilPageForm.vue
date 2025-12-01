@@ -183,17 +183,15 @@ onMounted(async () => {
   <div class="main-content">
     <div class="card-wrapper">
       <div class="card">
-        <div class="text-wrapper">
-          <div class="header-content">
-            <span class="title">Manutenção</span>
-            <div @click="showHelpModal">
-              <img :src="helpIcon" alt="Help Icon" />
-            </div>
+        <div class="header-content">
+          <span class="title">Manutenção</span>
+          <div @click="showHelpModal">
+            <img :src="helpIcon" alt="Help Icon" />
           </div>
-          <span class="subtitle">
-            Preencha as informações da manutenção de Troca de Óleo.
-          </span>
         </div>
+        <span class="subtitle">
+          Preencha as informações da manutenção de Troca de Óleo.
+        </span>
 
         <div class="input-wrapper">
           <CInput

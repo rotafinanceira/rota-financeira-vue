@@ -1,8 +1,8 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { AxiosError } from 'axios';
+import { Form } from 'vee-validate';
 import { useCarStore } from '@/stores/carStore';
 
 import CButton from '@/shared/components/CButton.vue';
@@ -68,10 +68,7 @@ async function handleSubmit() {
       fuelType: fuelType.value,
     };
 
-    console.log(payload);
-
     await carStore.registerCar(payload);
-
     isPositiveOpen.value = true;
 
     chassi.value = '';
@@ -101,26 +98,22 @@ function closeSuccess() {
   <div class="main-content">
     <div class="card-wrapper">
       <div class="card">
-        <div class="text-wrapper">
-          <span class="title">Novo Cadastro</span>
+        <span class="title">Novo Cadastro</span>
 
-          <span class="subtitle">
-            Complete os campos abaixo com as informações necessárias para
-            realizar o cadastro do seu veículo.
-          </span>
-        </div>
+        <span class="subtitle">
+          Preencha as informações abaixo para cadastrar seu veículo.
+        </span>
 
-        <div class="input-wrapper">
+        <Form class="form" @submit="handleSubmit" v-slot="{ meta }">
           <CInput
             v-model="chassi"
             label="Chassi"
             name="chassi"
             placeholder="Ex: 9BG. RD08X0. 4G.117974"
             variant="generic"
+            required
           />
-        </div>
 
-        <div class="input-wrapper">
           <CInput
             v-model="brand"
             label="Marca"
@@ -128,9 +121,7 @@ function closeSuccess() {
             placeholder="Digite a marca"
             variant="generic"
           />
-        </div>
 
-        <div class="input-wrapper">
           <CInput
             v-model="model"
             label="Modelo"
@@ -138,9 +129,7 @@ function closeSuccess() {
             placeholder="Ex: Corolla"
             variant="generic"
           />
-        </div>
 
-        <div class="input-wrapper">
           <CInput
             v-model="licensePlate"
             label="Placa do carro"
@@ -149,9 +138,7 @@ function closeSuccess() {
             variant="plate"
             required
           />
-        </div>
 
-        <div class="input-wrapper">
           <CInput
             v-model="manufacturingDate"
             label="Ano de fabricação"
@@ -159,9 +146,7 @@ function closeSuccess() {
             placeholder="Ex: 2020"
             variant="generic"
           />
-        </div>
 
-        <div class="input-wrapper">
           <CInput
             v-model="color"
             label="Cor"
@@ -169,9 +154,7 @@ function closeSuccess() {
             placeholder="Ex: Cinza"
             variant="generic"
           />
-        </div>
 
-        <div class="input-wrapper">
           <CInput
             v-model="currentMileage"
             label="Quilometragem atual"
@@ -180,22 +163,22 @@ function closeSuccess() {
             placeholder="Ex: 123.456"
             required
           />
-        </div>
 
-        <div class="input-wrapper">
           <CSelect
             v-model="fuelType"
             name="fuel-type"
             label="Tipo de combustível"
             :options="fuelTypeOptions"
-            placeholder="Escolha o tipo de combustível"
+            placeholder="Escolha uma opção"
             @toggle="(val) => (isSelectOpen = val)"
           />
-        </div>
+
+          <CButton type="submit" :disabled="!meta.valid" :isLoading="isLoading">
+            Salvar
+          </CButton>
+        </Form>
       </div>
     </div>
-
-    <CButton @click="handleSubmit" :isLoading="isLoading">Salvar</CButton>
 
     <div :style="{ paddingBottom: isSelectOpen ? '100px' : '0' }"></div>
 
@@ -203,11 +186,7 @@ function closeSuccess() {
       v-model="isPositiveOpen"
       icon="success"
       variant="default"
-      @update:modelValue="
-        (val) => {
-          if (!val) closeSuccess();
-        }
-      "
+      @update:modelValue="(val) => !val && closeSuccess()"
     >
       <div class="group">
         <h2>{{ successTitle }}</h2>
@@ -215,16 +194,11 @@ function closeSuccess() {
       </div>
     </CModal>
 
-    <!-- Modal de erro -->
     <CModal
       v-model="isErrorOpen"
       icon="error"
       variant="default"
-      @update:modelValue="
-        (val) => {
-          if (!val) isErrorOpen = false;
-        }
-      "
+      @update:modelValue="(val) => !val && (isErrorOpen = false)"
     >
       <div class="group">
         <h2>{{ errorTitle }}</h2>

@@ -277,12 +277,11 @@ onMounted(async () => {
     };
 
     isVehicleBottomSheetOpen.value = false;
+    isMaintenanceBottomSheetOpen.value =
+      !maintenanceSummary.value.hasMaintenances;
   } else {
     isVehicleBottomSheetOpen.value = true;
   }
-
-  isMaintenanceBottomSheetOpen.value =
-    !maintenanceSummary.value.hasMaintenances;
 });
 
 const openMileageModal = () => {
