@@ -8,25 +8,28 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useRegisterStore } from '@/stores/registerStore';
+//import { useRegisterStore } from '@/stores/registerStore';
 
 const route = useRoute();
 const router = useRouter();
-const registerStore = useRegisterStore();
+//const registerStore = useRegisterStore();
 
 onMounted(() => {
-  const token = route.query.token as string;
+  let token = route.query.token as string | undefined;
+
+  if (!token) {
+    const hash = window.location.hash;
+    const qs = hash.includes('?') ? hash.split('?')[1] : '';
+    token = new URLSearchParams(qs).get('token') || undefined;
+  }
+
+  console.log('TOKEN:', token);
 
   if (token) {
-    console.log('Token recebido via Google Callback:', token);
-    registerStore.setSession(token);
-
-    // Redireciona para a home ou página de sucesso
-    router.push({ name: '/app/home' });
+    localStorage.setItem('jwt', token);
+    router.replace({ name: 'home' });
   } else {
-    console.error('Nenhum token recebido no callback do Google. Redirecionando para signin...');
-    // Redireciona de volta para o login em caso de erro
-    router.push({ path: '/app/home' });
+    router.replace({ name: 'signin' });
   }
 });
 </script>
