@@ -62,6 +62,7 @@ export const useRegisterStore = defineStore('register', {
     googleLogin() {
       // Usar a URL completa da API definida nas variáveis de ambiente
       // Isso funciona tanto em dev (direto no backend) quanto em prod
+
       const url = `${baseApi}/v1/user/google`;
       window.location.href = url;
     },

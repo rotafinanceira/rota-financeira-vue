@@ -1,322 +1,213 @@
-<template>
-  <q-page>
-    <div class="main-content">
-      <div class="card-wrapper">
-        <SelectVehicle @vehicle-selected="setCarId" />
-
-        <div class="card">
-          <div class="text-wrapper">
-            <div class="header-content">
-              <span class="title">Características do Veículo</span>
-            </div>
-            <span class="subtitle"
-              >Preencha com as informações do veículo que deseja
-              cadastrar.</span
-            >
-          </div>
-
-          <!-- Placa -->
-          <div class="input-wrapper">
-            <label for="licensePlate">Placa*</label>
-            <div class="definitions-wrapper">
-              <q-input
-                id="licensePlate"
-                outlined
-                v-model="licensePlate"
-                label="Digite a placa do seu veículo"
-              ></q-input>
-              <span>
-                <div class="car-icon">
-                  <img :src="carIcon" alt="Ícone do carro" />
-                </div>
-              </span>
-            </div>
-          </div>
-
-          <!-- Ano de Fabricação -->
-          <div class="input-wrapper">
-            <label for="manufacturing-date">Ano de fabricação*</label>
-            <div class="definitions-wrapper">
-              <q-input
-                id="manufacturing-date"
-                outlined
-                v-model="manufacturingDate"
-                label="Ex: 2020"
-              ></q-input>
-              <span>
-                <div class="date-icon">
-                  <img :src="dateIcon" alt="Ícone da data" />
-                </div>
-              </span>
-            </div>
-          </div>
-
-          <!-- Cor -->
-          <div class="input-wrapper">
-            <label for="color">Cor*</label>
-            <div class="definitions-wrapper">
-              <q-input
-                id="color"
-                outlined
-                v-model="color"
-                label="Ex: Cinza"
-              ></q-input>
-              <span>
-                <div class="color-icon">
-                  <img :src="colorIcon" alt="Ícone da cor do carro" />
-                </div>
-              </span>
-            </div>
-          </div>
-
-          <!-- Quilometragem atual -->
-          <div class="input-wrapper">
-            <label for="current-mileage">Quilometragem atual*</label>
-            <div class="definitions-wrapper">
-              <q-input
-                id="current-mileage"
-                outlined
-                v-model="currentMileage"
-                label="Ex: 123.456"
-              ></q-input>
-              <span>Km</span>
-            </div>
-          </div>
-
-          <div class="input-wrapper">
-            <div>
-              <label>Combustível*</label>
-              <span class="subtitle"
-                >Insira as características do seu veículo</span
-              >
-            </div>
-            <div class="fuel-input">
-              <div class="fuel-input-items-wrapper">
-                <div
-                  class="fuel-input-item"
-                  :class="{ active: selectedFuel === 'Gasolina' }"
-                  @click="handleClickFuelSelected('Gasolina')"
-                >
-                  Gasolina
-                </div>
-                <div
-                  class="fuel-input-item"
-                  :class="{ active: selectedFuel === 'Etanol' }"
-                  @click="handleClickFuelSelected('Etanol')"
-                >
-                  Etanol
-                </div>
-              </div>
-              <div class="fuel-input-items-wrapper">
-                <div
-                  class="fuel-input-item"
-                  :class="{ active: selectedFuel === 'Elétrico' }"
-                  @click="handleClickFuelSelected('Elétrico')"
-                >
-                  Elétrico
-                </div>
-                <div
-                  class="fuel-input-item"
-                  :class="{ active: selectedFuel === 'Diesel' }"
-                  @click="handleClickFuelSelected('Diesel')"
-                >
-                  Diesel
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <ButtonComponent
-        label="Salvar"
-        :isLoading="isLoading"
-        @click="handleSubmit"
-      />
-    </div>
-    <ModalGenerico
-      :title="modalContent"
-      :open="isOpen"
-      :description="modalDescription"
-      :text-button="'Fechar'"
-      @close="isOpen = false"
-    />
-    <ModalPositive
-      :title="successTitle"
-      :open="isPositiveOpen"
-      @close="isPositiveOpen = false"
-      :text-button="'Fechar'"
-    />
-  </q-page>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue';
-import ButtonComponent from '@/shared/components/ButtonComponent.vue';
+import { useRouter } from 'vue-router';
+import { AxiosError } from 'axios';
+import { Form } from 'vee-validate';
+import { useCarStore } from '@/stores/carStore';
 
-import SelectVehicle from '@/shared/components/SelectVehicleModel.vue';
-import ModalGenerico from '@/shared/components/ModalGenerico.vue';
-import ModalPositive from '@/shared/components/ModalSucess.vue';
-import dateIcon from '@/shared/assets/icons/battery.svg';
-import carIcon from '@/shared/assets/icons/battery.svg';
-import colorIcon from '@/shared/assets/icons/battery.svg';
+import CButton from '@/shared/components/CButton.vue';
+import CModal from '@/shared/components/CModal.vue';
+import CInput from '@/shared/components/CInput.vue';
+import CSelect from '@/shared/components/CSelect.vue';
+import {
+  parseInputToNumber,
+  parsePlateToString,
+} from '@/shared/helper/inputFormatHelper';
 
-const isLoading = ref<boolean>(false);
-const date = ref<string>('');
-const color = ref<string>('');
-const manufacturingDate = ref<string>('');
-const currentMileage = ref<string>('');
-const carId = ref<number | null>(null);
-const modalContent = ref<string>('');
-const modalDescription = ref<string[] | string>('');
-const isOpen = ref<boolean>(false);
-const licensePlate = ref<string>('');
-const selectedFuel = ref<string | null>(null);
-const isPositiveOpen = ref<boolean>(false);
-const successTitle = ref<string>('');
+interface Option {
+  label: string;
+  value: string;
+}
 
-const setCarId = (selectedCarId: number): void => {
-  carId.value = selectedCarId;
-};
+const fuelTypeOptions: Option[] = [
+  { label: 'Diesel', value: 'Diesel' },
+  { label: 'Etanol', value: 'Etanol' },
+  { label: 'Elétrico', value: 'Elétrico' },
+  { label: 'Gasolina', value: 'Gasolina' },
+];
 
-const handleClickFuelSelected = (fuel: string): void => {
-  selectedFuel.value = fuel;
-};
+const router = useRouter();
+const carStore = useCarStore();
 
-const handleSubmit = (): void => {
+const chassi = ref('');
+const brand = ref('');
+const model = ref('');
+const licensePlate = ref('');
+const manufacturingDate = ref('');
+const color = ref('');
+const currentMileage = ref('');
+const fuelType = ref('');
+
+const isSelectOpen = ref(false);
+const isLoading = ref(false);
+const isPositiveOpen = ref(false);
+const isErrorOpen = ref(false);
+
+const successTitle = ref('Parabéns!');
+const successDescription = ref(
+  'Seu veículo foi cadastrado com sucesso! Agora você pode começar a registrar suas manutenções.'
+);
+
+const errorTitle = ref('Algo deu errado!');
+const errorDescription = ref(
+  'Não foi possível salvar o cadastro. Tente novamente mais tarde.'
+);
+
+async function handleSubmit() {
   isLoading.value = true;
 
-  setTimeout(() => {
-    isLoading.value = false;
-    successTitle.value = 'Veículo cadastrado!';
+  try {
+    const payload = {
+      chassis: chassi.value.trim(),
+      brand: brand.value.trim(),
+      model: model.value.trim(),
+      license_plate: parsePlateToString(licensePlate.value),
+      year: Number(manufacturingDate.value),
+      color: color.value.trim(),
+      current_mileage: parseInputToNumber(currentMileage.value),
+      fuelType: fuelType.value,
+    };
+
+    await carStore.registerCar(payload);
     isPositiveOpen.value = true;
 
-    date.value = '';
-    color.value = '';
+    chassi.value = '';
+    brand.value = '';
+    model.value = '';
+    licensePlate.value = '';
     manufacturingDate.value = '';
+    color.value = '';
     currentMileage.value = '';
-  }, 1000);
-};
+    fuelType.value = '';
+  } catch (err) {
+    const error = err as AxiosError<{ message?: string }>;
+    console.error('Erro ao registrar veículo:', error);
+    isErrorOpen.value = true;
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+function closeSuccess() {
+  isPositiveOpen.value = false;
+  router.push({ name: 'home' });
+}
 </script>
 
-<style scoped>
-.main-content {
-  display: flex;
-  flex-direction: column;
-  background-color: #eff3f5;
-  padding: 24px 20px;
-  gap: 32px;
-}
+<template>
+  <div class="main-content">
+    <div class="card-wrapper">
+      <div class="card">
+        <span class="title">Novo Cadastro</span>
 
-.card-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+        <span class="subtitle">
+          Preencha as informações abaixo para cadastrar seu veículo.
+        </span>
 
-.card {
-  width: 100%;
-  background-color: white;
-  border-radius: 8px;
-  padding: 16px;
-}
+        <Form class="form" @submit="handleSubmit" v-slot="{ meta }">
+          <CInput
+            v-model="chassi"
+            label="Chassi"
+            name="chassi"
+            placeholder="Ex: 9BG. RD08X0. 4G.117974"
+            variant="generic"
+            required
+          />
 
-.input-wrapper {
-  margin-bottom: 16px;
-}
+          <CInput
+            v-model="brand"
+            label="Marca"
+            name="brand"
+            placeholder="Digite a marca"
+            variant="generic"
+          />
 
-.input-wrapper label {
-  font-weight: 500;
-  font-size: 16px;
-}
+          <CInput
+            v-model="model"
+            label="Modelo"
+            name="model"
+            placeholder="Ex: Corolla"
+            variant="generic"
+          />
 
-.definitions-wrapper {
-  position: relative;
-  margin-top: 4px;
-}
+          <CInput
+            v-model="licensePlate"
+            label="Placa do carro"
+            name="licensePlate"
+            placeholder="Ex: ABC-1234 ou ABC1D23"
+            variant="plate"
+            required
+          />
 
-.definitions-wrapper span {
-  position: absolute;
-  right: 12px;
-  top: 18px;
-  font-size: 14px;
-  color: #9ba7ad;
-}
+          <CInput
+            v-model="manufacturingDate"
+            label="Ano de fabricação"
+            name="manufacturing-date"
+            placeholder="Ex: 2020"
+            variant="generic"
+          />
 
-.q-input__inner {
-  cursor: pointer;
-}
+          <CInput
+            v-model="color"
+            label="Cor"
+            name="color"
+            placeholder="Ex: Cinza"
+            variant="generic"
+          />
 
-.text-wrapper {
-  margin-bottom: 20px;
-  flex-direction: column;
-  gap: 6px;
-  display: flex;
-}
+          <CInput
+            v-model="currentMileage"
+            label="Quilometragem atual"
+            name="current-mileage"
+            variant="unit"
+            placeholder="Ex: 123.456"
+            required
+          />
 
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+          <CSelect
+            v-model="fuelType"
+            name="fuel-type"
+            label="Tipo de combustível"
+            :options="fuelTypeOptions"
+            placeholder="Escolha uma opção"
+            @toggle="(val) => (isSelectOpen = val)"
+          />
 
-.amperage-buttons {
-  margin-top: 8px;
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
+          <CButton type="submit" :disabled="!meta.valid" :isLoading="isLoading">
+            Salvar
+          </CButton>
+        </Form>
+      </div>
+    </div>
 
-.title {
-  font-weight: bold;
-  font-size: 18px;
-}
+    <div :style="{ paddingBottom: isSelectOpen ? '100px' : '0' }"></div>
 
-.icons {
-  height: 20px;
-  width: 20px;
-  justify-content: center;
-  align-items: center;
-  top: 35%;
-  position: absolute;
-  right: 0;
-}
+    <CModal
+      v-model="isPositiveOpen"
+      icon="success"
+      variant="default"
+      @update:modelValue="(val) => !val && closeSuccess()"
+    >
+      <div class="group">
+        <h2>{{ successTitle }}</h2>
+        <p>{{ successDescription }}</p>
+      </div>
+    </CModal>
 
-.subtitle {
-  font-weight: 400;
-  line-height: 21px;
-  font-size: 14px;
-  color: #5b6871;
-  display: block;
-}
+    <CModal
+      v-model="isErrorOpen"
+      icon="error"
+      variant="default"
+      @update:modelValue="(val) => !val && (isErrorOpen = false)"
+    >
+      <div class="group">
+        <h2>{{ errorTitle }}</h2>
+        <p>{{ errorDescription }}</p>
+      </div>
+    </CModal>
+  </div>
+</template>
 
-.fuel-input {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-top: 12px;
-}
-
-.fuel-input-items-wrapper {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.fuel-input-item {
-  flex: 1;
-  width: 50%;
-  text-align: center;
-  border-radius: 4px;
-  border: 1px solid #c2c9cd;
-  padding: 8px 12px;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.active {
-  background-color: #e2eafd;
-  color: #32337d;
-  border: 1px solid #e2eafd;
-}
+<style scoped lang="scss">
+@use '/src/css/maintenanceForm.scss';
 </style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowIcon } from '@/shared/assets/icons';
+import { AlignmentIcon, ArrowIcon } from '@/shared/assets/icons';
 import {
   AirFilterIcon,
   BatteryIcon,
@@ -10,13 +10,15 @@ import {
   WheelIcon,
 } from '@/shared/assets/icons';
 import { RouterLink } from 'vue-router';
+import { computed } from 'vue';
 import { MaintenanceCardProps } from '../types';
-import StatusTag from './StatusTag.vue';
 import { MaintenanceIcons } from '@/shared/types/maintenance';
 import CDivider from '@/shared/components/CDivider.vue';
+import CTag from '@/shared/components/CTag.vue';
 
 const maintenanceIcons: MaintenanceIcons = {
   wheel: WheelIcon,
+  alignment: AlignmentIcon,
   oil: OilIcon,
   battery: BatteryIcon,
   engine: EngineIcon,
@@ -25,7 +27,16 @@ const maintenanceIcons: MaintenanceIcons = {
   fluidLevel: ChartIcon,
 };
 
-defineProps<MaintenanceCardProps>();
+const props = defineProps<MaintenanceCardProps>();
+
+const displayTags = computed(() => {
+  const tagInfos = props.maintenanceData?.tagInfo ?? [];
+
+  return tagInfos.map((info) => ({
+    variant: info.variant ?? 'default',
+    text: info.text ?? '',
+  }));
+});
 </script>
 
 <template>
@@ -35,14 +46,21 @@ defineProps<MaintenanceCardProps>();
         <div class="item__wrapper">
           <img :src="maintenanceIcons[icon]" alt="" class="item__icon" />
         </div>
+        <div class="vertical"></div>
         <p class="item__text">{{ title }}</p>
       </div>
       <img :src="ArrowIcon" alt="" class="item__arrow" />
     </div>
-    <template v-if="maintenanceData?.status">
+
+    <template v-if="displayTags.length">
       <CDivider />
       <div class="badges">
-        <StatusTag v-bind="maintenanceData" />
+        <CTag
+          v-for="(tag, index) in displayTags"
+          :key="index"
+          :title="tag.text"
+          :variant="tag.variant"
+        />
       </div>
     </template>
   </RouterLink>

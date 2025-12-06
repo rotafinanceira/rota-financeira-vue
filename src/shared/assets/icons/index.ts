@@ -20,6 +20,7 @@ export { default as DownloadIcon } from './download.svg';
 export { default as EditIcon } from './edit.svg';
 export { default as EngineIcon } from './engine.svg';
 export { default as ExclamationCircleIcon } from './exclamation-circle.svg';
+export { default as ExclamationCircleRedIcon } from './exclamation-circle-red.svg';
 export { default as ExclamationTriangleIcon } from './exclamation-triangle.svg';
 export { default as EyeClosedIcon } from './eye-closed.svg';
 export { default as EyeOpenedIcon } from './eye-opened.svg';
