@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { vMaska } from 'maska/vue';
-import type { MaskInputOptions } from 'maska';
+
 import { AxiosError } from 'axios';
+import { storeToRefs } from 'pinia';
 
 import CButton from '@/shared/components/CButton.vue';
 import CModal from '@/shared/components/CModal.vue';
 import CInput from '@/shared/components/CInput.vue';
 import CSelect from '@/shared/components/CSelect.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
-import CFormatedInput from '@/shared/components/CFormatedInput.vue';
 
-import { useOilStore } from '@/stores/oilStore';
+import { useOilStore } from '@/stores/maintenances/oilStore';
 import { useCarStore } from '@/stores/carStore';
 import { OilServiceType, OilType } from '@/shared/types/oil-maintenance';
 import {
@@ -25,6 +24,8 @@ const carStore = useCarStore();
 const router = useRouter();
 const route = useRoute();
 
+const { maintenances, isLoading } = storeToRefs(oilStore);
+
 const maintenanceId = route.params.maintenanceId as string | undefined;
 
 const date = ref('');
@@ -32,25 +33,20 @@ const mileage = ref('');
 const oilType = ref('');
 const serviceType = ref('');
 const oficina = ref('');
-const isLoading = ref(false);
+const maintenanceValue = ref('');
 
-const maintenanceValue = ref('R$ 0,00');
-
-const dateMask: MaskInputOptions = {
-  mask: '##/##/####',
-  tokens: { '#': { pattern: /\d/ } },
-};
-
-interface OilOptionsProps {
+interface Option {
   label: string;
   value: string;
 }
-const oilOptions: OilOptionsProps[] = [
+
+const oilOptions: Option[] = [
   { label: 'Sintético', value: 'SYNTHETIC' },
   { label: 'Semi-Sintético', value: 'SEMI_SYNTHETIC' },
   { label: 'Mineral', value: 'MINERAL' },
 ];
-const serviceOptions: OilOptionsProps[] = [
+
+const serviceOptions: Option[] = [
   { label: 'Troca de óleo', value: 'oil_change' },
   { label: 'Troca de óleo e filtro de óleo', value: 'both' },
 ];
@@ -59,17 +55,19 @@ const isOpen = ref(false);
 const modalContent = ref('Quando devo fazer a troca?');
 const modalDescription = ref<string[]>([]);
 const isPositiveOpen = ref(false);
+const isErrorOpen = ref(false);
+
 const successTitle = ref('Parabéns!');
 const successDescription = ref(
   'Você cadastrou a troca de óleo do seu veículo. Iremos lhe informar sobre a próxima manutenção.'
 );
-const isErrorOpen = ref(false);
+
 const errorTitle = ref('Algo deu errado!');
 const errorDescription = ref(
   'Suas alterações não foram salvas. Tente novamente mais tarde.'
 );
 
-const showHelpModal = (): void => {
+function showHelpModal() {
   isOpen.value = true;
   modalContent.value = 'Quando devo fazer a troca?';
   modalDescription.value = [
@@ -79,23 +77,24 @@ const showHelpModal = (): void => {
     'Mesmo rodando pouco, o óleo envelhece. Troque por tempo.',
     'Uso severo (trânsito, poeira, ladeiras, reboque) pode exigir troca antecipada.',
   ];
-};
+}
 
-const closeSuccess = (): void => {
+async function closeSuccess() {
   isPositiveOpen.value = false;
+  await router.replace({ name: 'maintenances' });
   router.push({ name: 'maintenance-oil' });
-};
+}
 
 interface OilMaintenancePayload {
   lastMaintenanceDate: string;
   lastMaintenanceKm: number;
   oilType: OilType;
   valor: number;
-  oficina: string;
+  oficina: string | null;
   serviceType: OilServiceType;
 }
 
-const handleSubmit = async (): Promise<void> => {
+async function handleSubmit() {
   if (!carStore.firstLicensePlate) {
     errorTitle.value = 'Erro ao salvar manutenção';
     errorDescription.value = 'Nenhum carro selecionado.';
@@ -104,6 +103,7 @@ const handleSubmit = async (): Promise<void> => {
   }
 
   isLoading.value = true;
+
   try {
     const [day, month, year] = date.value.split('/');
     const isoDate = `${year}-${month}-${day}`;
@@ -113,7 +113,7 @@ const handleSubmit = async (): Promise<void> => {
       lastMaintenanceKm: parseInputToNumber(mileage.value),
       oilType: oilType.value as OilType,
       valor: parseInputToNumber(maintenanceValue.value),
-      oficina: oficina.value,
+      oficina: oficina.value.trim() || null,
       serviceType: serviceType.value as OilServiceType,
     };
 
@@ -122,17 +122,24 @@ const handleSubmit = async (): Promise<void> => {
       successDescription.value = 'As alterações foram salvas com sucesso.';
     }
 
-    await oilStore.saveOilMaintenance(payload, oilStore.getEditingId());
+    await oilStore.saveMaintenance(payload, oilStore.getEditingId);
+
     oilStore.setSelectedMaintenance(null);
     isPositiveOpen.value = true;
   } catch (err) {
     const error = err as AxiosError<{ message?: string }>;
-    console.warn(error);
+    console.error('Erro ao salvar manutenção:', error);
     isErrorOpen.value = true;
   } finally {
     isLoading.value = false;
   }
-};
+}
+
+function toLocalDate(dateString: string): Date {
+  if (!dateString) return new Date();
+  const [year, month, day] = dateString.split('T')[0].split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
 
 onMounted(async () => {
   if (!carStore.firstLicensePlate) {
@@ -142,27 +149,28 @@ onMounted(async () => {
   const plate = carStore.firstLicensePlate;
   if (!plate) return;
 
-  if (!oilStore.maintenances || oilStore.maintenances.length === 0) {
-    await oilStore.getOilMaintenances(plate);
+  if (!maintenances.value || maintenances.value.length === 0) {
+    await oilStore.getMaintenances(plate);
   }
 
   if (maintenanceId) {
-    const m = oilStore.maintenances.find((m) => m.id === maintenanceId);
+    const m = maintenances.value.find((m) => m.id === maintenanceId);
     if (!m) return;
 
     oilStore.setSelectedMaintenance(m);
 
     date.value = m.lastMaintenanceDate
-      ? new Date(m.lastMaintenanceDate).toLocaleDateString('pt-BR')
+      ? toLocalDate(m.lastMaintenanceDate).toLocaleDateString('pt-BR')
       : '';
-    mileage.value = formatInput(m.lastMaintenanceKm ?? 0);
-    maintenanceValue.value = formatInput(m.valor ?? 0);
+    mileage.value = formatInput(m.lastMaintenanceKm ?? 0, 'unit');
+    maintenanceValue.value = formatInput(m.valor ?? 0, 'money');
     oficina.value = m.oficina ?? '';
 
     oilType.value =
       oilOptions.find(
         (o) => o.value.toLowerCase() === (m.oilType ?? '').toLowerCase()
       )?.value ?? '';
+
     serviceType.value =
       serviceOptions.find(
         (s) => s.value.toLowerCase() === (m.serviceType ?? '').toLowerCase()
@@ -175,47 +183,46 @@ onMounted(async () => {
   <div class="main-content">
     <div class="card-wrapper">
       <div class="card">
-        <div class="text-wrapper">
-          <div class="header-content">
-            <span class="title">Manutenção</span>
-            <div @click="showHelpModal">
-              <img :src="helpIcon" alt="Help Icon" />
-            </div>
+        <div class="header-content">
+          <span class="title">Manutenção</span>
+          <div @click="showHelpModal">
+            <img :src="helpIcon" alt="Help Icon" />
           </div>
-          <span class="subtitle">
-            Preencha as informações da manutenção de Troca de Óleo.
-          </span>
         </div>
+        <span class="subtitle">
+          Preencha as informações da manutenção de Troca de Óleo.
+        </span>
 
         <div class="input-wrapper">
-          <CFormatedInput
+          <CInput
             v-model="mileage"
-            label="Km na data de serviço*"
+            label="Quilometragem"
             name="mileage"
             variant="unit"
-            id="maintenance-value"
+            placeholder="km na data de serviço"
+            required
           />
         </div>
 
         <div class="input-wrapper">
           <CInput
-            :value="date"
             v-model="date"
-            label="Data da troca*"
+            label="Data da troca"
             name="last-oil-change"
-            placeholder="DD/MM/AAAA"
-            variant="generic"
-            v-maska="dateMask"
+            variant="date"
+            placeholder="__/__/____"
+            required
           />
         </div>
 
         <div class="input-wrapper">
-          <CFormatedInput
+          <CInput
             v-model="maintenanceValue"
-            label="Valor da manutenção*"
+            label="Valor do serviço"
             name="maintenanceValue"
             variant="money"
-            id="maintenance-value"
+            placeholder="Digite o valor"
+            required
           />
         </div>
 
@@ -223,9 +230,10 @@ onMounted(async () => {
           <CSelect
             v-model="serviceType"
             name="service-type"
-            label="Serviços*"
+            label="Serviços"
             :options="serviceOptions"
             placeholder="Escolha o tipo de serviço"
+            required
           />
         </div>
 
@@ -233,7 +241,7 @@ onMounted(async () => {
           <CSelect
             v-model="oilType"
             name="oil-type"
-            label="Tipo de óleo*"
+            label="Tipo de óleo"
             :options="oilOptions"
             placeholder="Escolha o tipo de óleo"
           />
@@ -278,6 +286,7 @@ onMounted(async () => {
         <p>{{ successDescription }}</p>
       </div>
     </CModal>
+
     <CModal
       v-model="isErrorOpen"
       icon="error"
@@ -296,47 +305,6 @@ onMounted(async () => {
   </div>
 </template>
 
-<style scoped>
-.main-content {
-  display: flex;
-  flex-direction: column;
-  background-color: #eff3f5;
-  height: auto;
-  padding: 24px 20px;
-  gap: 32px;
-}
-.card-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.card {
-  width: 100%;
-  background-color: white;
-  border-radius: 8px;
-  padding: 16px;
-}
-.input-wrapper {
-  margin-bottom: 20px;
-}
-.text-wrapper {
-  margin-bottom: 32px;
-}
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.title {
-  font-size: 18px;
-  font-weight: bold;
-}
-.subtitle {
-  font-size: 14px;
-  color: #5b6871;
-  margin-top: 8px;
-}
-.info-list li {
-  margin-bottom: 12px;
-}
+<style scoped lang="scss">
+@use '/src/css/maintenanceForm.scss';
 </style>

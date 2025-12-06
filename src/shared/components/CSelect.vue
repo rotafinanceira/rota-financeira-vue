@@ -27,9 +27,12 @@ const modelValue = defineModel<string | number | ''>('modelValue', {
 
 const isOpen = ref(false);
 
+const emit = defineEmits(['toggle']);
+
 const toggleDropdown = () => {
   if (props.disabled) return;
   isOpen.value = !isOpen.value;
+  emit('toggle', isOpen.value);
 };
 
 const selectOption = (val: string | number) => {
@@ -55,6 +58,7 @@ const borderClass = computed(() => {
   <div class="select">
     <label v-if="props.label" class="select__label" :for="props.name">
       {{ props.label }}
+      <span v-if="props.required" class="required-asterisk">*</span>
     </label>
 
     <div
@@ -183,7 +187,7 @@ const borderClass = computed(() => {
 .dropdown-enter-from,
 .dropdown-leave-to {
   opacity: 0;
-  transform: translateY(-50px);
+  transform: translateY(0px);
 }
 
 .dropdown-enter-to,
@@ -195,5 +199,9 @@ const borderClass = computed(() => {
 .dropdown-enter-active,
 .dropdown-leave-active {
   transition: all 0.3s ease;
+}
+
+.required-asterisk {
+  color: #ed4647;
 }
 </style>

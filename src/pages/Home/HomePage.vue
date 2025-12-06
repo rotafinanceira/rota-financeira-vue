@@ -1,593 +1,299 @@
 <template>
-  <div class="home-page">
-    <div class="card-wrapper">
+  <div class="home">
+    <div class="home__header">
       <div class="card">
+        <div class="card__header">
+          <span class="card__header-title">Como está seu odômetro hoje?</span>
+          <div @click="showHelpModal">
+            <img :src="helpIcon" alt="Help Icon" />
+          </div>
+        </div>
+
+        <div class="card__info">
+          <p class="current-km">{{ currentMileage ?? '000.000' }}</p>
+          <span class="km-text">KM</span>
+        </div>
+
         <div>
-          <div class="header-content">
-            <span class="title">Como está seu odômetro hoje?</span>
-            <div @click="showHelpModal">
-              <img :src="helpIcon" alt="Help Icon" />
-            </div>
-          </div>
+          <span class="last-km">
+            Data da última manutenção <br />
+            registrada: {{ lastMaintenanceDate }}
+          </span>
         </div>
-        <div class="info-wrapper">
-          <div class="info-text-wrapper">
-            <div class="kilometer-title">
-              <input
-                type="text"
-                v-model="odometerValue"
-                @input="formatOdometerValue"
-                class="km-number"
-                placeholder="000.000"
-              />
-              <span class="km-text">Km</span>
-            </div>
-            <div>
-              <span class="kilometer-text"
-                >Última quilometragem <br />
-                registrada:</span
-              >
-              <span class="kilometer-text-number">{{
-                lastMileage ?? '-'
-              }}</span>
-              <span class="kilometer-text"> Km</span>
-            </div>
-          </div>
-          <div class="odometer-icon">
-            <img :src="odometer" alt="Odometer Icon" />
-          </div>
+
+        <div class="odometer__icon">
+          <img :src="odometer" alt="Odometer Icon" />
         </div>
       </div>
-      <div>
-        <ButtonComponent
-          label="Inserir quilometragem do dia"
-          :isLoading="isSendingMileage"
-          @click="handleSendMileage"
-        />
+
+      <CButton
+        variant="primary"
+        label="Inserir quilometragem do dia"
+        :isLoading="isSendingMileage"
+        @click="openMileageModal"
+      />
+    </div>
+
+    <div v-if="!hasCarRegistered" class="home__content">
+      <div class="alertCard">
+        <img :src="CarIcon" />
+        <h2 class="alertCard__title">Veículo não cadastrado</h2>
+        <span class="alertCard__text">
+          Cadastre seu veículo para acompanhar manutenções e gastos.
+        </span>
       </div>
-      <div class="card card-maintenance danger">
-        <div class="card-content">
-          <div class="section-header expired-header">
-            <div class="section-icon-wrapper">
-              <div class="section-icon">
-                <img
-                  :src="expiredIcon"
-                  alt="Expired Icon"
-                  class="section-image"
-                />
-              </div>
-              <div class="expired-content">
-                <div class="section-title">
-                  <span>Manutenções vencidas</span>
-                </div>
-                <div class="maintenance-expired-count danger">
-                  <span>+{{ expiredMaintenances.length }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="maintenance-content">
-            <div class="arrow" @click="prevExpiredMaintenance">
-              <img :src="ArrowIcon" alt="Back Arrow Image" class="back-arrow" />
-            </div>
-            <div class="maintenance-content-text">
-              <div
-                v-for="(item, index) in [
-                  expiredMaintenances[currentExpiredIndex],
-                ]"
-                :key="`expired-${index}`"
-                class="maintenance-details"
-              >
-                <div class="maintenance-image-wrapper">
-                  <img
-                    :src="item.image"
-                    alt="Maintenance Image"
-                    class="maintenance-image"
-                  />
-                </div>
-                <div>
-                  <div class="maintenance-name">{{ item.title }}</div>
-                  <div class="maintenance-date">{{ item.date }}</div>
-                </div>
-              </div>
-            </div>
-            <div class="arrow" @click="nextExpiredMaintenance">
-              <img :src="ArrowIcon" alt="Next Arrow Image" class="next-arrow" />
-            </div>
-          </div>
-          <div class="see-all-content">
-            <button class="see-all-button">Ver todas</button>
-          </div>
-        </div>
+      <CButton variant="primary" :to="{ name: 'user-vehicle-register' }">
+        Cadastrar veículo
+      </CButton>
+    </div>
+
+    <div
+      v-else-if="hasCarRegistered && maintenanceSummary.hasMaintenances"
+      class="maintenance-summary"
+    >
+      <SummaryCard
+        v-if="maintenanceSummary.expired.length > 0"
+        :value="maintenanceSummary.expiredCount"
+        :maintenances="
+          maintenanceStore.mapToCardMaintenances(maintenanceSummary.expired)
+        "
+        variant="expired"
+      />
+
+      <SummaryCard
+        v-if="maintenanceSummary.pending.length > 0"
+        title=""
+        :value="maintenanceSummary.pendingCount"
+        :maintenances="
+          maintenanceStore.mapToCardMaintenances(maintenanceSummary.pending)
+        "
+        variant="pending"
+      />
+    </div>
+
+    <div v-else class="home__content">
+      <div class="alertCard">
+        <img :src="CarIcon" />
+        <h2 class="alertCard__title">Manutenções não cadastradas</h2>
+        <span class="alertCard__text">
+          Mantenha um registro das manutenções que você já fez para saber quando
+          é a hora de agendar as próximas revisões.
+        </span>
       </div>
-      <div class="card card-maintenance success">
-        <div class="card-content">
-          <div class="section-header expired-header">
-            <div class="section-icon-wrapper">
-              <div class="section-icon">
-                <img
-                  :src="dateIcon"
-                  alt="Calendar Icon"
-                  class="section-image"
-                />
-              </div>
-              <div class="expired-content">
-                <div class="section-title">
-                  <span>Próximas manutenções</span>
-                </div>
-                <div class="maintenance-expired-count success">
-                  <span>+{{ nextMaintenances.length }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="maintenance-content">
-            <div class="arrow" @click="prevNextMaintenance">
-              <img :src="ArrowIcon" alt="Back Arrow Image" class="back-arrow" />
-            </div>
-            <div class="maintenance-content-text">
-              <div
-                v-for="(item, index) in [nextMaintenances[currentNextIndex]]"
-                :key="`next-${index}`"
-                class="maintenance-details"
-              >
-                <div class="maintenance-image-wrapper">
-                  <img
-                    :src="item.image"
-                    alt="Maintenance Image"
-                    class="maintenance-image"
-                  />
-                </div>
-                <div>
-                  <div class="maintenance-name">{{ item.title }}</div>
-                  <div class="maintenance-date">{{ item.date }}</div>
-                </div>
-              </div>
-            </div>
-            <div class="arrow" @click="nextNextMaintenance">
-              <img :src="ArrowIcon" alt="Next Arrow Image" class="next-arrow" />
-            </div>
-          </div>
-          <div class="see-all-content">
-            <button class="see-all-button">Ver todas</button>
-          </div>
-        </div>
-      </div>
+      <CButton variant="primary" :to="{ name: 'maintenances' }">
+        Cadastrar manutenções
+      </CButton>
     </div>
   </div>
-  <ModalGenerico
-    :title="modalContent"
-    :open="isOpen"
-    :description="modalDescription"
-    @close="isOpen = false"
-  />
+
+  <CModal v-model="isOpen" variant="info">
+    <h2>Como funciona o odômetro?</h2>
+
+    <p>
+      O odômetro é onde você registra a <strong>quilometragem atual</strong> do
+      seu veículo <strong>diariamente.</strong> Esses dados são essenciais para
+      que o app calcule quando cada manutenção precisa ser feita ou se alguma já
+      está vencida.
+    </p>
+    <ul>
+      <li>
+        Preencha no final do dia com o valor que aparece no painel do seu carro.
+      </li>
+    </ul>
+
+    <p>
+      Quanto mais <strong>regular</strong> for esse registro, mais
+      <strong>precisas</strong> serão as previsões de manutenção.
+    </p>
+  </CModal>
+
+  <CModalWithButton
+    v-model="isMileageModalOpen"
+    title="Como está seu odômetro hoje?"
+    buttonLabel="Salvar"
+    @confirm="onSubmit"
+    :disabled="!!errors.mileage"
+  >
+    <CInput
+      v-model="mileage"
+      name="mileage"
+      variant="unit"
+      placeholder="km na data de serviço"
+      required
+    />
+  </CModalWithButton>
+
+  <CModal
+    v-model="isSuccessModalOpen"
+    variant="default"
+    showClose
+    icon="success"
+  >
+    <div class="group">
+      <h2>Quilometragem atualizada!</h2>
+      <p>A nova quilometragem do seu odômetro foi salva com sucesso.</p>
+    </div>
+  </CModal>
+
+  <CBottomSheetText v-model="isVehicleBottomSheetOpen" :showClose="true">
+    <img :src="Car" />
+    <div class="group">
+      <h2>Que bom ter você por aqui!</h2>
+      <p>
+        Vamos cuidar do seu carro juntos! Comece cadastrando seu veículo para
+        acompanhar suas manutenções e gastos.
+      </p>
+    </div>
+    <CButton variant="secondary" :to="{ name: 'user-vehicle-register' }">
+      Cadastrar veículo
+    </CButton>
+  </CBottomSheetText>
+
+  <CBottomSheetText v-model="isMaintenanceBottomSheetOpen" :showClose="true">
+    <img :src="CarRepair" />
+    <div class="group">
+      <h2>Registre e planeje suas manutenções em um só lugar</h2>
+      <p>
+        Cadastre os serviços realizados e acompanhe as próximas revisões para
+        evitar gastos inesperados.
+      </p>
+    </div>
+    <CButton variant="secondary" :to="{ name: 'maintenances' }">
+      Cadastrar manutenções
+    </CButton>
+  </CBottomSheetText>
 </template>
 
 <script setup lang="ts">
-import ModalGenerico from '@/shared/components/ModalGenerico.vue';
-import ButtonComponent from '@/shared/components/ButtonComponent.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 import odometer from '@/shared/assets/illustrations/odometer.svg';
-import expiredIcon from '@/shared/assets/manVen.svg';
-import alignmentImage from '@/shared/assets/icons/battery.svg';
-import { ArrowIcon } from '@/shared/assets/icons';
-import batteryIcon from '@/shared/assets/icons/battery.svg';
-import dateIcon from '@/shared/assets/icons/battery.svg';
 import { ref, computed, onMounted } from 'vue';
 import { useCarStore } from '@/stores/carStore';
+import CModal from '@/shared/components/CModal.vue';
+import CInput from '@/shared/components/CInput.vue';
+import * as yup from 'yup';
+import CModalWithButton from './components/CModalWithButton.vue';
+import { CarIcon } from '@/shared/assets/illustrations';
+import { useMaintenanceStore } from '@/stores/maintenance';
+import { MaintenanceStatus } from '../Maintenances/types';
+import CButton from '@/shared/components/CButton.vue';
+import { useForm, useField } from 'vee-validate';
+import SummaryCard from './components/SummaryCard.vue';
+import CBottomSheetText from '@/shared/components/bottomsheets/CBottomSheetText.vue';
+import { Car, CarRepair } from '@/shared/assets/illustrations';
 
-const isOpen = ref<boolean>(false);
-const modalContent = ref<string>('Quando devo fazer a troca?');
-const modalDescription = ref<string[]>([
-  'O tempo recomendado para troca de óleo é de 6 a 12 meses.',
-]);
+const isVehicleBottomSheetOpen = ref(false);
+const isMaintenanceBottomSheetOpen = ref(false);
 
-const odometerValue = ref<string>('');
+const lastMileage = ref<number | null>(null);
+
+const validationSchema = computed(() =>
+  yup.object({
+    mileage: yup
+      .number()
+      .typeError('Digite um número válido')
+      .required('Campo obrigatório')
+      .moreThan(lastMileage.value ?? 0, 'Informe um valor maior que o atual'),
+  })
+);
+
+const { handleSubmit, errors } = useForm({
+  validationSchema,
+});
+
+const parseLocalizedNumber = (value: string) => {
+  if (!value) return NaN;
+  console.log(value);
+  return Number(value.replace(/\./g, '').replace(',', '.'));
+};
+
+const { value: mileage } = useField<number>('mileage');
+
+const isMileageModalOpen = ref(false);
+const isOpen = ref(false);
+const isSuccessModalOpen = ref(false);
 const isSendingMileage = ref(false);
 
-const handleSendMileage = async () => {
-  if (!odometerValue.value) return;
-  const mileage = Number(odometerValue.value.replace(/\D/g, ''));
-  if (!mileage || !carStore.firstLicensePlate) return;
-  isSendingMileage.value = true;
+const carStore = useCarStore();
+const maintenanceStore = useMaintenanceStore();
+
+const maintenanceSummary = ref({
+  hasMaintenances: false,
+  expired: [] as MaintenanceStatus[],
+  pending: [] as MaintenanceStatus[],
+  expiredCount: 0,
+  pendingCount: 0,
+});
+
+const lastMaintenanceDate = computed(() => {
+  const lastUpdate = carStore.car?.lastMileageUpdate?.date;
+
+  if (!lastUpdate) return '00/00/0000';
+
+  return new Date(lastUpdate).toLocaleDateString('pt-BR');
+});
+
+const onSubmit = handleSubmit(async (values) => {
+  const mileageNumber = parseLocalizedNumber(values.mileage);
   try {
-    await carStore.updateCarMileage(carStore.firstLicensePlate, mileage);
-    await carStore.getCars(); // Atualiza a lista após o patch
-    odometerValue.value = '';
+    if (carStore.firstLicensePlate) {
+      await carStore.updateCarMileage(
+        carStore.firstLicensePlate,
+        mileageNumber
+      );
+      await carStore.getCarByPlate(carStore.firstLicensePlate);
+    }
+
+    isMileageModalOpen.value = false;
+    isSuccessModalOpen.value = true;
   } catch (err) {
-    // Trate erro se quiser
+    console.error('Erro ao atualizar quilometragem:', err);
   } finally {
     isSendingMileage.value = false;
   }
-};
-const carStore = useCarStore();
-const lastMileage = computed(() => {
-  if (carStore.cars.length > 0 && carStore.cars[0]?.current_mileage != null) {
-    return carStore.cars[0].current_mileage;
+});
+
+const hasCarRegistered = computed(() => carStore.cars.length > 0);
+
+const currentMileage = computed(() => {
+  const mileage = carStore.car?.current_mileage ?? null;
+  return mileage == null ? null : mileage.toLocaleString('pt-BR');
+});
+
+onMounted(async () => {
+  await carStore.getCars();
+
+  if (carStore.firstLicensePlate) {
+    await carStore.getCarByPlate(carStore.firstLicensePlate);
+    const summary = await maintenanceStore.getMaintenanceSummary(
+      carStore.firstLicensePlate
+    );
+    maintenanceSummary.value = {
+      hasMaintenances: !!summary.hasMaintenances,
+      expired: summary.expired ?? [],
+      pending: summary.pending ?? [],
+      expiredCount: summary.expiredCount ?? 0,
+      pendingCount: summary.pendingCount ?? 0,
+    };
+
+    isVehicleBottomSheetOpen.value = false;
+    isMaintenanceBottomSheetOpen.value =
+      !maintenanceSummary.value.hasMaintenances;
+  } else {
+    isVehicleBottomSheetOpen.value = true;
   }
-  return null;
 });
-onMounted(() => {
-  carStore.getCars();
-});
+
+const openMileageModal = () => {
+  mileage.value = lastMileage.value ?? 0;
+  isMileageModalOpen.value = true;
+};
 
 const showHelpModal = (): void => {
   isOpen.value = true;
-  modalContent.value = 'Quando devo fazer a troca?';
-  modalDescription.value = [
-    'O tempo recomendado para troca de óleo é de 6 a 12 meses.',
-    'Troque de óleo a cada 10 mil quilômetros aproximadamente.',
-    'O uso severo do veículo pode encurtar o intervalo de troca de óleo.',
-    'Utilize o tipo de óleo e quantidade correta do modelo do seu veículo.',
-    'Jamais misture óleos de viscosidades diferentes.',
-  ];
-};
-
-const formatOdometerValue = (): void => {
-  const value = odometerValue.value.replace(/\D/g, '');
-  odometerValue.value = Number(value).toLocaleString('pt-BR');
-};
-
-const expiredMaintenances = ref([
-  {
-    title: 'Alinhamento e balanceamento',
-    date: 'Venceu dia 1 out. 2024',
-    progress: '6/8',
-    image: alignmentImage,
-  },
-  {
-    title: 'Troca de óleo',
-    date: 'Venceu dia 1 out. 2024',
-    progress: '6/8',
-    image: odometer,
-  },
-  {
-    title: 'Troca de bateria',
-    date: 'Venceu dia 1 out. 2024',
-    progress: '6/8',
-    image: batteryIcon,
-  },
-]);
-
-const nextMaintenances = ref([
-  {
-    title: 'Alinhamento e balanceamento',
-    date: 'Vence dia 12 out. 2025',
-    progress: '6/8',
-    image: alignmentImage,
-  },
-  {
-    title: 'Troca de óleo',
-    date: 'Vence dia 1 out. 2025',
-    progress: '6/8',
-    image: odometer,
-  },
-  {
-    title: 'Troca de bateria',
-    date: 'Vence dia 1 out. 2025',
-    progress: '6/8',
-    image: batteryIcon,
-  },
-]);
-
-const currentExpiredIndex = ref(0);
-const currentNextIndex = ref(0);
-
-const prevExpiredMaintenance = () => {
-  if (currentExpiredIndex.value > 0) {
-    currentExpiredIndex.value--;
-  } else {
-    currentExpiredIndex.value = expiredMaintenances.value.length - 1;
-  }
-};
-
-const nextExpiredMaintenance = () => {
-  if (currentExpiredIndex.value < expiredMaintenances.value.length - 1) {
-    currentExpiredIndex.value++;
-  } else {
-    currentExpiredIndex.value = 0;
-  }
-};
-
-const prevNextMaintenance = () => {
-  if (currentNextIndex.value > 0) {
-    currentNextIndex.value--;
-  } else {
-    currentNextIndex.value = nextMaintenances.value.length - 1;
-  }
-};
-
-const nextNextMaintenance = () => {
-  if (currentNextIndex.value < nextMaintenances.value.length - 1) {
-    currentNextIndex.value++;
-  } else {
-    currentNextIndex.value = 0;
-  }
 };
 </script>
 
 <style scoped>
-.home-page {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  padding: 24px 20px;
-  gap: 32px;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.title {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.styled-button {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 24px;
-  border-radius: 4px;
-  background-color: #8ce95f;
-  color: #314b39;
-  font-weight: 600;
-  font-size: 18px;
-  border: 0;
-}
-
-.card-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.card {
-  width: 100%;
-  background-color: white;
-  border-radius: 8px;
-  padding: 16px;
-}
-
-.card-maintenance {
-  border-radius: 0px 0px 8px 8px;
-  box-shadow: 0px 1px 4px 0px #00000040;
-}
-
-.card-maintenance.danger {
-  border-top: 4px solid red;
-}
-
-.card-maintenance.success {
-  border-top: 4px solid #3d5e46;
-}
-
-.info-wrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
-.info-text-wrapper {
-  display: flex;
-  flex-direction: column;
-  margin-top: 6px;
-  gap: 4px;
-}
-
-.odometer-icon {
-  margin-top: 4px;
-  margin-right: -26px;
-  margin-bottom: -22px;
-}
-
-.odometer-icon img {
-  width: 185px;
-  height: 110px;
-}
-
-.kilometer-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-bottom: 8px;
-  padding-top: 8px;
-}
-
-.km-number {
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 26px;
-  color: #51785a;
-  border: none;
-  background: transparent;
-  width: 90px;
-  text-align: center;
-}
-
-.km-number:focus {
-  outline: none;
-}
-
-.km-text {
-  color: #9ba7ad;
-  font-weight: 700;
-  font-size: 14px;
-  margin-top: 1px;
-}
-
-.kilometer-text {
-  font-size: 12px;
-  font-weight: 400;
-  color: #5b6871;
-}
-
-.kilometer-text-number {
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.section-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.75rem;
-}
-
-.expired-header .text-danger {
-  color: #e53935;
-}
-
-.section-icon-wrapper {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  gap: 10px;
-  border-radius: 8px;
-}
-
-.section-icon {
-  margin-right: 0.5rem;
-}
-
-.section-icon img {
-  display: flex;
-  align-self: center;
-}
-
-.section-image {
-  width: 20px;
-  height: 20px;
-}
-
-.section-title {
-  color: #440b0b;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.maintenance-content {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.maintenance-image-wrapper {
-  border-radius: 8px;
-  background: var(--Cores-Cinza-50, #eff3f5);
-  margin-right: 0.75rem;
-  display: flex;
-  padding: 5px;
-  align-items: center;
-  gap: 10px;
-  height: 30px;
-  width: 30px;
-}
-
-.maintenance-image {
-  width: 20px;
-  height: 20px;
-}
-
-.maintenance-details {
-  display: flex;
-  flex-direction: row;
-  gap: 2px;
-}
-
-.maintenance-name {
-  color: var(--Cores-Cinza-800, #33373c);
-  font-family: var(--Tipo-Familia-Tag, Inter);
-  font-size: var(--Tipo-Tamanho-Sm, 14px);
-  font-style: normal;
-  font-weight: 500;
-  line-height: 120%;
-}
-
-.maintenance-date {
-  align-self: stretch;
-  color: var(--Cores-Cinza-400, #76828b);
-  font-family: var(--Tipo-Familia-Tag, Inter);
-  font-size: var(--Tipo-Tamanho-Xs, 12px);
-  font-style: normal;
-  font-weight: 500;
-  line-height: 120%;
-}
-
-.back-arrow {
-  --size: 20px;
-  width: var(--size);
-  height: var(--size);
-
-  transform: rotate(-90deg);
-}
-
-.next-arrow {
-  --size: 20px;
-  width: var(--size);
-  height: var(--size);
-
-  transform: rotate(90deg);
-}
-
-.maintenance-expired-count {
-  border-radius: 100%;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.maintenance-expired-count.danger {
-  background-color: red;
-}
-
-.maintenance-expired-count.success {
-  background-color: #3d5e46;
-}
-
-.card-content {
-  margin-left: 10px;
-  margin-right: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.see-all-button {
-  width: 100%;
-  height: 40px;
-  background-color: #eff3f5;
-  border: 1px solid #e0e5e7;
-  border-radius: 4px;
-  font-weight: 600;
-  color: #293e2f;
-  font-size: 14px;
-}
-
-.arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.maintenance-content-text {
-  flex: 1;
-  text-align: left;
-  margin-left: 8px;
-}
-
-.expired-content {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
+@import './HomePage.scss';
 </style>

@@ -34,5 +34,26 @@ export function api() {
     return config;
   });
 
+  instance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      const status = error.response?.status;
+
+
+      if (status === 401 || status === 403) {
+        console.warn('[Axios] Token inválido ou expirado');
+
+   
+        localStorage.removeItem('jwt');
+        sessionStorage.removeItem('jwt');
+
+       
+        window.location.href = '/#/auth/signin';
+      }
+
+      return Promise.reject(error);
+    }
+  );
+
   return instance;
 }

@@ -2,25 +2,36 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { api } from '@/boot/axios';
+import { Car } from '@/shared/types/car';
 const baseApi = import.meta.env.VITE_ROTA_API;
 
 export type CarRegisterPayload = {
-  year: number;
+  userId?: string;
+  chassis: string;
+  brand?: string;
   model: string;
   license_plate: string;
+  year: number;
+  color: string;
+  fuelType: string;
   current_mileage: number;
 };
 
 export type CarUpdatePayload = {
   userId?: string;
-  year?: number;
+  chassis?: string;
+  brand?: string;
   model?: string;
   license_plate?: string;
+  year?: number;
+  color?: string;
+  fuel_type?: string;
+  current_mileage?: number;
 };
 
 export const useCarStore = defineStore('car', () => {
-  const cars = ref<any[]>([]);
-  const car = ref<any | null>(null);
+  const cars = ref<Car[]>([]);
+  const car = ref<Car | null>(null);
   const error = ref<any | null>(null);
   const isLoading = ref(false);
   const firstLicensePlate = ref<string | null>(null);
@@ -28,13 +39,32 @@ export const useCarStore = defineStore('car', () => {
   async function registerCar(payload: CarRegisterPayload) {
     isLoading.value = true;
     error.value = null;
+
     try {
       const { data } = await api().post(`${baseApi}/v1/cars`, payload);
+
+      console.log(data);
+
+      if (data && Object.keys(data).length > 0) {
+        car.value = data;
+        cars.value.push(data);
+      }
+
       return data;
-    } catch (e: unknown) {
-      const err = e as any;
-      error.value = err.response?.data || err;
-      throw error.value;
+    } catch (e: any) {
+      const errData = e.response?.data || e;
+      error.value = errData;
+
+      console.log(errData);
+
+      if (e.response?.status === 409) {
+        throw new Error('Um carro com essa placa já está registrado.');
+      }
+      if (e.response?.status === 400) {
+        throw new Error('Dados inválidos. Verifique os campos.');
+      }
+
+      throw errData;
     } finally {
       isLoading.value = false;
     }
@@ -43,18 +73,17 @@ export const useCarStore = defineStore('car', () => {
   async function getCars() {
     isLoading.value = true;
     error.value = null;
+
     try {
-      const { data } = await api().get(`${baseApi}/v1/cars`);
+      const { data } = await api().get<Car[]>(`${baseApi}/v1/cars`);
+
       cars.value = data;
-      if (Array.isArray(data) && data.length > 0) {
-        firstLicensePlate.value = data[0].license_plate || null;
-      } else {
-        firstLicensePlate.value = null;
-      }
+
+      firstLicensePlate.value = data[0]?.license_plate ?? null;
+
       return data;
-    } catch (e: unknown) {
-      const err = e as any;
-      error.value = err.response?.data || err;
+    } catch (e: any) {
+      error.value = e.response?.data || e;
       throw error.value;
     } finally {
       isLoading.value = false;
@@ -67,6 +96,7 @@ export const useCarStore = defineStore('car', () => {
     try {
       const { data } = await api().get(`${baseApi}/v1/cars/${license_plate}`);
       car.value = data;
+      console.log(data);
       return data;
     } catch (e: unknown) {
       const err = e as any;

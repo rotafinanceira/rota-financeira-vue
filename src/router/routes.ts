@@ -31,6 +31,11 @@ const routes: RouteRecordRaw[] = [
             component: () => import('src/pages/Auth/SignInPage.vue'),
           },
           {
+            path: 'google-callback',
+            name: 'google-callback',
+            component: () => import('src/pages/Auth/GoogleCallbackPage.vue'),
+          },
+          {
             path: 'signup',
             name: 'signup',
             redirect: '/auth/signup/step-1',
@@ -88,7 +93,7 @@ const routes: RouteRecordRaw[] = [
               },
               {
                 path: 'oil/form',
-                name: 'maintenance-oil-form',
+                name: 'maintenance-oil-create',
                 component: () =>
                   import(
                     '@/pages/Maintenances/Maintenance/OilPage/OilPageForm.vue'
@@ -96,7 +101,7 @@ const routes: RouteRecordRaw[] = [
               },
               {
                 path: 'oil/form/:maintenanceId?',
-                name: 'maintenance-oil-form',
+                name: 'maintenance-oil-edit',
                 component: () =>
                   import(
                     '@/pages/Maintenances/Maintenance/OilPage/OilPageForm.vue'
@@ -106,27 +111,97 @@ const routes: RouteRecordRaw[] = [
                 path: 'battery',
                 name: 'maintenance-battery',
                 component: () =>
-                  import('@/pages/Maintenances/Maintenance/BatteryPage.vue'),
+                  import(
+                    '@/pages/Maintenances/Maintenance/BatteryPage/BatteryPage.vue'
+                  ),
+              },
+              {
+                path: 'battery/form',
+                name: 'maintenance-battery-create',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/BatteryPage/BatteryPageForm.vue'
+                  ),
+              },
+              {
+                path: 'battery/form/:maintenanceId?',
+                name: 'maintenance-battery-edit',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/BatteryPage/BatteryPageForm.vue'
+                  ),
               },
               {
                 path: 'fuel-filter',
                 name: 'maintenance-fuel-filter',
                 component: () =>
-                  import('@/pages/Maintenances/Maintenance/FuelFilterPage.vue'),
+                  import(
+                    '@/pages/Maintenances/Maintenance/FuelFilterPage/FuelFilterPage.vue'
+                  ),
+              },
+              {
+                path: 'fuel-filter/form',
+                name: 'maintenance-fuel-filter-create',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/FuelFilterPage/FuelFilterPageForm.vue'
+                  ),
+              },
+              {
+                path: 'fuel-filter/form/:maintenanceId?',
+                name: 'maintenance-fuel-filter-edit',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/FuelFilterPage/FuelFilterPageForm.vue'
+                  ),
               },
               {
                 path: 'alignment-balancing',
                 name: 'maintenance-alignment-balancing',
                 component: () =>
                   import(
-                    '@/pages/Maintenances/Maintenance/AlignmentBalancingPage.vue'
+                    '@/pages/Maintenances/Maintenance/AlignmentBalancingPage/AlignmentBalancingPage.vue'
+                  ),
+              },
+              {
+                path: 'alignment-balancing/form',
+                name: 'maintenance-alignment-balancing-create',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/AlignmentBalancingPage/AlignmentBalancingPageForm.vue'
+                  ),
+              },
+              {
+                path: 'alignment-balancing/form/:maintenanceId?',
+                name: 'maintenance-alignment-balancing-edit',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/AlignmentBalancingPage/AlignmentBalancingPageForm.vue'
                   ),
               },
               {
                 path: 'air-filter',
                 name: 'maintenance-air-filter',
                 component: () =>
-                  import('@/pages/Maintenances/Maintenance/AirFilterPage.vue'),
+                  import(
+                    '@/pages/Maintenances/Maintenance/AirFilterPage/AirFilterPage.vue'
+                  ),
+              },
+              {
+                path: 'air-filter/form',
+                name: 'maintenance-air-filter-create',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/AirFilterPage/AirFilterPageForm.vue'
+                  ),
+              },
+              {
+                path: 'air-filter/form/:maintenanceId?',
+                name: 'maintenance-air-filter-edit',
+                component: () =>
+                  import(
+                    '@/pages/Maintenances/Maintenance/AirFilterPage/AirFilterPageForm.vue'
+                  ),
               },
             ],
           },

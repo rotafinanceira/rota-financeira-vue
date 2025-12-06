@@ -44,3 +44,12 @@ export interface MappedMaintenance {
   service: string;
   oilType: string;
 }
+
+export interface OilPayload {
+  lastMaintenanceDate: string;
+  lastMaintenanceKm: number;
+  oilType: OilType;
+  serviceType: OilServiceType;
+  valor: number;
+  oficina?: string | null;
+}

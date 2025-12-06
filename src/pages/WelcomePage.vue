@@ -41,9 +41,12 @@ import { RouterLink } from 'vue-router';
 import { LogoOneLine } from '@/shared/assets/logos';
 import googleIcon from '@/shared/assets/googleIcon.svg';
 import CButton from '@/shared/components/CButton.vue';
+import { useRegisterStore } from '@/stores/registerStore';
+
+const registerStore = useRegisterStore();
 
 const continueWithGoogle = () => {
-  // Implement Google sign-in logic here
+  registerStore.googleLogin();
 };
 </script>
 
@@ -65,7 +68,7 @@ const continueWithGoogle = () => {
 .intro {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
 
   &__title {
     color: white;
@@ -88,7 +91,7 @@ const continueWithGoogle = () => {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
 
   &__white {
     background-color: white;

@@ -30,11 +30,6 @@
             <span class="google-button-text">Entrar com o Google</span>
           </button>
         </div>
-        <q-btn
-          label="Ir para Home"
-          color="primary"
-          @click="navigateToHome"
-        ></q-btn>
       </div>
     </div>
     <ModalGenericoAlert
@@ -121,10 +116,9 @@ const handleSubmit = async () => {
       email: email.value,
       password: password.value,
     });
-    // Sucesso: resultado esperado do backend
-    router.push({ path: '/success' });
+
+    router.push({ name: 'home' });
   } catch (error) {
-    // Log detalhado para debug
     console.error('Erro no login:', error);
     const statusCode = error?.status || error?.response?.status;
     if (error?.response?.data) {
@@ -152,12 +146,16 @@ const handleApiError = (statusCode) => {
   }
 };
 
-const navigateToHome = () => {
-  router.push({ name: 'home' });
-};
-
-const continueWithGoogle = () => {
-  // Implemente a lógica para login com o Google aqui
+const continueWithGoogle = async () => {
+  try {
+    isLoading.value = true;
+    await registerStore.googleLogin();
+    router.push({ name: 'home' });
+  } catch (error) {
+    console.error('Google Login Error:', error);
+  } finally {
+    isLoading.value = false;
+  }
 };
 </script>
 

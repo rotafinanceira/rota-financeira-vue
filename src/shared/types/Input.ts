@@ -10,5 +10,6 @@ export type Input = {
   disabled?: boolean;
   supportingText?: string;
   action?: () => void;
-  variant: 'generic' | 'password';
+  variant: 'generic' | 'password' | 'date' | 'money' | 'unit' | 'plate';
+  required?: boolean;
 } & /* @vue-ignore */ InputHTMLAttributes;
