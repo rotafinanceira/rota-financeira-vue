@@ -19,15 +19,11 @@ import {
 } from '@/shared/assets/icons';
 
 import {
-  CarIcon,
-  WrenchIcon,
-  BrokenCarIcon,
-} from '@/shared/assets/illustrations';
-
-import {
   MappedMaintenance,
   OilServiceType,
 } from '@/shared/types/oil-maintenance';
+
+import MustiStatusCard from '../../components/MustiStatusCard.vue';
 
 const router = useRouter();
 const oilStore = useOilStore();
@@ -108,36 +104,24 @@ function editMaintenance(m: MappedMaintenance): void {
     </div>
 
     <section class="page__status" v-else>
-      <div v-if="isOverdue" class="page__card">
-        <div class="card__container">
-          <img :src="BrokenCarIcon" />
-          <h2 class="card__title">Manutenção vencida!</h2>
-          <span class="card__text">
-            É hora de realizar a revisão de óleo automotivo do seu veículo.
-          </span>
-        </div>
-      </div>
+      <MustiStatusCard
+        v-if="isOverdue"
+        variant="overdue"
+        maintenanceName="Troca de óleo"
+      />
 
-      <div v-else-if="isEmpty" class="page__card">
-        <div class="card__container">
-          <img :src="WrenchIcon" />
-          <h2 class="card__title">Nenhuma manutenção cadastrada!</h2>
-          <span class="card__text">
-            Você ainda não cadastrou nenhuma troca de óleo.
-          </span>
-        </div>
-      </div>
+      <MustiStatusCard
+        v-else-if="isEmpty"
+        variant="empty"
+        maintenanceName="Troca de óleo"
+      />
 
-      <div v-else class="page__card">
-        <div class="card__container">
-          <img :src="CarIcon" />
-          <h2 class="card__title">Você está em dia!</h2>
-          <span class="card__text">
-            Sua próxima revisão será em
-            {{ nextMaintenanceKm ?? '0' }} km.
-          </span>
-        </div>
-      </div>
+      <MustiStatusCard
+        v-else
+        variant="ok"
+        :nextKm="nextMaintenanceKm"
+        maintenanceName="Troca de óleo"
+      />
     </section>
 
     <CButton variant="primary" :to="{ name: 'maintenance-oil-create' }">

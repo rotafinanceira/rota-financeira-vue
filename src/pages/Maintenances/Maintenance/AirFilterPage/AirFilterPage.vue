@@ -19,11 +19,7 @@ import {
   AirFilterIcon,
 } from '@/shared/assets/icons';
 
-import {
-  CarIcon,
-  WrenchIcon,
-  BrokenCarIcon,
-} from '@/shared/assets/illustrations';
+import MustiStatusCard from '../../components/MustiStatusCard.vue';
 
 import { MappedMaintenance } from '@/shared/types/fuel-filter-maintenance';
 
@@ -103,38 +99,24 @@ function editMaintenance(m: MappedMaintenance): void {
     </div>
 
     <section class="page__status" v-else>
-      <div v-if="isOverdue" class="page__card">
-        <div class="card__container">
-          <img :src="BrokenCarIcon" />
-          <h2 class="card__title">Manutenção vencida!</h2>
-          <span class="card__text">
-            É hora de realizar a manutenção de filtro de ar condicionado do seu
-            veículo.
-          </span>
-        </div>
-      </div>
+      <MustiStatusCard
+        v-if="isOverdue"
+        variant="overdue"
+        maintenanceName="Filtro de ar condicionado"
+      />
 
-      <div v-else-if="isEmpty" class="page__card">
-        <div class="card__container">
-          <img :src="WrenchIcon" />
-          <h2 class="card__title">Nenhuma manutenção cadastrada!</h2>
-          <span class="card__text">
-            Você ainda não cadastrou nenhuma manutenção de filtro de ar
-            condicionado.
-          </span>
-        </div>
-      </div>
+      <MustiStatusCard
+        v-else-if="isEmpty"
+        variant="empty"
+        maintenanceName="Filtro de ar condicionado"
+      />
 
-      <div v-else class="page__card">
-        <div class="card__container">
-          <img :src="CarIcon" />
-          <h2 class="card__title">Você está em dia!</h2>
-          <span class="card__text">
-            Sua próxima manutenção de filtro de ar condicionado será em
-            {{ nextMaintenanceKm ?? '0' }} km.
-          </span>
-        </div>
-      </div>
+      <MustiStatusCard
+        v-else
+        variant="ok"
+        :nextKm="nextMaintenanceKm"
+        maintenanceName="Filtro de ar condicionado"
+      />
     </section>
 
     <CButton variant="primary" :to="{ name: 'maintenance-air-filter-create' }">
