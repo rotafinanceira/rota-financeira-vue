@@ -18,13 +18,8 @@ import {
   FuelFilterIcon,
 } from '@/shared/assets/icons';
 
-import {
-  CarIcon,
-  WrenchIcon,
-  BrokenCarIcon,
-} from '@/shared/assets/illustrations';
-
 import { MappedMaintenance } from '@/shared/types/fuel-filter-maintenance';
+import BasicStatusCard from '../../components/BasicStatusCard.vue';
 
 const router = useRouter();
 const fuelFilterStore = useFuelFilterStore();
@@ -102,38 +97,24 @@ function editMaintenance(m: MappedMaintenance): void {
     </div>
 
     <section class="page__status" v-else>
-      <div v-if="isOverdue" class="page__card">
-        <div class="card__container">
-          <img :src="BrokenCarIcon" />
-          <h2 class="card__title">Manutenção vencida!</h2>
-          <span class="card__text">
-            É hora de realizar a manutenção de filtro de combustível do seu
-            veículo.
-          </span>
-        </div>
-      </div>
+      <BasicStatusCard
+        v-if="isOverdue"
+        variant="overdue"
+        maintenanceName="Filtro de combustível"
+      />
 
-      <div v-else-if="isEmpty" class="page__card">
-        <div class="card__container">
-          <img :src="WrenchIcon" />
-          <h2 class="card__title">Nenhuma manutenção cadastrada!</h2>
-          <span class="card__text">
-            Você ainda não cadastrou nenhuma manutenção de filtro de
-            combustível.
-          </span>
-        </div>
-      </div>
+      <BasicStatusCard
+        v-else-if="isEmpty"
+        variant="empty"
+        maintenanceName="Filtro de combustível"
+      />
 
-      <div v-else class="page__card">
-        <div class="card__container">
-          <img :src="CarIcon" />
-          <h2 class="card__title">Você está em dia!</h2>
-          <span class="card__text">
-            Sua próxima manutenção de filtro de combustível será em
-            {{ nextMaintenanceKm ?? '0' }} km.
-          </span>
-        </div>
-      </div>
+      <BasicStatusCard
+        v-else
+        variant="ok"
+        :nextKm="nextMaintenanceKm"
+        maintenanceName="Filtro de combustível"
+      />
     </section>
 
     <CButton variant="primary" :to="{ name: 'maintenance-fuel-filter-create' }">

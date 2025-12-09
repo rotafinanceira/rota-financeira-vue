@@ -18,13 +18,9 @@ import {
   CalendarIcon,
 } from '@/shared/assets/icons';
 
-import {
-  CarIcon,
-  WrenchIcon,
-  BrokenCarIcon,
-} from '@/shared/assets/illustrations';
-
 import { MappedMaintenance } from '@/shared/types/battery-maintenance';
+
+import BasicStatusCard from '../../components/BasicStatusCard.vue';
 
 const router = useRouter();
 const batteryStore = useBatteryStore();
@@ -106,36 +102,24 @@ function editMaintenance(m: MappedMaintenance): void {
     </div>
 
     <section class="page__status" v-else>
-      <div v-if="isOverdue" class="page__card">
-        <div class="card__container">
-          <img :src="BrokenCarIcon" />
-          <h2 class="card__title">Manutenção vencida!</h2>
-          <span class="card__text">
-            É hora de realizar a revisão de bateria do seu veículo.
-          </span>
-        </div>
-      </div>
+      <BasicStatusCard
+        v-if="isOverdue"
+        variant="overdue"
+        maintenanceName="Troca de Bateria"
+      />
 
-      <div v-else-if="isEmpty" class="page__card">
-        <div class="card__container">
-          <img :src="WrenchIcon" />
-          <h2 class="card__title">Nenhuma manutenção cadastrada!</h2>
-          <span class="card__text">
-            Você ainda não cadastrou nenhuma troca de bateria.
-          </span>
-        </div>
-      </div>
+      <BasicStatusCard
+        v-else-if="isEmpty"
+        variant="empty"
+        maintenanceName="Troca de Bateria"
+      />
 
-      <div v-else class="page__card">
-        <div class="card__container">
-          <img :src="CarIcon" />
-          <h2 class="card__title">Você está em dia!</h2>
-          <span class="card__text">
-            Sua próxima troca de bateria será em
-            {{ nextMaintenanceKm ?? '0' }} km.
-          </span>
-        </div>
-      </div>
+      <BasicStatusCard
+        v-else
+        variant="ok"
+        :nextKm="nextMaintenanceKm"
+        maintenanceName="Troca de Bateria"
+      />
     </section>
 
     <CButton variant="primary" :to="{ name: 'maintenance-battery-create' }">
