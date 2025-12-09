@@ -43,8 +43,6 @@ export const useCarStore = defineStore('car', () => {
     try {
       const { data } = await api().post(`${baseApi}/v1/cars`, payload);
 
-      console.log(data);
-
       if (data && Object.keys(data).length > 0) {
         car.value = data;
         cars.value.push(data);
@@ -54,8 +52,6 @@ export const useCarStore = defineStore('car', () => {
     } catch (e: any) {
       const errData = e.response?.data || e;
       error.value = errData;
-
-      console.log(errData);
 
       if (e.response?.status === 409) {
         throw new Error('Um carro com essa placa já está registrado.');
@@ -96,7 +92,7 @@ export const useCarStore = defineStore('car', () => {
     try {
       const { data } = await api().get(`${baseApi}/v1/cars/${license_plate}`);
       car.value = data;
-      console.log(data);
+
       return data;
     } catch (e: unknown) {
       const err = e as any;

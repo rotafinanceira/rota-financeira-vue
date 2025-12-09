@@ -62,8 +62,6 @@ const info = computed(() => {
 
 <style scoped lang="scss">
 .card {
-  text-align: center;
-
   &__container {
     display: flex;
     flex-direction: column;
@@ -71,6 +69,7 @@ const info = computed(() => {
     align-items: center;
     gap: 1rem;
     padding: 1rem;
+    text-align: center;
   }
 
   &__title {
