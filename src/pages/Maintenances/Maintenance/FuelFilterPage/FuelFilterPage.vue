@@ -39,7 +39,7 @@ const statusVariant = computed<'overdue' | 'empty' | 'ok'>(() => {
 
 const statusProps = computed(() => ({
   variant: statusVariant.value,
-  maintenanceName: 'Troca de Bateria',
+  maintenanceName: 'Filtro de combustível',
   nextKm: statusVariant.value === 'ok' ? nextMaintenanceKm.value : null,
 }));
 

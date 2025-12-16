@@ -18,7 +18,7 @@ import {
   AlignmentIcon,
 } from '@/shared/assets/icons';
 
-import MustiStatusCard from '../../components/MustiStatusCard.vue';
+import StatusCard from '../../components/StatusCard.vue';
 
 import { MappedMaintenance } from '@/shared/types/fuel-filter-maintenance';
 
@@ -31,6 +31,18 @@ const { maintenances, isOverdue, isLoading, nextMaintenanceKm } =
 
 const hasMaintenances = computed(() => maintenances.value.length > 0);
 const isEmpty = computed(() => !hasMaintenances.value);
+
+const statusVariant = computed<'overdue' | 'empty' | 'ok'>(() => {
+  if (isOverdue.value) return 'overdue';
+  if (isEmpty.value) return 'empty';
+  return 'ok';
+});
+
+const statusProps = computed(() => ({
+  variant: statusVariant.value,
+  maintenanceName: 'Alinhamento e balanceamento',
+  nextKm: statusVariant.value === 'ok' ? nextMaintenanceKm.value : null,
+}));
 
 onMounted(async () => {
   alignmentStore.resetStore();
@@ -98,24 +110,7 @@ function editMaintenance(m: MappedMaintenance): void {
     </div>
 
     <section class="page__status" v-else>
-      <MustiStatusCard
-        v-if="isOverdue"
-        variant="overdue"
-        maintenanceName="Alinhamento e balanceamento"
-      />
-
-      <MustiStatusCard
-        v-else-if="isEmpty"
-        variant="empty"
-        maintenanceName="Alinhamento e balanceamento"
-      />
-
-      <MustiStatusCard
-        v-else
-        variant="ok"
-        :nextKm="nextMaintenanceKm"
-        maintenanceName="Alinhamento e balanceamento"
-      />
+      <StatusCard v-bind="statusProps" />
     </section>
 
     <CButton

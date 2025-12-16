@@ -183,7 +183,7 @@ onMounted(async () => {
     <div class="card-wrapper">
       <div class="card">
         <div class="header-content">
-          <span class="title">Manutenção</span>
+          <span class="title">Cadastro</span>
           <div @click="showHelpModal">
             <img :src="helpIcon" alt="Help Icon" />
           </div>

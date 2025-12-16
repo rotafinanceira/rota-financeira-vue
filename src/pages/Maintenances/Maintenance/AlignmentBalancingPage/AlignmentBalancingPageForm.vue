@@ -19,6 +19,7 @@ import {
   formatInput,
   parseInputToNumber,
 } from '@/shared/helper/inputFormatHelper';
+import { AlignmentIcon } from '@/shared/assets/icons';
 
 interface Option {
   label: string;
@@ -150,10 +151,14 @@ onMounted(async () => {
 
 <template>
   <div class="main-content">
+    <div class="page__header">
+      <img :src="AlignmentIcon" alt="" />
+      <h1>Alinhamento e balanceamento</h1>
+    </div>
     <div class="card-wrapper">
       <div class="card">
         <div class="header-content">
-          <span class="title">Manutenção</span>
+          <span class="title">Cadastro</span>
           <div @click="showHelpModal">
             <img :src="helpIcon" alt="Help Icon" />
           </div>
