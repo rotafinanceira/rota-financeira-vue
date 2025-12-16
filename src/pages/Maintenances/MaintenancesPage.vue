@@ -10,7 +10,8 @@
           <img :src="BrokenCarIcon" />
           <h2 class="expired-card__title">Manutenção vencida!</h2>
           <span class="expired-card__text">
-            É hora de realizar a revisão de bateria do seu veículo.
+            Seu veículo está com {{ expiredCount }} manutenções em atraso.
+            Atualize o quanto antes para manter seu carro em ótimas condições!
           </span>
         </div>
 
@@ -90,6 +91,8 @@ const maintenanceStore = useMaintenanceStore();
 const { maintenances } = storeToRefs(maintenanceStore);
 
 const { appliedFilters, filterOptions } = storeToRefs(maintenanceStore);
+
+const expiredCount = computed(() => expiredMaintenances.value.length);
 
 onMounted(async () => {
   await carStore.getCars();
