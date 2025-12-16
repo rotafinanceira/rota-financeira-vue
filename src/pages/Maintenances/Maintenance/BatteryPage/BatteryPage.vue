@@ -20,7 +20,7 @@ import {
 
 import { MappedMaintenance } from '@/shared/types/battery-maintenance';
 
-import BasicStatusCard from '../../components/BasicStatusCard.vue';
+import StatusCard from '../../components/StatusCard.vue';
 
 const router = useRouter();
 const batteryStore = useBatteryStore();
@@ -31,6 +31,18 @@ const { maintenances, isOverdue, isLoading, nextMaintenanceKm } =
 
 const hasMaintenances = computed(() => maintenances.value.length > 0);
 const isEmpty = computed(() => !hasMaintenances.value);
+
+const statusVariant = computed<'overdue' | 'empty' | 'ok'>(() => {
+  if (isOverdue.value) return 'overdue';
+  if (isEmpty.value) return 'empty';
+  return 'ok';
+});
+
+const statusProps = computed(() => ({
+  variant: statusVariant.value,
+  maintenanceName: 'Troca de Bateria',
+  nextKm: statusVariant.value === 'ok' ? nextMaintenanceKm.value : null,
+}));
 
 onMounted(async () => {
   batteryStore.resetStore();
@@ -102,24 +114,7 @@ function editMaintenance(m: MappedMaintenance): void {
     </div>
 
     <section class="page__status" v-else>
-      <BasicStatusCard
-        v-if="isOverdue"
-        variant="overdue"
-        maintenanceName="Troca de Bateria"
-      />
-
-      <BasicStatusCard
-        v-else-if="isEmpty"
-        variant="empty"
-        maintenanceName="Troca de Bateria"
-      />
-
-      <BasicStatusCard
-        v-else
-        variant="ok"
-        :nextKm="nextMaintenanceKm"
-        maintenanceName="Troca de Bateria"
-      />
+      <StatusCard v-bind="statusProps" />
     </section>
 
     <CButton variant="primary" :to="{ name: 'maintenance-battery-create' }">

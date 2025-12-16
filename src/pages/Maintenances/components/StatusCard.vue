@@ -6,47 +6,92 @@ import {
   WrenchIcon,
   BrokenCarIcon,
 } from '@/shared/assets/illustrations';
-import CTag from '@/shared/components/CTag.vue';
 
+import CTag from '@/shared/components/CTag.vue';
 import CDivider from '@/shared/components/CDivider.vue';
 
 type Variant = 'overdue' | 'empty' | 'ok';
 
+type StatusItem = {
+  title: string;
+  text?: string;
+  tag?: {
+    title: string;
+    variant: 'error' | 'default';
+  };
+};
+
 const props = defineProps<{
   variant: Variant;
-  nextKm?: number | null;
   maintenanceName: string;
+  nextKm?: number | null;
   expiredDate?: string;
 }>();
 
-const info = computed(() => {
+/**
+ * Header do card (ícone + título + descrição)
+ */
+const headerInfo = computed(() => {
   switch (props.variant) {
     case 'overdue':
       return {
         icon: BrokenCarIcon,
         title: 'Manutenção vencida!',
-        text: `É hora de realizar a manutenção de  ${props.maintenanceName} do seu veículo.`,
+        text: `É hora de realizar a manutenção de ${props.maintenanceName} do seu veículo.`,
       };
 
     case 'empty':
       return {
         icon: WrenchIcon,
         title: 'Nenhuma manutenção cadastrada!',
-        text: `Você ainda não cadastrou nenhuma manutenção de ${props.maintenanceName}`,
+        text: `Você ainda não cadastrou nenhuma manutenção de ${props.maintenanceName}.`,
       };
 
     case 'ok':
       return {
         icon: CarIcon,
         title: 'Você está em dia!',
+        text: null,
       };
 
     default:
       return {
         icon: '',
         title: '',
-        text: '',
+        text: null,
       };
+  }
+});
+
+/**
+ * Itens dinâmicos do card
+ */
+const items = computed<StatusItem[]>(() => {
+  switch (props.variant) {
+    case 'overdue':
+      return [
+        {
+          title: props.maintenanceName,
+          tag: {
+            title: props.expiredDate ?? 'Manutenção vencida',
+            variant: 'error',
+          },
+        },
+      ];
+
+    case 'ok':
+      return [
+        {
+          title: props.maintenanceName,
+          text: `Próxima revisão em ${props.nextKm ?? 0} km.`,
+        },
+      ];
+
+    case 'empty':
+      return [];
+
+    default:
+      return [];
   }
 });
 </script>
@@ -54,36 +99,38 @@ const info = computed(() => {
 <template>
   <div class="page__card">
     <div class="card">
+      <!-- Header -->
       <div class="card__header">
-        <img :src="info.icon" />
+        <img :src="headerInfo.icon" />
         <div class="card__text">
-          <h2 class="card__title">{{ info.title }}</h2>
-          <span class="card__desc">
-            {{ info.text }}
+          <h2 class="card__title">
+            {{ headerInfo.title }}
+          </h2>
+          <span v-if="headerInfo.text" class="card__desc">
+            {{ headerInfo.text }}
           </span>
         </div>
       </div>
-      <CDivider />
-      <div class="item">
-        <span class="item__title">
-          {{ props.maintenanceName }}
-        </span>
-        <div class="vertical"></div>
-        <CTag
-          :key="0"
-          :title="props.expiredDate ?? 'Venceu em 3 de set.'"
-          variant="error"
-        />
-      </div>
 
-      <div class="item">
+      <CDivider />
+
+      <!-- Itens dinâmicos -->
+      <div v-for="(item, index) in items" :key="index" class="item">
         <span class="item__title">
-          {{ props.maintenanceName }}
+          {{ item.title }}
         </span>
+
         <div class="vertical"></div>
-        <span class="item__text"
-          >Próxima revisão em {{ props.nextKm ?? 0 }} km.</span
-        >
+
+        <CTag
+          v-if="item.tag"
+          :title="item.tag.title"
+          :variant="item.tag.variant"
+        />
+
+        <span v-else class="item__text">
+          {{ item.text }}
+        </span>
       </div>
     </div>
   </div>
@@ -96,15 +143,16 @@ const info = computed(() => {
   display: flex;
   flex-direction: column;
   text-align: center;
+
   gap: 1rem;
 
   &__header {
     padding-left: 1rem;
     padding-right: 1rem;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     gap: 1rem;
+    align-items: center;
   }
 
   &__text {
@@ -130,8 +178,8 @@ const info = computed(() => {
   display: flex;
   gap: 1rem;
   align-items: center;
-
   text-align: left;
+
   &__title {
     font-weight: 500;
   }
