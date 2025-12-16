@@ -33,8 +33,8 @@ const hasMaintenances = computed(() => maintenances.value.length > 0);
 const isEmpty = computed(() => !hasMaintenances.value);
 
 const statusVariant = computed<'overdue' | 'empty' | 'ok'>(() => {
-  if (isOverdue.value) return 'overdue';
   if (isEmpty.value) return 'empty';
+  if (isOverdue.value) return 'overdue';
   return 'ok';
 });
 

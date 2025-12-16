@@ -28,9 +28,6 @@ const props = defineProps<{
   expiredDate?: string;
 }>();
 
-/**
- * Header do card (ícone + título + descrição)
- */
 const headerInfo = computed(() => {
   switch (props.variant) {
     case 'overdue':
@@ -63,9 +60,6 @@ const headerInfo = computed(() => {
   }
 });
 
-/**
- * Itens dinâmicos do card
- */
 const items = computed<StatusItem[]>(() => {
   switch (props.variant) {
     case 'overdue':
@@ -83,7 +77,10 @@ const items = computed<StatusItem[]>(() => {
       return [
         {
           title: props.maintenanceName,
-          text: `Próxima revisão em ${props.nextKm ?? 0} km.`,
+          text:
+            props.nextKm !== null && props.nextKm !== undefined
+              ? `Próxima revisão em ${props.nextKm} km.`
+              : 'Erro ao encontrar próxima manutenção.',
         },
       ];
 
@@ -99,7 +96,6 @@ const items = computed<StatusItem[]>(() => {
 <template>
   <div class="page__card">
     <div class="card">
-      <!-- Header -->
       <div class="card__header">
         <img :src="headerInfo.icon" />
         <div class="card__text">
@@ -114,7 +110,6 @@ const items = computed<StatusItem[]>(() => {
 
       <CDivider />
 
-      <!-- Itens dinâmicos -->
       <div v-for="(item, index) in items" :key="index" class="item">
         <span class="item__title">
           {{ item.title }}
