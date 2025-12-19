@@ -1,5 +1,6 @@
 <template>
-  <div class="maintenance">
+  <LoadingPage v-if="isLoading" />
+  <div v-else class="maintenance">
     <div class="app-wrapper maintenance__wrapper">
       <div
         v-if="showExpiredCard && expiredMaintenances.length"
@@ -67,6 +68,7 @@
 
 <script setup lang="ts">
 import { ref, watch, computed, onMounted } from 'vue';
+import LoadingPage from '../LoadingPage.vue';
 import { CarWrenchIcon, FilterControlsIcon } from '@/shared/assets/icons';
 import { useMaintenanceStore } from '@/stores/maintenance';
 import { storeToRefs } from 'pinia';
@@ -94,7 +96,11 @@ const { appliedFilters, filterOptions } = storeToRefs(maintenanceStore);
 
 const expiredCount = computed(() => expiredMaintenances.value.length);
 
+const isLoading = ref(true);
+
 onMounted(async () => {
+  isLoading.value = true;
+
   await carStore.getCars();
   if (carStore.firstLicensePlate) {
     await maintenanceStore.getMaintenances(carStore.firstLicensePlate);
@@ -117,6 +123,8 @@ onMounted(async () => {
     );
     if (option) option.selected = true;
   }
+
+  isLoading.value = false;
 });
 
 watch(
