@@ -9,6 +9,7 @@ const baseApi = import.meta.env.VITE_ROTA_API;
 export function createMaintenanceBase<TMaintenance, TPayload>(options: {
   type: string;
 }) {
+  const carStore = useCarStore();
   const date = ref<string>('');
   const mileage = ref<string>('');
   const isLoading = ref<boolean>(false);
@@ -17,8 +18,18 @@ export function createMaintenanceBase<TMaintenance, TPayload>(options: {
   const maintenances = ref<TMaintenance[]>([]);
   const selectedMaintenance = ref<TMaintenance | null>(null);
 
-  const nextMaintenanceKm = ref<number | null>(null);
-  const isOverdue = ref<boolean>(false);
+  const isOverdue = computed<boolean>(() => {
+    console.log(lastMaintenance.value);
+    if (!lastMaintenance.value) return false;
+
+    if ((lastMaintenance.value as any)?.status === 'EXPIRED') {
+      return true;
+    }
+
+    console.log(nextMaintenanceKm.value);
+
+    return false;
+  });
 
   const isEditing = computed(() => !!selectedMaintenance.value);
   const getEditingId = computed(() => selectedMaintenance.value?.id);
@@ -30,13 +41,39 @@ export function createMaintenanceBase<TMaintenance, TPayload>(options: {
     oficina.value = '';
     maintenances.value = [];
     selectedMaintenance.value = null;
-    nextMaintenanceKm.value = null;
-    isOverdue.value = false;
   }
 
   function setSelectedMaintenance(m: TMaintenance | null) {
     selectedMaintenance.value = m;
   }
+
+  const nextPlannedKm = computed<number | null>(() => {
+    return lastMaintenance.value?.nextMaintenanceMileage
+      ? Number(lastMaintenance.value.nextMaintenanceMileage)
+      : null;
+  });
+
+  const currentCarMileage = computed<number | null>(() => {
+    return carStore.car?.current_mileage ?? null;
+  });
+
+  const nextMaintenanceKm = computed<number | null>(() => {
+    if (nextPlannedKm.value === null || currentCarMileage.value === null) {
+      return null;
+    }
+
+    return nextPlannedKm.value - currentCarMileage.value;
+  });
+
+  const lastMaintenance = computed<any | null>(() => {
+    if (!maintenances.value.length) return null;
+
+    return [...maintenances.value].sort(
+      (a: any, b: any) =>
+        new Date(b.lastMaintenanceDate).getTime() -
+        new Date(a.lastMaintenanceDate).getTime()
+    )[0];
+  });
 
   async function getMaintenances(licensePlate: string) {
     isLoading.value = true;
@@ -45,14 +82,6 @@ export function createMaintenanceBase<TMaintenance, TPayload>(options: {
       const { data } = await api().get(url);
 
       maintenances.value = Array.isArray(data) ? (data as TMaintenance[]) : [];
-
-      const last = maintenances.value.at(-1);
-
-      nextMaintenanceKm.value =
-        Number((last as any)?.nextMaintenanceMileage) -
-          Number((last as any)?.lastMaintenanceKm) || null;
-
-      isOverdue.value = (last as any)?.status === 'EXPIRED';
 
       return maintenances.value;
     } catch (err) {
@@ -70,23 +99,23 @@ export function createMaintenanceBase<TMaintenance, TPayload>(options: {
       const licensePlate =
         carStore.car?.license_plate || carStore.firstLicensePlate;
 
-      if (!licensePlate) throw new Error('Nenhum carro selecionado.');
+      if (!licensePlate) {
+        throw new Error('Nenhum carro selecionado.');
+      }
 
-      if (selectedMaintenance.value && maintenanceId) {
+      if (maintenanceId) {
         const url = `${baseApi}/v1/maintenance/${options.type}/update/${maintenanceId}`;
-        const { data } = await api().patch(url, payload);
-        return data as TMaintenance;
+        await api().patch(url, payload);
       } else {
         const last = maintenances.value.at(-1);
 
         if (last) {
           const patchUrl = `${baseApi}/v1/maintenance/${options.type}/${licensePlate}`;
-          await api().patch(patchUrl, { status: 'COMPLETED' }).catch();
+          await api().patch(patchUrl, { status: 'COMPLETED' });
         }
 
         const postUrl = `${baseApi}/v1/maintenance/${options.type}/${licensePlate}`;
-        const { data } = await api().post(postUrl, payload);
-        return data as TMaintenance;
+        await api().post(postUrl, payload);
       }
     } finally {
       isLoading.value = false;

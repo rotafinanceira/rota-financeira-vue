@@ -18,6 +18,7 @@ import {
   parseInputToNumber,
 } from '@/shared/helper/inputFormatHelper';
 import { FuelFilterPayload } from '@/shared/types/fuel-filter-maintenance';
+import { FuelFilterIcon } from '@/shared/assets/icons';
 
 const fuelFilterStore = useFuelFilterStore();
 const carStore = useCarStore();
@@ -139,10 +140,14 @@ onMounted(async () => {
 
 <template>
   <div class="main-content">
+    <div class="page__header">
+      <img :src="FuelFilterIcon" alt="" />
+      <h1>Filtro de combustível</h1>
+    </div>
     <div class="card-wrapper">
       <div class="card">
         <div class="header-content">
-          <span class="title">Manutenção</span>
+          <span class="title">Cadastro</span>
           <div @click="showHelpModal">
             <img :src="helpIcon" alt="Help Icon" />
           </div>

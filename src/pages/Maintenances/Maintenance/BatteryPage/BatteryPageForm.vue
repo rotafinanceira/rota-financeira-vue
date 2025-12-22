@@ -18,6 +18,7 @@ import {
   parseInputToNumber,
 } from '@/shared/helper/inputFormatHelper';
 import { BatteryPayload } from '@/shared/types/battery-maintenance';
+import { BatteryIcon } from '@/shared/assets/icons';
 
 const batteryStore = useBatteryStore();
 const carStore = useCarStore();
@@ -175,16 +176,20 @@ onMounted(async () => {
 
 <template>
   <div class="main-content">
+    <div class="page__header">
+      <img :src="BatteryIcon" alt="" />
+      <h1>Bateria</h1>
+    </div>
     <div class="card-wrapper">
       <div class="card">
         <div class="header-content">
-          <span class="title">Manutenção</span>
+          <span class="title">Cadastro</span>
           <div @click="showHelpModal">
             <img :src="helpIcon" alt="Help Icon" />
           </div>
         </div>
         <span class="subtitle">
-          Preencha as informações da manutenção de Troca de Óleo.
+          Preencha as informações sobre a troca de bateria.
         </span>
 
         <Form class="form" @submit="handleSubmit" v-slot="{ meta }">
@@ -220,7 +225,7 @@ onMounted(async () => {
             v-model="brand"
             label="Marca"
             name="battery-brand"
-            placeholder="Digite a marca utilizada"
+            placeholder="Selecione uma opção"
             :options="brandOptions"
           />
 

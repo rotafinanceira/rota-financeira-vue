@@ -19,6 +19,7 @@ import {
 } from '@/shared/helper/inputFormatHelper';
 import { AirFilterPayload } from '@/shared/types/air-filter-maintenance';
 import CSelect from '@/shared/components/CSelect.vue';
+import { FuelFilterIcon } from '@/shared/assets/icons';
 
 const airFilterStore = useAirFilterStore();
 const carStore = useCarStore();
@@ -52,7 +53,7 @@ const serviceOptions: Option[] = [
 
 const successTitle = ref('Parabéns!');
 const successDescription = ref(
-  'Você cadastrou a manutenção do filtro de combustível do seu veículo. Iremos lhe informar sobre a próxima manutenção.'
+  'Você cadastrou a manutenção do filtro de ar condicionado do seu veículo. Iremos lhe informar sobre a próxima manutenção.'
 );
 
 const errorTitle = ref('Algo deu errado!');
@@ -146,6 +147,10 @@ onMounted(async () => {
 
 <template>
   <div class="main-content">
+    <div class="page__header">
+      <img :src="FuelFilterIcon" alt="" />
+      <h1>Filtro de ar condicionado</h1>
+    </div>
     <div class="card-wrapper">
       <div class="card">
         <div class="header-content">
