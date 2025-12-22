@@ -18,13 +18,8 @@ import {
   FuelFilterIcon,
 } from '@/shared/assets/icons';
 
-import {
-  CarIcon,
-  WrenchIcon,
-  BrokenCarIcon,
-} from '@/shared/assets/illustrations';
-
 import { MappedMaintenance } from '@/shared/types/fuel-filter-maintenance';
+import StatusCard from '../../components/StatusCard.vue';
 
 const router = useRouter();
 const fuelFilterStore = useFuelFilterStore();
@@ -35,6 +30,18 @@ const { maintenances, isOverdue, isLoading, nextMaintenanceKm } =
 
 const hasMaintenances = computed(() => maintenances.value.length > 0);
 const isEmpty = computed(() => !hasMaintenances.value);
+
+const statusVariant = computed<'overdue' | 'empty' | 'ok'>(() => {
+  if (isOverdue.value) return 'overdue';
+  if (isEmpty.value) return 'empty';
+  return 'ok';
+});
+
+const statusProps = computed(() => ({
+  variant: statusVariant.value,
+  maintenanceName: 'Filtro de combustível',
+  nextKm: statusVariant.value === 'ok' ? nextMaintenanceKm.value : null,
+}));
 
 onMounted(async () => {
   fuelFilterStore.resetStore();
@@ -102,38 +109,7 @@ function editMaintenance(m: MappedMaintenance): void {
     </div>
 
     <section class="page__status" v-else>
-      <div v-if="isOverdue" class="page__card">
-        <div class="card__container">
-          <img :src="BrokenCarIcon" />
-          <h2 class="card__title">Manutenção vencida!</h2>
-          <span class="card__text">
-            É hora de realizar a manutenção de filtro de combustível do seu
-            veículo.
-          </span>
-        </div>
-      </div>
-
-      <div v-else-if="isEmpty" class="page__card">
-        <div class="card__container">
-          <img :src="WrenchIcon" />
-          <h2 class="card__title">Nenhuma manutenção cadastrada!</h2>
-          <span class="card__text">
-            Você ainda não cadastrou nenhuma manutenção de filtro de
-            combustível.
-          </span>
-        </div>
-      </div>
-
-      <div v-else class="page__card">
-        <div class="card__container">
-          <img :src="CarIcon" />
-          <h2 class="card__title">Você está em dia!</h2>
-          <span class="card__text">
-            Sua próxima manutenção de filtro de combustível será em
-            {{ nextMaintenanceKm ?? '0' }} km.
-          </span>
-        </div>
-      </div>
+      <StatusCard v-bind="statusProps" />
     </section>
 
     <CButton variant="primary" :to="{ name: 'maintenance-fuel-filter-create' }">

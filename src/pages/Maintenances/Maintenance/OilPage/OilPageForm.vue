@@ -18,6 +18,7 @@ import {
   formatInput,
   parseInputToNumber,
 } from '@/shared/helper/inputFormatHelper';
+import { OilLiquidIcon } from '@/shared/assets/icons';
 
 const oilStore = useOilStore();
 const carStore = useCarStore();
@@ -181,6 +182,10 @@ onMounted(async () => {
 
 <template>
   <div class="main-content">
+    <div class="page__header">
+      <img :src="OilLiquidIcon" alt="" />
+      <h1>Troca de óleo</h1>
+    </div>
     <div class="card-wrapper">
       <div class="card">
         <div class="header-content">

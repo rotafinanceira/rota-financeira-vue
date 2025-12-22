@@ -1,5 +1,7 @@
 <template>
-  <div class="home">
+  <LoadingPage v-if="isLoading" />
+
+  <div v-else class="home">
     <div class="home__header">
       <div class="card">
         <div class="card__header">
@@ -28,6 +30,7 @@
 
       <CButton
         variant="primary"
+        :disabled="!hasCarRegistered"
         label="Inserir quilometragem do dia"
         :isLoading="isSendingMileage"
         @click="openMileageModal"
@@ -166,6 +169,7 @@
 
 <script setup lang="ts">
 import helpIcon from '@/shared/assets/helpIcon.svg';
+import LoadingPage from '../LoadingPage.vue';
 import odometer from '@/shared/assets/illustrations/odometer.svg';
 import { ref, computed, onMounted } from 'vue';
 import { useCarStore } from '@/stores/carStore';
@@ -186,6 +190,8 @@ const isVehicleBottomSheetOpen = ref(false);
 const isMaintenanceBottomSheetOpen = ref(false);
 
 const lastMileage = ref<number | null>(null);
+
+const isLoading = ref(true);
 
 const validationSchema = computed(() =>
   yup.object({
@@ -228,7 +234,7 @@ const maintenanceSummary = ref({
 const lastMaintenanceDate = computed(() => {
   const lastUpdate = carStore.car?.lastMileageUpdate?.date;
 
-  if (!lastUpdate) return '00/00/0000';
+  if (!lastUpdate) return '--/--/----';
 
   return new Date(lastUpdate).toLocaleDateString('pt-BR');
 });
@@ -261,6 +267,8 @@ const currentMileage = computed(() => {
 });
 
 onMounted(async () => {
+  isLoading.value = true;
+
   await carStore.getCars();
 
   if (carStore.firstLicensePlate) {
@@ -282,9 +290,12 @@ onMounted(async () => {
   } else {
     isVehicleBottomSheetOpen.value = true;
   }
+
+  isLoading.value = false;
 });
 
 const openMileageModal = () => {
+  if (!hasCarRegistered.value) return;
   mileage.value = lastMileage.value ?? 0;
   isMileageModalOpen.value = true;
 };
