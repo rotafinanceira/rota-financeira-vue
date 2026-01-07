@@ -66,6 +66,10 @@
       &.light {
         font-size: 0.75rem;
       }
+
+      button {
+        color: none;
+      }
     }
 
     .card__arrow {
@@ -139,11 +143,20 @@
   justify-content: center;
 
   &.positive {
-    background-color: #48a72c;
+    background-color: #4caf50;
   }
 
   &.negative {
-    background-color: #ed4647;
+    background-color: #f44336;
+  }
+
+  &.empty {
+    background-color: #e0e5e7;
+  }
+
+  &__icon {
+    width: 16px;
+    height: 16px;
   }
 }
 

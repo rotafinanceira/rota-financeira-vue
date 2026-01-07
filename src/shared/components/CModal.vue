@@ -74,6 +74,10 @@ const variantClass = computed(() => `dialog-${props.variant}`);
     color: #485159;
   }
 
+  :deep(:where(custom-button)) {
+    color: inherit;
+  }
+
   :deep(h2) {
     font-weight: 600;
     font-size: 1.125rem;

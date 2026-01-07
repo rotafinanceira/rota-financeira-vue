@@ -48,6 +48,7 @@ const variantClass = computed(() => `btn--${props.variant}`);
   padding: 12px 24px;
   border: none;
   line-height: 120%;
+  color: inherit;
 }
 
 .custom-button ::v-deep(.q-btn__content) {
@@ -55,6 +56,7 @@ const variantClass = computed(() => `btn--${props.variant}`);
   align-items: center;
   justify-content: center;
   gap: 12px;
+  color: inherit;
 }
 
 .custom-button:disabled {
