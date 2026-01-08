@@ -28,6 +28,26 @@
 
     <button class="card__button" @click="save">Salvar</button>
   </div>
+
+  <CModal icon="success" :show-close="true" v-model="showSucessModal">
+    <div class="group">
+      <h2>Ótimo trabalho!</h2>
+      <p>
+        Você está no caminho certo para manter seu veículo sempre em ótimas
+        condições. Continue assim!
+      </p>
+    </div>
+  </CModal>
+
+  <CModal icon="alert" :show-close="true" v-model="showAlertModal">
+    <div class="group">
+      <h2>Atenção!</h2>
+      <p>
+        O valor para guardar deve ser maior que zero. Caso deseje retirar algum
+        valor edite o saldo de reserva.
+      </p>
+    </div>
+  </CModal>
 </template>
 
 <script setup lang="ts">
@@ -35,6 +55,7 @@ import { ref } from 'vue';
 import { MoneyCircleIcon } from '@/shared/assets/icons';
 import { useFinanceStore } from '@/stores/finances/financeStore';
 import CInput from '@/shared/components/CInput.vue';
+import CModal from '@/shared/components/CModal.vue';
 import {
   formatInput,
   parseInputToNumber,
@@ -42,11 +63,20 @@ import {
 
 const financeStore = useFinanceStore();
 const newValue = ref<string>('');
+const showSucessModal = ref(false);
+const showAlertModal = ref(false);
 
 function save() {
   const numericValue = parseInputToNumber(newValue.value);
+
+  if (numericValue <= 0) {
+    showAlertModal.value = true;
+    return;
+  }
+
   financeStore.storeMoney(numericValue);
   newValue.value = '';
+  showSucessModal.value = true;
 }
 </script>
 

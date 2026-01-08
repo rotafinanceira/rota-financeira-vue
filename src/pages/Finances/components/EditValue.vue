@@ -29,6 +29,26 @@
     <button class="card__button" @click="save">Salvar</button>
   </div>
 
+  <CModal icon="success" :show-close="true" v-model="showSucessAddModal">
+    <div class="group">
+      <h2>Valor atualizado!</h2>
+      <p>
+        Movimentar sua reserva é parte do hábito de cuidar bem do seu carro.
+        Continue contribuindo para manter tudo em dia!
+      </p>
+    </div>
+  </CModal>
+
+  <CModal icon="success" :show-close="true" v-model="showSucessRemoveModal">
+    <div class="group">
+      <h2>Valor atualizado!</h2>
+      <p>
+        Você retirou {{ formatInput(diffValue) }} da sua reserva. O valor atual
+        é de {{ currentFormattedValue }}
+      </p>
+    </div>
+  </CModal>
+
   <CModal icon="alert" :show-close="false" v-model="showConfirmModal">
     <div class="group">
       <h2>Atenção!</h2>
@@ -47,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { MoneyCircleIcon } from '@/shared/assets/icons';
 import { useFinanceStore } from '@/stores/finances/financeStore';
 import CInput from '@/shared/components/CInput.vue';
@@ -61,9 +81,15 @@ import {
 
 const financeStore = useFinanceStore();
 
+const currentFormattedValue = computed(() =>
+  formatInput(financeStore.summary.maintenanceReserve)
+);
+
 const newValue = ref<string>('');
 
 const showConfirmModal = ref(false);
+const showSucessAddModal = ref(false);
+const showSucessRemoveModal = ref(false);
 const diffValue = ref<number>(0);
 
 function save() {
@@ -77,6 +103,8 @@ function save() {
   }
 
   financeStore.updateMaintenanceReserve(numericValue);
+
+  showSucessAddModal.value = true;
   newValue.value = ' ';
 }
 
@@ -86,6 +114,7 @@ function confirmSave() {
   financeStore.updateMaintenanceReserve(numericValue);
 
   showConfirmModal.value = false;
+  showSucessRemoveModal.value = true;
   newValue.value = ' ';
 }
 
