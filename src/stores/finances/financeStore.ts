@@ -3,6 +3,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { FinanceSummary, Checkin } from '@/shared/types/finance';
+import { getLocalDateKey } from '@/shared/helper/timeHelper';
 
 export const useFinanceStore = defineStore('finance', () => {
   const summary = ref<FinanceSummary>({
@@ -22,7 +23,21 @@ export const useFinanceStore = defineStore('finance', () => {
   const isLoading = ref(false);
   const error = ref<any | null>(null);
 
+  function normalizeCheckins() {
+    const map = new Map<string, boolean>();
+
+    for (const c of checkins.value) {
+      map.set(c.date, c.completed);
+    }
+
+    checkins.value = Array.from(map.entries()).map(([date, completed]) => ({
+      date,
+      completed,
+    }));
+  }
+
   const checkinStatus = computed<(boolean | null)[]>(() => {
+    normalizeCheckins();
     const DAYS_IN_WEEK = 7;
 
     const today = new Date();
@@ -43,16 +58,15 @@ export const useFinanceStore = defineStore('finance', () => {
       day.setDate(startOfWeek.getDate() + index);
       day.setHours(0, 0, 0, 0);
 
-      const dateKey = day.toISOString().slice(0, 10);
-
+      const dateKey = getLocalDateKey(day);
       const isToday = day.getTime() === today.getTime();
-
-      if (day > today) {
-        return null;
-      }
 
       if (isToday) {
         return checkinMap.has(dateKey) ? checkinMap.get(dateKey)! : null;
+      }
+
+      if (day > today) {
+        return null;
       }
 
       if (checkinMap.has(dateKey)) {
@@ -83,20 +97,23 @@ export const useFinanceStore = defineStore('finance', () => {
 
   async function storeMoney(value: number) {
     isLoading.value = true;
-    error.value = null;
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((r) => setTimeout(r, 500));
 
       summary.value.maintenanceReserve += value;
 
-      checkins.value.push({
-        date: new Date().toISOString().slice(0, 10),
-        completed: true,
-      });
-    } catch (e) {
-      error.value = e;
-      throw e;
+      const todayKey = getLocalDateKey();
+
+      normalizeCheckins();
+
+      const existing = checkins.value.find((c) => c.date === todayKey);
+
+      if (!existing) {
+        checkins.value.push({ date: todayKey, completed: true });
+      } else {
+        existing.completed = true;
+      }
     } finally {
       isLoading.value = false;
     }
