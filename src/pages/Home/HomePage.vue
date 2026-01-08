@@ -30,6 +30,7 @@
 
       <CButton
         variant="primary"
+        :disabled="!hasCarRegistered"
         label="Inserir quilometragem do dia"
         :isLoading="isSendingMileage"
         @click="openMileageModal"
@@ -294,6 +295,7 @@ onMounted(async () => {
 });
 
 const openMileageModal = () => {
+  if (!hasCarRegistered.value) return;
   mileage.value = lastMileage.value ?? 0;
   isMileageModalOpen.value = true;
 };
