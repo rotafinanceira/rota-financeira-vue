@@ -13,15 +13,16 @@
       <div class="card__info">
         <span class="card__text">Valor Recomendado</span>
         <span class="card__value">
-          R$ {{ financeStore.summary.recommendedDailyValue }},00
+          {{ formatInput(financeStore.summary.recommendedDailyValue) }}
         </span>
       </div>
 
-      <input
-        v-model.number="value"
-        class="card__input"
+      <CInput
+        v-model="newValue"
+        name="maintenanceValue"
+        variant="money"
         placeholder="Ex: 20"
-        type="number"
+        required
       />
     </div>
 
@@ -33,13 +34,19 @@
 import { ref } from 'vue';
 import { MoneyCircleIcon } from '@/shared/assets/icons';
 import { useFinanceStore } from '@/stores/finances/financeStore';
+import CInput from '@/shared/components/CInput.vue';
+import {
+  formatInput,
+  parseInputToNumber,
+} from '@/shared/helper/inputFormatHelper';
 
 const financeStore = useFinanceStore();
-const value = ref<number | null>(null);
+const newValue = ref<string>('');
 
 function save() {
-  if (!value.value) return;
-  financeStore.storeMoney(value.value);
+  const numericValue = parseInputToNumber(newValue.value);
+  financeStore.storeMoney(numericValue);
+  newValue.value = '';
 }
 </script>
 

@@ -17,7 +17,7 @@
           <div class="card__info">
             <span class="card__text">Valor Recomendado</span>
             <span class="card__value">
-              R$ {{ financeStore.summary.recommendedDailyValue }},00
+              {{ formatInput(financeStore.summary.recommendedDailyValue) }}
             </span>
           </div>
         </div>
@@ -32,7 +32,7 @@
         <h2 class="card__title">Reserva de manutenção</h2>
         <div class="card__info">
           <span class="card__value-medium">
-            R$ {{ financeStore.summary.maintenanceReserve }},00
+            {{ formatInput(financeStore.summary.maintenanceReserve) }}
           </span>
           <RouterLink class="card__link" :to="{ name: 'finances-edit-value' }"
             >Editar valor</RouterLink
@@ -46,7 +46,7 @@
               <div>
                 <span class="card__arrow">↑</span>
                 <span class="card__text light">
-                  {{ financeStore.summary.lastWeekProgress }},00
+                  {{ formatInput(financeStore.summary.lastWeekProgress) }}
                 </span>
               </div>
             </div>
@@ -118,6 +118,7 @@ import { useFinanceStore } from '@/stores/finances/financeStore';
 import CModal from '@/shared/components/CModal.vue';
 import helpIcon from '@/shared/assets/helpIcon.svg';
 import { ref } from 'vue';
+import { formatInput } from '@/shared/helper/inputFormatHelper';
 const isOpen = ref(false);
 const financeStore = useFinanceStore();
 

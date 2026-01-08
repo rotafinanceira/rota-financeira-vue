@@ -13,7 +13,7 @@
       <div class="card__info">
         <span class="card__text">Valor atual</span>
         <span class="card__value">
-          R$ {{ financeStore.summary.maintenanceReserve }}
+          {{ formatInput(financeStore.summary.maintenanceReserve) }}
         </span>
       </div>
 
