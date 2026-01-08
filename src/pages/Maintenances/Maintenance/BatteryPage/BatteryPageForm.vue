@@ -143,15 +143,18 @@ async function handleSubmit() {
 
 onMounted(async () => {
   if (!carStore.firstLicensePlate) {
-    await carStore.getCars();
+    try {
+      await carStore.getCars();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const plate = carStore.firstLicensePlate;
   if (!plate) return;
 
   if (!maintenances.value || maintenances.value.length === 0) {
-    const resp = await batteryStore.getMaintenances(plate);
-    console.log(resp);
+    await batteryStore.getMaintenances(plate);
   }
 
   if (maintenanceId) {

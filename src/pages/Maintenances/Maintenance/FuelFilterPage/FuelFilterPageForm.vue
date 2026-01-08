@@ -117,8 +117,11 @@ onMounted(async () => {
   if (!plate) return;
 
   if (!maintenances.value || maintenances.value.length === 0) {
-    const resp = await fuelFilterStore.getMaintenances(plate);
-    console.log(resp);
+    try {
+      await fuelFilterStore.getMaintenances(plate);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   if (maintenanceId) {

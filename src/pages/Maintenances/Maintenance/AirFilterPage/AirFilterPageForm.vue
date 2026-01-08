@@ -124,8 +124,11 @@ onMounted(async () => {
   if (!plate) return;
 
   if (!maintenances.value || maintenances.value.length === 0) {
-    const resp = await airFilterStore.getMaintenances(plate);
-    console.log(resp);
+    try {
+      await airFilterStore.getMaintenances(plate);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   if (maintenanceId) {

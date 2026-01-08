@@ -69,18 +69,12 @@ const showAlertModal = ref(false);
 function save() {
   const numericValue = parseInputToNumber(newValue.value);
 
-  console.log('SAVE CLICK', {
-    raw: newValue.value,
-    numericValue,
-  });
-
   if (numericValue <= 0) {
     showAlertModal.value = true;
     return;
   }
 
   financeStore.storeMoney(numericValue);
-  console.log('APÓS storeMoney', financeStore.checkins);
 
   newValue.value = '';
   showSucessModal.value = true;

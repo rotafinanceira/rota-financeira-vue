@@ -151,7 +151,11 @@ onMounted(async () => {
   if (!plate) return;
 
   if (!maintenances.value || maintenances.value.length === 0) {
-    await oilStore.getMaintenances(plate);
+    try {
+      await oilStore.getMaintenances(plate);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   if (maintenanceId) {

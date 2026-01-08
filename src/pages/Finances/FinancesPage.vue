@@ -122,8 +122,6 @@ import { formatInput } from '@/shared/helper/inputFormatHelper';
 const isOpen = ref(false);
 const financeStore = useFinanceStore();
 
-console.log(financeStore.checkinStatus);
-
 function showHelpModal() {
   isOpen.value = true;
 }
