@@ -123,6 +123,7 @@
       variant="unit"
       placeholder="km na data de serviço"
       required
+      :helperText="errors.mileage"
     />
   </CModalWithButton>
 
@@ -197,9 +198,15 @@ const validationSchema = computed(() =>
   yup.object({
     mileage: yup
       .number()
+      .transform((_, originalValue) =>
+        Number(String(originalValue).replace(/\./g, '').replace(',', '.'))
+      )
       .typeError('Digite um número válido')
       .required('Campo obrigatório')
-      .moreThan(lastMileage.value ?? 0, 'Informe um valor maior que o atual'),
+      .moreThan(
+        lastMileage.value ?? 0,
+        'Informe um valor maior que a quilometragem atual'
+      ),
   })
 );
 
@@ -296,7 +303,10 @@ onMounted(async () => {
 
 const openMileageModal = () => {
   if (!hasCarRegistered.value) return;
-  mileage.value = lastMileage.value ?? 0;
+
+  lastMileage.value = carStore.car?.current_mileage ?? 0;
+  mileage.value = lastMileage.value;
+
   isMileageModalOpen.value = true;
 };
 

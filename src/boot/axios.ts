@@ -39,16 +39,13 @@ export function api() {
     (error) => {
       const status = error.response?.status;
 
-
       if (status === 401 || status === 403) {
         console.warn('[Axios] Token inválido ou expirado');
 
-   
         localStorage.removeItem('jwt');
         sessionStorage.removeItem('jwt');
 
-       
-        window.location.href = '/#/auth/signin';
+        window.location.href = '/#/welcome';
       }
 
       return Promise.reject(error);
