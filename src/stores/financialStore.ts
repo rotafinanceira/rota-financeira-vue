@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia';
-import { FinancialService } from '@/services/FinancialService';
+import { FinancialService, type DailyCheck } from '@/services/FinancialService';
 import { useCarStore } from './carStore';
 
 export const useFinancialStore = defineStore('financial', {
     state: () => ({
         recommendedDailyAmount: 0,
         maintenanceBalance: 0, // Note: This balance comes from the car entity, not directly from a finance endpoint in the initial analysis, but we might need to fetch it.
-        checkInHistory: [] as any[],
+        checkInHistory: [] as DailyCheck[],
         isLoading: false,
         error: null as string | null,
     }),
@@ -31,9 +31,8 @@ export const useFinancialStore = defineStore('financial', {
             try {
                 const amount = await FinancialService.getRecommendedDailyAmount(licensePlate);
                 this.recommendedDailyAmount = amount;
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } catch (err: any) {
-                this.error = err.message || 'Error fetching recommended amount';
+            } catch (err) {
+                this.error = (err as Error).message || 'Error fetching recommended amount';
                 console.error(err);
             } finally {
                 this.isLoading = false;
@@ -54,9 +53,8 @@ export const useFinancialStore = defineStore('financial', {
             try {
                 const balance = await FinancialService.getBalance(licensePlate);
                 this.maintenanceBalance = balance;
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } catch (err: any) {
-                this.error = err.message || 'Error fetching balance';
+            } catch (err) {
+                this.error = (err as Error).message || 'Error fetching balance';
                 console.error(err);
             } finally {
                 this.isLoading = false;
@@ -77,9 +75,8 @@ export const useFinancialStore = defineStore('financial', {
             try {
                 const history = await FinancialService.getCheckInHistory(licensePlate);
                 this.checkInHistory = history;
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } catch (err: any) {
-                this.error = err.message || 'Error fetching check-in history';
+            } catch (err) {
+                this.error = (err as Error).message || 'Error fetching check-in history';
                 console.error(err);
             } finally {
                 this.isLoading = false;
@@ -104,9 +101,8 @@ export const useFinancialStore = defineStore('financial', {
                 await this.fetchBalance();
                 await this.fetchRecommendedDailyAmount();
                 await this.fetchCheckInHistory();
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } catch (err: any) {
-                this.error = err.message || 'Error depositing amount';
+            } catch (err) {
+                this.error = (err as Error).message || 'Error depositing amount';
                 throw err;
             } finally {
                 this.isLoading = false;
@@ -129,9 +125,8 @@ export const useFinancialStore = defineStore('financial', {
                     carLicensePlate: licensePlate,
                 });
                 await this.fetchBalance();
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } catch (err: any) {
-                this.error = err.message || 'Error debiting amount';
+            } catch (err) {
+                this.error = (err as Error).message || 'Error debiting amount';
                 throw err;
             } finally {
                 this.isLoading = false;

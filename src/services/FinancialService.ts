@@ -3,6 +3,15 @@ import { api } from '@/boot/axios';
 const baseApi = import.meta.env.VITE_ROTA_API;
 console.log('[FinancialService] Using baseApi:', baseApi);
 
+export interface DailyCheck {
+    id?: string;
+    userId: string;
+    carLicensePlate: string;
+    deposited: boolean;
+    amountDeposited: number;
+    date: string | Date;
+}
+
 export class FinancialService {
     static async deposit(payload: {
         amount: number;
@@ -36,8 +45,8 @@ export class FinancialService {
         return data.value;
     }
 
-    static async getCheckInHistory(carLicensePlate: string): Promise<any[]> {
-        const { data } = await api().get<any[]>(
+    static async getCheckInHistory(carLicensePlate: string): Promise<DailyCheck[]> {
+        const { data } = await api().get<DailyCheck[]>(
             `${baseApi}/v1/financial/check-in-history/${carLicensePlate}`
         );
         return data;
