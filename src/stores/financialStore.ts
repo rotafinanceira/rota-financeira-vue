@@ -6,6 +6,7 @@ export const useFinancialStore = defineStore('financial', {
     state: () => ({
         recommendedDailyAmount: 0,
         maintenanceBalance: 0, // Note: This balance comes from the car entity, not directly from a finance endpoint in the initial analysis, but we might need to fetch it.
+        checkInHistory: [] as any[],
         isLoading: false,
         error: null as string | null,
     }),
@@ -62,6 +63,29 @@ export const useFinancialStore = defineStore('financial', {
             }
         },
 
+        async fetchCheckInHistory() {
+            const carStore = useCarStore();
+            const licensePlate = carStore.car?.license_plate;
+
+            if (!licensePlate) {
+                console.warn('No car license plate found.');
+                return;
+            }
+
+            this.isLoading = true;
+            this.error = null;
+            try {
+                const history = await FinancialService.getCheckInHistory(licensePlate);
+                this.checkInHistory = history;
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            } catch (err: any) {
+                this.error = err.message || 'Error fetching check-in history';
+                console.error(err);
+            } finally {
+                this.isLoading = false;
+            }
+        },
+
         async deposit(amount: number) {
             const carStore = useCarStore();
             const licensePlate = carStore.car?.license_plate;
@@ -79,6 +103,7 @@ export const useFinancialStore = defineStore('financial', {
                 });
                 await this.fetchBalance();
                 await this.fetchRecommendedDailyAmount();
+                await this.fetchCheckInHistory();
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } catch (err: any) {
                 this.error = err.message || 'Error depositing amount';

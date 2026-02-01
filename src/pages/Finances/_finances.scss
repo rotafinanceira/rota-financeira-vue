@@ -145,12 +145,18 @@
   &.negative {
     background-color: #ed4647;
   }
+
+  &.neutral {
+    background-color: #f1f3f4;
+    border: 1px solid #dcdcdc;
+  }
 }
 
 .edit {
   margin: 24px 20px;
   display: flex;
   flex-direction: column;
+
   &__card {
     display: flex;
     flex-direction: column;

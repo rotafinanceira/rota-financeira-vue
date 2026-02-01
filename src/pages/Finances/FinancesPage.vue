@@ -62,10 +62,15 @@
             v-for="(status, index) in checkinStatus"
             :key="index"
             class="circle"
-            :class="status ? 'positive' : 'negative'"
+            :class="{
+                'positive': status === 'done',
+                'negative': status === 'missed',
+                'neutral': status === 'pending'
+            }"
           >
             <img
-              :src="status ? CheckIcon : XIcon"
+              v-if="status !== 'pending'"
+              :src="status === 'done' ? CheckIcon : XIcon"
               alt=""
               class="circle__icon"
             />
@@ -93,8 +98,6 @@ const financialStore = useFinancialStore();
 const { recommendedDailyAmount, maintenanceBalance } = storeToRefs(financialStore);
 const carStore = useCarStore();
 
-const checkinStatus = [true, true, false, false, true, true, false];
-
 const formattedRecommendedAmount = computed(() => {
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
@@ -109,12 +112,45 @@ const formattedBalance = computed(() => {
   }).format(maintenanceBalance.value);
 });
 
+const checkinStatus = computed(() => {
+  const history = financialStore.checkInHistory || [];
+  const statusArray = [];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Generate last 7 days (today + 6 days back)
+  for (let i = 0; i < 7; i++) {
+    const targetDate = new Date(today);
+    targetDate.setDate(today.getDate() - i);
+    
+    // Check if any history entry matches this date
+    const hasCheckIn = history.some((entry: any) => {
+        const entryDate = new Date(entry.date);
+        entryDate.setHours(0,0,0,0);
+        return entryDate.getTime() === targetDate.getTime();
+    });
+
+    if (hasCheckIn) {
+        statusArray.push('done');
+    } else {
+        // If it's today and not done, it's pending. Otherwise missed.
+        if (i === 0) {
+            statusArray.push('pending');
+        } else {
+            statusArray.push('missed');
+        }
+    }
+  }
+  return statusArray.reverse();
+});
+
 onMounted(async () => {
     // Wait for car to be loaded if not already
     if (carStore.car?.license_plate) {
         await Promise.all([
             financialStore.fetchRecommendedDailyAmount(),
-            financialStore.fetchBalance()
+            financialStore.fetchBalance(),
+            financialStore.fetchCheckInHistory()
         ]);
     }
 });

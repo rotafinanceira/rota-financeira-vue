@@ -35,4 +35,11 @@ export class FinancialService {
         );
         return data.value;
     }
+
+    static async getCheckInHistory(carLicensePlate: string): Promise<any[]> {
+        const { data } = await api().get<any[]>(
+            `${baseApi}/v1/financial/check-in-history/${carLicensePlate}`
+        );
+        return data;
+    }
 }

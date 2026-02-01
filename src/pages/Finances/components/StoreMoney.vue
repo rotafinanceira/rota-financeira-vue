@@ -40,44 +40,29 @@ const formattedRecommendedAmount = computed(() => {
 });
 
 async function handleSave() {
-  console.log('[StoreMoney] Button clicked. Raw amount:', amount.value);
-  // Ensure amount is string before replace, though ref<string> should be string.
   const val = String(amount.value); 
   const numericAmount = parseFloat(val.replace(',', '.'));
-  console.log('[StoreMoney] Numeric amount:', numericAmount);
 
   if (!isNaN(numericAmount) && numericAmount > 0) {
     try {
-      console.log('[StoreMoney] Checking licensePlate availability...');
       // Ensure car is loaded
       if (!financialStore.licensePlate) {
-           console.log('[StoreMoney] License plate missing. Fetching cars...');
            const carStore = useCarStore();
            if (!carStore.car) {
                await carStore.getCars();
-               console.log('[StoreMoney] Cars fetched:', carStore.cars);
                // Explicitly set the first car if none selected
                if (carStore.cars.length > 0 && !carStore.car) {
-                   console.log('[StoreMoney] Setting first car as default:', carStore.cars[0]);
                    carStore.car = carStore.cars[0];
-               } else {
-                   console.warn('[StoreMoney] No cars found after fetch.');
                }
            }
-      } else {
-           console.log('[StoreMoney] License plate available:', financialStore.licensePlate);
       }
 
-      console.log('[StoreMoney] Calling financialStore.deposit...');
       await financialStore.deposit(numericAmount);
-      console.log('[StoreMoney] Deposit success. Navigating back.');
       router.back();
     } catch (e) {
-      console.error('[StoreMoney] Error in deposit:', e);
+      console.error(e);
       // Handle error (show toast manually if Quasar notify not available or just log for now)
     }
-  } else {
-    console.warn('[StoreMoney] Validation failed. isNaN:', isNaN(numericAmount), 'Amount:', numericAmount);
   }
 }
 </script>
