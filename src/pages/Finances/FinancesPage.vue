@@ -14,7 +14,7 @@
           </h2>
           <div class="card__info">
             <span class="card__text">Valor Recomendado</span>
-            <span class="card__value">R$ 20,00</span>
+            <span class="card__value">{{ formattedRecommendedAmount }}</span>
           </div>
         </div>
       </div>
@@ -27,7 +27,7 @@
       <div class="card__container">
         <h2 class="card__title">Reserva de manutenção</h2>
         <div class="card__info">
-          <span class="card__value-medium">R$ 200,00</span>
+          <span class="card__value-medium">{{ formattedBalance }}</span>
           <RouterLink class="card__link" :to="{ name: 'finances-edit-value' }"
             >Editar valor</RouterLink
           >
@@ -84,7 +84,40 @@ import {
   XIcon,
 } from '@/shared/assets/icons';
 import { RouterLink } from 'vue-router';
+import { onMounted, computed } from 'vue';
+import { useFinancialStore } from '@/stores/financialStore';
+import { storeToRefs } from 'pinia';
+import { useCarStore } from '@/stores/carStore';
+
+const financialStore = useFinancialStore();
+const { recommendedDailyAmount, maintenanceBalance } = storeToRefs(financialStore);
+const carStore = useCarStore();
+
 const checkinStatus = [true, true, false, false, true, true, false];
+
+const formattedRecommendedAmount = computed(() => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(recommendedDailyAmount.value);
+});
+
+const formattedBalance = computed(() => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(maintenanceBalance.value);
+});
+
+onMounted(async () => {
+    // Wait for car to be loaded if not already
+    if (carStore.car?.license_plate) {
+        await Promise.all([
+            financialStore.fetchRecommendedDailyAmount(),
+            financialStore.fetchBalance()
+        ]);
+    }
+});
 </script>
 
 <style scoped lang="scss">
