@@ -114,7 +114,7 @@ const formattedBalance = computed(() => {
 
 const checkinStatus = computed(() => {
   const history = financialStore.checkInHistory || [];
-  const statusArray = [];
+  const statusArray: ('done' | 'pending' | 'missed')[] = [];
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -124,7 +124,7 @@ const checkinStatus = computed(() => {
     targetDate.setDate(today.getDate() - i);
     
     // Check if any history entry matches this date
-    const hasCheckIn = history.some((entry: any) => {
+    const hasCheckIn = history.some((entry) => {
         const entryDate = new Date(entry.date);
         entryDate.setHours(0,0,0,0);
         return entryDate.getTime() === targetDate.getTime();
