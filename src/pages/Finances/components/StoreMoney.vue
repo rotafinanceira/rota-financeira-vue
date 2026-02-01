@@ -10,16 +10,61 @@
       </h2>
       <div class="card__info">
         <span class="card__text">Valor Recomendado</span>
-        <span class="card__value">R$ 20,00</span>
+        <span class="card__value">{{ formattedRecommendedAmount }}</span>
       </div>
-      <input class="card__input" placeholder="Ex: 20" />
+      <input class="card__input" placeholder="Ex: 20" v-model="amount" type="number" />
     </div>
-    <button class="card__button">Salvar</button>
+    <button class="card__button" @click="handleSave">Salvar</button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { MoneyCircleIcon } from '@/shared/assets/icons';
+import { ref, computed } from 'vue';
+import { useFinancialStore } from '@/stores/financialStore';
+import { useCarStore } from '@/stores/carStore';
+import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
+
+const financialStore = useFinancialStore();
+const { recommendedDailyAmount } = storeToRefs(financialStore);
+const router = useRouter();
+
+const amount = ref<string>('');
+
+const formattedRecommendedAmount = computed(() => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(recommendedDailyAmount.value);
+});
+
+async function handleSave() {
+  const val = String(amount.value); 
+  const numericAmount = parseFloat(val.replace(',', '.'));
+
+  if (!isNaN(numericAmount) && numericAmount > 0) {
+    try {
+      // Ensure car is loaded
+      if (!financialStore.licensePlate) {
+           const carStore = useCarStore();
+           if (!carStore.car) {
+               await carStore.getCars();
+               // Explicitly set the first car if none selected
+               if (carStore.cars.length > 0 && !carStore.car) {
+                   carStore.car = carStore.cars[0];
+               }
+           }
+      }
+
+      await financialStore.deposit(numericAmount);
+      router.back();
+    } catch (e) {
+      console.error(e);
+      // Handle error (show toast manually if Quasar notify not available or just log for now)
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
