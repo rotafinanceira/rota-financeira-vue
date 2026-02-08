@@ -14,7 +14,10 @@
       </div>
       <input class="card__input" placeholder="Ex: 20" v-model="amount" type="number" />
     </div>
-    <button class="card__button" @click="handleSave">Salvar</button>
+    <button class="card__button" @click="handleSave" :disabled="loading">
+      <q-spinner v-if="loading" color="white" size="1.5em" />
+      <span v-else>Salvar</span>
+    </button>
   </div>
 </template>
 
@@ -31,6 +34,7 @@ const { recommendedDailyAmount } = storeToRefs(financialStore);
 const router = useRouter();
 
 const amount = ref<string>('');
+const loading = ref(false);
 
 const formattedRecommendedAmount = computed(() => {
   return new Intl.NumberFormat('pt-BR', {
@@ -40,14 +44,18 @@ const formattedRecommendedAmount = computed(() => {
 });
 
 async function handleSave() {
+  if (loading.value) return;
+
   const val = String(amount.value); 
   const numericAmount = parseFloat(val.replace(',', '.'));
 
   if (!isNaN(numericAmount) && numericAmount > 0) {
+    loading.value = true;
     try {
+      const carStore = useCarStore();
+      
       // Ensure car is loaded
       if (!financialStore.licensePlate) {
-           const carStore = useCarStore();
            if (!carStore.car) {
                await carStore.getCars();
                // Explicitly set the first car if none selected
@@ -62,6 +70,8 @@ async function handleSave() {
     } catch (e) {
       console.error(e);
       // Handle error (show toast manually if Quasar notify not available or just log for now)
+    } finally {
+      loading.value = false;
     }
   }
 }
