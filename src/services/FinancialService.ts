@@ -51,4 +51,17 @@ export class FinancialService {
         );
         return data;
     }
+
+    static async getFinancialSummary(carLicensePlate: string): Promise<{
+        recommendedDailyAmount: number;
+        balance: number;
+        checkInHistory: DailyCheck[];
+    }> {
+        const { data } = await api().get<{
+            recommendedDailyAmount: number;
+            balance: number;
+            checkInHistory: DailyCheck[];
+        }>(`${baseApi}/v1/financial/summary/${carLicensePlate}`);
+        return data;
+    }
 }

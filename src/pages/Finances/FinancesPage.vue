@@ -89,7 +89,7 @@ import {
   XIcon,
 } from '@/shared/assets/icons';
 import { RouterLink } from 'vue-router';
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, watch } from 'vue';
 import { useFinancialStore } from '@/stores/financialStore';
 import { storeToRefs } from 'pinia';
 import { useCarStore } from '@/stores/carStore';
@@ -144,16 +144,36 @@ const checkinStatus = computed(() => {
   return statusArray.reverse();
 });
 
-onMounted(async () => {
-    // Wait for car to be loaded if not already
-    if (carStore.car?.license_plate) {
-        await Promise.all([
-            financialStore.fetchRecommendedDailyAmount(),
-            financialStore.fetchBalance(),
-            financialStore.fetchCheckInHistory()
-        ]);
+const fetchData = async () => {
+    if (!carStore.car?.license_plate) {
+        try {
+            await carStore.getCars();
+            // If no car is selected but we have cars, select the first one
+            if (!carStore.car && carStore.cars.length > 0) {
+                carStore.car = carStore.cars[0];
+            }
+        } catch (error) {
+            console.error('Error fetching cars:', error);
+        }
     }
+    
+    if (carStore.car?.license_plate) {
+        await financialStore.fetchFinancialSummary();
+    }
+};
+
+onMounted(() => {
+    fetchData();
 });
+
+watch(
+    () => carStore.car,
+    () => {
+        if (carStore.car?.license_plate) {
+            financialStore.fetchFinancialSummary();
+        }
+    }
+);
 </script>
 
 <style scoped lang="scss">

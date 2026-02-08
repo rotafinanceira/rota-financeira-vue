@@ -83,6 +83,30 @@ export const useFinancialStore = defineStore('financial', {
             }
         },
 
+        async fetchFinancialSummary() {
+            const carStore = useCarStore();
+            const licensePlate = carStore.car?.license_plate;
+
+            if (!licensePlate) {
+                console.warn('No car license plate found.');
+                return;
+            }
+
+            this.isLoading = true;
+            this.error = null;
+            try {
+                const summary = await FinancialService.getFinancialSummary(licensePlate);
+                this.recommendedDailyAmount = summary.recommendedDailyAmount;
+                this.maintenanceBalance = summary.balance;
+                this.checkInHistory = summary.checkInHistory;
+            } catch (err) {
+                this.error = (err as Error).message || 'Error fetching financial summary';
+                console.error(err);
+            } finally {
+                this.isLoading = false;
+            }
+        },
+
         async deposit(amount: number) {
             const carStore = useCarStore();
             const licensePlate = carStore.car?.license_plate;
