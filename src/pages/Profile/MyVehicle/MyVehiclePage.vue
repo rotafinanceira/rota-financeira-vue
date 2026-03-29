@@ -28,21 +28,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import type { Vehicle } from './types';
+import { ref, computed, onMounted } from 'vue';
 import { CarWrenchIcon } from '@/shared/assets/icons';
 import { RouterLink } from 'vue-router';
+import { useCarStore } from '@/stores/carStore';
 
-const vehicle = ref<Vehicle>({
-  model: 'Toyota Corolla',
-  plate: 'ABC-1234',
-  year: 2020,
-  color: 'Cinza',
-  photo:
-    'https://images.unsplash.com/photo-1531420853064-43de9aa4366b?q=80&w=512',
+const carStore = useCarStore();
+
+onMounted(async () => {
+  if (carStore.cars.length === 0) {
+    await carStore.getCars();
+  }
 });
 
-const maintenanceCount = ref(5);
+const vehicle = computed(() => {
+  const currentCar = carStore.car || carStore.cars[0] || {};
+  return {
+    model: currentCar.model || 'Sem modelo',
+    plate: currentCar.license_plate || '---',
+    year: currentCar.year || '---',
+    color: currentCar.color || '---',
+    photo:
+      'https://images.unsplash.com/photo-1531420853064-43de9aa4366b?q=80&w=512',
+  };
+});
+
+const maintenanceCount = ref(0); // TODO: fetch actual count if needed
 const maintenanceText = computed(() =>
   maintenanceCount.value === 1
     ? 'manutenção cadastrada'

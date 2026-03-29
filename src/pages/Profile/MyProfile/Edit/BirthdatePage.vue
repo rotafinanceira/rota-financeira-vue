@@ -9,7 +9,7 @@
       <input
         class="edit__input disabled"
         type="date"
-        value="1996-08-24"
+        :value="registerStore.userProfile?.birthday ? new Date(registerStore.userProfile.birthday).toISOString().split('T')[0] : ''"
         disabled
       />
     </label>
@@ -24,16 +24,19 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import EditField from '../../components/EditField.vue';
 import { useRegisterStore } from '@/stores/registerStore';
 
 const birthdate = ref('');
 const registerStore = useRegisterStore();
+const router = useRouter();
 
 async function updateBirthdate() {
+  if (!birthdate.value) return;
   try {
-    await registerStore.updateUser({ birthday: birthdate.value });
-    alert('Data de nascimento atualizada com sucesso!');
+    await registerStore.updateUser({ birthday: new Date(birthdate.value).toISOString() });
+    router.back();
   } catch (e) {
     alert('Erro ao atualizar data de nascimento.');
   }

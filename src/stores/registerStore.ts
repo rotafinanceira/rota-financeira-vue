@@ -16,8 +16,18 @@ export const useRegisterStore = defineStore('register', {
     month: '',
     year: '',
     phone: '',
+    userProfile: null as any,
   }),
   actions: {
+    async fetchProfile() {
+      try {
+        const { data } = await api().get(`${baseApi}/v1/user/profile`);
+        this.userProfile = data;
+        return data;
+      } catch (e: any) {
+        throw e.response?.data || e;
+      }
+    },
     async verifyEmail(email: string) {
       try {
         const { data } = await api().post(`${baseApi}/v1/user/verify`, {
@@ -85,6 +95,7 @@ export const useRegisterStore = defineStore('register', {
           `${baseApi}/v1/user/update`,
           payload
         );
+        await this.fetchProfile();
         return data;
       } catch (e: any) {
         throw e.response?.data || e;

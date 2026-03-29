@@ -9,7 +9,7 @@
       <input
         class="edit__input disabled"
         type="text"
-        value="Corolla"
+        :value="currentCar.model || '---'"
         disabled
       />
     </label>
@@ -23,12 +23,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import EditField from '@/pages/Profile/components/EditField.vue';
+import { useCarStore } from '@/stores/carStore';
 
+const carStore = useCarStore();
+const router = useRouter();
+
+const currentCar = computed(() => carStore.car || carStore.cars[0] || {});
 const model = ref('');
 
-function updateModel() {
-  console.log('Update model');
+async function updateModel() {
+  if (!model.value || !currentCar.value.license_plate) return;
+  try {
+    await carStore.updateCar(currentCar.value.license_plate, { model: model.value });
+    router.back();
+  } catch (e) {
+    console.error('Update failed', e);
+  }
 }
 </script>

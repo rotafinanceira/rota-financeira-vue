@@ -6,7 +6,7 @@
   >
     <label class="edit__label disabled">
       Cor anterior
-      <input class="edit__input disabled" type="text" value="Cinza" disabled />
+      <input class="edit__input disabled" type="text" :value="currentCar.color || '---'" disabled />
     </label>
     <label class="edit__label">
       Cor atual
@@ -18,12 +18,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import EditField from '@/pages/Profile/components/EditField.vue';
+import { useCarStore } from '@/stores/carStore';
 
+const carStore = useCarStore();
+const router = useRouter();
+
+const currentCar = computed(() => carStore.car || carStore.cars[0] || {});
 const color = ref('');
 
-function updateColor() {
-  console.log('Update color');
+async function updateColor() {
+  if (!color.value || !currentCar.value.license_plate) return;
+  try {
+    await carStore.updateCar(currentCar.value.license_plate, { color: color.value });
+    router.back();
+  } catch (e) {
+    console.error('Update failed', e);
+  }
 }
 </script>

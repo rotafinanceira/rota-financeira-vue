@@ -1,15 +1,27 @@
 <script setup lang="ts">
 import { ArrowIcon } from '@/shared/assets/icons';
-import { ref } from 'vue';
+import { onMounted, computed } from 'vue';
 import { RouterLink } from 'vue-router';
+import { useRegisterStore } from '@/stores/registerStore';
 
-const user = ref({
-  name: 'Bruna Martins Albuquerque',
-  email: 'brmartins1984@gmail.com',
-  phone: '+55 (11) 9999-9999',
-  age: 36,
-  photo:
-    'https://images.unsplash.com/photo-1619895862022-09114b41f16f?q=80&w=532',
+const registerStore = useRegisterStore();
+
+onMounted(async () => {
+  if (!registerStore.userProfile) {
+    await registerStore.fetchProfile();
+  }
+});
+
+const user = computed(() => {
+  const profile = registerStore.userProfile || {};
+  return {
+    name: `${profile.name || ''} ${profile.lastName || ''}`.trim() || 'Usuário',
+    email: profile.email || '',
+    phone: profile.phone || '',
+    photo:
+      profile.profileImageUrl ||
+      'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/no-profile-picture-icon.png',
+  };
 });
 
 function mudarFoto() {
