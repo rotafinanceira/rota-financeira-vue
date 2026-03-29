@@ -9,7 +9,7 @@
       <input
         class="edit__input disabled"
         type="email"
-        value="ana.maria@gmail.com"
+        :value="registerStore.userProfile?.email || '---'"
         disabled
       />
     </label>
@@ -24,11 +24,21 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import EditField from '../../components/EditField.vue';
+import { useRegisterStore } from '@/stores/registerStore';
 
 const email = ref('');
+const registerStore = useRegisterStore();
+const router = useRouter();
 
-function updateEmail() {
-  console.log('Update E-mail');
+async function updateEmail() {
+  if (!email.value || !email.value.includes('@')) return;
+  try {
+    await registerStore.updateUser({ email: email.value });
+    router.back();
+  } catch (e) {
+    alert('Erro ao atualizar email.');
+  }
 }
 </script>

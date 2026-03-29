@@ -51,6 +51,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import EditField from '../../components/EditField.vue';
 import PasswordChecker from '@/shared/components/PasswordChecker.vue';
 import { useRegisterStore } from '@/stores/registerStore';
@@ -59,6 +60,7 @@ const currentPassword = ref('');
 const newPassword = ref('');
 const confirmNewPassword = ref('');
 const registerStore = useRegisterStore();
+const router = useRouter();
 
 const validatePassword = () => {
   if (newPassword.value !== confirmNewPassword.value) {
@@ -88,6 +90,7 @@ const handleSubmit = async () => {
         newPassword: newPassword.value,
       });
       alert('Senha alterada com sucesso!');
+      router.back();
     } catch (e) {
       alert('Erro ao atualizar senha.');
     }

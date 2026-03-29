@@ -1,15 +1,35 @@
 <script setup lang="ts">
 import CToggle from '@/shared/components/CToggle.vue';
-import { ref } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { RouterLink } from 'vue-router';
+import { useRegisterStore } from '@/stores/registerStore';
 
-const user = ref({
-  name: 'Bruna Martins Albuquerque',
-  email: 'brmartins1984@gmail.com',
-  phone: '+55 (11) 9999-9999',
-  age: 36,
-  photo:
-    'https://images.unsplash.com/photo-1619895862022-09114b41f16f?q=80&w=532',
+const registerStore = useRegisterStore();
+
+onMounted(async () => {
+  if (!registerStore.userProfile) {
+    await registerStore.fetchProfile();
+  }
+});
+
+const calculateAge = (birthday?: string) => {
+  if (!birthday) return 0;
+  const diff = Date.now() - new Date(birthday).getTime();
+  const ageDate = new Date(diff);
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
+};
+
+const user = computed(() => {
+  const profile = registerStore.userProfile || {};
+  return {
+    name: `${profile.name || ''} ${profile.lastName || ''}`.trim() || 'Usuário',
+    email: profile.email || '',
+    phone: profile.phone || '',
+    age: calculateAge(profile.birthday),
+    photo:
+      profile.profileImageUrl ||
+      'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/no-profile-picture-icon.png',
+  };
 });
 
 const emailNotifications = ref(false);

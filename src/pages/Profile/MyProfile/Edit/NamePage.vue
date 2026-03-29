@@ -9,14 +9,14 @@
       <input
         class="edit__input disabled"
         type="text"
-        value="Ana Maria"
+        :value="(registerStore.userProfile?.name || '') + ' ' + (registerStore.userProfile?.lastName || '')"
         disabled
       />
     </label>
     <label class="edit__label">
       Nome completo atual
       <div class="input-wrapper">
-        <input class="edit__input" type="text" v-model="name" />
+        <input class="edit__input" type="text" v-model="fullName" />
       </div>
     </label>
   </EditField>
@@ -24,16 +24,22 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import EditField from '../../components/EditField.vue';
 import { useRegisterStore } from '@/stores/registerStore';
 
-const name = ref('');
+const fullName = ref('');
 const registerStore = useRegisterStore();
+const router = useRouter();
 
 async function updateName() {
   try {
-    await registerStore.updateUser({ name: name.value });
-    alert('Nome atualizado com sucesso!');
+    const parts = fullName.value.trim().split(' ');
+    const name = parts[0] || '';
+    const lastName = parts.slice(1).join(' ') || '';
+    
+    await registerStore.updateUser({ name, lastName });
+    router.back();
   } catch (e) {
     alert('Erro ao atualizar nome.');
   }

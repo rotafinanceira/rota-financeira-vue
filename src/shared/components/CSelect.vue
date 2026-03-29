@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { ArrowIcon } from '../assets/icons';
 
 export type Option = {
@@ -26,6 +26,25 @@ const modelValue = defineModel<string | number | ''>('modelValue', {
 });
 
 const isOpen = ref(false);
+const selectRef = ref<HTMLElement | null>(null);
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (
+    isOpen.value &&
+    selectRef.value &&
+    !selectRef.value.contains(event.target as Node)
+  ) {
+    isOpen.value = false;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 
 const emit = defineEmits(['toggle']);
 
@@ -55,7 +74,7 @@ const borderClass = computed(() => {
 </script>
 
 <template>
-  <div class="select">
+  <div class="select" ref="selectRef">
     <label v-if="props.label" class="select__label" :for="props.name">
       {{ props.label }}
       <span v-if="props.required" class="required-asterisk">*</span>

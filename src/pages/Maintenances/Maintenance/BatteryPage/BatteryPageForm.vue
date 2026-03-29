@@ -57,7 +57,7 @@ const brandOptions: Option[] = [
   { label: 'Moura', value: 'Moura' },
   { label: 'Heliar', value: 'Heliar' },
   { label: 'Bosch', value: 'Bosch' },
-  { label: 'Bosch', value: 'Outros' },
+  { label: 'Outros', value: 'Outros' },
 ];
 
 const isOpen = ref(false);
