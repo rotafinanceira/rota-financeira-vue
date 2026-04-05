@@ -187,7 +187,7 @@ const continueWithGoogle = async () => {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 40px;
 }
 
 /* Novo contêiner para o título para isolar seus estilos */
@@ -195,7 +195,6 @@ const continueWithGoogle = async () => {
   display: flex;
   justify-content: center;
   padding: 0 10px;
-  margin-bottom: 20px; /* Espaço entre o título e o restante do conteúdo */
 }
 
 .title {
@@ -214,10 +213,9 @@ const continueWithGoogle = async () => {
   text-align: center;
   font-size: 14px;
   font-weight: 500;
-  /* container gap(48) + title margin(20) = 68. 68 - 28 = 40px */
-  margin-top: -28px;
-  /* container gap(48) = 48. 48 - 16 = 32px */
-  margin-bottom: -16px;
+  margin-top: 0;
+  /* O container aplica gap 40px entre elementos. Aqui queremos 32px até o E-mail. 40 - 8 = 32px */
+  margin-bottom: -8px; 
 }
 
 .form {
