@@ -10,7 +10,12 @@
         <div class="card__container">
           <h2 class="card__title">
             Quanto guardar por dia?
-            <img :src="InterrogationCircleIcon" alt="" />
+            <img 
+              :src="InterrogationCircleIcon" 
+              alt="Informacao" 
+              @click="isInfoModalOpen = true" 
+              style="cursor: pointer"
+            />
           </h2>
           <div class="card__info">
             <span class="card__text">Valor Recomendado</span>
@@ -78,6 +83,29 @@
         </div>
       </div>
     </div>
+    <CModal v-model="isInfoModalOpen" variant="info">
+      <div class="group">
+        <h2>Como funciona?</h2>
+        <p>
+          O sistema calcula automaticamente quanto você deve guardar por dia com
+          base na média dos seus custos de manutenção — seja a partir de dados
+          históricos ou estimativas informadas. Esse valor é dividido ao longo
+          do periodo definido, criando um valor diário recomendado.
+        </p>
+        <ul>
+          <li>
+            Importante: O cálculo é dinâmico. Se você pular um dia sem fazer o
+            check-in (ou seja, sem adicionar o valor à reserva), o sistema
+            redistribui o valor restante entre os dias seguintes, o que pode
+            aumentar o valor diário dos próximos check-ins.
+          </li>
+        </ul>
+        <p>
+          Manter a regularidade ajuda a evitar surpresas e facilita atingir sua
+          meta com mais tranquilidade.
+        </p>
+      </div>
+    </CModal>
   </div>
 </template>
 
@@ -89,10 +117,13 @@ import {
   XIcon,
 } from '@/shared/assets/icons';
 import { RouterLink } from 'vue-router';
-import { onMounted, computed, watch } from 'vue';
+import { onMounted, computed, watch, ref } from 'vue';
 import { useFinancialStore } from '@/stores/financialStore';
 import { storeToRefs } from 'pinia';
 import { useCarStore } from '@/stores/carStore';
+import CModal from '@/shared/components/CModal.vue';
+
+const isInfoModalOpen = ref(false);
 
 const financialStore = useFinancialStore();
 const { recommendedDailyAmount, maintenanceBalance } = storeToRefs(financialStore);
