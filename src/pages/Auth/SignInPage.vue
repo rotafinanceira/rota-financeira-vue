@@ -267,8 +267,8 @@ const continueWithGoogle = async () => {
   align-items: center;
   gap: 12px;
   width: 100%;
-  border-radius: 4px;
-  border: 1px solid #c2c9cd;
+  border-radius: 8px;
+  border: 2px solid #307714;
   background: #f9fcfa;
   cursor: pointer;
 }
