@@ -14,6 +14,7 @@
       outlined
       class="styled-input"
       no-border
+      no-error-icon
       hide-bottom-space
       @blur="alreadyRegistered"
     />

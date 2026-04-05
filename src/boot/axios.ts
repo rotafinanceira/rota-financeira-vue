@@ -40,12 +40,16 @@ export function api() {
       const status = error.response?.status;
 
       if (status === 401 || status === 403) {
-        console.warn('[Axios] Token inválido ou expirado');
+        const configUrl = error.config?.url || '';
+        
+        if (!configUrl.includes('/login')) {
+          console.warn('[Axios] Token inválido ou expirado');
 
-        localStorage.removeItem('jwt');
-        sessionStorage.removeItem('jwt');
+          localStorage.removeItem('jwt');
+          sessionStorage.removeItem('jwt');
 
-        window.location.href = '/#/welcome';
+          window.location.href = '/#/welcome';
+        }
       }
 
       return Promise.reject(error);
