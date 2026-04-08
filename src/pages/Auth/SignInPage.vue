@@ -6,15 +6,16 @@
         <div class="title-container">
           <div class="title">Fazer Login</div>
         </div>
+        <div class="global-error" v-if="globalError">{{ globalError }}</div>
         <div class="form">
           <div class="inputs-wrapper">
             <div>
               <InputEmail v-model="email" :errors="errors" label="E-mail" />
-              <div class="error" v-if="errors.email">{{ errors.email }}</div>
+              <div class="error" v-if="errors.email && typeof errors.email === 'string'">{{ errors.email }}</div>
             </div>
             <div>
               <InputPassword v-model="password" :errors="errors" />
-              <div class="error" v-if="errors.password">
+              <div class="error" v-if="errors.password && typeof errors.password === 'string'">
                 {{ errors.password }}
               </div>
             </div>
@@ -64,6 +65,8 @@ const email = ref('');
 const password = ref('');
 const errors = ref({});
 
+const globalError = ref('');
+
 const router = useRouter();
 const registerStore = useRegisterStore();
 
@@ -71,6 +74,7 @@ const resetModal = () => {
   modalContent.value = '';
   modalDescription.value = '';
   isOpen.value = false;
+  globalError.value = '';
 };
 
 const validateForm = () => {
@@ -81,20 +85,10 @@ const validateForm = () => {
   if (!email.value) {
     errors.value.email = 'Campo obrigatório';
     isValid.value = false;
-  } else if (
-    email.value.length < 3 ||
-    email.value.length > 50 ||
-    !/\S+@\S+\.\S+/.test(email.value)
-  ) {
-    errors.value.email = 'E-mail inválido';
-    isValid.value = false;
   }
 
   if (!password.value) {
     errors.value.password = 'Campo obrigatório';
-    isValid.value = false;
-  } else if (password.value.length < 3 || password.value.length > 15) {
-    errors.value.password = 'Senha inválida';
     isValid.value = false;
   }
 };
@@ -120,7 +114,7 @@ const handleSubmit = async () => {
     router.push({ name: 'home' });
   } catch (error) {
     console.error('Erro no login:', error);
-    const statusCode = error?.status || error?.response?.status;
+    const statusCode = error?.status || error?.statusCode || error?.response?.status;
     if (error?.response?.data) {
       console.error('Resposta do backend:', error.response.data);
     }
@@ -131,14 +125,10 @@ const handleSubmit = async () => {
 };
 
 const handleApiError = (statusCode) => {
-  if (statusCode === 403) {
-    isOpen.value = true;
-    modalContent.value = 'E-mail e/ou senha incorretos';
-    modalDescription.value = 'Verifique os dados informados';
-  } else if (statusCode === 404) {
-    isOpen.value = true;
-    modalContent.value = 'E-mail não cadastrado';
-    modalDescription.value = 'Faça o cadastro no App';
+  if (statusCode === 401 || statusCode === 403 || statusCode === 404) {
+    globalError.value = 'E-mail ou senha incorretos ou inválidos';
+    errors.value.email = true;
+    errors.value.password = true;
   } else {
     isOpen.value = true;
     modalContent.value = 'Ocorreu um erro ao tentar fazer login';
@@ -197,7 +187,7 @@ const continueWithGoogle = async () => {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 40px;
 }
 
 /* Novo contêiner para o título para isolar seus estilos */
@@ -205,7 +195,6 @@ const continueWithGoogle = async () => {
   display: flex;
   justify-content: center;
   padding: 0 10px;
-  margin-bottom: 20px; /* Espaço entre o título e o restante do conteúdo */
 }
 
 .title {
@@ -217,6 +206,16 @@ const continueWithGoogle = async () => {
   font-weight: 700;
   line-height: 120%; /* 24px */
   letter-spacing: -0.4px;
+}
+
+.global-error {
+  color: #b00020;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 0;
+  /* O container aplica gap 40px entre elementos. Aqui queremos 32px até o E-mail. 40 - 8 = 32px */
+  margin-bottom: -8px; 
 }
 
 .form {
@@ -266,8 +265,8 @@ const continueWithGoogle = async () => {
   align-items: center;
   gap: 12px;
   width: 100%;
-  border-radius: 4px;
-  border: 1px solid #c2c9cd;
+  border-radius: 8px;
+  border: 2px solid #307714;
   background: #f9fcfa;
   cursor: pointer;
 }

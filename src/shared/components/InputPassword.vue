@@ -18,17 +18,22 @@
       class="styled-input"
       outlined
       no-border
+      no-error-icon
       hide-bottom-space
     >
       <template v-slot:append>
         <q-icon
           :name="showPassword ? 'visibility' : 'visibility_off'"
-          class="toggle-visibility cursor-pointer"
+          :class="['toggle-visibility', 'cursor-pointer', { 'icon-error': !!errors.password }]"
           @click="togglePasswordVisibility"
         />
       </template>
     </q-input>
-    <span class="forgot-password">Esqueceu a senha?</span>
+    <div 
+      :class="['forgot-password-container', { 'forgot-password-error': !!errors.password }]"
+    >
+      <span class="forgot-password">Esqueceu a senha?</span>
+    </div>
   </div>
 </template>
 
@@ -58,7 +63,6 @@ watch(internalPassword, (newValue) => {
   position: relative;
   width: 100%;
   color: #76828b;
-  text-align: end;
 }
 
 .password-labels-wrapper {
@@ -76,11 +80,23 @@ watch(internalPassword, (newValue) => {
   color: #b00020;
 }
 
+.forgot-password-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 4px;
+}
+
 .forgot-password {
   color: #4140c2;
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.forgot-password-error .forgot-password {
+  color: #ea6b70;
 }
 
 .styled-input {
@@ -97,5 +113,9 @@ watch(internalPassword, (newValue) => {
 
 .toggle-visibility {
   cursor: pointer;
+}
+
+.icon-error {
+  color: #b00020 !important;
 }
 </style>
