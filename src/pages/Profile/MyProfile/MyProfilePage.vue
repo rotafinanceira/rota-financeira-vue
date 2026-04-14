@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CToggle from '@/shared/components/CToggle.vue';
 import { onMounted, computed, ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { useRegisterStore } from '@/stores/registerStore';
 
 const registerStore = useRegisterStore();
@@ -34,12 +34,20 @@ const user = computed(() => {
 
 const emailNotifications = ref(false);
 const phoneNotifications = ref(true);
+
+const router = useRouter();
+
+function logout() {
+  localStorage.removeItem('jwt');
+  sessionStorage.removeItem('jwt');
+  registerStore.resetStore();
+  registerStore.userProfile = null;
+  router.replace({ path: '/welcome' });
+}
 </script>
 
 <template>
   <div class="app-wrapper">
-    <div class="notificacoes-header">Informações Pessoais</div>
-
     <div class="info-pessoais">
       <div class="foto-perfil">
         <div
@@ -55,11 +63,21 @@ const phoneNotifications = ref(true);
       </div>
     </div>
 
-    <div class="notificacoes-header">Notificações</div>
+    <RouterLink class="btn-editar" :to="{ name: 'user-profile-edit' }"
+      >Editar perfil</RouterLink
+    >
 
     <div class="notificacoes">
+      <div class="notificacoes-title">
+        <span>Notificações</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-help">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+      </div>
       <label class="switch-label">
-        <span>Receber notificações por e-mail</span>
+        <span>Receber notificações por email</span>
         <CToggle
           v-model="emailNotifications"
           @click="emailNotifications = !emailNotifications"
@@ -74,9 +92,16 @@ const phoneNotifications = ref(true);
       </label>
     </div>
 
-    <RouterLink class="btn-editar" :to="{ name: 'user-profile-edit' }"
-      >Editar perfil</RouterLink
-    >
+    <div class="logout-section">
+      <button class="btn-logout" @click="logout">
+        <span>Sair</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+      </button>
+    </div>
   </div>
 </template>
 
