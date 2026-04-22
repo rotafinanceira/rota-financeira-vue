@@ -18,8 +18,8 @@
 
         <div>
           <span class="last-km">
-            Data da última manutenção <br />
-            registrada: {{ lastMaintenanceDate }}
+            Último registro: <br />
+            <span class="last-km__date">{{ lastMaintenanceDate }}</span>
           </span>
         </div>
 

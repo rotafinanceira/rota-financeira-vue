@@ -109,6 +109,11 @@ li {
   font-size: 12px;
   font-weight: 400;
   color: #5b6871;
+
+  &__date {
+    color: #307714;
+    font-weight: 600;
+  }
 }
 
 .error-message {
