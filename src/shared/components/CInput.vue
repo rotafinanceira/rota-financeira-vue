@@ -304,7 +304,6 @@ const onBlurValidate = () => validate();
   font-size: 0.75rem;
   color: #485159;
   font-weight: 500;
-  line-height: 0 !important;
   margin-top: 0.25rem;
 }
 

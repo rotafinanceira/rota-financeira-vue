@@ -117,13 +117,13 @@
     @confirm="onSubmit"
     :disabled="!!errors.mileage"
   >
+    <p>Preencha com o valor que aparece no painel do seu carro.</p>
     <CInput
       v-model="mileage"
       name="mileage"
       variant="unit"
-      placeholder="km na data de serviço"
+      placeholder="Ex.: 100.090"
       required
-      :helperText="errors.mileage"
     />
   </CModalWithButton>
 
@@ -210,7 +210,7 @@ const validationSchema = computed(() =>
   })
 );
 
-const { handleSubmit, errors } = useForm({
+const { handleSubmit, errors, resetForm } = useForm({
   validationSchema,
 });
 
@@ -220,7 +220,7 @@ const parseLocalizedNumber = (value: string) => {
   return Number(value.replace(/\./g, '').replace(',', '.'));
 };
 
-const { value: mileage } = useField<number>('mileage');
+const { value: mileage } = useField<number | string>('mileage');
 
 const isMileageModalOpen = ref(false);
 const isOpen = ref(false);
@@ -305,7 +305,11 @@ const openMileageModal = () => {
   if (!hasCarRegistered.value) return;
 
   lastMileage.value = carStore.car?.current_mileage ?? 0;
-  mileage.value = lastMileage.value;
+  resetForm({
+    values: {
+      mileage: '',
+    },
+  });
 
   isMileageModalOpen.value = true;
 };
