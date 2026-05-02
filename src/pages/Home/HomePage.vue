@@ -124,6 +124,7 @@
       variant="unit"
       placeholder="Ex.: 100.090"
       required
+      maxlength="7"
     />
   </CModalWithButton>
 
@@ -206,7 +207,8 @@ const validationSchema = computed(() =>
       .moreThan(
         lastMileage.value ?? 0,
         'Informe um valor maior que a quilometragem atual'
-      ),
+      )
+      .max(999999, 'A quilometragem máxima é 999.999'),
   })
 );
 
